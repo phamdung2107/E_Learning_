@@ -4,47 +4,76 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lesson;
+use App\Http\Resources\LessonResource;
+use App\Http\Requests\CreateLessonRequest;
+use App\Http\Requests\UpdateLessonRequest;
+use App\Helper\Response;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class LessonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    // [1] Danh sách bài học
+    public function index(Request $request)
     {
-        //
+        $query = Lesson::when($request->keyword, function ($q) use ($request) {
+                $q->where(function ($sub) use ($request) {
+                    $sub->where('title', 'like', '%' . $request->keyword . '%');
+                });
+            });
+
+        $lessons = $query->get();
+
+        return Response::data(LessonResource::collection($lessons), $lessons->count());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    // [2] Tạo mới bài học
+    public function store(CreateLessonRequest $request)
     {
-        //
+        $lesson = Lesson::create($request->validated());
+
+        // $enrolledUserIds = Enrollment::where('course_id', $lesson->course_id)->pluck('user_id');
+
+        // foreach ($enrolledUserIds as $userId) {
+        //     Notification::create([
+        //         'user_id' => $userId,
+        //         'type' => 'course',
+        //         'title' => 'Bài học mới được cập nhật',
+        //         'message' => "Khoá học '{$lesson->course->title}' vừa có bài học mới: '{$lesson->title}'."
+        //     ]);
+        // }
+
+        return Response::data(new LessonResource($lesson));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Lesson $lesson)
+    // [3] Chi tiết bài học
+    public function show($id)
     {
-        //
+        $lesson = Lesson::findOrFail($id);
+        return Response::data(new LessonResource($lesson));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Lesson $lesson)
+    // [4] Cập nhật bài học
+    public function update(UpdateLessonRequest $request, $id)
     {
-        //
+        $lesson = Lesson::findOrFail($id);
+        $lesson->update($request->validated());
+        return Response::data(new LessonResource($lesson));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Lesson $lesson)
+    // [5] Xoá mềm bài học
+    public function destroy($id)
     {
-        //
+        $lesson = Lesson::findOrFail($id);
+        $lesson->delete();
+        return Response::data(['message' => 'Lesson deleted']);
+    }
+
+    // [6] Danh sách bài học theo khoá học
+    public function getByCourse($courseId)
+    {
+        $lessons = Lesson::where('course_id', $courseId)->where('deleted', 0)
+            ->orderBy('order_number')->get();
+        return Response::data(LessonResource::collection($lessons), $lessons->count());
     }
 }

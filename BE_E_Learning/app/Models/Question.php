@@ -11,7 +11,7 @@ class Question extends Model
 
     protected $table = 'questions';
 
-    protected $fillable = ['quiz_id', 'question_text', 'question_type'];
+    protected $fillable = ['quiz_id', 'question_text', 'question_type' , 'order_number'];
 
     public function quiz() { return $this->belongsTo(Quiz::class); }
     public function answers() { return $this->hasMany(Answer::class); }

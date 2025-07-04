@@ -3,48 +3,56 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\QuestionResource;
+use App\Http\Requests\CreateQuestionRequest;
+use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use App\Helper\Response;
 
 class QuestionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // [1] Danh sách tất cả câu hỏi
     public function index()
     {
-        //
+        $questions = Question::get();
+        return Response::data(QuestionResource::collection($questions), $questions->count());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    // [2] Tạo câu hỏi mới
+    public function store(CreateQuestionRequest $request)
     {
-        //
+        $question = Question::create($request->validated());
+        return Response::data(new QuestionResource($question));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Question $question)
+    // [3] Chi tiết câu hỏi
+    public function show($id)
     {
-        //
+        $question = Question::findOrFail($id);
+        return Response::data(new QuestionResource($question));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Question $question)
+    // [4] Cập nhật câu hỏi
+    public function update(UpdateQuestionRequest $request, $id)
     {
-        //
+        $question = Question::findOrFail($id);
+        $question->update($request->validated());
+        return Response::data(new QuestionResource($question));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Question $question)
+    // [5] Xoá mềm câu hỏi
+    public function destroy($id)
     {
-        //
+        $question = Question::findOrFail($id);
+        $question->delete();
+        return Response::data(['message' => 'Câu hỏi đã được xoá']);
+    }
+
+    // [6] Lấy danh sách câu hỏi theo quiz
+    public function getByQuiz($quizId)
+    {
+        $questions = Question::where('quiz_id', $quizId)->orderBy('order_number')->get();
+        return Response::data(QuestionResource::collection($questions), $questions->count());
     }
 }

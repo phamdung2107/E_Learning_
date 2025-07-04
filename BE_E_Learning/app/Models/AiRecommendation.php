@@ -11,8 +11,7 @@ class AiRecommendation extends Model
 
     protected $table = 'ai_recommendations';
 
-    protected $fillable = ['user_id', 'course_id', 'reason'];
+    protected $fillable = ['user_id', 'title' ,'reason'];
 
     public function user() { return $this->belongsTo(User::class); }
-    public function course() { return $this->belongsTo(Course::class); }
 }

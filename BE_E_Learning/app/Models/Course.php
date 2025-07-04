@@ -19,6 +19,4 @@ class Course extends Model
     public function enrollments() { return $this->hasMany(Enrollment::class); }
     public function reviews() { return $this->hasMany(Review::class); }
     public function certificates() { return $this->hasMany(Certificate::class); }
-    public function aiRecommendations() { return $this->hasMany(AiRecommendation::class); }
-    public function orderItems() { return $this->hasMany(OrderItem::class); }
 }

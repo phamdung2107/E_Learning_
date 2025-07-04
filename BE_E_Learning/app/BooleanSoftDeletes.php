@@ -12,8 +12,14 @@ trait BooleanSoftDeletes
         });
 
         static::deleting(function ($model) {
-            $model->deleted = true;
-            $model->save();
+            // Chỉ đánh dấu là deleted nếu chưa bị xóa
+            if (!$model->deleted) {
+                $model->deleted = true;
+                $model->save();
+
+                // Ngăn Laravel thực hiện xóa thật (nếu gọi delete() trong Repository hoặc Eloquent)
+                return false;
+            }
         });
     }
 
