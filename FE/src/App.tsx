@@ -2,7 +2,7 @@ import { ConfigProvider, theme } from 'antd'
 
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
-import PageTransitionLoader from '@/components/core/page-loader'
+import PageTransitionLoader from '@/components/core/page-loader/PageTransitionLoader'
 import AppRouter from '@/routers/router'
 
 import NotFound from './pages/commons/NotFound'
@@ -15,7 +15,9 @@ function App() {
             theme={{
                 algorithm: defaultAlgorithm,
                 token: {
-                    borderRadius: 8,
+                    colorPrimary: '#1976d2',
+                    fontFamily:
+                        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                 },
             }}
         >

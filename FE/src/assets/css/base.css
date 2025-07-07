@@ -7,36 +7,22 @@
 }
 
 * {
-    --el-font-family:
-        'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-        Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
-    --el-bg-color-default: #e4ffd2;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
     min-height: 100vh;
-    color: #222;
+    color: #333;
     background: white;
     transition:
         color 0.5s,
         background-color 0.5s;
     line-height: 1.6;
     font-family:
-        'Plus Jakarta Sans',
-        -apple-system,
-        BlinkMacSystemFont,
-        'Segoe UI',
-        Roboto,
-        'Helvetica Neue',
-        Arial,
-        'Noto Sans',
-        sans-serif,
-        'Apple Color Emoji',
-        'Segoe UI Emoji',
-        'Segoe UI Symbol',
-        'Noto Color Emoji';
+        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+        Arial, sans-serif;
     font-size: var(--font-size-base) !important;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -45,6 +31,39 @@ body {
     margin: 0;
 }
 
+.breadcrumb-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.ant-breadcrumb {
+    font-size: 16px;
+}
+
+.ant-breadcrumb-link {
+    transition: all 0.3s ease;
+}
+
+.ant-breadcrumb-link:hover {
+    color: rgba(255, 255, 255, 1) !important;
+}
+
+/* Animation for decorative elements */
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+.breadcrumb-wrapper div:nth-child(3),
+.breadcrumb-wrapper div:nth-child(4) {
+    animation: float 6s ease-in-out infinite;
+}
+
 html *::-webkit-scrollbar {
     border-radius: 0;
     width: 8px;
@@ -73,57 +92,4 @@ html *::-webkit-scrollbar-track {
 html *::-webkit-scrollbar-track {
     border-radius: 0;
     background-color: rgba(0, 0, 0, 0);
-}
-
-@media (max-width: 1599px), (max-height: 999px) {
-    .page-content,
-    .board-view-page {
-        height: auto !important;
-    }
-
-    .custom-table-uninspected .ant-table {
-        height: auto;
-    }
-
-    .yield-page-wrapper {
-        height: auto;
-    }
-
-    .chart-container {
-        overflow-y: scroll;
-    }
-
-    .card-info-yield {
-        height: auto;
-    }
-
-    .scatter-pie-chart .ant-tabs-tabpane {
-        padding: 0 20px;
-    }
-
-    .chart-section .ant-card-body {
-        height: calc(100%);
-    }
-
-    .page-container {
-        height: auto;
-    }
-
-    .scatter-page-wrapper {
-        height: auto;
-    }
-
-    .scatter-summary-list > .ant-col {
-        height: calc(100vh - 53px);
-    }
-}
-
-@media (min-width: 1600px) and (min-height: 1000px) {
-    .inspected-board-table .ant-table-tbody-virtual {
-        height: calc(100% - 53px + 11px);
-    }
-
-    .inspected-board-table .ant-table-tbody-virtual-holder {
-        max-height: 100% !important;
-    }
 }

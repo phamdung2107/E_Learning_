@@ -30,9 +30,6 @@ const MainLayout: React.FC = () => {
                 }}
             >
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div className="logo">
-                        <img src="/logo.png" alt="Logo" />
-                    </div>
                     <Button
                         type="text"
                         icon={
