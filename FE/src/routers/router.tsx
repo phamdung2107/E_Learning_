@@ -1,10 +1,10 @@
-import { Navigate, Route } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
-import MainLayout from '@/layouts/MainLayout'
 import NotAuthenticatedLayout from '@/layouts/NotAuthenticatedLayout'
 import PublicLayout from '@/layouts/PublicLayout'
 import AboutPage from '@/pages/commons/AboutPage'
 import AuthPage from '@/pages/commons/AuthPage'
+import CoursePage from '@/pages/commons/CoursePage'
 import HomePage from '@/pages/commons/HomePage'
 import LoginPage from '@/pages/commons/LoginPage'
 import RegisterPage from '@/pages/commons/RegisterPage'
@@ -20,6 +20,7 @@ const AppRouter = [
         <Route path={PATHS.HOME} element={<HomePage />} />
         <Route path={PATHS.AUTH} element={<AuthPage />} />
         <Route path={PATHS.ABOUT} element={<AboutPage />} />
+        <Route path={PATHS.COURSES} element={<CoursePage />} />
     </Route>,
 ]
 

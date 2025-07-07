@@ -14,10 +14,11 @@ import {
     XOutlined,
     YoutubeOutlined,
 } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
 import { COMMON_INFORMATION } from '@/constants/information'
 
-const { Title, Text, Link } = Typography
+const { Title, Text } = Typography
 
 const FooterComponent: React.FC = () => {
     return (
@@ -89,19 +90,19 @@ const FooterComponent: React.FC = () => {
                             Quick Links
                         </Title>
                         <Space direction="vertical" size="small">
-                            <Link href="/" style={{ color: '#ccc' }}>
+                            <Link to="/" style={{ color: '#ccc' }}>
                                 Home
                             </Link>
-                            <Link href="/about" style={{ color: '#ccc' }}>
+                            <Link to="/about" style={{ color: '#ccc' }}>
                                 About Us
                             </Link>
-                            <Link href="/courses" style={{ color: '#ccc' }}>
+                            <Link to="/courses" style={{ color: '#ccc' }}>
                                 Courses
                             </Link>
-                            <Link href="/activities" style={{ color: '#ccc' }}>
+                            <Link to="/activities" style={{ color: '#ccc' }}>
                                 Activities
                             </Link>
-                            <Link href="/contact" style={{ color: '#ccc' }}>
+                            <Link to="/contact" style={{ color: '#ccc' }}>
                                 Contact
                             </Link>
                         </Space>
