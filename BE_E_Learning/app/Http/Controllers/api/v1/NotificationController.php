@@ -10,7 +10,14 @@ use App\Helper\Response;
 
 class NotificationController extends Controller
 {
-    // [1] Danh sách tất cả thông báo của người dùng (có thể search)
+    /**
+     * @OA\Get(
+     *     path="/api/v1/notifications",
+     *     summary="Danh sách tất cả thông báo của người dùng",
+     *     tags={"Notification"},
+     *     @OA\Response(response=200, description="Danh sách thông báo")
+     * )
+     */
     public function index(Request $request)
     {
         $user = $request->user();
@@ -20,7 +27,14 @@ class NotificationController extends Controller
         return Response::data(NotificationResource::collection($notifications), $notifications->count());
     }
 
-    // [2] Lấy các thông báo chưa đọc
+    /**
+     * @OA\Get(
+     *     path="/api/v1/notifications/unread",
+     *     summary="Lấy danh sách thông báo chưa đọc",
+     *     tags={"Notification"},
+     *     @OA\Response(response=200, description="Thông báo chưa đọc")
+     * )
+     */
     public function unread(Request $request)
     {
         $user = $request->user();
@@ -28,7 +42,20 @@ class NotificationController extends Controller
         return Response::data(NotificationResource::collection($notifications), $notifications->count());
     }
 
-    // [3] Đánh dấu là đã đọc
+    /**
+     * @OA\Put(
+     *     path="/api/v1/notifications/{id}/read",
+     *     summary="Đánh dấu thông báo đã đọc",
+     *     tags={"Notification"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Thông báo đã đọc")
+     * )
+     */
     public function markAsRead($id)
     {
         $notification = Notification::findOrFail($id);
@@ -38,7 +65,20 @@ class NotificationController extends Controller
         return Response::data([]);
     }
 
-    // [4] Xoá mềm thông báo
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/notifications/{id}",
+     *     summary="Xoá mềm thông báo",
+     *     tags={"Notification"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Thông báo đã xoá")
+     * )
+     */
     public function destroy($id)
     {
         $notification = Notification::findOrFail($id);
@@ -47,7 +87,20 @@ class NotificationController extends Controller
         return Response::data(['message' => 'Thông báo đã xoá']);
     }
 
-    // [5] Chi tiết thông báo
+    /**
+     * @OA\Get(
+     *     path="/api/v1/notifications/{id}",
+     *     summary="Chi tiết thông báo",
+     *     tags={"Notification"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Chi tiết thông báo")
+     * )
+     */
     public function show($id)
     {
         $notification = Notification::findOrFail($id);

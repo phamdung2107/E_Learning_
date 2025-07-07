@@ -13,75 +13,67 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Helper\Response;
 
+/**
+ * @OA\Tag(
+ *     name="Enrollment",
+ *     description="Quản lý lượt đăng ký khóa học"
+ * )
+ */
 class EnrollmentController extends Controller
 {
-    // [1] Danh sách toàn bộ lượt đăng ký 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/enrollments",
+     *     summary="Danh sách toàn bộ lượt đăng ký",
+     *     tags={"Enrollment"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách lượt đăng ký"
+     *     )
+     * )
+     */
     public function index()
     {
         $enrollments = Enrollment::with(['user', 'course'])->get();
         return Response::data(EnrollmentResource::collection($enrollments), $enrollments->count());
     }
 
-    // [2] Đăng ký khóa học mới
-    // public function enroll(Request $request)
-    // {
-    //     $data = $request->validate([
-    //         'user_id' => 'required|exists:users,id',
-    //         'course_id' => 'required|exists:courses,id'
-    //     ]);
-
-    //     $exists = Enrollment::where('user_id', $data['user_id'])
-    //         ->where('course_id', $data['course_id'])
-    //         ->exists();
-
-    //     if ($exists) {
-    //         return response()->json(['message' => 'Đã đăng ký khóa học này rồi'], 422);
-    //     }
-
-    //     $enroll = Enrollment::create($data);
-
-    //     Notification::create([
-    //         'user_id' => $user->id,
-    //         'type' => 'course',
-    //         'title' => 'Đăng ký khóa học thành công',
-    //         'message' => "Bạn đã đăng ký khóa học '{$course->title}' thành công."
-    //     ]);
-    //     return Response::data();
-    // }
-
-    // [3] Huỷ đăng ký (xóa mềm)
-    // public function cancel(Request $request)
-    // {
-    //     $data = $request->validate([
-    //         'user_id' => 'required',
-    //         'course_id' => 'required'
-    //     ]);
-
-    //     $enrollment = Enrollment::where('user_id', $data['user_id'])
-    //         ->where('course_id', $data['course_id'])
-    //         ->firstOrFail();
-
-    //     $enrollment->delete();
-
-    //     return Response::data(['message' => 'Huỷ đăng ký thành công']);
-    // }
-
-    // [4] Chi tiết lượt đăng ký
+    /**
+     * @OA\Get(
+     *     path="/api/v1/enrollments/{id}",
+     *     summary="Xem chi tiết lượt đăng ký",
+     *     tags={"Enrollment"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID lượt đăng ký",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Thông tin lượt đăng ký")
+     * )
+     */
     public function show($id)
     {
         $enrollment = Enrollment::with(['user', 'course'])->findOrFail($id);
         return Response::data(new EnrollmentResource($enrollment));
     }
 
-    // [5] Xóa mềm theo ID
-    // public function destroy($id)
-    // {
-    //     $enrollment = Enrollment::findOrFail($id);
-    //     $enrollment->delete();
-    //     return Response::data(['message' => 'Xoá lượt đăng ký']);
-    // }
-
-    // [6] Danh sách khóa học đã đăng ký của 1 user
+    /**
+     * @OA\Get(
+     *     path="/api/v1/enrollments/user/{userId}/courses",
+     *     summary="Lấy danh sách khóa học đã đăng ký của user",
+     *     tags={"Enrollment"},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         description="ID người dùng",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Danh sách khoá học")
+     * )
+     */
     public function getCoursesByUser($userId)
     {
         $courses = Enrollment::where('user_id', $userId)  
@@ -92,7 +84,21 @@ class EnrollmentController extends Controller
         return Response::data(CourseResource::collection($courses), $courses->count());
     }
 
-    // [7] Danh sách học viên của 1 khóa học
+    /**
+     * @OA\Get(
+     *     path="/api/v1/enrollments/course/{courseId}/users",
+     *     summary="Lấy danh sách học viên đã đăng ký 1 khóa học",
+     *     tags={"Enrollment"},
+     *     @OA\Parameter(
+     *         name="courseId",
+     *         in="path",
+     *         required=true,
+     *         description="ID khoá học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Danh sách học viên")
+     * )
+     */
     public function getUsersByCourse($courseId)
     {
         $users = Enrollment::where('course_id', $courseId)
@@ -100,21 +106,41 @@ class EnrollmentController extends Controller
             ->get()
             ->pluck('user');
 
-        return Response::data(UserResource::collection($user), $users->count());
+        return Response::data(UserResource::collection($users), $users->count());
     }
 
-    // [8] Đếm lượt đăng ký theo khoá học
+    /**
+     * @OA\Get(
+     *     path="/api/v1/enrollments/course/{courseId}/count",
+     *     summary="Đếm số lượt đăng ký của một khóa học",
+     *     tags={"Enrollment"},
+     *     @OA\Parameter(
+     *         name="courseId",
+     *         in="path",
+     *         required=true,
+     *         description="ID khoá học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Số lượt đăng ký")
+     * )
+     */
     public function countEnrollments($courseId)
     {
         $count = Enrollment::where('course_id', $courseId)->count();
         return Response::data(['enrolled' => $count]);
     }
 
-    // [9] Top khóa học theo lượt đăng ký
+    /**
+     * @OA\Get(
+     *     path="/api/v1/enrollments/top-courses",
+     *     summary="Top khóa học theo lượt đăng ký",
+     *     tags={"Enrollment"},
+     *     @OA\Response(response=200, description="Top 5 khoá học có nhiều lượt đăng ký nhất")
+     * )
+     */
     public function topCourses()
     {
         $result = Enrollment::select('course_id')
-            
             ->groupBy('course_id')
             ->selectRaw('course_id, COUNT(*) as total')
             ->orderByDesc('total')

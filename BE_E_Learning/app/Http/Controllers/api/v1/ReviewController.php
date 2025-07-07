@@ -14,7 +14,21 @@ use App\Models\Notification;
 
 class ReviewController extends Controller
 {
-    // [1] Danh sách đánh giá
+    /**
+     * @OA\Get(
+     *     path="/api/v1/reviews",
+     *     summary="Danh sách đánh giá",
+     *     tags={"Review"},
+     *     @OA\Parameter(
+     *         name="rating",
+     *         in="query",
+     *         description="Lọc theo sao đánh giá",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Danh sách đánh giá")
+     * )
+     */
     public function index(Request $request)
     {
         $query = Review::when($request->rating, function ($q) use ($request) {
@@ -26,12 +40,28 @@ class ReviewController extends Controller
         return Response::data(ReviewResource::collection($reviews), $reviews->count());
     }
 
-    // [2] Tạo đánh giá
+    /**
+     * @OA\Post(
+     *     path="/api/v1/reviews",
+     *     summary="Tạo đánh giá",
+     *     tags={"Review"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+ *             required={"user_id", "course_id", "rating", "comment"},
+ *             @OA\Property(property="user_id", type="integer", example=1),
+ *             @OA\Property(property="course_id", type="integer", example=3),
+ *             @OA\Property(property="rating", type="number", format="float", example=4.5),
+ *             @OA\Property(property="comment", type="string", example="Khóa học rất hữu ích!")
+ *         )
+     *     ),
+     *     @OA\Response(response=200, description="Đánh giá đã tạo")
+     * )
+     */
     public function store(CreateReviewRequest $request)
     {
         $data = $request->validated();
 
-        // Kiểm tra người dùng đã đánh giá khóa học chưa
         $exists = Review::where('user_id', $data['user_id'])
             ->where('course_id', $data['course_id'])
             ->exists();
@@ -42,23 +72,58 @@ class ReviewController extends Controller
 
         $review = Review::create($data);
 
-        // Notification::create([
-        //     'user_id' => $user->id,
-        //     'type' => 'orther',
-        //     'title' => 'Bạn có đánh giá mới',
-        //     'message' => "Khóa học '{$course->title}' vừa nhận được đánh giá {$review->rating} sao."
-        // ]);
+        $course = Course::find($data['course_id']);
+        Notification::create([
+            'user_id' => $course->instructor_id,
+            'type' => 'orther',
+            'title' => 'Bạn có đánh giá mới',
+            'message' => "Khóa học '{$course->title}' vừa nhận được đánh giá {$review->rating} sao."
+        ]);
+
         return Response::data(new ReviewResource($review));
     }
 
-    // [3] Chi tiết đánh giá
+    /**
+     * @OA\Get(
+     *     path="/api/v1/reviews/{id}",
+     *     summary="Chi tiết đánh giá",
+     *     tags={"Review"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Chi tiết đánh giá")
+     * )
+     */
     public function show($id)
     {
         $review = Review::findOrFail($id);
         return Response::data(new ReviewResource($review));
     }
 
-    // [4] Cập nhật đánh giá
+    /**
+     * @OA\Put(
+     *     path="/api/v1/reviews/{id}",
+     *     summary="Cập nhật đánh giá",
+     *     tags={"Review"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+ *             @OA\Property(property="rating", type="number", format="float", example=4.0),
+ *             @OA\Property(property="comment", type="string", example="Cập nhật nhận xét")
+ *         )
+     *     ),
+     *     @OA\Response(response=200, description="Đã cập nhật đánh giá")
+     * )
+     */
     public function update(UpdateReviewRequest $request, $id)
     {
         $review = Review::findOrFail($id);
@@ -66,7 +131,20 @@ class ReviewController extends Controller
         return Response::data(new ReviewResource($review));
     }
 
-    // [5] Xóa mềm
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/reviews/{id}",
+     *     summary="Xoá đánh giá",
+     *     tags={"Review"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Đã xoá đánh giá")
+     * )
+     */
     public function destroy($id)
     {
         $review = Review::findOrFail($id);
@@ -74,21 +152,60 @@ class ReviewController extends Controller
         return Response::data(['message' => 'Đã xoá đánh giá']);
     }
 
-    // [6] Lấy đánh giá theo khóa học
+    /**
+     * @OA\Get(
+     *     path="/api/v1/courses/{courseId}/reviews",
+     *     summary="Lấy đánh giá theo khóa học",
+     *     tags={"Review"},
+     *     @OA\Parameter(
+     *         name="courseId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Danh sách đánh giá của khoá học")
+     * )
+     */
     public function getByCourse($courseId)
     {
         $reviews = Review::where('course_id', $courseId)->get();
         return Response::data(ReviewResource::collection($reviews), $reviews->count());
     }
 
-    // [7] Lấy đánh giá theo người dùng
+    /**
+     * @OA\Get(
+     *     path="/api/v1/users/{userId}/reviews",
+     *     summary="Lấy đánh giá theo người dùng",
+     *     tags={"Review"},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Danh sách đánh giá của người dùng")
+     * )
+     */
     public function getByUser($userId)
     {
         $reviews = Review::where('user_id', $userId)->get();
         return Response::data(ReviewResource::collection($reviews), $reviews->count());
     }
 
-    // [8] Trung bình đánh giá của 1 khóa học
+    /**
+     * @OA\Get(
+     *     path="/api/v1/courses/{courseId}/reviews/average",
+     *     summary="Trung bình đánh giá của 1 khoá học",
+     *     tags={"Review"},
+     *     @OA\Parameter(
+     *         name="courseId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Trung bình số sao đánh giá")
+     * )
+     */
     public function averageRating($courseId)
     {
         $avg = Review::where('course_id', $courseId)->avg('rating');

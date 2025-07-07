@@ -8,21 +8,50 @@ use App\Http\Resources\CourseResource;
 use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Helper\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Tag(
+ *     name="Course",
+ *     description="Quản lý khoá học"
+ * )
+ */
 class CourseController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/v1/courses",
+     *     summary="Lấy danh sách khoá học",
+     *     tags={"Course"},
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Tìm theo tiêu đề",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="category_id",
+     *         in="query",
+     *         description="Lọc theo danh mục",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="instructor_id",
+     *         in="query",
+     *         description="Lọc theo giảng viên",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách khoá học"
+     *     )
+     * )
      */
     public function index(Request $request)
     {
         $query = Course::query()
             ->when($request->search, function ($q) use ($request) {
-                $q->where(function ($sub) use ($request) {
-                    $sub->where('title', 'like', '%' . $request->search . '%');
-                });
+                $q->where('title', 'like', '%' . $request->search . '%');
             })
             ->when($request->category_id, function ($q) use ($request) {
                 $q->where('category_id', $request->category_id);
@@ -36,18 +65,45 @@ class CourseController extends Controller
         return Response::data(CourseResource::collection($courses), $courses->count());
     }
 
-
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/v1/courses",
+     *     summary="Tạo khoá học mới",
+     *     tags={"Course"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"title", "description", "price", "category_id", "instructor_id"},
+     *             @OA\Property(property="title", type="string", example="Laravel cơ bản"),
+     *             @OA\Property(property="description", type="string", example="Khóa học Laravel từ A-Z"),
+     *             @OA\Property(property="price", type="number", format="float", example=199000),
+     *             @OA\Property(property="category_id", type="integer", example=1),
+     *             @OA\Property(property="instructor_id", type="integer", example=1)
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Khoá học được tạo thành công")
+     * )
      */
-     public function store(CreateCourseRequest $request)
+    public function store(CreateCourseRequest $request)
     {
         $course = Course::create($request->validated());
         return Response::data(new CourseResource($course));
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/v1/courses/{id}",
+     *     summary="Xem chi tiết khoá học",
+     *     tags={"Course"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID khoá học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Thông tin khoá học")
+     * )
      */
     public function show($id)
     {
@@ -56,7 +112,28 @@ class CourseController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/v1/courses/{id}",
+     *     summary="Cập nhật khoá học",
+     *     tags={"Course"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID khoá học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             @OA\Property(property="title", type="string", example="Laravel nâng cao"),
+     *             @OA\Property(property="description", type="string", example="Chuyên sâu về Laravel"),
+     *             @OA\Property(property="price", type="number", format="float", example=299000),
+     *             @OA\Property(property="category_id", type="integer", example=1),
+     *             @OA\Property(property="instructor_id", type="integer", example=2)
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Cập nhật khoá học thành công")
+     * )
      */
     public function update(UpdateCourseRequest $request, $id)
     {
@@ -66,17 +143,37 @@ class CourseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/v1/courses/{id}",
+     *     summary="Xóa khoá học",
+     *     tags={"Course"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID khoá học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Xoá khoá học thành công")
+     * )
      */
     public function destroy($id)
     {
         $course = Course::findOrFail($id);
         $course->delete();
-    
+
         return Response::data();
     }
 
-    // [9] Danh sách khoá học đã đăng ký
+    /**
+     * @OA\Get(
+     *     path="/api/v1/courses/me/enrolled",
+     *     summary="Lấy danh sách khoá học đã đăng ký của người dùng",
+     *     tags={"Course"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Danh sách khoá học đã đăng ký")
+     * )
+     */
     public function getMyCourses(Request $request)
     {
         $user = $request->user();
@@ -84,7 +181,21 @@ class CourseController extends Controller
         return Response::data($courses, $courses->count());
     }
 
-    // [13] Publish khoá học
+    /**
+     * @OA\Post(
+     *     path="/api/v1/courses/{id}/publish",
+     *     summary="Publish khoá học",
+     *     tags={"Course"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID khoá học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Khoá học đã được publish")
+     * )
+     */
     public function publish($id)
     {
         $course = Course::findOrFail($id);
@@ -93,7 +204,21 @@ class CourseController extends Controller
         return Response::data(['message' => 'Published']);
     }
 
-     // [14] Archive khoá học
+    /**
+     * @OA\Post(
+     *     path="/api/v1/courses/{id}/archive",
+     *     summary="Archive khoá học",
+     *     tags={"Course"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID khoá học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Khoá học đã được archive")
+     * )
+     */
     public function archive($id)
     {
         $course = Course::findOrFail($id);

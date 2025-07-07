@@ -14,7 +14,21 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    // [1] Tạo đơn hàng khi người dùng ấn "Mua khóa học"
+    /**
+     * @OA\Post(
+     *     path="/api/v1/orders",
+     *     summary="Tạo đơn hàng khi người dùng ấn Mua khóa học",
+     *     tags={"Order"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"course_id"},
+     *             @OA\Property(property="course_id", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Đơn hàng đã được tạo")
+     * )
+     */
     public function create(Request $request)
     {
         $user = $request->user();
@@ -25,7 +39,6 @@ class OrderController extends Controller
 
         $course = Course::findOrFail($data['course_id']);
 
-        // Kiểm tra đã từng tạo đơn chưa
         $exists = Order::where('user_id', $user->id)
             ->where('course_id', $course->id)
             ->whereIn('status', ['pending', 'paid'])
@@ -46,7 +59,15 @@ class OrderController extends Controller
         return Response::data(new OrderResource($order));
     }
 
-    // [2] Xác nhận thanh toán đơn hàng
+    /**
+     * @OA\Post(
+     *     path="/api/v1/orders/{id}/confirm",
+     *     summary="Xác nhận thanh toán đơn hàng",
+     *     tags={"Order"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Đã xác nhận thanh toán")
+     * )
+     */
     public function confirm(Request $request, $id)
     {
         $user = $request->user();
@@ -90,7 +111,15 @@ class OrderController extends Controller
         }
     }
 
-    // [3] Hủy đơn hàng
+    /**
+     * @OA\Post(
+     *     path="/api/v1/orders/{id}/cancel",
+     *     summary="Huỷ đơn hàng",
+     *     tags={"Order"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Đơn hàng đã huỷ")
+     * )
+     */
     public function cancel(Request $request, $id)
     {
         $user = $request->user();
@@ -106,7 +135,14 @@ class OrderController extends Controller
         return Response::data(['message' => 'Đã hủy đơn hàng']);
     }
 
-    // [4] Danh sách đơn hàng
+    /**
+     * @OA\Get(
+     *     path="/api/v1/orders",
+     *     summary="Danh sách đơn hàng của người dùng",
+     *     tags={"Order"},
+     *     @OA\Response(response=200, description="Danh sách đơn hàng")
+     * )
+     */
     public function index(Request $request)
     {
         $user = $request->user();
@@ -114,14 +150,30 @@ class OrderController extends Controller
         return Response::data(OrderResource::collection($orders), $orders->count());
     }
 
-    // [5] Chi tiết đơn hàng
+    /**
+     * @OA\Get(
+     *     path="/api/v1/orders/{id}",
+     *     summary="Chi tiết đơn hàng",
+     *     tags={"Order"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Chi tiết đơn hàng")
+     * )
+     */
     public function show($id)
     {
         $order = Order::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
         return Response::data(new OrderResource($order));
     }
 
-    // [6] Xoá mềm đơn hàng
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/orders/{id}",
+     *     summary="Xoá đơn hàng",
+     *     tags={"Order"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Đơn hàng đã được xoá")
+     * )
+     */
     public function destroy($id)
     {
         $order = Order::where('id', $id)->where('user_id', auth()->id())->firstOrFail();

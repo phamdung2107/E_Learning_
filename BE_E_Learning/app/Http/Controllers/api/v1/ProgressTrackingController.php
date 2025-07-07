@@ -12,28 +12,68 @@ use Illuminate\Support\Facades\DB;
 
 class ProgressTrackingController extends Controller
 {
-    // [1] Danh sách tất cả tiến độ
+    /**
+     * @OA\Get(
+     *     path="/api/v1/progress",
+     *     summary="Danh sách tất cả tiến độ",
+     *     tags={"Progress Tracking"},
+     *     @OA\Response(response=200, description="Danh sách tiến độ")
+     * )
+     */
     public function index()
     {
         $progress = ProgressTracking::get();
         return Response::data(ProgressTrackingResource::collection($progress), $progress->count());
     }
 
-    // [2] Chi tiết tiến độ
+    /**
+     * @OA\Get(
+     *     path="/api/v1/progress/{id}",
+     *     summary="Chi tiết tiến độ",
+     *     tags={"Progress Tracking"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Chi tiết tiến độ")
+     * )
+     */
     public function show($id)
     {
         $progress = ProgressTracking::findOrFail($id);
         return Response::data(new ProgressTrackingResource($progress));
     }
 
-    // [3] Tạo tiến độ
+    /**
+     * @OA\Post(
+     *     path="/api/v1/progress",
+     *     summary="Tạo tiến độ",
+     *     tags={"Progress Tracking"},
+     *     @OA\RequestBody(required=true, @OA\JsonContent(
+ *             required={"user_id", "course_id", "lesson_id"},
+ *             @OA\Property(property="user_id", type="integer", example=1),
+ *             @OA\Property(property="course_id", type="integer", example=5),
+ *             @OA\Property(property="lesson_id", type="integer", example=10),
+ *             @OA\Property(property="is_completed", type="boolean", example=true)
+ *         )),
+     *     @OA\Response(response=200, description="Tiến độ đã tạo")
+     * )
+     */
     public function store(CreateProgressTrackingRequest $request)
     {
         $progress = ProgressTracking::create($request->validated());
         return Response::data(new ProgressTrackingResource($progress));
     }
 
-    // [4] Cập nhật tiến độ
+    /**
+     * @OA\Put(
+     *     path="/api/v1/progress/{id}",
+     *     summary="Cập nhật tiến độ",
+     *     tags={"Progress Tracking"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(required=true, @OA\JsonContent(
+ *             @OA\Property(property="is_completed", type="boolean", example=true)
+ *         )),
+     *     @OA\Response(response=200, description="Tiến độ đã cập nhật")
+     * )
+     */
     public function update(UpdateProgressTrackingRequest $request, $id)
     {
         $progress = ProgressTracking::findOrFail($id);
@@ -41,7 +81,15 @@ class ProgressTrackingController extends Controller
         return Response::data(new ProgressTrackingResource($progress));
     }
 
-    // [5] Xoá mềm tiến độ
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/progress/{id}",
+     *     summary="Xoá tiến độ",
+     *     tags={"Progress Tracking"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Xoá tiến độ thành công")
+     * )
+     */
     public function destroy($id)
     {
         $progress = ProgressTracking::findOrFail($id);
@@ -49,7 +97,16 @@ class ProgressTrackingController extends Controller
         return Response::data(['message' => 'Xoá tiến độ thành công']);
     }
 
-    // [6] Lấy tiến độ học tập theo user + course
+    /**
+     * @OA\Get(
+     *     path="/api/v1/progress/user/{userId}/course/{courseId}",
+     *     summary="Lấy tiến độ học tập theo user và course",
+     *     tags={"Progress Tracking"},
+     *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="courseId", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Danh sách tiến độ học tập")
+     * )
+     */
     public function getByUserCourse($userId, $courseId)
     {
         $items = ProgressTracking::where('user_id', $userId)
@@ -59,7 +116,23 @@ class ProgressTrackingController extends Controller
         return Response::data(ProgressTrackingResource::collection($items), $items->count());
     }
 
-    // [7] Đánh dấu hoàn thành bài học
+    /**
+     * @OA\Post(
+     *     path="/api/v1/progress/complete-lesson",
+     *     summary="Đánh dấu hoàn thành bài học",
+     *     tags={"Progress Tracking"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"user_id","course_id","lesson_id"},
+     *             @OA\Property(property="user_id", type="integer"),
+     *             @OA\Property(property="course_id", type="integer"),
+     *             @OA\Property(property="lesson_id", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Đã đánh dấu hoàn thành")
+     * )
+     */
     public function completeLesson(Request $request)
     {
         $data = $request->validate([

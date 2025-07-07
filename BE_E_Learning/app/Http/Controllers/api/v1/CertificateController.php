@@ -15,8 +15,39 @@ use App\Http\Resources\CertificateResource;
 use App\Helper\Response;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Tag(
+ *     name="Certificate",
+ *     description="Quản lý chứng chỉ khóa học"
+ * )
+ */
 class CertificateController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/v1/certificates",
+     *     summary="Lấy danh sách chứng chỉ",
+     *     tags={"Certificate"},
+     *     @OA\Parameter(
+     *         name="user",
+     *         in="query",
+     *         description="ID người dùng",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="course",
+     *         in="query",
+     *         description="ID khóa học",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách chứng chỉ"
+     *     )
+     * )
+     */
     public function index(Request $request)
     {
         $query = Certificate::with(['user', 'course']);
@@ -34,7 +65,25 @@ class CertificateController extends Controller
         return Response::data(CertificateResource::collection($certs), $certs->count());
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/api/v1/certificates",
+     *     summary="Tạo chứng chỉ cho học viên",
+     *     tags={"Certificate"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"user_id", "course_id"},
+     *             @OA\Property(property="user_id", type="integer", example=1),
+     *             @OA\Property(property="course_id", type="integer", example=2)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Chứng chỉ được tạo thành công"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -75,12 +124,48 @@ class CertificateController extends Controller
         return Response::data(new CertificateResource($certificate));
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/certificates/{id}",
+     *     summary="Xem chi tiết chứng chỉ",
+     *     tags={"Certificate"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID chứng chỉ",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Chi tiết chứng chỉ"
+     *     )
+     * )
+     */
     public function show($id)
     {
         $cert = Certificate::with(['user', 'course'])->findOrFail($id);
         return Response::data(new CertificateResource($cert));
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/certificates/{id}",
+     *     summary="Xoá chứng chỉ",
+     *     tags={"Certificate"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID chứng chỉ",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Xoá chứng chỉ thành công"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $cert = Certificate::findOrFail($id);

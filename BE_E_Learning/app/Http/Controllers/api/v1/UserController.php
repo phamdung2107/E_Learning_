@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Instructor;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\ChangePasswordRequest;
@@ -14,11 +15,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/v1/users",
+     *     summary="Danh sách người dùng",
+     *     tags={"User"},
+     *     @OA\Parameter(name="role", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="position_id", in="query", @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="search", in="query", @OA\Schema(type="string")),
+     *     @OA\Parameter(name="status", in="query", @OA\Schema(type="string")),
+     *     @OA\Response(response=200, description="Danh sách người dùng")
+     * )
      */
     public function index(Request $request)
     {
@@ -44,9 +55,23 @@ class UserController extends Controller
         return Response::data(UserResource::collection($users),$users->total());
     }
 
-
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/v1/users",
+     *     summary="Tạo mới người dùng",
+     *     tags={"User"},
+     *      @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"full_name", "email", "password", "role"},
+ *             @OA\Property(property="full_name", type="string", example="Nguyễn Văn A"),
+ *             @OA\Property(property="email", type="string", example="nguyenvana@example.com"),
+ *             @OA\Property(property="password", type="string", example="12345678"),
+ *             @OA\Property(property="role", type="string", example="student")
+ *         )
+ *     ),
+     *     @OA\Response(response=200, description="Đã tạo người dùng")
+     * )
      */
     public function store(CreateUserRequest $request)
     {
@@ -56,7 +81,13 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/v1/users/{id}",
+     *     summary="Chi tiết người dùng",
+     *     tags={"User"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Thông tin người dùng")
+     * )
      */
     public function show($id)
     {
@@ -66,7 +97,23 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/v1/users/{id}",
+     *     summary="Cập nhật thông tin người dùng",
+     *     tags={"User"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *    @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="full_name", type="string", example="Nguyễn Văn B"),
+ *             @OA\Property(property="email", type="string", example="nguyenvanb@example.com"),
+ *             @OA\Property(property="avatar", type="string", format="binary"),
+ *             @OA\Property(property="gender", type="string", example="male"),
+ *             @OA\Property(property="date_of_birth", type="string", format="date", example="2000-01-01")
+ *         )
+ *     ),
+     *     @OA\Response(response=200, description="Người dùng đã được cập nhật")
+     * )
      */
     public function update(UpdateUserRequest $request, $id)
     {
@@ -91,21 +138,47 @@ class UserController extends Controller
 
         $user->update($data);
 
-
         return Response::data(new UserResource($user));
     }
 
+    /**
+     * @OA\Patch(
+     *     path="/api/v1/users/{id}/status",
+     *     summary="Cập nhật trạng thái người dùng",
+     *     tags={"User"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(@OA\JsonContent(
+     *         @OA\Property(property="status", type="string")
+     *     )),
+     *     @OA\Response(response=200, description="Trạng thái đã được cập nhật")
+     * )
+     */
     public function updateRole(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $user->status = $request->status;
         $user->save();
+        if ($request->status === 'instructor') {
+        $exists = Instructor::where('user_id', $user->id)->exists();
 
-        return Response::data(new UserResource($user));
+        if (!$exists) {
+            Instructor::create([
+                'user_id' => $user->id,
+            ]);
+        }
+    }
+
+        return Response::data();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/v1/users/{id}",
+     *     summary="Xoá người dùng",
+     *     tags={"User"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Đã xoá người dùng")
+     * )
      */
     public function destroy($id)
     {
@@ -115,6 +188,22 @@ class UserController extends Controller
         return Response::data();
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/users/change-password",
+     *     summary="Đổi mật khẩu người dùng đang đăng nhập",
+     *     tags={"User"},
+     *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"oldPassword", "newPassword"},
+ *             @OA\Property(property="oldPassword", type="string", example="12345678"),
+ *             @OA\Property(property="newPassword", type="string", example="87654321")
+ *         )
+ *     ),
+     *     @OA\Response(response=200, description="Đã đổi mật khẩu")
+     * )
+     */
     public function changePassword(ChangePasswordRequest $request): array
     {
         $user = Auth::user();
@@ -128,6 +217,15 @@ class UserController extends Controller
         return Response::data();
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/users/{id}/reset-password",
+     *     summary="Admin đặt lại mật khẩu người dùng",
+     *     tags={"User"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Mật khẩu đã được đặt lại")
+     * )
+     */
     public function resetUserPassword($id): array
     {
         $defaultPassword  = config('app.password_default');
@@ -139,6 +237,14 @@ class UserController extends Controller
         return Response::data();
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/users/count",
+     *     summary="Thống kê số lượng người dùng",
+     *     tags={"User"},
+     *     @OA\Response(response=200, description="Dữ liệu thống kê")
+     * )
+     */
     public function countUsers()
     {
         return Response::data([

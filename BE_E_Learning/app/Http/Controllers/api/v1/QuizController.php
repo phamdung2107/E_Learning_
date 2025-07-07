@@ -12,7 +12,26 @@ use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
-    // [1] Danh sách tất cả quizzes
+    /**
+     * @OA\Get(
+     *     path="/api/v1/quizzes",
+     *     summary="Lấy danh sách tất cả quizzes",
+     *     tags={"Quiz"},
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="lesson_id",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Danh sách quizzes")
+     * )
+     */
     public function index(Request $request)
     {
         $query = Quiz::when($request->search, function ($q) use ($request) {
@@ -29,22 +48,70 @@ class QuizController extends Controller
         return Response::data(QuizResource::collection($quizzes), $quizzes->count());
     }
 
-
-    // [2] Tạo mới quiz
+    /**
+     * @OA\Post(
+     *     path="/api/v1/quizzes",
+     *     summary="Tạo mới quiz",
+     *     tags={"Quiz"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+ *             required={"title", "lesson_id"},
+ *             @OA\Property(property="title", type="string", example="Quiz chương 1"),
+ *             @OA\Property(property="lesson_id", type="integer", example=7),
+ *             @OA\Property(property="description", type="string", example="Bài kiểm tra kiến thức chương 1")
+ *         )
+     *     ),
+     *     @OA\Response(response=200, description="Quiz đã tạo")
+     * )
+     */
     public function store(CreateQuizzRequest $request)
     {
         $quiz = Quiz::create($request->validated());
         return Response::data(new QuizzResource($quiz));
     }
 
-    // [3] Xem chi tiết quiz
+    /**
+     * @OA\Get(
+     *     path="/api/v1/quizzes/{id}",
+     *     summary="Chi tiết quiz",
+     *     tags={"Quiz"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Chi tiết quiz")
+     * )
+     */
     public function show($id)
     {
         $quiz = Quiz::findOrFail($id);
         return Response::data(new QuizzResource($quiz));
     }
 
-    // [4] Cập nhật quiz
+    /**
+     * @OA\Put(
+     *     path="/api/v1/quizzes/{id}",
+     *     summary="Cập nhật quiz",
+     *     tags={"Quiz"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+ *             @OA\Property(property="title", type="string", example="Quiz chương 1 - cập nhật"),
+ *             @OA\Property(property="description", type="string", example="Nội dung mới của bài quiz")
+ *         )
+     *     ),
+     *     @OA\Response(response=200, description="Quiz đã cập nhật")
+     * )
+     */
     public function update(UpdateQuizzRequest $request, $id)
     {
         $quiz = Quiz::findOrFail($id);
@@ -52,7 +119,20 @@ class QuizController extends Controller
         return Response::data(new QuizzResource($quiz));
     }
 
-    // [5] Xoá mềm quiz
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/quizzes/{id}",
+     *     summary="Xoá quiz",
+     *     tags={"Quiz"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Quiz đã xoá")
+     * )
+     */
     public function destroy($id)
     {
         $quiz = Quiz::findOrFail($id);
@@ -60,7 +140,20 @@ class QuizController extends Controller
         return Response::data(['message' => 'Quiz deleted']);
     }
 
-    // [6] Lấy quiz theo bài học
+    /**
+     * @OA\Get(
+     *     path="/api/v1/lessons/{lessonId}/quizzes",
+     *     summary="Lấy quiz theo bài học",
+     *     tags={"Quiz"},
+     *     @OA\Parameter(
+     *         name="lessonId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Danh sách quiz theo bài học")
+     * )
+     */
     public function getByLesson($lessonId)
     {
         $quizzes = Quiz::where('lesson_id', $lessonId)->get();

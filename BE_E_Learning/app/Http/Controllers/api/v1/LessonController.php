@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lesson;
+use App\Models\Enrollment;
 use App\Http\Resources\LessonResource;
 use App\Http\Requests\CreateLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
@@ -13,7 +14,21 @@ use Illuminate\Http\Request;
 
 class LessonController extends Controller
 {
-    // [1] Danh sách bài học
+    /**
+     * @OA\Get(
+     *     path="/api/v1/lessons",
+     *     summary="Lấy danh sách bài học",
+     *     tags={"Lesson"},
+     *     @OA\Parameter(
+     *         name="keyword",
+     *         in="query",
+     *         description="Từ khóa tìm kiếm tiêu đề bài học",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response=200, description="Danh sách bài học")
+     * )
+     */
     public function index(Request $request)
     {
         $query = Lesson::when($request->keyword, function ($q) use ($request) {
@@ -27,33 +42,86 @@ class LessonController extends Controller
         return Response::data(LessonResource::collection($lessons), $lessons->count());
     }
 
-    // [2] Tạo mới bài học
+    /**
+     * @OA\Post(
+     *     path="/api/v1/lessons",
+     *     summary="Tạo mới bài học",
+     *     tags={"Lesson"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+    *             required={"title", "course_id", "video_url"},
+    *             @OA\Property(property="title", type="string", example="Giới thiệu về HTML"),
+    *             @OA\Property(property="course_id", type="integer", example=3),
+    *             @OA\Property(property="content", type="string", example="Nội dung chi tiết bài học..."),
+    *             @OA\Property(property="video_url", type="string", example="https://youtu.be/example"),
+    *             @OA\Property(property="order_number", type="integer", example=1),
+    *         )
+     *     ),
+     *     @OA\Response(response=200, description="Bài học đã tạo")
+     * )
+     */
     public function store(CreateLessonRequest $request)
     {
         $lesson = Lesson::create($request->validated());
 
-        // $enrolledUserIds = Enrollment::where('course_id', $lesson->course_id)->pluck('user_id');
+        $enrolledUserIds = Enrollment::where('course_id', $lesson->course_id)->pluck('user_id');
 
-        // foreach ($enrolledUserIds as $userId) {
-        //     Notification::create([
-        //         'user_id' => $userId,
-        //         'type' => 'course',
-        //         'title' => 'Bài học mới được cập nhật',
-        //         'message' => "Khoá học '{$lesson->course->title}' vừa có bài học mới: '{$lesson->title}'."
-        //     ]);
-        // }
+        foreach ($enrolledUserIds as $userId) {
+            Notification::create([
+                'user_id' => $userId,
+                'type' => 'course',
+                'title' => 'Bài học mới được cập nhật',
+                'message' => "Khoá học '{$lesson->course->title}' vừa có bài học mới: '{$lesson->title}'."
+            ]);
+        }
 
         return Response::data(new LessonResource($lesson));
     }
 
-    // [3] Chi tiết bài học
+    /**
+     * @OA\Get(
+     *     path="/api/v1/lessons/{id}",
+     *     summary="Chi tiết bài học",
+     *     tags={"Lesson"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Chi tiết bài học")
+     * )
+     */
     public function show($id)
     {
         $lesson = Lesson::findOrFail($id);
         return Response::data(new LessonResource($lesson));
     }
 
-    // [4] Cập nhật bài học
+    /**
+     * @OA\Put(
+     *     path="/api/v1/lessons/{id}",
+     *     summary="Cập nhật bài học",
+     *     tags={"Lesson"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+    *             @OA\Property(property="title", type="string", example="Cập nhật bài học HTML"),
+    *             @OA\Property(property="content", type="string", example="Nội dung mới..."),
+    *             @OA\Property(property="video_url", type="string", example="https://youtu.be/new-example"),
+    *             @OA\Property(property="order_number", type="integer", example=2),
+    *         )
+     *     ),
+     *     @OA\Response(response=200, description="Bài học đã cập nhật")
+     * )
+     */
     public function update(UpdateLessonRequest $request, $id)
     {
         $lesson = Lesson::findOrFail($id);
@@ -61,7 +129,20 @@ class LessonController extends Controller
         return Response::data(new LessonResource($lesson));
     }
 
-    // [5] Xoá mềm bài học
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/lessons/{id}",
+     *     summary="Xoá bài học",
+     *     tags={"Lesson"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Đã xoá bài học")
+     * )
+     */
     public function destroy($id)
     {
         $lesson = Lesson::findOrFail($id);
@@ -69,7 +150,20 @@ class LessonController extends Controller
         return Response::data(['message' => 'Lesson deleted']);
     }
 
-    // [6] Danh sách bài học theo khoá học
+    /**
+     * @OA\Get(
+     *     path="/api/v1/courses/{courseId}/lessons",
+     *     summary="Danh sách bài học theo khoá học",
+     *     tags={"Lesson"},
+     *     @OA\Parameter(
+     *         name="courseId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Danh sách bài học theo khoá học")
+     * )
+     */
     public function getByCourse($courseId)
     {
         $lessons = Lesson::where('course_id', $courseId)->where('deleted', 0)

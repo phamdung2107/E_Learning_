@@ -16,6 +16,21 @@ use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/v1/payment/vnpay",
+     *     summary="Tạo URL thanh toán VNPay",
+     *     tags={"Payment"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"amount"},
+     *             @OA\Property(property="amount", type="number", example=100000)
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="URL thanh toán được tạo thành công")
+     * )
+     */
     public function createVNPayTopup(Request $request, VNPayService $vnpay)
     {
         $request->validate([
@@ -43,11 +58,18 @@ class PaymentController extends Controller
         return Response::data(['payment_url' => $paymentUrl]);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/payment/vnpay/return",
+     *     summary="Xử lý kết quả thanh toán VNPay",
+     *     tags={"Payment"},
+     *     @OA\Response(response=200, description="Xử lý nạp tiền thành công hoặc thất bại")
+     * )
+     */
     public function handleVNPayReturn(Request $request)
     {
-       $vnp_HashSecret = env('VNP_HASH_SECRET');
+        $vnp_HashSecret = env('VNP_HASH_SECRET');
 
-        // Bước 1: Lấy tất cả các tham số vnp_* ngoại trừ hash
         $inputData = [];
         foreach ($request->all() as $key => $value) {
             if (strpos($key, 'vnp_') === 0 && $key !== 'vnp_SecureHash' && $key !== 'vnp_SecureHashType') {
@@ -55,10 +77,8 @@ class PaymentController extends Controller
             }
         }
 
-        // Bước 2: Sắp xếp theo thứ tự A-Z
         ksort($inputData);
 
-        // Bước 3: Tạo chuỗi hashData đúng định dạng: key=urlencode(value)&...
         $hashData = '';
         $i = 0;
         foreach ($inputData as $key => $value) {
@@ -70,15 +90,12 @@ class PaymentController extends Controller
             }
         }
 
-        // Bước 4: Tạo secure hash
         $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
 
-        // So sánh
         if ($secureHash !== $request->input('vnp_SecureHash')) {
             return Response::data(['message' => 'Sai checksum'], 400);
         }
 
-        // ✅ Đúng checksum → xử lý nạp tiền như cũ
         $topup = Payment::find($request->vnp_TxnRef);
         if (!$topup || $topup->status !== 'pending') {
             return Response::data(['message' => 'Top-up không hợp lệ'], 400);
@@ -88,7 +105,6 @@ class PaymentController extends Controller
             try {
                 $bonus = 0;
 
-                // Tìm sự kiện ưu đãi đang hoạt động
                 $activeEvent = Event::where('status', true)
                     ->where('start_time', '<=', now())
                     ->where('end_time', '>=', now())
@@ -98,7 +114,6 @@ class PaymentController extends Controller
                     $bonus = round($topup->amount * ($activeEvent->bonus_percent / 100), 2);
                 }
 
-                // Cập nhật topup và cộng tiền
                 $topup->status = 'completed';
                 $topup->transaction_id = $request->vnp_TransactionNo;
                 $topup->save();
@@ -127,8 +142,14 @@ class PaymentController extends Controller
         }
     }
 
-
-    // [1] Lịch sử giao dịch của user
+    /**
+     * @OA\Get(
+     *     path="/api/v1/payments/me",
+     *     summary="Lịch sử giao dịch của người dùng",
+     *     tags={"Payment"},
+     *     @OA\Response(response=200, description="Danh sách giao dịch")
+     * )
+     */
     public function myTransactions(Request $request)
     {
         $user = $request->user();
@@ -136,7 +157,23 @@ class PaymentController extends Controller
         return Response::data(PaymentResource::collection($transactions), $transactions->count());
     }
 
-    // [2] Gửi yêu cầu rút tiền
+    /**
+     * @OA\Post(
+     *     path="/api/v1/withdraw",
+     *     summary="Gửi yêu cầu rút tiền",
+     *     tags={"Payment"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+    *             required={"amount", "bank_account", "note"},
+    *             @OA\Property(property="amount", type="number", format="float", example=500000),
+    *             @OA\Property(property="bank_account", type="string", example="0123456789 - Ngân hàng ACB"),
+    *             @OA\Property(property="note", type="string", example="Rút tiền sau khoá học")
+    *         )
+     *     ),
+     *     @OA\Response(response=200, description="Yêu cầu rút tiền đã được gửi")
+     * )
+     */
     public function requestWithdraw(CreateWithdrawRequest $request)
     {
         $user = $request->user();
@@ -150,21 +187,41 @@ class PaymentController extends Controller
             'type' => 'withdraw',
             'amount' => $request->amount,
             'bank_account' => $request->bank_account,
-            'note' => $request -> note,
+            'note' => $request->note,
             'status' => 'pending'
         ]);
 
         return Response::data();
     }
 
-    // [3] Danh sách tất cả giao dịch ví (admin)
+    /**
+     * @OA\Get(
+     *     path="/api/v1/payments",
+     *     summary="Danh sách tất cả giao dịch ví (Admin)",
+     *     tags={"Payment"},
+     *     @OA\Response(response=200, description="Danh sách giao dịch")
+     * )
+     */
     public function index()
     {
         $transactions = Payment::with('user')->orderByDesc('created_at')->get();
         return Response::data(PaymentResource::collection($transactions), $transactions->count());
     }
 
-    // [4] Admin duyệt rút tiền
+    /**
+     * @OA\Post(
+     *     path="/api/v1/payments/{id}/approve",
+     *     summary="Duyệt yêu cầu rút tiền (Admin)",
+     *     tags={"Payment"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Yêu cầu đã được duyệt")
+     * )
+     */
     public function approveWithdraw($id)
     {
         $withdraw = Payment::where('type', 'withdraw')->where('status', 'pending')->findOrFail($id);
@@ -180,7 +237,20 @@ class PaymentController extends Controller
         return Response::data();
     }
 
-    // [5] Admin từ chối rút tiền
+    /**
+     * @OA\Post(
+     *     path="/api/v1/payments/{id}/reject",
+     *     summary="Từ chối yêu cầu rút tiền (Admin)",
+     *     tags={"Payment"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Yêu cầu đã bị từ chối")
+     * )
+     */
     public function rejectWithdraw($id)
     {
         $withdraw = Payment::where('type', 'withdraw')->where('status', 'pending')->findOrFail($id);

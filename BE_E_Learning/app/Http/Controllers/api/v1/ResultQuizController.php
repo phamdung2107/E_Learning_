@@ -14,7 +14,28 @@ use Illuminate\Support\Facades\Auth;
 
 class ResultQuizController extends Controller
 {
-    // [1] Xử lý nộp bài quiz
+    /**
+     * @OA\Post(
+     *     path="/api/v1/quiz/submit",
+     *     summary="Nộp bài quiz",
+     *     tags={"ResultQuiz"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="quiz_id", type="integer"),
+     *             @OA\Property(
+     *                 property="answers",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="question_id", type="integer"),
+     *                     @OA\Property(property="answer_id", type="integer")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Nộp bài thành công")
+     * )
+     */
     public function submit(Request $request)
     {
         $data = $request->validate([
@@ -76,7 +97,15 @@ class ResultQuizController extends Controller
         }
     }
 
-    // [2] Lấy kết quả theo quiz của user
+    /**
+     * @OA\Get(
+     *     path="/api/v1/quiz/{quizId}/my-result",
+     *     summary="Lấy kết quả quiz của người dùng hiện tại",
+     *     tags={"ResultQuiz"},
+     *     @OA\Parameter(name="quizId", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Danh sách kết quả của người dùng")
+     * )
+     */
     public function getMyByQuiz($quizId)
     {
         $userId = Auth::id(); 
@@ -86,7 +115,15 @@ class ResultQuizController extends Controller
         return Response::data($results, $results->count());
     }
 
-    // [3] Lấy kết quả theo quiz
+    /**
+     * @OA\Get(
+     *     path="/api/v1/quiz/{quizId}/results",
+     *     summary="Lấy tất cả kết quả quiz",
+     *     tags={"ResultQuiz"},
+     *     @OA\Parameter(name="quizId", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Danh sách kết quả của tất cả người dùng")
+     * )
+     */
     public function getByQuiz($quizId)
     {
         $results = ResultQuiz::where('quiz_id', $quizId)->get();

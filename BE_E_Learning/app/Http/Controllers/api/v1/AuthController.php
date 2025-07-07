@@ -29,7 +29,31 @@ class AuthController extends Controller
         $this->guard = 'api';
     }
 
-
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/register",
+     *     summary="Đăng ký tài khoản mới",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"full_name", "email", "password", "password_confirmation"},
+     *             @OA\Property(property="full_name", type="string", example="Nguyễn Văn A"),
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="123456"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", example="123456")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Đăng ký thành công, trả về token"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Dữ liệu không hợp lệ"
+     *     )
+     * )
+     */
     public function register(Request $request)
     {
         try {
@@ -65,6 +89,29 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/login",
+     *     summary="Đăng nhập",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="123456")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Đăng nhập thành công, trả về token"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Sai thông tin đăng nhập"
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
         $credentials = request(['email', 'password']);
@@ -82,6 +129,22 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/auth/me",
+     *     summary="Lấy thông tin người dùng hiện tại",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Thông tin người dùng"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Không có token hoặc token không hợp lệ"
+     *     )
+     * )
+     */
     public function me(): array
     {
         /** @var User $user */
@@ -94,6 +157,18 @@ class AuthController extends Controller
         return Response::data(new UserResource($user));
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/logout",
+     *     summary="Đăng xuất",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Đăng xuất thành công"
+     *     )
+     * )
+     */
     public function logout()
     {
         Auth::guard($this->guard)->logout();
@@ -101,6 +176,23 @@ class AuthController extends Controller
         return Response::data();
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/forgot",
+     *     summary="Gửi email lấy lại mật khẩu",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", format="email", example="user@example.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Đã gửi email reset password"
+     *     )
+     * )
+     */
     public function forgot(Request $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -111,6 +203,28 @@ class AuthController extends Controller
 
         return Response::data();
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/verify",
+     *     summary="Xác thực mã reset password",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             required={"signature"},
+     *             @OA\Property(property="signature", type="string", example="uuid-reset-code")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Xác thực thành công"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Xác thực thất bại"
+     *     )
+     * )
+     */
     public function verify (Request $request): array
     {
         if (!Str::isUuid($request->signature)){
@@ -129,9 +243,26 @@ class AuthController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return array
+     * @OA\Put(
+     *     path="/api/v1/auth/change-password",
+     *     summary="Đổi mật khẩu sau khi xác thực",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             required={"signature", "password"},
+     *             @OA\Property(property="signature", type="string", example="uuid-reset-code"),
+     *             @OA\Property(property="password", type="string", format="password", example="newpassword")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Đổi mật khẩu thành công"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Xác thực thất bại"
+     *     )
+     * )
      */
     public function changePassword (Request $request): array
     {
@@ -157,6 +288,22 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/auth/refresh",
+     *     summary="Làm mới token JWT",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Trả về access_token mới"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Token cũ đã bị hủy"
+     *     )
+     * )
+     */
     public function refresh(): array
     {
         try {
