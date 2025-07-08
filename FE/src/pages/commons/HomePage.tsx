@@ -25,7 +25,7 @@ import {
 } from '@ant-design/icons'
 
 import ActivityCard from '@/components/core/card/ActivityCard'
-import CourseCard from '@/components/core/card/CourseCard'
+import CourseSummaryCard from '@/components/core/card/CourseSummaryCard'
 import FeedbackCard from '@/components/core/card/FeedbackCard'
 import InstructorCard from '@/components/core/card/InstructorCard'
 
@@ -383,7 +383,7 @@ const HomePage: React.FC = () => {
                     <Row gutter={[24, 24]}>
                         {featuredCourses.map((course) => (
                             <Col xs={24} md={8} key={course.id}>
-                                <CourseCard course={course} />
+                                <CourseSummaryCard course={course} />
                             </Col>
                         ))}
                     </Row>

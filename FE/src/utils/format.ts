@@ -12,3 +12,10 @@ export const formatDateTime = (datetime: any, format: any = null) => {
 export const formatNumberWithComas = (number: any, comas: any) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, comas)
 }
+
+export const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+    }).format(price)
+}

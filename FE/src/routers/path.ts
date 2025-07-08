@@ -2,8 +2,9 @@ export const PUBLIC_PATHS = {
     HOME: '/',
     ABOUT: '/about',
     COURSES: '/courses',
-    ACTIVITIES: '/activities',
+    EVENT: '/event',
     CONTACT: '/contact',
+    COURSE_DETAIL: '/courses/:id',
 }
 
 export const AUTH_PATHS = {

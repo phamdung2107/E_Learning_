@@ -277,41 +277,45 @@ const HeaderComponent: React.FC = () => {
                                     ([key, value]) => {
                                         const isActive =
                                             location.pathname === value
-                                        return (
-                                            <Link
-                                                key={key}
-                                                to={value}
-                                                style={{
-                                                    color: isActive
-                                                        ? '#1976d2'
-                                                        : '#333',
-                                                    textDecoration: 'none',
-                                                    fontWeight: '500',
-                                                    fontSize: '14px',
-                                                    padding: '8px 0',
-                                                    borderBottom: isActive
-                                                        ? '2px solid #1976d2'
-                                                        : '2px solid transparent',
-                                                    transition: 'all 0.3s ease',
-                                                }}
-                                                onMouseEnter={(e) => {
-                                                    e.currentTarget.style.color =
-                                                        '#1976d2'
-                                                    e.currentTarget.style.borderBottomColor =
-                                                        '#1976d2'
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    if (!isActive) {
+
+                                        if (!value.startsWith('/courses/')) {
+                                            return (
+                                                <Link
+                                                    key={key}
+                                                    to={value}
+                                                    style={{
+                                                        color: isActive
+                                                            ? '#1976d2'
+                                                            : '#333',
+                                                        textDecoration: 'none',
+                                                        fontWeight: '500',
+                                                        fontSize: '14px',
+                                                        padding: '8px 0',
+                                                        borderBottom: isActive
+                                                            ? '2px solid #1976d2'
+                                                            : '2px solid transparent',
+                                                        transition:
+                                                            'all 0.3s ease',
+                                                    }}
+                                                    onMouseEnter={(e) => {
                                                         e.currentTarget.style.color =
-                                                            '#333'
+                                                            '#1976d2'
                                                         e.currentTarget.style.borderBottomColor =
-                                                            'transparent'
-                                                    }
-                                                }}
-                                            >
-                                                {key}
-                                            </Link>
-                                        )
+                                                            '#1976d2'
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        if (!isActive) {
+                                                            e.currentTarget.style.color =
+                                                                '#333'
+                                                            e.currentTarget.style.borderBottomColor =
+                                                                'transparent'
+                                                        }
+                                                    }}
+                                                >
+                                                    {key}
+                                                </Link>
+                                            )
+                                        }
                                     }
                                 )}
                             </div>
