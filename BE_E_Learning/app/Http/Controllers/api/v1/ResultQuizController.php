@@ -16,7 +16,7 @@ class ResultQuizController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/v1/quiz/submit",
+     *     path="/api/quiz/submit",
      *     summary="Nộp bài quiz",
      *     tags={"ResultQuiz"},
      *     @OA\RequestBody(
@@ -59,7 +59,7 @@ class ResultQuizController extends Controller
                 'user_id' => $user->id,
                 'quiz_id' => $quizId,
                 'total_questions' => $totalQuestions,
-                'correct_answers' => 0, 
+                'correct_answers' => 0,
                 'is_pass' => false
             ]);
 
@@ -81,7 +81,7 @@ class ResultQuizController extends Controller
             }
 
             $score = round(($correctCount / $totalQuestions) * 100, 2);
-            $isPass = $score >= 50; 
+            $isPass = $score >= 50;
 
             $resultQuiz->update([
                 'correct_answers' => $correctCount,
@@ -99,7 +99,7 @@ class ResultQuizController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/quiz/{quizId}/my-result",
+     *     path="/api/quiz/{quizId}/my-result",
      *     summary="Lấy kết quả quiz của người dùng hiện tại",
      *     tags={"ResultQuiz"},
      *     @OA\Parameter(name="quizId", in="path", required=true, @OA\Schema(type="integer")),
@@ -108,7 +108,7 @@ class ResultQuizController extends Controller
      */
     public function getMyByQuiz($quizId)
     {
-        $userId = Auth::id(); 
+        $userId = Auth::id();
         $results = ResultQuiz::where('quiz_id', $quizId)
             ->where('user_id', $userId)
             ->get();
@@ -117,7 +117,7 @@ class ResultQuizController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/quiz/{quizId}/results",
+     *     path="/api/quiz/{quizId}/results",
      *     summary="Lấy tất cả kết quả quiz",
      *     tags={"ResultQuiz"},
      *     @OA\Parameter(name="quizId", in="path", required=true, @OA\Schema(type="integer")),

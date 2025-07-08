@@ -13,7 +13,7 @@ namespace App\Docs;
  *         )
  *     ),
  *     @OA\Server(
- *         url="http://localhost/api/v1",
+ *         url="http://localhost",
  *         description="Local development server"
  *     )
  * )

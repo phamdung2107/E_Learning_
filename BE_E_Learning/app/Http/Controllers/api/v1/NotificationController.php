@@ -12,7 +12,7 @@ class NotificationController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/notifications",
+     *     path="/api/notifications",
      *     summary="Danh sách tất cả thông báo của người dùng",
      *     tags={"Notification"},
      *     @OA\Response(response=200, description="Danh sách thông báo")
@@ -29,7 +29,7 @@ class NotificationController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/notifications/unread",
+     *     path="/api/notifications/unread",
      *     summary="Lấy danh sách thông báo chưa đọc",
      *     tags={"Notification"},
      *     @OA\Response(response=200, description="Thông báo chưa đọc")
@@ -44,7 +44,7 @@ class NotificationController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/notifications/{id}/read",
+     *     path="/api/notifications/{id}/read",
      *     summary="Đánh dấu thông báo đã đọc",
      *     tags={"Notification"},
      *     @OA\Parameter(
@@ -67,7 +67,7 @@ class NotificationController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/notifications/{id}",
+     *     path="/api/notifications/{id}",
      *     summary="Xoá mềm thông báo",
      *     tags={"Notification"},
      *     @OA\Parameter(
@@ -89,7 +89,7 @@ class NotificationController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/notifications/{id}",
+     *     path="/api/notifications/{id}",
      *     summary="Chi tiết thông báo",
      *     tags={"Notification"},
      *     @OA\Parameter(

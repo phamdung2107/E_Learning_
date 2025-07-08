@@ -14,7 +14,7 @@ class ProgressTrackingController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/progress",
+     *     path="/api/progress",
      *     summary="Danh sách tất cả tiến độ",
      *     tags={"Progress Tracking"},
      *     @OA\Response(response=200, description="Danh sách tiến độ")
@@ -28,7 +28,7 @@ class ProgressTrackingController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/progress/{id}",
+     *     path="/api/progress/{id}",
      *     summary="Chi tiết tiến độ",
      *     tags={"Progress Tracking"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -43,7 +43,7 @@ class ProgressTrackingController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/progress",
+     *     path="/api/progress",
      *     summary="Tạo tiến độ",
      *     tags={"Progress Tracking"},
      *     @OA\RequestBody(required=true, @OA\JsonContent(
@@ -64,7 +64,7 @@ class ProgressTrackingController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/progress/{id}",
+     *     path="/api/progress/{id}",
      *     summary="Cập nhật tiến độ",
      *     tags={"Progress Tracking"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -83,7 +83,7 @@ class ProgressTrackingController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/progress/{id}",
+     *     path="/api/progress/{id}",
      *     summary="Xoá tiến độ",
      *     tags={"Progress Tracking"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -99,7 +99,7 @@ class ProgressTrackingController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/progress/user/{userId}/course/{courseId}",
+     *     path="/api/progress/user/{userId}/course/{courseId}",
      *     summary="Lấy tiến độ học tập theo user và course",
      *     tags={"Progress Tracking"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
@@ -118,7 +118,7 @@ class ProgressTrackingController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/progress/complete-lesson",
+     *     path="/api/progress/complete-lesson",
      *     summary="Đánh dấu hoàn thành bài học",
      *     tags={"Progress Tracking"},
      *     @OA\RequestBody(

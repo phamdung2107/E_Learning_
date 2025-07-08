@@ -16,7 +16,7 @@ class LessonController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/lessons",
+     *     path="/api/lessons",
      *     summary="Lấy danh sách bài học",
      *     tags={"Lesson"},
      *     @OA\Parameter(
@@ -44,7 +44,7 @@ class LessonController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/lessons",
+     *     path="/api/lessons",
      *     summary="Tạo mới bài học",
      *     tags={"Lesson"},
      *     @OA\RequestBody(
@@ -81,7 +81,7 @@ class LessonController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/lessons/{id}",
+     *     path="/api/lessons/{id}",
      *     summary="Chi tiết bài học",
      *     tags={"Lesson"},
      *     @OA\Parameter(
@@ -101,7 +101,7 @@ class LessonController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/lessons/{id}",
+     *     path="/api/lessons/{id}",
      *     summary="Cập nhật bài học",
      *     tags={"Lesson"},
      *     @OA\Parameter(
@@ -131,7 +131,7 @@ class LessonController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/lessons/{id}",
+     *     path="/api/lessons/{id}",
      *     summary="Xoá bài học",
      *     tags={"Lesson"},
      *     @OA\Parameter(
@@ -152,7 +152,7 @@ class LessonController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/courses/{courseId}/lessons",
+     *     path="/api/courses/{courseId}/lessons",
      *     summary="Danh sách bài học theo khoá học",
      *     tags={"Lesson"},
      *     @OA\Parameter(

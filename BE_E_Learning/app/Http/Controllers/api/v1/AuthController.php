@@ -31,7 +31,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/register",
+     *     path="/api/auth/register",
      *     summary="Đăng ký tài khoản mới",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -91,7 +91,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/login",
+     *     path="/api/auth/login",
      *     summary="Đăng nhập",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -131,7 +131,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/auth/me",
+     *     path="/api/auth/me",
      *     summary="Lấy thông tin người dùng hiện tại",
      *     tags={"Auth"},
      *     security={{"bearerAuth":{}}},
@@ -159,7 +159,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/logout",
+     *     path="/api/auth/logout",
      *     summary="Đăng xuất",
      *     tags={"Auth"},
      *     security={{"bearerAuth":{}}},
@@ -178,7 +178,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/forgot",
+     *     path="/api/auth/forgot",
      *     summary="Gửi email lấy lại mật khẩu",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -206,7 +206,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/verify",
+     *     path="/api/auth/verify",
      *     summary="Xác thực mã reset password",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -244,7 +244,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/auth/change-password",
+     *     path="/api/auth/change-password",
      *     summary="Đổi mật khẩu sau khi xác thực",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -290,7 +290,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/refresh",
+     *     path="/api/auth/refresh",
      *     summary="Làm mới token JWT",
      *     tags={"Auth"},
      *     security={{"bearerAuth":{}}},

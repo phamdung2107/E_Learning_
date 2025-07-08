@@ -21,7 +21,7 @@ class UserController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/users",
+     *     path="/api/users",
      *     summary="Danh sách người dùng",
      *     tags={"User"},
      *     @OA\Parameter(name="role", in="query", @OA\Schema(type="string")),
@@ -50,14 +50,14 @@ class UserController extends Controller
                 $q->where('status', $request->status);
             });
 
-        $users = $query->paginate(10); 
+        $users = $query->paginate(10);
 
         return Response::data(UserResource::collection($users),$users->total());
     }
 
     /**
      * @OA\Post(
-     *     path="/api/v1/users",
+     *     path="/api/users",
      *     summary="Tạo mới người dùng",
      *     tags={"User"},
      *      @OA\RequestBody(
@@ -82,7 +82,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/users/{id}",
+     *     path="/api/users/{id}",
      *     summary="Chi tiết người dùng",
      *     tags={"User"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -91,14 +91,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id); 
+        $user = User::findOrFail($id);
 
         return Response::data(new UserResource($user));
     }
 
     /**
      * @OA\Put(
-     *     path="/api/v1/users/{id}",
+     *     path="/api/users/{id}",
      *     summary="Cập nhật thông tin người dùng",
      *     tags={"User"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -143,7 +143,7 @@ class UserController extends Controller
 
     /**
      * @OA\Patch(
-     *     path="/api/v1/users/{id}/status",
+     *     path="/api/users/{id}/status",
      *     summary="Cập nhật trạng thái người dùng",
      *     tags={"User"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -173,7 +173,7 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/users/{id}",
+     *     path="/api/users/{id}",
      *     summary="Xoá người dùng",
      *     tags={"User"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -183,14 +183,14 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        $user->delete(); 
+        $user->delete();
 
         return Response::data();
     }
 
     /**
      * @OA\Post(
-     *     path="/api/v1/users/change-password",
+     *     path="/api/users/change-password",
      *     summary="Đổi mật khẩu người dùng đang đăng nhập",
      *     tags={"User"},
      *     @OA\RequestBody(
@@ -219,7 +219,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/users/{id}/reset-password",
+     *     path="/api/users/{id}/reset-password",
      *     summary="Admin đặt lại mật khẩu người dùng",
      *     tags={"User"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -239,7 +239,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/users/count",
+     *     path="/api/users/count",
      *     summary="Thống kê số lượng người dùng",
      *     tags={"User"},
      *     @OA\Response(response=200, description="Dữ liệu thống kê")

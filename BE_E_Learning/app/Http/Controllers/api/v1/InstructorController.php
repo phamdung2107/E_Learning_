@@ -26,7 +26,7 @@ class InstructorController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors",
+     *     path="/api/instructors",
      *     summary="Lấy danh sách giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="experience_years", in="query", @OA\Schema(type="integer")),
@@ -49,7 +49,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/instructors",
+     *     path="/api/instructors",
      *     summary="Tạo mới giảng viên",
      *     tags={"Instructor"},
      *     @OA\RequestBody(
@@ -84,7 +84,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/{id}",
+     *     path="/api/instructors/{id}",
      *     summary="Xem chi tiết giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -98,7 +98,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/instructors/{id}",
+     *     path="/api/instructors/{id}",
      *     summary="Cập nhật giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -121,7 +121,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/instructors/{id}",
+     *     path="/api/instructors/{id}",
      *     summary="Xoá giảng viên (chuyển vai trò về student)",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -141,7 +141,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/instructors/request",
+     *     path="/api/instructors/request",
      *     summary="Gửi yêu cầu trở thành giảng viên",
      *     tags={"Instructor"},
      *     security={{"bearerAuth":{}}},
@@ -182,7 +182,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/instructors/{userId}/approve",
+     *     path="/api/instructors/{userId}/approve",
      *     summary="Duyệt yêu cầu giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
@@ -201,7 +201,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/instructors/{userId}/reject",
+     *     path="/api/instructors/{userId}/reject",
      *     summary="Từ chối yêu cầu giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
@@ -219,7 +219,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/{id}/courses",
+     *     path="/api/instructors/{id}/courses",
      *     summary="Lấy danh sách khoá học của giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -235,7 +235,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/{id}/students",
+     *     path="/api/instructors/{id}/students",
      *     summary="Lấy danh sách học viên của giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -256,7 +256,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/top",
+     *     path="/api/instructors/top",
      *     summary="Top giảng viên theo doanh thu",
      *     tags={"Instructor"},
      *     @OA\Response(response=200, description="Top giảng viên")
@@ -280,7 +280,7 @@ class InstructorController extends Controller
 
         /**
      * @OA\Get(
-     *     path="/api/v1/instructors/{id}/revenue",
+     *     path="/api/instructors/{id}/revenue",
      *     summary="Lấy tổng doanh thu của giảng viên",
      *     tags={"Instructors"},
      *     security={{"bearerAuth":{}}},
@@ -327,7 +327,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/user/{userId}",
+     *     path="/api/instructors/user/{userId}",
      *     summary="Lấy thông tin giảng viên từ user ID",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),

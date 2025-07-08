@@ -25,7 +25,7 @@ class CertificateController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/certificates",
+     *     path="/api/certificates",
      *     summary="Lấy danh sách chứng chỉ",
      *     tags={"Certificate"},
      *     @OA\Parameter(
@@ -67,7 +67,7 @@ class CertificateController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/certificates",
+     *     path="/api/certificates",
      *     summary="Tạo chứng chỉ cho học viên",
      *     tags={"Certificate"},
      *     @OA\RequestBody(
@@ -126,7 +126,7 @@ class CertificateController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/certificates/{id}",
+     *     path="/api/certificates/{id}",
      *     summary="Xem chi tiết chứng chỉ",
      *     tags={"Certificate"},
      *     @OA\Parameter(
@@ -150,7 +150,7 @@ class CertificateController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/certificates/{id}",
+     *     path="/api/certificates/{id}",
      *     summary="Xoá chứng chỉ",
      *     tags={"Certificate"},
      *     @OA\Parameter(

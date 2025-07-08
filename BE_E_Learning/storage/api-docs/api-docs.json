@@ -10,18 +10,18 @@
     },
     "servers": [
         {
-            "url": "http://localhost/api/v1",
+            "url": "http://localhost",
             "description": "Local development server"
         }
     ],
     "paths": {
-        "/api/v1/ai-recommendation": {
+        "/api/ai-recommendation": {
             "get": {
                 "tags": [
                     "AI Recommendation"
                 ],
                 "summary": "Lấy danh sách recommendation đã lưu của user đăng nhập",
-                "operationId": "b4ea648a4ec20d5c73fb64083a73efb0",
+                "operationId": "74de7e3b391d98eaa91a303417b14df9",
                 "responses": {
                     "200": {
                         "description": "Danh sách recommendation",
@@ -75,7 +75,7 @@
                     "AI Recommendation"
                 ],
                 "summary": "Gửi title đến AI server và nhận lại reason. Nếu user đăng nhập thì lưu vào DB.",
-                "operationId": "e017959047e8be850c9422da8a28e2d6",
+                "operationId": "b68d41cf833565008473d3c1d7335fa4",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -327,13 +327,13 @@
                 ]
             }
         },
-        "/api/v1/auth/register": {
+        "/api/auth/register": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Đăng ký tài khoản mới",
-                "operationId": "e6faf126a98d619f66ec5ba7b1aca919",
+                "operationId": "8ddf5a69bfab4990ba6a20a6c369f2d5",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -381,13 +381,13 @@
                 }
             }
         },
-        "/api/v1/auth/login": {
+        "/api/auth/login": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Đăng nhập",
-                "operationId": "8f4199af31a3bfc27c0a05128cf62255",
+                "operationId": "b3827e01d21b736d8233e6f584424cd3",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -424,13 +424,13 @@
                 }
             }
         },
-        "/api/v1/auth/me": {
+        "/api/auth/me": {
             "get": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Lấy thông tin người dùng hiện tại",
-                "operationId": "99c75039e2607b279d25d974eed90b8b",
+                "operationId": "4896e910a5ba50422942054f4a5b2b0b",
                 "responses": {
                     "200": {
                         "description": "Thông tin người dùng"
@@ -446,13 +446,13 @@
                 ]
             }
         },
-        "/api/v1/auth/logout": {
+        "/api/auth/logout": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Đăng xuất",
-                "operationId": "e9934fb76556a07b781908919f8f7c6b",
+                "operationId": "98e5333bf128c1dd34368e0c848635db",
                 "responses": {
                     "200": {
                         "description": "Đăng xuất thành công"
@@ -465,13 +465,13 @@
                 ]
             }
         },
-        "/api/v1/auth/forgot": {
+        "/api/auth/forgot": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Gửi email lấy lại mật khẩu",
-                "operationId": "1b8a2a34c83086c01d56c32c504358e6",
+                "operationId": "4b49748a7d9bc535351fe2465e6ada83",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -498,13 +498,13 @@
                 }
             }
         },
-        "/api/v1/auth/verify": {
+        "/api/auth/verify": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Xác thực mã reset password",
-                "operationId": "a7fee64335fc56125c730ef30a89d872",
+                "operationId": "59bd6297d7c5bd9cbc171d793f66d864",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -533,13 +533,13 @@
                 }
             }
         },
-        "/api/v1/auth/change-password": {
+        "/api/auth/change-password": {
             "put": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Đổi mật khẩu sau khi xác thực",
-                "operationId": "377219958055e99e937e8b3cf204bdaa",
+                "operationId": "d9839a9d61611e32a70701ab0cdbec03",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -574,13 +574,13 @@
                 }
             }
         },
-        "/api/v1/auth/refresh": {
+        "/api/auth/refresh": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Làm mới token JWT",
-                "operationId": "067eb5541459394bdd7875a20e9f3ad8",
+                "operationId": "0955c3b0b1c66aa02c9c9dfb8651ec4a",
                 "responses": {
                     "200": {
                         "description": "Trả về access_token mới"
@@ -596,13 +596,13 @@
                 ]
             }
         },
-        "/api/v1/categories": {
+        "/api/categories": {
             "get": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Lấy danh sách tất cả danh mục",
-                "operationId": "a0c0b4b79a99c3dc4c3b935daebccf7f",
+                "operationId": "bbed7ec413a1a67d24705bfb909b1b80",
                 "parameters": [
                     {
                         "name": "keyword",
@@ -625,7 +625,7 @@
                     "Category"
                 ],
                 "summary": "Tạo danh mục mới",
-                "operationId": "c715126689abb74d0f7540c02da3b899",
+                "operationId": "2f04128273b5c66c4994616e02f8d1f1",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -656,13 +656,13 @@
                 }
             }
         },
-        "/api/v1/categories/{id}": {
+        "/api/categories/{id}": {
             "get": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Lấy chi tiết một danh mục",
-                "operationId": "976b153ebe6b9f78ce96c7387b6b6d39",
+                "operationId": "463dc652b3cd1a1ae212f5cacb9ad7bd",
                 "parameters": [
                     {
                         "name": "id",
@@ -685,7 +685,7 @@
                     "Category"
                 ],
                 "summary": "Cập nhật danh mục",
-                "operationId": "5e2b345bc4d173c9ece46926b92edb65",
+                "operationId": "bf6f602093e5743a111bc2f94cb1b879",
                 "parameters": [
                     {
                         "name": "id",
@@ -727,7 +727,7 @@
                     "Category"
                 ],
                 "summary": "Xóa danh mục",
-                "operationId": "dfd094fc84e8cde02cc5ac11352ce981",
+                "operationId": "bf814c0b47d168c28c98153666a32558",
                 "parameters": [
                     {
                         "name": "id",
@@ -746,13 +746,13 @@
                 }
             }
         },
-        "/api/v1/categories/tree": {
+        "/api/categories/tree": {
             "get": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Lấy danh mục dạng cây",
-                "operationId": "1f9c049841b13d50a4a62f943631a9a0",
+                "operationId": "0279ecd214efa99bff271d6fa1c2fe65",
                 "responses": {
                     "200": {
                         "description": "Danh mục dạng cây"
@@ -760,13 +760,13 @@
                 }
             }
         },
-        "/api/v1/categories/{id}/children": {
+        "/api/categories/{id}/children": {
             "get": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Lấy danh mục con",
-                "operationId": "ed2d44e41c56e89d94af833fd913b9cb",
+                "operationId": "394918bf2dbb4e584d92b8838a0e3407",
                 "parameters": [
                     {
                         "name": "id",
@@ -785,13 +785,13 @@
                 }
             }
         },
-        "/api/v1/categories/parents": {
+        "/api/categories/parents": {
             "get": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Lấy tất cả danh mục cấp cha",
-                "operationId": "a863d659de3bd0a00c994b151770362f",
+                "operationId": "00c156bbedb80b855a1bc5afd43d11e0",
                 "responses": {
                     "200": {
                         "description": "Danh sách danh mục cha"
@@ -799,13 +799,13 @@
                 }
             }
         },
-        "/api/v1/categories/{id}/courses": {
+        "/api/categories/{id}/courses": {
             "get": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Lấy danh sách khóa học theo danh mục",
-                "operationId": "c33a2541767b85675878169d50dc7039",
+                "operationId": "679b986b7f58d38c76f47c86dca1632a",
                 "parameters": [
                     {
                         "name": "id",
@@ -824,13 +824,13 @@
                 }
             }
         },
-        "/api/v1/certificates": {
+        "/api/certificates": {
             "get": {
                 "tags": [
                     "Certificate"
                 ],
                 "summary": "Lấy danh sách chứng chỉ",
-                "operationId": "d26e859f0b28dfe5042c0f9b814f626b",
+                "operationId": "bd4307af4d443ba00813bba2983591e2",
                 "parameters": [
                     {
                         "name": "user",
@@ -862,7 +862,7 @@
                     "Certificate"
                 ],
                 "summary": "Tạo chứng chỉ cho học viên",
-                "operationId": "9b47e58e1a8aef65e3a5f608470a70b3",
+                "operationId": "62fc6619f2ff73e51f376274d2ac7bfb",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -894,13 +894,13 @@
                 }
             }
         },
-        "/api/v1/certificates/{id}": {
+        "/api/certificates/{id}": {
             "get": {
                 "tags": [
                     "Certificate"
                 ],
                 "summary": "Xem chi tiết chứng chỉ",
-                "operationId": "60757dbd16e69fc027a09bb9228ae077",
+                "operationId": "e3134d2ff207ab86b34463a2e3c8b583",
                 "parameters": [
                     {
                         "name": "id",
@@ -923,7 +923,7 @@
                     "Certificate"
                 ],
                 "summary": "Xoá chứng chỉ",
-                "operationId": "06fb84cfedd8dee1033d6eef3186360d",
+                "operationId": "dd7f5e9584856fdad0e5df529931dc82",
                 "parameters": [
                     {
                         "name": "id",
@@ -942,13 +942,13 @@
                 }
             }
         },
-        "/api/v1/courses": {
+        "/api/courses": {
             "get": {
                 "tags": [
                     "Course"
                 ],
                 "summary": "Lấy danh sách khoá học",
-                "operationId": "eef97785710e92a8f7ba7733e58e7b65",
+                "operationId": "5dcadcedaa5505d09b15f882cd0c0cf7",
                 "parameters": [
                     {
                         "name": "search",
@@ -986,7 +986,7 @@
                     "Course"
                 ],
                 "summary": "Tạo khoá học mới",
-                "operationId": "efa260351c8ab4cff7eeab726f3bb5b3",
+                "operationId": "a8223c2af342cc0bdc39ed5f82e2f47e",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1034,13 +1034,13 @@
                 }
             }
         },
-        "/api/v1/courses/{id}": {
+        "/api/courses/{id}": {
             "get": {
                 "tags": [
                     "Course"
                 ],
                 "summary": "Xem chi tiết khoá học",
-                "operationId": "7bbd145cd12d7907809269a1f8471d5b",
+                "operationId": "7018863f8e9358f3f1b7e558f544eaae",
                 "parameters": [
                     {
                         "name": "id",
@@ -1063,7 +1063,7 @@
                     "Course"
                 ],
                 "summary": "Cập nhật khoá học",
-                "operationId": "90064cf4a579307292c69c7d7bd9ce57",
+                "operationId": "f08dedafedb81a971714481fc11aa27e",
                 "parameters": [
                     {
                         "name": "id",
@@ -1118,7 +1118,7 @@
                     "Course"
                 ],
                 "summary": "Xóa khoá học",
-                "operationId": "818b83ef78d5f1211e5d54cc1e513b4f",
+                "operationId": "8ae94bd55fe6bf987643b506da02e9e5",
                 "parameters": [
                     {
                         "name": "id",
@@ -1137,13 +1137,13 @@
                 }
             }
         },
-        "/api/v1/courses/me/enrolled": {
+        "/api/courses/me/enrolled": {
             "get": {
                 "tags": [
                     "Course"
                 ],
                 "summary": "Lấy danh sách khoá học đã đăng ký của người dùng",
-                "operationId": "ad1894a4839c17dba848bee188de09c1",
+                "operationId": "31eeda8959237dc0d21e132ea7230f3e",
                 "responses": {
                     "200": {
                         "description": "Danh sách khoá học đã đăng ký"
@@ -1156,13 +1156,13 @@
                 ]
             }
         },
-        "/api/v1/courses/{id}/publish": {
+        "/api/courses/{id}/publish": {
             "post": {
                 "tags": [
                     "Course"
                 ],
                 "summary": "Publish khoá học",
-                "operationId": "831cc4fb32335170f3c299a51c7dbb39",
+                "operationId": "80a83dc7581de4b09c74f4e47165e29c",
                 "parameters": [
                     {
                         "name": "id",
@@ -1181,13 +1181,13 @@
                 }
             }
         },
-        "/api/v1/courses/{id}/archive": {
+        "/api/courses/{id}/archive": {
             "post": {
                 "tags": [
                     "Course"
                 ],
                 "summary": "Archive khoá học",
-                "operationId": "38249ff40e46d9efa0e70369633cb55b",
+                "operationId": "7e2acf18fa8cee084991911c974b8254",
                 "parameters": [
                     {
                         "name": "id",
@@ -1206,13 +1206,13 @@
                 }
             }
         },
-        "/api/v1/enrollments": {
+        "/api/enrollments": {
             "get": {
                 "tags": [
                     "Enrollment"
                 ],
                 "summary": "Danh sách toàn bộ lượt đăng ký",
-                "operationId": "0049dcb7db7d8364374a1309757826d0",
+                "operationId": "813231514d66d96f9dfb3cd8d3a2f3b3",
                 "responses": {
                     "200": {
                         "description": "Danh sách lượt đăng ký"
@@ -1220,13 +1220,13 @@
                 }
             }
         },
-        "/api/v1/enrollments/{id}": {
+        "/api/enrollments/{id}": {
             "get": {
                 "tags": [
                     "Enrollment"
                 ],
                 "summary": "Xem chi tiết lượt đăng ký",
-                "operationId": "d8e4d5ae20a066f78b4bf5545ea14f27",
+                "operationId": "065d6b216c9c877ee1d498ec090984be",
                 "parameters": [
                     {
                         "name": "id",
@@ -1245,13 +1245,13 @@
                 }
             }
         },
-        "/api/v1/enrollments/user/{userId}/courses": {
+        "/api/enrollments/user/{userId}/courses": {
             "get": {
                 "tags": [
                     "Enrollment"
                 ],
                 "summary": "Lấy danh sách khóa học đã đăng ký của user",
-                "operationId": "9bc57efbe3017471330afed8bdb3cdc8",
+                "operationId": "a53f486d2ccf9a39a09219272eb5573e",
                 "parameters": [
                     {
                         "name": "userId",
@@ -1270,13 +1270,13 @@
                 }
             }
         },
-        "/api/v1/enrollments/course/{courseId}/users": {
+        "/api/enrollments/course/{courseId}/users": {
             "get": {
                 "tags": [
                     "Enrollment"
                 ],
                 "summary": "Lấy danh sách học viên đã đăng ký 1 khóa học",
-                "operationId": "13eb1ef93bf435d424205076a531f11f",
+                "operationId": "94df19aae5290b3653879cd0d894a64f",
                 "parameters": [
                     {
                         "name": "courseId",
@@ -1295,13 +1295,13 @@
                 }
             }
         },
-        "/api/v1/enrollments/course/{courseId}/count": {
+        "/api/enrollments/course/{courseId}/count": {
             "get": {
                 "tags": [
                     "Enrollment"
                 ],
                 "summary": "Đếm số lượt đăng ký của một khóa học",
-                "operationId": "1e3533c2f1296c8bec8fa6306803dee9",
+                "operationId": "9c6c211c872de0eca8c87dcaae8b2875",
                 "parameters": [
                     {
                         "name": "courseId",
@@ -1320,13 +1320,13 @@
                 }
             }
         },
-        "/api/v1/enrollments/top-courses": {
+        "/api/enrollments/top-courses": {
             "get": {
                 "tags": [
                     "Enrollment"
                 ],
                 "summary": "Top khóa học theo lượt đăng ký",
-                "operationId": "56fc21a2e1576823a789e54d8b422e0a",
+                "operationId": "7ec91cf0266edb56da567dc2a105546f",
                 "responses": {
                     "200": {
                         "description": "Top 5 khoá học có nhiều lượt đăng ký nhất"
@@ -1334,13 +1334,13 @@
                 }
             }
         },
-        "/api/v1/events": {
+        "/api/events": {
             "get": {
                 "tags": [
                     "Event"
                 ],
                 "summary": "Lấy danh sách sự kiện",
-                "operationId": "f6d1edd09aa96dbd1bb9a2588abbc422",
+                "operationId": "7b93c1d27c954f438b89375272558877",
                 "parameters": [
                     {
                         "name": "keyword",
@@ -1363,7 +1363,7 @@
                     "Event"
                 ],
                 "summary": "Tạo sự kiện mới",
-                "operationId": "5fd29ff3caa73ca8e4745a71f0978eea",
+                "operationId": "cc4f0cb16fafebf4667f37d72aa11d7f",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1406,13 +1406,13 @@
                 }
             }
         },
-        "/api/v1/events/{id}": {
+        "/api/events/{id}": {
             "get": {
                 "tags": [
                     "Event"
                 ],
                 "summary": "Xem chi tiết sự kiện",
-                "operationId": "5b4de78327479170e937be6ee70386d5",
+                "operationId": "c08d5565d5fff1a3a5d09ee501e24bdb",
                 "parameters": [
                     {
                         "name": "id",
@@ -1435,7 +1435,7 @@
                     "Event"
                 ],
                 "summary": "Cập nhật sự kiện",
-                "operationId": "107716792c1916f7dd80a5ae2ae93943",
+                "operationId": "11b644195d1c3a20d8559b26310f8cb3",
                 "parameters": [
                     {
                         "name": "id",
@@ -1488,7 +1488,7 @@
                     "Event"
                 ],
                 "summary": "Xoá mềm sự kiện",
-                "operationId": "2dba6105b6c468eda0aaddd05a21073b",
+                "operationId": "d9dc06af7561aa409d92bd434daa0462",
                 "parameters": [
                     {
                         "name": "id",
@@ -1507,13 +1507,13 @@
                 }
             }
         },
-        "/api/v1/events/{id}/toggle": {
+        "/api/events/{id}/toggle": {
             "post": {
                 "tags": [
                     "Event"
                 ],
                 "summary": "Kích hoạt hoặc vô hiệu hoá sự kiện",
-                "operationId": "3f5618ee80c3b7a77c0fadabd74e046b",
+                "operationId": "34791f5824fd5e92310d04a1b9977f4d",
                 "parameters": [
                     {
                         "name": "id",
@@ -1532,13 +1532,13 @@
                 }
             }
         },
-        "/api/v1/instructors": {
+        "/api/instructors": {
             "get": {
                 "tags": [
                     "Instructor"
                 ],
                 "summary": "Lấy danh sách giảng viên",
-                "operationId": "9663cdb500ce97218182c66b826f1e45",
+                "operationId": "c0fe859378861403fcc4773d7ec8d841",
                 "parameters": [
                     {
                         "name": "experience_years",
@@ -1573,7 +1573,7 @@
                     "Instructor"
                 ],
                 "summary": "Tạo mới giảng viên",
-                "operationId": "e6ebbd1ac7b1f4ef329e5082631e4532",
+                "operationId": "7126077e40ac166094bc2f3c40e1fd92",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1610,13 +1610,13 @@
                 }
             }
         },
-        "/api/v1/instructors/{id}": {
+        "/api/instructors/{id}": {
             "get": {
                 "tags": [
                     "Instructor"
                 ],
                 "summary": "Xem chi tiết giảng viên",
-                "operationId": "ee5037abb9229f8a3fbec7568336a984",
+                "operationId": "3ed0c3c43c0dfcfe4968be4b89581a12",
                 "parameters": [
                     {
                         "name": "id",
@@ -1638,7 +1638,7 @@
                     "Instructor"
                 ],
                 "summary": "Cập nhật giảng viên",
-                "operationId": "c580dc7cba7b6cd1f813b4f094cdf27c",
+                "operationId": "6a7147c90782fbef6b768c14139f30bf",
                 "parameters": [
                     {
                         "name": "id",
@@ -1680,7 +1680,7 @@
                     "Instructor"
                 ],
                 "summary": "Xoá giảng viên (chuyển vai trò về student)",
-                "operationId": "d7e1b5f4ebeb3b9f038befded7c10a03",
+                "operationId": "19a0b93b9d0294748714e71b3c3c44fe",
                 "parameters": [
                     {
                         "name": "id",
@@ -1698,13 +1698,13 @@
                 }
             }
         },
-        "/api/v1/instructors/request": {
+        "/api/instructors/request": {
             "post": {
                 "tags": [
                     "Instructor"
                 ],
                 "summary": "Gửi yêu cầu trở thành giảng viên",
-                "operationId": "b35123a05bc77f57745d9ded3770d4ac",
+                "operationId": "51b3e70a92b8cc909e3c2c99a6855aff",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1741,13 +1741,13 @@
                 ]
             }
         },
-        "/api/v1/instructors/{userId}/approve": {
+        "/api/instructors/{userId}/approve": {
             "post": {
                 "tags": [
                     "Instructor"
                 ],
                 "summary": "Duyệt yêu cầu giảng viên",
-                "operationId": "52a172ce60a0bbf017e1a0da1e8b36be",
+                "operationId": "d6a6cc0850d36f3b5461ebd9f3880ced",
                 "parameters": [
                     {
                         "name": "userId",
@@ -1765,13 +1765,13 @@
                 }
             }
         },
-        "/api/v1/instructors/{userId}/reject": {
+        "/api/instructors/{userId}/reject": {
             "post": {
                 "tags": [
                     "Instructor"
                 ],
                 "summary": "Từ chối yêu cầu giảng viên",
-                "operationId": "8656011e16fc8588e77de85e3cb3a417",
+                "operationId": "37d4f421a50cd85eff8b09ac4d41f826",
                 "parameters": [
                     {
                         "name": "userId",
@@ -1789,13 +1789,13 @@
                 }
             }
         },
-        "/api/v1/instructors/{id}/courses": {
+        "/api/instructors/{id}/courses": {
             "get": {
                 "tags": [
                     "Instructor"
                 ],
                 "summary": "Lấy danh sách khoá học của giảng viên",
-                "operationId": "2eb5489fd96b4276109987087d9baff4",
+                "operationId": "e101963989213d4b30f02fd48bb66e1c",
                 "parameters": [
                     {
                         "name": "id",
@@ -1813,13 +1813,13 @@
                 }
             }
         },
-        "/api/v1/instructors/{id}/students": {
+        "/api/instructors/{id}/students": {
             "get": {
                 "tags": [
                     "Instructor"
                 ],
                 "summary": "Lấy danh sách học viên của giảng viên",
-                "operationId": "9a7a287a2339c817d934a0008549f5ec",
+                "operationId": "fd377f12a1104865f230b42a0b060c59",
                 "parameters": [
                     {
                         "name": "id",
@@ -1837,13 +1837,13 @@
                 }
             }
         },
-        "/api/v1/instructors/top": {
+        "/api/instructors/top": {
             "get": {
                 "tags": [
                     "Instructor"
                 ],
                 "summary": "Top giảng viên theo doanh thu",
-                "operationId": "abfeabd47f0efb205a1538a2017763fe",
+                "operationId": "66390420cd775354b91786b11977c341",
                 "responses": {
                     "200": {
                         "description": "Top giảng viên"
@@ -1851,13 +1851,13 @@
                 }
             }
         },
-        "/api/v1/instructors/{id}/revenue": {
+        "/api/instructors/{id}/revenue": {
             "get": {
                 "tags": [
                     "Instructors"
                 ],
                 "summary": "Lấy tổng doanh thu của giảng viên",
-                "operationId": "b14353a8eed05246f283d0d64ee21b86",
+                "operationId": "aec6fb19511cf421fb61b1aa48c4a247",
                 "parameters": [
                     {
                         "name": "id",
@@ -1911,13 +1911,13 @@
                 ]
             }
         },
-        "/api/v1/instructors/user/{userId}": {
+        "/api/instructors/user/{userId}": {
             "get": {
                 "tags": [
                     "Instructor"
                 ],
                 "summary": "Lấy thông tin giảng viên từ user ID",
-                "operationId": "2ea64340eca4892b6fd7e179b0efa7dd",
+                "operationId": "99a93f373411097f1d7894e0637687c4",
                 "parameters": [
                     {
                         "name": "userId",
@@ -1935,13 +1935,13 @@
                 }
             }
         },
-        "/api/v1/lessons": {
+        "/api/lessons": {
             "get": {
                 "tags": [
                     "Lesson"
                 ],
                 "summary": "Lấy danh sách bài học",
-                "operationId": "9160fbfca469fc55e972b6d8e1e9cdbb",
+                "operationId": "897c58b488b58fd2250a233843a52237",
                 "parameters": [
                     {
                         "name": "keyword",
@@ -1964,7 +1964,7 @@
                     "Lesson"
                 ],
                 "summary": "Tạo mới bài học",
-                "operationId": "9663d05418a8b978ba4d20e855de1977",
+                "operationId": "81960b85ede11892b14be7aa87c34670",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2009,13 +2009,13 @@
                 }
             }
         },
-        "/api/v1/lessons/{id}": {
+        "/api/lessons/{id}": {
             "get": {
                 "tags": [
                     "Lesson"
                 ],
                 "summary": "Chi tiết bài học",
-                "operationId": "15f916bd75755d9a43590271141d67c7",
+                "operationId": "7c802c395ed753fe40214ad8b7e8980a",
                 "parameters": [
                     {
                         "name": "id",
@@ -2037,7 +2037,7 @@
                     "Lesson"
                 ],
                 "summary": "Cập nhật bài học",
-                "operationId": "09d58d6ce90cadf56cfe38d8cf09e66d",
+                "operationId": "7f9576b39b5aabcdb6b33f195f4c36d1",
                 "parameters": [
                     {
                         "name": "id",
@@ -2087,7 +2087,7 @@
                     "Lesson"
                 ],
                 "summary": "Xoá bài học",
-                "operationId": "df32339a4e5c4b1c4bc1a468f5860a33",
+                "operationId": "fcec7017711d4f886e9734f9eb6412b8",
                 "parameters": [
                     {
                         "name": "id",
@@ -2105,13 +2105,13 @@
                 }
             }
         },
-        "/api/v1/courses/{courseId}/lessons": {
+        "/api/courses/{courseId}/lessons": {
             "get": {
                 "tags": [
                     "Lesson"
                 ],
                 "summary": "Danh sách bài học theo khoá học",
-                "operationId": "dbfaf99dc55af03d33e4363d9c61e2e3",
+                "operationId": "3586fec1f9247a9757454876998be2b0",
                 "parameters": [
                     {
                         "name": "courseId",
@@ -2129,13 +2129,13 @@
                 }
             }
         },
-        "/api/v1/notifications": {
+        "/api/notifications": {
             "get": {
                 "tags": [
                     "Notification"
                 ],
                 "summary": "Danh sách tất cả thông báo của người dùng",
-                "operationId": "c5492f71045d8a8c06daa023b355064d",
+                "operationId": "0fed94be67bd49674a95330e7e2473e7",
                 "responses": {
                     "200": {
                         "description": "Danh sách thông báo"
@@ -2143,13 +2143,13 @@
                 }
             }
         },
-        "/api/v1/notifications/unread": {
+        "/api/notifications/unread": {
             "get": {
                 "tags": [
                     "Notification"
                 ],
                 "summary": "Lấy danh sách thông báo chưa đọc",
-                "operationId": "71f5a039e2cb25dd01198fed598bebd0",
+                "operationId": "6da4f133a1652fd3a0c1dc63fa898aed",
                 "responses": {
                     "200": {
                         "description": "Thông báo chưa đọc"
@@ -2157,13 +2157,13 @@
                 }
             }
         },
-        "/api/v1/notifications/{id}/read": {
+        "/api/notifications/{id}/read": {
             "put": {
                 "tags": [
                     "Notification"
                 ],
                 "summary": "Đánh dấu thông báo đã đọc",
-                "operationId": "a6b91e8f107083914b147b77fdfbee96",
+                "operationId": "a3611e5e0b341d47253808fb133edf19",
                 "parameters": [
                     {
                         "name": "id",
@@ -2181,13 +2181,13 @@
                 }
             }
         },
-        "/api/v1/notifications/{id}": {
+        "/api/notifications/{id}": {
             "get": {
                 "tags": [
                     "Notification"
                 ],
                 "summary": "Chi tiết thông báo",
-                "operationId": "ef29fbd074bd5fe666b3cf2409e0cf8f",
+                "operationId": "dfe7d56259e15d67dbdf6b7dcaa79113",
                 "parameters": [
                     {
                         "name": "id",
@@ -2209,7 +2209,7 @@
                     "Notification"
                 ],
                 "summary": "Xoá mềm thông báo",
-                "operationId": "33a71908128526d3594edb999c2d5c4d",
+                "operationId": "4771ecaea4d40fb431e2c29f18aa7fed",
                 "parameters": [
                     {
                         "name": "id",
@@ -2227,13 +2227,13 @@
                 }
             }
         },
-        "/api/v1/orders": {
+        "/api/orders": {
             "get": {
                 "tags": [
                     "Order"
                 ],
                 "summary": "Danh sách đơn hàng của người dùng",
-                "operationId": "2a50aa5be38011e4d86c4c49e13b9bb1",
+                "operationId": "7ddd70f1ad3cee1052c98ac641696f2d",
                 "responses": {
                     "200": {
                         "description": "Danh sách đơn hàng"
@@ -2245,7 +2245,7 @@
                     "Order"
                 ],
                 "summary": "Tạo đơn hàng khi người dùng ấn Mua khóa học",
-                "operationId": "84bc620b8fd3b3274b5b0f20be9ad7e7",
+                "operationId": "e1d89a00edd78fae6273fad32310ccf7",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2271,13 +2271,13 @@
                 }
             }
         },
-        "/api/v1/orders/{id}/confirm": {
+        "/api/orders/{id}/confirm": {
             "post": {
                 "tags": [
                     "Order"
                 ],
                 "summary": "Xác nhận thanh toán đơn hàng",
-                "operationId": "328a618b5c23a76a540cced3beae6b01",
+                "operationId": "436c889cff2a0471c36b9df087da6543",
                 "parameters": [
                     {
                         "name": "id",
@@ -2295,13 +2295,13 @@
                 }
             }
         },
-        "/api/v1/orders/{id}/cancel": {
+        "/api/orders/{id}/cancel": {
             "post": {
                 "tags": [
                     "Order"
                 ],
                 "summary": "Huỷ đơn hàng",
-                "operationId": "853b8c9379979c3e5e531f21b473c41c",
+                "operationId": "676df2370b61c7435f1c3fe3430e4bf4",
                 "parameters": [
                     {
                         "name": "id",
@@ -2319,13 +2319,13 @@
                 }
             }
         },
-        "/api/v1/orders/{id}": {
+        "/api/orders/{id}": {
             "get": {
                 "tags": [
                     "Order"
                 ],
                 "summary": "Chi tiết đơn hàng",
-                "operationId": "e545553a6a7e39edda9501cf9c05fc9b",
+                "operationId": "a04425b2139b085d63286ce840a5663f",
                 "parameters": [
                     {
                         "name": "id",
@@ -2347,7 +2347,7 @@
                     "Order"
                 ],
                 "summary": "Xoá đơn hàng",
-                "operationId": "d60f6b02921eb5930796fd991b15956e",
+                "operationId": "0b07f3c37ec8b4ff3b9e65a7715a4e6f",
                 "parameters": [
                     {
                         "name": "id",
@@ -2365,13 +2365,13 @@
                 }
             }
         },
-        "/api/v1/payment/vnpay": {
+        "/api/payment/vnpay": {
             "post": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Tạo URL thanh toán VNPay",
-                "operationId": "29825f1317bde0c1266a62196485c267",
+                "operationId": "195c8dbc41753fc99d832353bcb88e33",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2398,13 +2398,13 @@
                 }
             }
         },
-        "/api/v1/payment/vnpay/return": {
+        "/api/payment/vnpay/return": {
             "get": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Xử lý kết quả thanh toán VNPay",
-                "operationId": "fe091dfd00b4adf01d24c04474885178",
+                "operationId": "166dd273f2763ef0a228e79572e11c42",
                 "responses": {
                     "200": {
                         "description": "Xử lý nạp tiền thành công hoặc thất bại"
@@ -2412,13 +2412,13 @@
                 }
             }
         },
-        "/api/v1/payments/me": {
+        "/api/payments/me": {
             "get": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Lịch sử giao dịch của người dùng",
-                "operationId": "820c9c521bbe324f5f1eb02bacbba216",
+                "operationId": "24d20640ad2e46a79cf8f3eed5bde4f3",
                 "responses": {
                     "200": {
                         "description": "Danh sách giao dịch"
@@ -2426,13 +2426,13 @@
                 }
             }
         },
-        "/api/v1/withdraw": {
+        "/api/withdraw": {
             "post": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Gửi yêu cầu rút tiền",
-                "operationId": "afb0570ebe2c42519b6df1de8f0f7bc5",
+                "operationId": "9fb11e3be085dea0f22b4add239382b3",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2470,13 +2470,13 @@
                 }
             }
         },
-        "/api/v1/payments": {
+        "/api/payments": {
             "get": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Danh sách tất cả giao dịch ví (Admin)",
-                "operationId": "1b1ca29c4b3e8c120d200bf450f61e75",
+                "operationId": "451341f7efd8ea8d4379b599cdc47dbe",
                 "responses": {
                     "200": {
                         "description": "Danh sách giao dịch"
@@ -2484,13 +2484,13 @@
                 }
             }
         },
-        "/api/v1/payments/{id}/approve": {
+        "/api/payments/{id}/approve": {
             "post": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Duyệt yêu cầu rút tiền (Admin)",
-                "operationId": "49ed83977155735b94a1c3a68088e337",
+                "operationId": "3574e1a1dfccf1774967904dfc1ab634",
                 "parameters": [
                     {
                         "name": "id",
@@ -2508,13 +2508,13 @@
                 }
             }
         },
-        "/api/v1/payments/{id}/reject": {
+        "/api/payments/{id}/reject": {
             "post": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Từ chối yêu cầu rút tiền (Admin)",
-                "operationId": "1fa256338a88a24277d021ae9f0fe36d",
+                "operationId": "78e4fbb4b17179a7053a164ef8d1647f",
                 "parameters": [
                     {
                         "name": "id",
@@ -2532,13 +2532,13 @@
                 }
             }
         },
-        "/api/v1/progress": {
+        "/api/progress": {
             "get": {
                 "tags": [
                     "Progress Tracking"
                 ],
                 "summary": "Danh sách tất cả tiến độ",
-                "operationId": "330e2566ba0dcb7f6e62bed8a85482a1",
+                "operationId": "a866fa5a951bb1fb27d7fb25a2e37a10",
                 "responses": {
                     "200": {
                         "description": "Danh sách tiến độ"
@@ -2550,7 +2550,7 @@
                     "Progress Tracking"
                 ],
                 "summary": "Tạo tiến độ",
-                "operationId": "50311f77d9d79468e3f50d03d94587e6",
+                "operationId": "207157b87ba5715a6e6ac40224c957a6",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2591,13 +2591,13 @@
                 }
             }
         },
-        "/api/v1/progress/{id}": {
+        "/api/progress/{id}": {
             "get": {
                 "tags": [
                     "Progress Tracking"
                 ],
                 "summary": "Chi tiết tiến độ",
-                "operationId": "fef30e07737da6173f1106e3ff2c4562",
+                "operationId": "60db45d7b010f85cf594a44159df1863",
                 "parameters": [
                     {
                         "name": "id",
@@ -2619,7 +2619,7 @@
                     "Progress Tracking"
                 ],
                 "summary": "Cập nhật tiến độ",
-                "operationId": "12e7317ba3ccf467861b105e33c7a8ba",
+                "operationId": "81df76d723457151cef2178a4234ec85",
                 "parameters": [
                     {
                         "name": "id",
@@ -2657,7 +2657,7 @@
                     "Progress Tracking"
                 ],
                 "summary": "Xoá tiến độ",
-                "operationId": "1357976f021306c356d66f65d563774f",
+                "operationId": "703099cfad0a617a31c94631a6f667ca",
                 "parameters": [
                     {
                         "name": "id",
@@ -2675,13 +2675,13 @@
                 }
             }
         },
-        "/api/v1/progress/user/{userId}/course/{courseId}": {
+        "/api/progress/user/{userId}/course/{courseId}": {
             "get": {
                 "tags": [
                     "Progress Tracking"
                 ],
                 "summary": "Lấy tiến độ học tập theo user và course",
-                "operationId": "867c08673368fb85cc43d3f5b00bfed2",
+                "operationId": "4b979b72c2397edadd3620e37f8a975b",
                 "parameters": [
                     {
                         "name": "userId",
@@ -2707,13 +2707,13 @@
                 }
             }
         },
-        "/api/v1/progress/complete-lesson": {
+        "/api/progress/complete-lesson": {
             "post": {
                 "tags": [
                     "Progress Tracking"
                 ],
                 "summary": "Đánh dấu hoàn thành bài học",
-                "operationId": "8e32ab41aec52c60281741a9f75d0cd3",
+                "operationId": "2e7bac73eeb59db558852e8fddd5f15f",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2747,13 +2747,13 @@
                 }
             }
         },
-        "/api/v1/questions": {
+        "/api/questions": {
             "get": {
                 "tags": [
                     "Question"
                 ],
                 "summary": "Lấy danh sách tất cả câu hỏi",
-                "operationId": "e8d11b19223b6f42deb9ee10d61d9448",
+                "operationId": "e6318b9018ff4083fa5de51cc42d9b26",
                 "responses": {
                     "200": {
                         "description": "Danh sách câu hỏi"
@@ -2765,7 +2765,7 @@
                     "Question"
                 ],
                 "summary": "Tạo câu hỏi mới",
-                "operationId": "2f8016090f40a33dbd890397f2962eb4",
+                "operationId": "9dcfd27c2db51c05d96b650b35eb8206",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2802,13 +2802,13 @@
                 }
             }
         },
-        "/api/v1/questions/{id}": {
+        "/api/questions/{id}": {
             "get": {
                 "tags": [
                     "Question"
                 ],
                 "summary": "Chi tiết câu hỏi",
-                "operationId": "43d3309c22cdacac9f73a59f394bd7a3",
+                "operationId": "5dff92e576e18c6638a90f86e6ce4c00",
                 "parameters": [
                     {
                         "name": "id",
@@ -2830,7 +2830,7 @@
                     "Question"
                 ],
                 "summary": "Cập nhật câu hỏi",
-                "operationId": "b716e73b8645c4fd81541ab6a49de559",
+                "operationId": "3925fba463bf15ab2205432429122aa9",
                 "parameters": [
                     {
                         "name": "id",
@@ -2872,7 +2872,7 @@
                     "Question"
                 ],
                 "summary": "Xoá câu hỏi",
-                "operationId": "7eda5e39c1175ff4a956bc9b46e3a58a",
+                "operationId": "5324d143f621dad7b3c2990f67c3dd52",
                 "parameters": [
                     {
                         "name": "id",
@@ -2890,13 +2890,13 @@
                 }
             }
         },
-        "/api/v1/quizzes/{quizId}/questions": {
+        "/api/quizzes/{quizId}/questions": {
             "get": {
                 "tags": [
                     "Question"
                 ],
                 "summary": "Lấy danh sách câu hỏi theo quiz",
-                "operationId": "000b08c3a6da14f47643a001676b4928",
+                "operationId": "adf3851a165c0a22c44004ead01532a4",
                 "parameters": [
                     {
                         "name": "quizId",
@@ -2914,13 +2914,13 @@
                 }
             }
         },
-        "/api/v1/quizzes": {
+        "/api/quizzes": {
             "get": {
                 "tags": [
                     "Quiz"
                 ],
                 "summary": "Lấy danh sách tất cả quizzes",
-                "operationId": "bfb0ae04f135bf88cf467e1aa60e4561",
+                "operationId": "c3e1008604f7b9a4737afa074426c686",
                 "parameters": [
                     {
                         "name": "search",
@@ -2950,7 +2950,7 @@
                     "Quiz"
                 ],
                 "summary": "Tạo mới quiz",
-                "operationId": "431cb1679e1ef1686f2b5845fa5f5fbd",
+                "operationId": "701d22ce1cab41f2027daeeaa1791a5d",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2986,13 +2986,13 @@
                 }
             }
         },
-        "/api/v1/quizzes/{id}": {
+        "/api/quizzes/{id}": {
             "get": {
                 "tags": [
                     "Quiz"
                 ],
                 "summary": "Chi tiết quiz",
-                "operationId": "9e550cf771813983d7a2aaabc331cf49",
+                "operationId": "4aa648545ea834d6a2b6e94d1d0df718",
                 "parameters": [
                     {
                         "name": "id",
@@ -3014,7 +3014,7 @@
                     "Quiz"
                 ],
                 "summary": "Cập nhật quiz",
-                "operationId": "e2c232331f24f21fe299591ff86b01a0",
+                "operationId": "ff9e3388f045110c18e1be9908605a01",
                 "parameters": [
                     {
                         "name": "id",
@@ -3056,7 +3056,7 @@
                     "Quiz"
                 ],
                 "summary": "Xoá quiz",
-                "operationId": "35f0bbcdac5dac53ccd4d87054cf9b83",
+                "operationId": "d721f09e0c67d7fb2b3f22404e7d4bd0",
                 "parameters": [
                     {
                         "name": "id",
@@ -3074,13 +3074,13 @@
                 }
             }
         },
-        "/api/v1/lessons/{lessonId}/quizzes": {
+        "/api/lessons/{lessonId}/quizzes": {
             "get": {
                 "tags": [
                     "Quiz"
                 ],
                 "summary": "Lấy quiz theo bài học",
-                "operationId": "9ea478fc9df0fe414f8701bf0cdccaf9",
+                "operationId": "d19ae4733f34630b98989940fd93e185",
                 "parameters": [
                     {
                         "name": "lessonId",
@@ -3098,13 +3098,13 @@
                 }
             }
         },
-        "/api/v1/quiz/submit": {
+        "/api/quiz/submit": {
             "post": {
                 "tags": [
                     "ResultQuiz"
                 ],
                 "summary": "Nộp bài quiz",
-                "operationId": "751cbd48b49ed7bfd7aca28de135c66e",
+                "operationId": "4f1263efee7a5e4a972a1950edc06f1d",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -3141,13 +3141,13 @@
                 }
             }
         },
-        "/api/v1/quiz/{quizId}/my-result": {
+        "/api/quiz/{quizId}/my-result": {
             "get": {
                 "tags": [
                     "ResultQuiz"
                 ],
                 "summary": "Lấy kết quả quiz của người dùng hiện tại",
-                "operationId": "1fbfee99c9c6f49bcfa37c029a677c82",
+                "operationId": "1cb0c07b3c30dcdc44b9de2e0dbfbe76",
                 "parameters": [
                     {
                         "name": "quizId",
@@ -3165,13 +3165,13 @@
                 }
             }
         },
-        "/api/v1/quiz/{quizId}/results": {
+        "/api/quiz/{quizId}/results": {
             "get": {
                 "tags": [
                     "ResultQuiz"
                 ],
                 "summary": "Lấy tất cả kết quả quiz",
-                "operationId": "e9f06ab0c66c54104b7e4a26c4708296",
+                "operationId": "1e5f5f19e1857e07665a1668c2cf594e",
                 "parameters": [
                     {
                         "name": "quizId",
@@ -3189,13 +3189,13 @@
                 }
             }
         },
-        "/api/v1/reviews": {
+        "/api/reviews": {
             "get": {
                 "tags": [
                     "Review"
                 ],
                 "summary": "Danh sách đánh giá",
-                "operationId": "2fa6ed8c615c81c21e93671f832b64a9",
+                "operationId": "6a0272171287bf0948dc45e1ed9c38c2",
                 "parameters": [
                     {
                         "name": "rating",
@@ -3218,7 +3218,7 @@
                     "Review"
                 ],
                 "summary": "Tạo đánh giá",
-                "operationId": "a2e3bc7bb37099c525c515e869412345",
+                "operationId": "3fcdc4dcc5783c0d20ce2e2ea83fa6d0",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -3261,13 +3261,13 @@
                 }
             }
         },
-        "/api/v1/reviews/{id}": {
+        "/api/reviews/{id}": {
             "get": {
                 "tags": [
                     "Review"
                 ],
                 "summary": "Chi tiết đánh giá",
-                "operationId": "78342776d7fd5915e0ff966d6f50b8e3",
+                "operationId": "482ed9649d923fc46d8370d670fd176b",
                 "parameters": [
                     {
                         "name": "id",
@@ -3289,7 +3289,7 @@
                     "Review"
                 ],
                 "summary": "Cập nhật đánh giá",
-                "operationId": "82e3e5a561a6e36df918e460c44fa0f6",
+                "operationId": "3d3d9a4775e56d3ca5c8283fdef10e57",
                 "parameters": [
                     {
                         "name": "id",
@@ -3332,7 +3332,7 @@
                     "Review"
                 ],
                 "summary": "Xoá đánh giá",
-                "operationId": "7a6288a9508c1d2c29ef904823e18e68",
+                "operationId": "cd1cc3a0222c76ebce2599e9fd703b95",
                 "parameters": [
                     {
                         "name": "id",
@@ -3350,13 +3350,13 @@
                 }
             }
         },
-        "/api/v1/courses/{courseId}/reviews": {
+        "/api/courses/{courseId}/reviews": {
             "get": {
                 "tags": [
                     "Review"
                 ],
                 "summary": "Lấy đánh giá theo khóa học",
-                "operationId": "ed53e856c51f90779fc4aaed950cd4f0",
+                "operationId": "08581721346fc4ec0bab0154f9d2702a",
                 "parameters": [
                     {
                         "name": "courseId",
@@ -3374,13 +3374,13 @@
                 }
             }
         },
-        "/api/v1/users/{userId}/reviews": {
+        "/api/users/{userId}/reviews": {
             "get": {
                 "tags": [
                     "Review"
                 ],
                 "summary": "Lấy đánh giá theo người dùng",
-                "operationId": "dd5fc558c24e2f55f73035201177311c",
+                "operationId": "a93685225e117d985d01ffdb66ffc974",
                 "parameters": [
                     {
                         "name": "userId",
@@ -3398,13 +3398,13 @@
                 }
             }
         },
-        "/api/v1/courses/{courseId}/reviews/average": {
+        "/api/courses/{courseId}/reviews/average": {
             "get": {
                 "tags": [
                     "Review"
                 ],
                 "summary": "Trung bình đánh giá của 1 khoá học",
-                "operationId": "84e5b1c50c794f77436fdd18042af6bd",
+                "operationId": "1cde9f098ce0ab6a310fd8ae5c83ca76",
                 "parameters": [
                     {
                         "name": "courseId",
@@ -3422,13 +3422,13 @@
                 }
             }
         },
-        "/api/v1/users": {
+        "/api/users": {
             "get": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Danh sách người dùng",
-                "operationId": "3f1c55ac2d94c41cf776e108141e5afe",
+                "operationId": "e511278e981307cfa625adb849e8f6d7",
                 "parameters": [
                     {
                         "name": "role",
@@ -3470,7 +3470,7 @@
                     "User"
                 ],
                 "summary": "Tạo mới người dùng",
-                "operationId": "9ff8ec555b0a99fbb673ab67d4c672ca",
+                "operationId": "dbd41bc957d497616f09aa77c728df7f",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -3512,13 +3512,13 @@
                 }
             }
         },
-        "/api/v1/users/{id}": {
+        "/api/users/{id}": {
             "get": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Chi tiết người dùng",
-                "operationId": "b76a0def72076a663add51efc701450c",
+                "operationId": "6e1dc14f6470b09fe8ceef711719f490",
                 "parameters": [
                     {
                         "name": "id",
@@ -3540,7 +3540,7 @@
                     "User"
                 ],
                 "summary": "Cập nhật thông tin người dùng",
-                "operationId": "02c3d839b6518c0be72ead0851a53f73",
+                "operationId": "0c68641de495f06b7749e06a6fcf82d1",
                 "parameters": [
                     {
                         "name": "id",
@@ -3595,7 +3595,7 @@
                     "User"
                 ],
                 "summary": "Xoá người dùng",
-                "operationId": "ec6d6e09e3b57302bc61b18dd0426324",
+                "operationId": "eb1300418e0b4c1ade98ae50859ebd6f",
                 "parameters": [
                     {
                         "name": "id",
@@ -3613,13 +3613,13 @@
                 }
             }
         },
-        "/api/v1/users/{id}/status": {
+        "/api/users/{id}/status": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Cập nhật trạng thái người dùng",
-                "operationId": "9d6fa8ba9363488717ec956c5c1dda3e",
+                "operationId": "60a64d1a24ad945e1392684bbae2f616",
                 "parameters": [
                     {
                         "name": "id",
@@ -3651,13 +3651,13 @@
                 }
             }
         },
-        "/api/v1/users/change-password": {
+        "/api/users/change-password": {
             "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Đổi mật khẩu người dùng đang đăng nhập",
-                "operationId": "bc222912a9357ee9caeef0767c1d06e3",
+                "operationId": "e08ccf5b68e535945d327c2f43c37437",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -3689,13 +3689,13 @@
                 }
             }
         },
-        "/api/v1/users/{id}/reset-password": {
+        "/api/users/{id}/reset-password": {
             "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Admin đặt lại mật khẩu người dùng",
-                "operationId": "afc8e5d9cab81735bd8b7e2b7fd2bc1b",
+                "operationId": "78598cf542620f443f9a145a5bdb3b01",
                 "parameters": [
                     {
                         "name": "id",
@@ -3713,13 +3713,13 @@
                 }
             }
         },
-        "/api/v1/users/count": {
+        "/api/users/count": {
             "get": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Thống kê số lượng người dùng",
-                "operationId": "04ebd3ec02477164132a3253d7128908",
+                "operationId": "b7c2e932226f519c35b93a8d081681b5",
                 "responses": {
                     "200": {
                         "description": "Dữ liệu thống kê"

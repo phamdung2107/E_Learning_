@@ -12,7 +12,7 @@ class AiRecommendationController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/v1/ai-recommendation",
+     *     path="/api/ai-recommendation",
      *     summary="Gửi title đến AI server và nhận lại reason. Nếu user đăng nhập thì lưu vào DB.",
      *     tags={"AI Recommendation"},
      *     @OA\RequestBody(
@@ -87,7 +87,7 @@ class AiRecommendationController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/ai-recommendation",
+     *     path="/api/ai-recommendation",
      *     summary="Lấy danh sách recommendation đã lưu của user đăng nhập",
      *     tags={"AI Recommendation"},
      *     @OA\Response(
