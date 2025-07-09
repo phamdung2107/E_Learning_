@@ -1,6 +1,6 @@
 'use client'
 
-import type React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 
 import {
@@ -14,53 +14,93 @@ import {
     Tabs,
     Typography,
     message,
+    notification,
 } from 'antd'
 
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
+import { PATHS } from '@/routers/path'
+import AuthService from '@/services/auth'
+import { getCurrentUserAction, loginAction } from '@/stores/auth/authAction'
 
 const { Text, Link } = Typography
 
-interface LoginFormData {
-    username: string
-    password: string
-    remember: boolean
-}
-
-interface RegisterFormData {
-    fullName: string
-    email: string
-    password: string
-    confirmPassword: string
-    agree: boolean
-}
-
 const AuthPage: React.FC = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [activeTab, setActiveTab] = useState('login')
     const [loginForm] = Form.useForm()
     const [registerForm] = Form.useForm()
+    const [loginLoading, setLoginLoading] = useState(false)
+    const [registerLoading, setRegisterLoading] = useState(false)
 
-    const onLoginFinish = (values: LoginFormData) => {
-        console.log('Login values:', values)
-        message.success('Đăng nhập thành công!')
-        // Handle login logic here
-        // window.location.href = PATHS.HOME
+    useEffect(() => {
+        loginForm.resetFields()
+        registerForm.resetFields()
+    }, [activeTab, loginForm, registerForm])
+
+    const onLoginFinish = async (values: any) => {
+        setLoginLoading(true)
+        try {
+            const loginResponse = await dispatch(
+                loginAction({ email: values.email, password: values.password })
+            )
+
+            if (loginResponse.payload) {
+                const userResponse = await dispatch(getCurrentUserAction())
+                if (userResponse.payload) {
+                    notification.success({
+                        message: 'Login success!',
+                        description: 'Welcome back',
+                    })
+                    navigate(PATHS.HOME)
+                }
+            } else {
+                notification.error({
+                    message: 'Login failed!',
+                    description:
+                        loginResponse.payload?.message || 'Invalid credentials',
+                })
+            }
+        } catch (e: any) {
+            notification.error({
+                message: 'Login failed!',
+                description: e.message,
+            })
+        } finally {
+            setLoginLoading(false)
+            setRegisterLoading(false)
+        }
     }
 
-    const onRegisterFinish = (values: RegisterFormData) => {
-        console.log('Register values:', values)
-        message.success('Đăng ký thành công!')
-        // Handle register logic here
-        setActiveTab('login')
-    }
-
-    const onLoginFailed = (errorInfo: any) => {
-        console.log('Login failed:', errorInfo)
-        message.error('Vui lòng kiểm tra thông tin đăng nhập!')
-    }
-
-    const onRegisterFailed = (errorInfo: any) => {
-        console.log('Register failed:', errorInfo)
-        message.error('Vui lòng kiểm tra thông tin đăng ký!')
+    const onRegisterFinish = async (values: any) => {
+        setLoginLoading(true)
+        try {
+            const response = await AuthService.register({
+                full_name: values.fullName,
+                email: values.email,
+                password: values.password,
+                password_confirmation: values.confirmPassword,
+            })
+            if (response.status === 200) {
+                notification.success({
+                    message: 'Register success!',
+                    description: 'Please input your account to login',
+                })
+                registerForm.resetFields()
+                setActiveTab('login')
+            }
+        } catch (e: any) {
+            notification.error({
+                message: 'Register failed!',
+                description: e.message,
+            })
+        } finally {
+            setRegisterLoading(false)
+            setLoginLoading(false)
+        }
     }
 
     return (
@@ -130,7 +170,6 @@ const AuthPage: React.FC = () => {
                         form={loginForm}
                         name="login"
                         onFinish={onLoginFinish}
-                        onFinishFailed={onLoginFailed}
                         layout="vertical"
                         size="large"
                     >
@@ -232,6 +271,7 @@ const AuthPage: React.FC = () => {
 
                         <Form.Item>
                             <Button
+                                loading={loginLoading}
                                 type="primary"
                                 htmlType="submit"
                                 block
@@ -256,7 +296,6 @@ const AuthPage: React.FC = () => {
                         form={registerForm}
                         name="register"
                         onFinish={onRegisterFinish}
-                        onFinishFailed={onRegisterFailed}
                         layout="vertical"
                         size="large"
                     >
@@ -417,6 +456,7 @@ const AuthPage: React.FC = () => {
                                 type="primary"
                                 htmlType="submit"
                                 block
+                                loading={registerLoading}
                                 style={{
                                     height: '48px',
                                     borderRadius: '8px',

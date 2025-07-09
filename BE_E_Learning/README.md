@@ -72,5 +72,5 @@ docker-compose exec app php artisan key:generate
 
 Re-generate api docs
 ```
-docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan l5-swagger:generate
 ```

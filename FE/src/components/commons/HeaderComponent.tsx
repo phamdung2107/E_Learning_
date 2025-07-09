@@ -12,16 +12,17 @@ import {
     LogoutOutlined,
     MailOutlined,
     PhoneOutlined,
-    SearchOutlined,
     ShoppingCartOutlined,
     UserOutlined,
     XOutlined,
     YoutubeOutlined,
 } from '@ant-design/icons'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 
 import { COMMON_INFORMATION } from '@/constants/information'
 import { PUBLIC_PATHS } from '@/routers/path'
+import { logout } from '@/stores/auth/authSlice'
 
 import './styles/Header.css'
 
@@ -30,6 +31,10 @@ const { Text } = Typography
 
 const HeaderComponent: React.FC = () => {
     const location = useLocation()
+    const dispatch = useDispatch()
+    const isAuthenticated = useSelector(
+        (store: any) => store.auth.isAuthenticated
+    )
     const userMenuItems = [
         {
             key: 'profile',
@@ -38,7 +43,7 @@ const HeaderComponent: React.FC = () => {
         },
         {
             key: 'logout',
-            label: <div onClick={() => console.log('logout')}>Logout</div>,
+            label: <div onClick={() => dispatch(logout())}>Logout</div>,
             icon: <LogoutOutlined />,
         },
     ]
@@ -179,11 +184,6 @@ const HeaderComponent: React.FC = () => {
                                         </Col>
                                     </Row>
                                 </Col>
-                                <Col>
-                                    <Link className="auth-btn" to="/auth">
-                                        Sign In / Sign Up
-                                    </Link>
-                                </Col>
                             </Row>
                         </Col>
                     </Row>
@@ -323,41 +323,45 @@ const HeaderComponent: React.FC = () => {
 
                         {/* Right Actions */}
                         <Col>
-                            <Row gutter={16} align="middle">
+                            <Row gutter={20} align="middle">
                                 <Col>
-                                    <Badge count={0} size="small">
-                                        <SearchOutlined
-                                            style={{
-                                                fontSize: '20px',
-                                                color: '#1976d2',
-                                                cursor: 'pointer',
-                                            }}
-                                        />
+                                    <Badge count={10}>
+                                        <Button
+                                            size="middle"
+                                            shape="circle"
+                                            icon={
+                                                <ShoppingCartOutlined
+                                                    style={{
+                                                        color: '#1976d2',
+                                                        cursor: 'pointer',
+                                                    }}
+                                                />
+                                            }
+                                        ></Button>
                                     </Badge>
                                 </Col>
-                                <Col>
-                                    <ShoppingCartOutlined
-                                        style={{
-                                            fontSize: '20px',
-                                            color: '#1976d2',
-                                            cursor: 'pointer',
-                                        }}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Dropdown
-                                        menu={{ items: userMenuItems }}
-                                        placement="bottomRight"
-                                    >
-                                        <Button
-                                            type="text"
-                                            icon={<UserOutlined />}
-                                            style={{ color: '#1976d2' }}
+                                {isAuthenticated ? (
+                                    <Col>
+                                        <Dropdown
+                                            menu={{ items: userMenuItems }}
+                                            placement="bottomRight"
                                         >
-                                            Account
-                                        </Button>
-                                    </Dropdown>
-                                </Col>
+                                            <Button
+                                                type="text"
+                                                icon={<UserOutlined />}
+                                                style={{ color: '#1976d2' }}
+                                            >
+                                                Account
+                                            </Button>
+                                        </Dropdown>
+                                    </Col>
+                                ) : (
+                                    <Col>
+                                        <Link className="auth-btn" to="/auth">
+                                            Sign In / Sign Up
+                                        </Link>
+                                    </Col>
+                                )}
                             </Row>
                         </Col>
                     </Row>

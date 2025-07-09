@@ -1,21 +1,21 @@
-import { AxiosResponse } from 'axios'
-
 import { AUTH_API } from '@/constants/api'
-import {
-    LoginDto,
-    LoginResult,
-    LogoutDto,
-    LogoutResult,
-} from '@/interfaces/auth/auth.interface'
 import http from '@/services/http'
 
 export class AuthService {
-    async login(payload: LoginDto): Promise<AxiosResponse<LoginResult>> {
+    async login(payload: any): Promise<any> {
         return await http.post(AUTH_API.LOGIN, payload)
     }
 
-    async logout(payload: LogoutDto): Promise<AxiosResponse<LogoutResult>> {
+    async register(payload: any): Promise<any> {
+        return await http.post(AUTH_API.REGISTER, payload)
+    }
+
+    async logout(payload: any): Promise<any> {
         return await http.post(AUTH_API.LOGOUT, payload)
+    }
+
+    async getCurrentUser(): Promise<any> {
+        return await http.get(AUTH_API.ME)
     }
 }
 

@@ -5,7 +5,7 @@ import { LoginDto } from '@/interfaces/auth/auth.interface'
 import AuthService from '@/services/auth'
 import UserService from '@/services/user'
 
-export const loginAction = createAsyncThunk(
+export const loginAction: any = createAsyncThunk(
     AUTH_API.LOGIN,
     async (credentials: LoginDto, { rejectWithValue }) => {
         const res = await AuthService.login(credentials)
@@ -13,10 +13,10 @@ export const loginAction = createAsyncThunk(
     }
 )
 
-export const getCurrentUserAction = createAsyncThunk(
-    USER_API.GET_CURRENT_USER,
+export const getCurrentUserAction: any = createAsyncThunk(
+    AUTH_API.ME,
     async (credentials, { rejectWithValue }) => {
-        const res = await UserService.getCurrentUser()
+        const res = await AuthService.getCurrentUser()
         return res.data
     }
 )

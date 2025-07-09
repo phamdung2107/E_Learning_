@@ -1,10 +1,11 @@
 export const AUTH_API = {
-    LOGIN: '/auth/login',
-    LOGOUT: '/auth/logout',
-    REGISTER: '/auth/register',
-    FORGOT_PASSWORD: '/auth/forgot-password',
-    RESEND_CONFIRMATION: '/auth/resend-confirmation',
-    CONFIRM_REGISTRATION: '/auth/confirm-registration',
+    LOGIN: '/login',
+    LOGOUT: '/logout',
+    REGISTER: '/register',
+    FORGOT_PASSWORD: '/forgot-password',
+    UPDATE_PASSWORD: '/forgot-password/update-password',
+    ME: '/me',
+    REFRESH: '/refresh',
 }
 
 export const USER_API = {

@@ -11,16 +11,17 @@ import {
 
 import { getCurrentUserAction, loginAction } from './authAction'
 
-const initialUserState: UserState = {
-    username: '',
-    menuList: [],
-    logged: false,
-    role: 'guest',
-    device: 'DESKTOP',
-    collapsed: false,
-    noticeCount: 0,
-    locale: 'en_US',
-    newUser: true,
+const initialUserState: any = {
+    id: null,
+    full_name: null,
+    email: null,
+    phone: null,
+    gender: null,
+    date_of_birth: null,
+    role: null,
+    avatar: null,
+    status: null,
+    money: null,
 }
 
 const initialState: AuthSliceState = {
@@ -42,9 +43,10 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginAction.fulfilled, (state, action: any) => {
+                console.log('Login ', action)
                 putLocalStorage(
                     CREDENTIALS.AUTHENTICATION_TOKEN,
-                    action.payload.data.accessToken
+                    action.payload
                 )
             })
             .addCase(getCurrentUserAction.fulfilled, (state, action) => {
