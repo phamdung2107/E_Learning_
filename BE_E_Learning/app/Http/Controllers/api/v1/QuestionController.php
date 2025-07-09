@@ -14,7 +14,7 @@ class QuestionController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/questions",
+     *     path="/api/questions",
      *     summary="Lấy danh sách tất cả câu hỏi",
      *     tags={"Question"},
      *     @OA\Response(response=200, description="Danh sách câu hỏi")
@@ -28,7 +28,7 @@ class QuestionController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/questions",
+     *     path="/api/questions",
      *     summary="Tạo câu hỏi mới",
      *     tags={"Question"},
      *     @OA\RequestBody(
@@ -51,7 +51,7 @@ class QuestionController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/questions/{id}",
+     *     path="/api/questions/{id}",
      *     summary="Chi tiết câu hỏi",
      *     tags={"Question"},
      *     @OA\Parameter(
@@ -71,7 +71,7 @@ class QuestionController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/questions/{id}",
+     *     path="/api/questions/{id}",
      *     summary="Cập nhật câu hỏi",
      *     tags={"Question"},
      *     @OA\Parameter(
@@ -99,7 +99,7 @@ class QuestionController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/questions/{id}",
+     *     path="/api/questions/{id}",
      *     summary="Xoá câu hỏi",
      *     tags={"Question"},
      *     @OA\Parameter(
@@ -120,7 +120,7 @@ class QuestionController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/quizzes/{quizId}/questions",
+     *     path="/api/questions/quiz/{quizId}",
      *     summary="Lấy danh sách câu hỏi theo quiz",
      *     tags={"Question"},
      *     @OA\Parameter(

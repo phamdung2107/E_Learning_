@@ -16,7 +16,7 @@ class OrderController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/v1/orders",
+     *     path="/api/orders",
      *     summary="Tạo đơn hàng khi người dùng ấn Mua khóa học",
      *     tags={"Order"},
      *     @OA\RequestBody(
@@ -61,7 +61,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/orders/{id}/confirm",
+     *     path="/api/orders/{id}/confirm",
      *     summary="Xác nhận thanh toán đơn hàng",
      *     tags={"Order"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -113,7 +113,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/orders/{id}/cancel",
+     *     path="/api/orders/{id}/cancel",
      *     summary="Huỷ đơn hàng",
      *     tags={"Order"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -137,7 +137,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/orders",
+     *     path="/api/orders",
      *     summary="Danh sách đơn hàng của người dùng",
      *     tags={"Order"},
      *     @OA\Response(response=200, description="Danh sách đơn hàng")
@@ -152,7 +152,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/orders/{id}",
+     *     path="/api/orders/{id}",
      *     summary="Chi tiết đơn hàng",
      *     tags={"Order"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -167,7 +167,7 @@ class OrderController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/orders/{id}",
+     *     path="/api/orders/{id}",
      *     summary="Xoá đơn hàng",
      *     tags={"Order"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),

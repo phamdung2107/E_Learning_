@@ -19,7 +19,7 @@ class CategoryController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/categories",
+     *     path="/api/categories",
      *     summary="Lấy danh sách tất cả danh mục",
      *     tags={"Category"},
      *     @OA\Parameter(
@@ -52,7 +52,7 @@ class CategoryController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/categories",
+     *     path="/api/categories",
      *     summary="Tạo danh mục mới",
      *     tags={"Category"},
      *     @OA\RequestBody(
@@ -81,7 +81,7 @@ class CategoryController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/categories/{id}",
+     *     path="/api/categories/{id}",
      *     summary="Lấy chi tiết một danh mục",
      *     tags={"Category"},
      *     @OA\Parameter(
@@ -105,7 +105,7 @@ class CategoryController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/categories/{id}",
+     *     path="/api/categories/{id}",
      *     summary="Cập nhật danh mục",
      *     tags={"Category"},
      *     @OA\Parameter(
@@ -142,7 +142,7 @@ class CategoryController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/categories/{id}",
+     *     path="/api/categories/{id}",
      *     summary="Xóa danh mục",
      *     tags={"Category"},
      *     @OA\Parameter(
@@ -169,7 +169,7 @@ class CategoryController extends Controller
     // [6] Lấy danh mục dạng cây
     /**
      * @OA\Get(
-     *     path="/api/v1/categories/tree",
+     *     path="/api/categories/tree/all",
      *     summary="Lấy danh mục dạng cây",
      *     tags={"Category"},
      *     @OA\Response(
@@ -193,7 +193,7 @@ class CategoryController extends Controller
     // [7] Lấy danh mục con của danh mục cha
     /**
      * @OA\Get(
-     *     path="/api/v1/categories/{id}/children",
+     *     path="/api/categories/{id}/children",
      *     summary="Lấy danh mục con",
      *     tags={"Category"},
      *     @OA\Parameter(
@@ -218,7 +218,7 @@ class CategoryController extends Controller
     // [8] Lấy tất cả danh mục cấp cha
     /**
      * @OA\Get(
-     *     path="/api/v1/categories/parents",
+     *     path="/api/categories/parent/all",
      *     summary="Lấy tất cả danh mục cấp cha",
      *     tags={"Category"},
      *     @OA\Response(
@@ -236,7 +236,7 @@ class CategoryController extends Controller
     // [9] Lấy danh sách khoá học thuộc 1 danh mục
     /**
      * @OA\Get(
-     *     path="/api/v1/categories/{id}/courses",
+     *     path="/api/categories/{id}/courses",
      *     summary="Lấy danh sách khóa học theo danh mục",
      *     tags={"Category"},
      *     @OA\Parameter(

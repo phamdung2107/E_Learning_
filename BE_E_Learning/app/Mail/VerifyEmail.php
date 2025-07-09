@@ -8,25 +8,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 
-class ForgotPassword extends Mailable
+class VerifyEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public string $url;
 
     /**
      * Create a new message instance.
-     *
-     * @return void
      */
-    public function __construct($user)
+    public function __construct(string $url)
     {
-        $this->user = $user;
+        $this->url = $url;
     }
-
 
     /**
      * Get the message envelope.
@@ -34,7 +29,7 @@ class ForgotPassword extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Quên mật khẩu',
+            subject: 'Xác thực tài khoản',
         );
     }
 
@@ -43,18 +38,11 @@ class ForgotPassword extends Mailable
      */
     public function content(): Content
     {
-        $uuid = (string) Str::uuid();
-        Cache::put($uuid, $this->user->email, now()->addMinutes(30));
-
-        $url = "/forgot-password?signature={$uuid}";
-
         return new Content(
-            markdown: 'emails.forgot',
+            view: 'emails.verify',
             with: [
-                'url' => env('FRONTEND_URL').$url,
-                'name' => $this->user->full_name,
-            ],
-
+                'url' => $this->url,
+            ]
         );
     }
 

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Helper\Response;
 use App\Http\Resources\UserResource;
 use App\Mail\ForgotPassword;
+use App\Mail\VerifyEmail;
 use Exception;
 
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/register",
+     *     path="/api/register",
      *     summary="Đăng ký tài khoản mới",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -72,16 +73,18 @@ class AuthController extends Controller
             $user = User::create([
                 'full_name' => $request->full_name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password)
+                'password' => bcrypt($request->password),
+                'status' => 'inactive'
             ]);
 
-            // Đăng nhập tự động sau khi đăng ký
-            $token = Auth::guard($this->guard)->attempt([
-                'email' => $validated['email'],
-                'password' => $request->password,
-            ]);
+            $uuid = Str::uuid()->toString();
+            Cache::put($uuid, $user->email, now()->addMinutes(30)); // TTL 30 phút
 
-            return Response::data($token);
+            $verifyUrl = env('FRONTEND_URL') . '/verify-email?signature=' . $uuid;
+
+            Mail::to($user->email)->send(new VerifyEmail($verifyUrl));
+
+            return Response::data(['message' => 'Vui lòng kiểm tra email để xác thực tài khoản.']);
         } catch (ValidationException $e) {
             return Response::dataError($e->getMessage(), 422);
         } catch (Exception $e) {
@@ -91,7 +94,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/login",
+     *     path="/api/login",
      *     summary="Đăng nhập",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -120,7 +123,7 @@ class AuthController extends Controller
                 return Response::dataError('Sai tên đăng nhập hoặc mật khẩu', 401);
             }
             if (Auth::user()->status === 'INACTIVE'){
-                return Response::dataError('Tài khoản đã bị khóa.', 401);
+                return Response::dataError('Tài khoản của bạn không hoạt động.', 401);
             }
 
             return Response::data($token);
@@ -131,7 +134,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/auth/me",
+     *     path="/api/me",
      *     summary="Lấy thông tin người dùng hiện tại",
      *     tags={"Auth"},
      *     security={{"bearerAuth":{}}},
@@ -159,7 +162,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/logout",
+     *     path="/api/logout",
      *     summary="Đăng xuất",
      *     tags={"Auth"},
      *     security={{"bearerAuth":{}}},
@@ -178,7 +181,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/forgot",
+     *     path="/api/forgot-password",
      *     summary="Gửi email lấy lại mật khẩu",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -206,8 +209,8 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/verify",
-     *     summary="Xác thực mã reset password",
+     *     path="/api/verify",
+     *     summary="Xác thực người dùng",
      *     tags={"Auth"},
      *     @OA\RequestBody(
      *         @OA\JsonContent(
@@ -231,12 +234,24 @@ class AuthController extends Controller
             return Response::dataError('Xác thực thất bại');
         }
         try {
-            $email = Cache::get($request->signature);
-            if (!$email){
+                $email = Cache::get($request->signature);
+            if (!$email) {
                 return Response::dataError('Hết thời gian xác thực');
             }
 
-            return Response::data();
+            $user = User::where('email', $email)->first();
+            if (!$user) {
+                return Response::dataError('Tài khoản không tồn tại');
+            }
+
+            // Cập nhật trạng thái đã xác thực
+            $user->status = 'active'; // nếu bạn có dùng status riêng
+            $user->save();
+
+            // Xoá khỏi cache
+            Cache::forget($request->signature);
+
+            return Response::data([]);
         } catch (Exception $th){
             return Response::dataError($th->getMessage());
         }
@@ -244,7 +259,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/auth/change-password",
+     *     path="/api/forgot-password/update-password",
      *     summary="Đổi mật khẩu sau khi xác thực",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -290,7 +305,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/auth/refresh",
+     *     path="/api/refresh",
      *     summary="Làm mới token JWT",
      *     tags={"Auth"},
      *     security={{"bearerAuth":{}}},

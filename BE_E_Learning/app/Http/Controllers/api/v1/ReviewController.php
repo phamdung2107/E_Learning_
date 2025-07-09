@@ -16,7 +16,7 @@ class ReviewController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/reviews",
+     *     path="/api/reviews",
      *     summary="Danh sách đánh giá",
      *     tags={"Review"},
      *     @OA\Parameter(
@@ -42,7 +42,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/reviews",
+     *     path="/api/reviews",
      *     summary="Tạo đánh giá",
      *     tags={"Review"},
      *     @OA\RequestBody(
@@ -85,7 +85,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/reviews/{id}",
+     *     path="/api/reviews/{id}",
      *     summary="Chi tiết đánh giá",
      *     tags={"Review"},
      *     @OA\Parameter(
@@ -105,7 +105,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/reviews/{id}",
+     *     path="/api/reviews/{id}",
      *     summary="Cập nhật đánh giá",
      *     tags={"Review"},
      *     @OA\Parameter(
@@ -133,7 +133,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/reviews/{id}",
+     *     path="/api/reviews/{id}",
      *     summary="Xoá đánh giá",
      *     tags={"Review"},
      *     @OA\Parameter(
@@ -154,7 +154,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/courses/{courseId}/reviews",
+     *     path="/api/reviews/course/{courseId}",
      *     summary="Lấy đánh giá theo khóa học",
      *     tags={"Review"},
      *     @OA\Parameter(
@@ -174,7 +174,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/users/{userId}/reviews",
+     *     path="/api/reviews/user/{userId}",
      *     summary="Lấy đánh giá theo người dùng",
      *     tags={"Review"},
      *     @OA\Parameter(
@@ -194,7 +194,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/courses/{courseId}/reviews/average",
+     *     path="/api/reviews/average/{courseId}",
      *     summary="Trung bình đánh giá của 1 khoá học",
      *     tags={"Review"},
      *     @OA\Parameter(

@@ -20,7 +20,7 @@ class CourseController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/courses",
+     *     path="/api/courses",
      *     summary="Lấy danh sách khoá học",
      *     tags={"Course"},
      *     @OA\Parameter(
@@ -67,7 +67,7 @@ class CourseController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/courses",
+     *     path="/api/courses",
      *     summary="Tạo khoá học mới",
      *     tags={"Course"},
      *     @OA\RequestBody(
@@ -92,7 +92,7 @@ class CourseController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/courses/{id}",
+     *     path="/api/courses/{id}",
      *     summary="Xem chi tiết khoá học",
      *     tags={"Course"},
      *     @OA\Parameter(
@@ -113,7 +113,7 @@ class CourseController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/courses/{id}",
+     *     path="/api/courses/{id}",
      *     summary="Cập nhật khoá học",
      *     tags={"Course"},
      *     @OA\Parameter(
@@ -144,7 +144,7 @@ class CourseController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/courses/{id}",
+     *     path="/api/courses/{id}",
      *     summary="Xóa khoá học",
      *     tags={"Course"},
      *     @OA\Parameter(
@@ -167,7 +167,7 @@ class CourseController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/courses/me/enrolled",
+     *     path="/api/courses/my/enrolled",
      *     summary="Lấy danh sách khoá học đã đăng ký của người dùng",
      *     tags={"Course"},
      *     security={{"bearerAuth":{}}},
@@ -183,7 +183,7 @@ class CourseController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/courses/{id}/publish",
+     *     path="/api/courses/{id}/publish",
      *     summary="Publish khoá học",
      *     tags={"Course"},
      *     @OA\Parameter(
@@ -206,7 +206,7 @@ class CourseController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/courses/{id}/archive",
+     *     path="/api/courses/{id}/archive",
      *     summary="Archive khoá học",
      *     tags={"Course"},
      *     @OA\Parameter(

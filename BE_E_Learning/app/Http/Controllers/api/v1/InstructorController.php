@@ -26,7 +26,7 @@ class InstructorController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors",
+     *     path="/api/instructors",
      *     summary="Lấy danh sách giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="experience_years", in="query", @OA\Schema(type="integer")),
@@ -42,14 +42,14 @@ class InstructorController extends Controller
             ->when($request->search, fn($q) => $q->whereHas('user', fn($u) => $u->where('full_name', 'like', "%{$request->search}%")->orWhere('email', 'like', "%{$request->search}%")))
             ->when($request->status, fn($q) => $q->whereHas('user', fn($u) => $u->where('status', $request->status)));
 
-        $instructors = $query->paginate(10);
+        $Instructor = $query->paginate(10);
 
-        return Response::data(InstructorResource::collection($instructors), $instructors->total());
+        return Response::data(InstructorResource::collection($Instructor), $Instructor->total());
     }
 
     /**
      * @OA\Post(
-     *     path="/api/v1/instructors",
+     *     path="/api/instructors",
      *     summary="Tạo mới giảng viên",
      *     tags={"Instructor"},
      *     @OA\RequestBody(
@@ -84,7 +84,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/{id}",
+     *     path="/api/instructors/{id}",
      *     summary="Xem chi tiết giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -98,7 +98,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/instructors/{id}",
+     *     path="/api/instructors/{id}",
      *     summary="Cập nhật giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -121,7 +121,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/instructors/{id}",
+     *     path="/api/instructors/{id}",
      *     summary="Xoá giảng viên (chuyển vai trò về student)",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -141,7 +141,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/instructors/request",
+     *     path="/api/instructors/request",
      *     summary="Gửi yêu cầu trở thành giảng viên",
      *     tags={"Instructor"},
      *     security={{"bearerAuth":{}}},
@@ -182,7 +182,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/instructors/{userId}/approve",
+     *     path="/api/instructors/approve/{userId}",
      *     summary="Duyệt yêu cầu giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
@@ -201,7 +201,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/instructors/{userId}/reject",
+     *     path="/api/instructors/reject/{userId}",
      *     summary="Từ chối yêu cầu giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
@@ -219,7 +219,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/{id}/courses",
+     *     path="/api/instructors/{id}/courses",
      *     summary="Lấy danh sách khoá học của giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -235,7 +235,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/{id}/students",
+     *     path="/api/instructors/{id}/students",
      *     summary="Lấy danh sách học viên của giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -256,15 +256,15 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/top",
+     *     path="/api/instructors/top/revenue",
      *     summary="Top giảng viên theo doanh thu",
      *     tags={"Instructor"},
      *     @OA\Response(response=200, description="Top giảng viên")
      * )
      */
-    public function TopInstructors()
+    public function TopInstructor()
     {
-        $instructors = \DB::table('courses as c')
+        $Instructor = \DB::table('courses as c')
             ->join('orders as o', 'c.id', '=', 'o.course_id')
             ->select('c.instructor_id', \DB::raw('SUM(o.price) as total'))
             ->where('c.deleted', 0)
@@ -275,14 +275,14 @@ class InstructorController extends Controller
             ->take(5)
             ->get();
 
-        return Response::data($instructors, $instructors->count());
+        return Response::data($Instructor, $Instructor->count());
     }
 
         /**
      * @OA\Get(
-     *     path="/api/v1/instructors/{id}/revenue",
+     *     path="/api/instructors/{id}/revenue",
      *     summary="Lấy tổng doanh thu của giảng viên",
-     *     tags={"Instructors"},
+     *     tags={"Instructor"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
@@ -327,7 +327,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/instructors/user/{userId}",
+     *     path="/api/instructors/by-user/{userId}",
      *     summary="Lấy thông tin giảng viên từ user ID",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),

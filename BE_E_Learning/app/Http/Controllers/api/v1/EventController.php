@@ -20,7 +20,7 @@ class EventController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/events",
+     *     path="/api/events",
      *     summary="Lấy danh sách sự kiện",
      *     tags={"Event"},
      *     @OA\Parameter(
@@ -48,7 +48,7 @@ class EventController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/events",
+     *     path="/api/events",
      *     summary="Tạo sự kiện mới",
      *     tags={"Event"},
      *     @OA\RequestBody(
@@ -72,7 +72,7 @@ class EventController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/events/{id}",
+     *     path="/api/events/{id}",
      *     summary="Xem chi tiết sự kiện",
      *     tags={"Event"},
      *     @OA\Parameter(
@@ -93,7 +93,7 @@ class EventController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/events/{id}",
+     *     path="/api/events/{id}",
      *     summary="Cập nhật sự kiện",
      *     tags={"Event"},
      *     @OA\Parameter(
@@ -124,7 +124,7 @@ class EventController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/events/{id}",
+     *     path="/api/events/{id}",
      *     summary="Xoá mềm sự kiện",
      *     tags={"Event"},
      *     @OA\Parameter(
@@ -146,7 +146,7 @@ class EventController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/events/{id}/toggle",
+     *     path="/api/events/{id}/toggle",
      *     summary="Kích hoạt hoặc vô hiệu hoá sự kiện",
      *     tags={"Event"},
      *     @OA\Parameter(

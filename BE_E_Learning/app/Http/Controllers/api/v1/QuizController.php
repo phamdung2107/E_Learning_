@@ -14,7 +14,7 @@ class QuizController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/quizzes",
+     *     path="/api/quizzes",
      *     summary="Lấy danh sách tất cả quizzes",
      *     tags={"Quiz"},
      *     @OA\Parameter(
@@ -50,7 +50,7 @@ class QuizController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/v1/quizzes",
+     *     path="/api/quizzes",
      *     summary="Tạo mới quiz",
      *     tags={"Quiz"},
      *     @OA\RequestBody(
@@ -73,7 +73,7 @@ class QuizController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/quizzes/{id}",
+     *     path="/api/quizzes/{id}",
      *     summary="Chi tiết quiz",
      *     tags={"Quiz"},
      *     @OA\Parameter(
@@ -93,7 +93,7 @@ class QuizController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/v1/quizzes/{id}",
+     *     path="/api/quizzes/{id}",
      *     summary="Cập nhật quiz",
      *     tags={"Quiz"},
      *     @OA\Parameter(
@@ -121,7 +121,7 @@ class QuizController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/quizzes/{id}",
+     *     path="/api/quizzes/{id}",
      *     summary="Xoá quiz",
      *     tags={"Quiz"},
      *     @OA\Parameter(
@@ -142,7 +142,7 @@ class QuizController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/v1/lessons/{lessonId}/quizzes",
+     *     path="/api/quizzes/lesson/{lessonId}",
      *     summary="Lấy quiz theo bài học",
      *     tags={"Quiz"},
      *     @OA\Parameter(
