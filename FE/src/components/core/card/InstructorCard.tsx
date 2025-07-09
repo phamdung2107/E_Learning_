@@ -1,65 +1,119 @@
+'use client'
+
 import type React from 'react'
 
-import { Card, Col, Row, Space, Statistic, Typography } from 'antd'
+import { Button, Card, Typography } from 'antd'
 
-import { StarOutlined, UserOutlined } from '@ant-design/icons'
+import {
+    LinkedinOutlined,
+    MailOutlined,
+    PhoneOutlined,
+    UserOutlined,
+} from '@ant-design/icons'
 
 import './styles/InstructorCard.css'
 
-const { Title, Text } = Typography
+const { Title, Text, Paragraph } = Typography
 
 const InstructorCard = ({ instructor }: any) => {
+    const handleLinkedInClick = () => {
+        if (instructor.linkedin_url) {
+            window.open(instructor.linkedin_url, '_blank')
+        }
+    }
+
+    const handlePhoneClick = () => {
+        if (instructor.user.phone) {
+            window.open(`tel:${instructor.user.phone}`, '_self')
+        }
+    }
+
+    const handleEmailClick = () => {
+        if (instructor.user.email) {
+            window.open(`mailto:${instructor.user.email}`, '_self')
+        }
+    }
+
     return (
-        <Card hoverable className="instructor-card">
-            <div className="instructor-avatar">
-                <UserOutlined style={{ fontSize: '48px', color: 'white' }} />
+        <Card
+            styles={{ body: { padding: 0 } }}
+            hoverable
+            className="instructor-card"
+        >
+            <div className="instructor-card-header">
+                <div className="instructor-experience-badge">
+                    {instructor.experience_years}+ years
+                </div>
+
+                <div className="instructor-avatar">
+                    {instructor.user.avatar ? (
+                        <img
+                            src={instructor.user.avatar || '/placeholder.svg'}
+                            alt={instructor.user.full_name}
+                        />
+                    ) : (
+                        <UserOutlined
+                            style={{ fontSize: '40px', color: 'white' }}
+                        />
+                    )}
+                </div>
+
+                <Title level={4} className="instructor-name">
+                    {instructor.user.full_name}
+                </Title>
+
+                <Text className="instructor-role">
+                    {instructor.user.role === 'instructor'
+                        ? 'Instructor'
+                        : 'Expert'}
+                </Text>
             </div>
-            <Title level={4} style={{ marginBottom: '8px' }}>
-                {instructor.name}
-            </Title>
-            <Text
-                style={{
-                    color: '#20B2AA',
-                    fontWeight: '600',
-                    display: 'block',
-                    marginBottom: '12px',
-                }}
-            >
-                {instructor.title}
-            </Text>
-            <div style={{ marginBottom: '16px' }}>
-                <Space wrap>
-                    {instructor.specialties.map((specialty: any, idx: any) => (
-                        <span key={idx} className="specialty-tag">
-                            {specialty}
-                        </span>
-                    ))}
-                </Space>
+
+            <div className="instructor-card-body">
+                <Paragraph className="instructor-bio">
+                    {instructor.bio}
+                </Paragraph>
+
+                {/*<div className="instructor-stats">*/}
+                {/*    <div className="instructor-stat-item">*/}
+                {/*        <span className="instructor-stat-number experience">{instructor.experience_years}</span>*/}
+                {/*        <span className="instructor-stat-label">Years Exp</span>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+
+                <div className="instructor-contact">
+                    <Button
+                        className="instructor-contact-btn primary"
+                        onClick={handleEmailClick}
+                        icon={<MailOutlined />}
+                        title={instructor.user.email}
+                    >
+                        Email
+                    </Button>
+
+                    {instructor.user.phone && (
+                        <Button
+                            className="instructor-contact-btn secondary"
+                            onClick={handlePhoneClick}
+                            icon={<PhoneOutlined />}
+                            title={instructor.user.phone}
+                        >
+                            Call
+                        </Button>
+                    )}
+
+                    {instructor.linkedin_url && (
+                        <Button
+                            className="instructor-contact-btn secondary"
+                            onClick={handleLinkedInClick}
+                            icon={<LinkedinOutlined />}
+                            title="LinkedIn Profile"
+                        >
+                            LinkedIn
+                        </Button>
+                    )}
+                </div>
             </div>
-            <Row gutter={16} style={{ marginBottom: '16px' }}>
-                <Col span={8}>
-                    <Statistic
-                        title="Experience"
-                        value={instructor.experience}
-                        valueStyle={{ fontSize: '14px', color: '#20B2AA' }}
-                    />
-                </Col>
-                <Col span={8}>
-                    <Statistic
-                        title="Students"
-                        value={instructor.students}
-                        valueStyle={{ fontSize: '14px', color: '#667eea' }}
-                    />
-                </Col>
-                <Col span={8}>
-                    <Statistic
-                        title="Rating"
-                        value={instructor.rating}
-                        prefix={<StarOutlined style={{ color: '#faad14' }} />}
-                        valueStyle={{ fontSize: '14px', color: '#faad14' }}
-                    />
-                </Col>
-            </Row>
         </Card>
     )
 }

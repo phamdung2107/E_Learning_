@@ -1,6 +1,6 @@
 import type React from 'react'
 
-import { Card, Rate, Typography } from 'antd'
+import { Avatar, Card, Rate, Typography } from 'antd'
 
 import { UserOutlined } from '@ant-design/icons'
 
@@ -21,26 +21,31 @@ const FeedbackCard = ({ review }: any) => {
                     fontStyle: 'italic',
                 }}
             >
-                "{review.review}"
+                "{review.comment}"
             </Paragraph>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div className="review-avatar">
-                    <UserOutlined
-                        style={{ color: 'white', fontSize: '20px' }}
+                    <Avatar
+                        src={
+                            <img
+                                src={review?.user?.avatar}
+                                alt={review?.user?.full_name}
+                            />
+                        }
                     />
                 </div>
                 <div>
                     <Text strong style={{ display: 'block' }}>
-                        {review.name}
+                        {review?.user?.full_name}
                     </Text>
                     <Text type="secondary" style={{ fontSize: '14px' }}>
-                        {review.role}
+                        {review?.user?.role}
                     </Text>
                     <Text
                         type="secondary"
                         style={{ fontSize: '12px', display: 'block' }}
                     >
-                        Course: {review.course}
+                        Course: {review?.course?.title}
                     </Text>
                 </div>
             </div>

@@ -49,7 +49,7 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Course::query()
+        $query = Course::with(['category', 'instructor.user'])
             ->when($request->search, function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->search . '%');
             })
@@ -107,7 +107,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        $course = Course::findOrFail($id);
+        $course = Course::with(['category', 'instructor.user'])->findOrFail($id);
         return Response::data(new CourseResource($course));
     }
 
@@ -177,7 +177,7 @@ class CourseController extends Controller
     public function getMyCourses(Request $request)
     {
         $user = $request->user();
-        $courses = $user->enrollments()->with('course')->get()->pluck('course');
+        $courses = $user->enrollments()->with('course.category', 'course.instructor.user')->get()->pluck('course');
         return Response::data($courses, $courses->count());
     }
 

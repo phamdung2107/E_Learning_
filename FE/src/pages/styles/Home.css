@@ -598,31 +598,6 @@
     z-index: 2;
 }
 
-.category-card {
-    text-align: center;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-}
-
-.category-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
-
-.category-icon {
-    font-size: 48px;
-    color: #20b2aa;
-    margin-bottom: 16px;
-    transition: all 0.3s ease;
-}
-
-.category-icon:hover {
-    transform: scale(1.2) rotate(10deg);
-    color: #1a9d96;
-}
-
 /* CTA Section */
 .cta-section {
     padding: 80px 0;

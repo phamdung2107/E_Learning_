@@ -31,7 +31,7 @@ class ReviewController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Review::when($request->rating, function ($q) use ($request) {
+        $query = Review::with(['user', 'course'])->when($request->rating, function ($q) use ($request) {
                 $q->where('rating', $request->rating);
             });
 
@@ -99,7 +99,7 @@ class ReviewController extends Controller
      */
     public function show($id)
     {
-        $review = Review::findOrFail($id);
+        $review = Review::with(['user', 'course'])->findOrFail($id);
         return Response::data(new ReviewResource($review));
     }
 
@@ -168,7 +168,7 @@ class ReviewController extends Controller
      */
     public function getByCourse($courseId)
     {
-        $reviews = Review::where('course_id', $courseId)->get();
+        $reviews = Review::with(['user', 'course'])->where('course_id', $courseId)->get();
         return Response::data(ReviewResource::collection($reviews), $reviews->count());
     }
 
@@ -188,7 +188,7 @@ class ReviewController extends Controller
      */
     public function getByUser($userId)
     {
-        $reviews = Review::where('user_id', $userId)->get();
+        $reviews = Review::with(['user', 'course'])->where('user_id', $userId)->get();
         return Response::data(ReviewResource::collection($reviews), $reviews->count());
     }
 

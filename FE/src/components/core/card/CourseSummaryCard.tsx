@@ -1,26 +1,45 @@
-import type React from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Button, Card, Space, Typography } from 'antd'
+import { Button, Card, Rate, Space, Typography } from 'antd'
 
-import {
-    PlayCircleOutlined,
-    StarOutlined,
-    UserOutlined,
-} from '@ant-design/icons'
+import { PlayCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+
+import CategoryService from '@/services/category'
+import ReviewService from '@/services/review'
+import { formatPrice } from '@/utils/format'
 
 import './styles/CourseSummaryCard.css'
 
 const { Title, Text } = Typography
 
 const CourseSummaryCard = ({ course }: any) => {
+    const [averageRating, setAverageRating] = useState(0)
+
+    const fetchAverageRating = async () => {
+        try {
+            const response = await ReviewService.getAverageByCourse(course.id)
+            setAverageRating(response.data?.average_rating)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchAverageRating()
+    }, [course])
+
     return (
         <Card
             hoverable
             className="course-card"
             cover={
                 <div className="course-cover">
-                    <PlayCircleOutlined className="course-play-icon" />
+                    <img
+                        src={course?.thumbnail || '/placeholder.svg'}
+                        alt={course?.title}
+                        className="course-image"
+                    />
                 </div>
             }
             actions={[
@@ -30,13 +49,13 @@ const CourseSummaryCard = ({ course }: any) => {
                     block
                     className="course-enroll-btn"
                 >
-                    Enroll Now - {course.price}
+                    Enroll Now - {formatPrice(course.price)}
                 </Button>,
             ]}
         >
             <div style={{ marginBottom: '8px' }}>
                 <Text type="secondary" style={{ fontSize: '12px' }}>
-                    {course.category}
+                    {course?.category?.name}
                 </Text>
             </div>
             <Link
@@ -51,7 +70,9 @@ const CourseSummaryCard = ({ course }: any) => {
                     {course.title}
                 </Title>
             </Link>
-            <Text type="secondary">by {course.instructor}</Text>
+            <Text type="secondary">
+                by {course?.instructor?.user?.full_name}
+            </Text>
             <div
                 style={{
                     marginTop: '12px',
@@ -60,12 +81,16 @@ const CourseSummaryCard = ({ course }: any) => {
                 }}
             >
                 <Space>
-                    <StarOutlined style={{ color: '#faad14' }} />
-                    <Text>{course.rating}</Text>
+                    <Title level={5} style={{ margin: 0 }}>
+                        {averageRating || 5}
+                    </Title>
+                    <div>
+                        <Rate disabled allowHalf value={averageRating || 5} />
+                    </div>
                 </Space>
                 <Space>
                     <UserOutlined />
-                    <Text>{course.students.toLocaleString()}</Text>
+                    <Text>{course?.students?.toLocaleString() || 1}</Text>
                 </Space>
             </div>
         </Card>

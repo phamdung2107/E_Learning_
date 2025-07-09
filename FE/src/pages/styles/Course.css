@@ -251,30 +251,94 @@
     }
 }
 
+.courses-pagination {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+.courses-pagination .ant-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.courses-pagination .ant-pagination-item {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin: 0 4px;
+}
+
+.courses-pagination .ant-pagination-item-active {
+    background: #20b2aa;
+    border-color: #20b2aa;
+}
+
+.courses-pagination .ant-pagination-item-active a {
+    color: white;
+}
+
+.courses-pagination .ant-pagination-item:hover {
+    border-color: #20b2aa;
+}
+
+.courses-pagination .ant-pagination-item:hover a {
+    color: #20b2aa;
+}
+
+.courses-pagination .ant-pagination-prev,
+.courses-pagination .ant-pagination-next {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.courses-pagination .ant-pagination-prev:hover,
+.courses-pagination .ant-pagination-next:hover {
+    border-color: #20b2aa;
+    color: #20b2aa;
+}
+
+.courses-pagination .ant-pagination-jump-prev,
+.courses-pagination .ant-pagination-jump-next {
+    border-radius: 8px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .courses-hero-title {
-        font-size: 36px !important;
+        font-size: 2.5rem !important;
     }
 
     .courses-hero-description {
-        font-size: 16px;
-    }
-
-    .courses-filter-card {
-        padding: 20px;
+        font-size: 1rem !important;
     }
 
     .courses-header {
         flex-direction: column;
-        align-items: stretch;
-    }
-
-    .courses-sort-select {
-        min-width: 100%;
+        gap: 16px;
+        align-items: flex-start;
     }
 
     .courses-results-info {
-        text-align: center;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .courses-hero-title {
+        font-size: 2rem !important;
+    }
+
+    .courses-filter-section {
+        padding: 40px 0;
+    }
+
+    .courses-main-section {
+        padding: 40px 0;
+    }
+
+    .courses-pagination {
+        padding: 16px;
     }
 }

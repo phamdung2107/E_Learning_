@@ -11,3 +11,107 @@ export const AUTH_API = {
 export const USER_API = {
     GET_CURRENT_USER: 'user/me',
 }
+
+export const COURSE_API = {
+    LIST: (params: any) => {
+        const query = Object.keys(params)
+            .filter(
+                (key) =>
+                    params[key] !== undefined &&
+                    params[key] !== null &&
+                    params[key] !== 0 &&
+                    params[key] !== ''
+            )
+            .map((key) => `${key}=${params[key]}`)
+            .join('&')
+        return `/courses?${query}`
+    },
+    CREATE: '/courses',
+    MY_ENROLLED: '/courses/my/enrolled',
+    DETAIL: (id: any) => `/courses/${id}`,
+    UPDATE: (id: any) => `/courses/${id}`,
+    DELETE: (id: any) => `/courses/${id}`,
+    ARCHIVE: (id: any) => `/courses/${id}/archive`,
+    PUBLISH: (id: any) => `/courses/${id}/publish`,
+}
+
+export const CATEGORY_API = {
+    LIST: (params: any) => {
+        const query = Object.keys(params)
+            .filter(
+                (key) =>
+                    params[key] !== undefined &&
+                    params[key] !== null &&
+                    params[key] !== 0 &&
+                    params[key] !== ''
+            )
+            .map((key) => `${key}=${params[key]}`)
+            .join('&')
+        return `/categories?${query}`
+    },
+    CREATE: '/categories',
+    DETAIL: (id: any) => `/categories/${id}`,
+    UPDATE: (id: any) => `/categories/${id}`,
+    DELETE: (id: any) => `/categories/${id}`,
+    PARENT_ALL: '/categories/parent/all',
+    TREE_ALL: '/categories/tree/all',
+    CHILDREN: (id: any) => `/categories/${id}/children`,
+    COURSES: (id: any) => `/categories/${id}/courses`,
+}
+
+export const INSTRUCTOR_API = {
+    LIST: (params: any) => {
+        const query = Object.keys(params)
+            .filter(
+                (key) =>
+                    params[key] !== undefined &&
+                    params[key] !== null &&
+                    params[key] !== 0 &&
+                    params[key] !== ''
+            )
+            .map((key) => `${key}=${params[key]}`)
+            .join('&')
+        return `/instructors?${query}`
+    },
+    CREATE: '/instructors',
+
+    DETAIL: (id: any) => `/instructors/${id}`,
+    UPDATE: (id: any) => `/instructors/${id}`,
+    DELETE: (id: any) => `/instructors/${id}`,
+
+    APPROVE: (userId: any) => `/instructors/approve/${userId}`,
+    REJECT: (userId: any) => `/instructors/reject/${userId}`,
+    REQUEST: '/instructors/request',
+
+    GET_BY_USER: (userId: any) => `/instructors/by-user/${userId}`,
+    TOP_REVENUE: '/instructors/top/revenue',
+
+    COURSES: (id: any) => `/instructors/${id}/courses`,
+    REVENUE: (id: any) => `/instructors/${id}/revenue`,
+    STUDENTS: (id: any) => `/instructors/${id}/students`,
+}
+
+export const REVIEW_API = {
+    LIST: (params: any) => {
+        const query = Object.keys(params)
+            .filter(
+                (key) =>
+                    params[key] !== undefined &&
+                    params[key] !== null &&
+                    params[key] !== 0 &&
+                    params[key] !== ''
+            )
+            .map((key) => `${key}=${params[key]}`)
+            .join('&')
+        return `/reviews?${query}`
+    },
+    CREATE: '/reviews',
+
+    DETAIL: (id: any) => `/reviews/${id}`,
+    UPDATE: (id: any) => `/reviews/${id}`,
+    DELETE: (id: any) => `/reviews/${id}`,
+
+    AVERAGE_BY_COURSE: (courseId: any) => `/reviews/average/${courseId}`,
+    BY_COURSE: (courseId: any) => `/reviews/course/${courseId}`,
+    BY_USER: (userId: any) => `/reviews/user/${userId}`,
+}

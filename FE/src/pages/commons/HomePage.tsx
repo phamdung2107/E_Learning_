@@ -1,174 +1,120 @@
 'use client'
 
-import type React from 'react'
+import React, { useEffect, useState } from 'react'
 
-import {
-    Button,
-    Card,
-    Col,
-    Input,
-    Rate,
-    Row,
-    Space,
-    Statistic,
-    Typography,
-} from 'antd'
+import { Button, Col, Input, Row, Space, Statistic, Typography } from 'antd'
 
 import {
     BookOutlined,
     PlayCircleOutlined,
     RocketOutlined,
     SearchOutlined,
-    StarOutlined,
     TrophyOutlined,
-    UserOutlined,
 } from '@ant-design/icons'
 
 import ActivityCard from '@/components/core/card/ActivityCard'
+import CategoryCard from '@/components/core/card/CategoryCard'
 import CourseSummaryCard from '@/components/core/card/CourseSummaryCard'
 import FeedbackCard from '@/components/core/card/FeedbackCard'
 import InstructorCard from '@/components/core/card/InstructorCard'
+import { PATHS } from '@/routers/path'
+import CategoryService from '@/services/category'
+import CourseService from '@/services/course'
+import InstructorService from '@/services/instructor'
+import ReviewService from '@/services/review'
 
 import '../styles/Home.css'
 
-const { Title, Paragraph, Text } = Typography
+const { Title, Paragraph } = Typography
 const { Search } = Input
 
-const mockInstructors = [
-    {
-        name: 'Dr. Sarah Johnson',
-        title: 'Digital Marketing Expert',
-        experience: '15+ years',
-        students: '25,000+',
-        courses: 12,
-        rating: 4.9,
-        image: '/placeholder.svg?height=300&width=300',
-        specialties: ['SEO', 'Social Media', 'Content Marketing'],
-    },
-    {
-        name: 'John Smith',
-        title: 'Full Stack Developer',
-        experience: '12+ years',
-        students: '30,000+',
-        courses: 18,
-        rating: 4.8,
-        image: '/placeholder.svg?height=300&width=300',
-        specialties: ['React', 'Node.js', 'Python'],
-    },
-    {
-        name: 'Emily Chen',
-        title: 'UI/UX Design Lead',
-        experience: '10+ years',
-        students: '18,000+',
-        courses: 8,
-        rating: 4.9,
-        image: '/placeholder.svg?height=300&width=300',
-        specialties: ['Figma', 'User Research', 'Prototyping'],
-    },
-]
-
-const featuredCourses = [
-    {
-        id: 1,
-        title: 'Complete Web Development Bootcamp',
-        instructor: 'John Smith',
-        rating: 4.8,
-        students: 15420,
-        price: '$89.99',
-        image: '/placeholder.svg?height=200&width=300',
-        category: 'Web Development',
-    },
-    {
-        id: 2,
-        title: 'Digital Marketing Mastery',
-        instructor: 'Sarah Johnson',
-        rating: 4.9,
-        students: 12350,
-        price: '$79.99',
-        image: '/placeholder.svg?height=200&width=300',
-        category: 'Marketing',
-    },
-    {
-        id: 3,
-        title: 'UI/UX Design Fundamentals',
-        instructor: 'Mike Chen',
-        rating: 4.7,
-        students: 8920,
-        price: '$69.99',
-        image: '/placeholder.svg?height=200&width=300',
-        category: 'Design',
-    },
-]
-
-const categories = [
-    { name: 'Web Development', icon: <BookOutlined />, courses: 120 },
-    { name: 'Digital Marketing', icon: <RocketOutlined />, courses: 85 },
-    { name: 'UI/UX Design', icon: <StarOutlined />, courses: 67 },
-    { name: 'Data Science', icon: <TrophyOutlined />, courses: 45 },
-]
-
-const activities = [
-    {
-        title: 'Weekly Webinars',
-        description: 'Join live sessions with industry experts every week',
-        icon: <PlayCircleOutlined />,
-        color: '#20B2AA',
-        participants: '500+ weekly',
-    },
-    {
-        title: 'Coding Bootcamps',
-        description: 'Intensive hands-on coding sessions and workshops',
-        icon: <BookOutlined />,
-        color: '#667eea',
-        participants: '200+ monthly',
-    },
-    {
-        title: 'Career Workshops',
-        description: 'Resume building, interview prep, and career guidance',
-        icon: <TrophyOutlined />,
-        color: '#764ba2',
-        participants: '300+ monthly',
-    },
-    {
-        title: 'Student Competitions',
-        description: 'Showcase your skills in friendly competitions',
-        icon: <RocketOutlined />,
-        color: '#ff6b6b',
-        participants: '150+ participants',
-    },
-]
-
-const feedbacks = [
-    {
-        name: 'Alex Thompson',
-        role: 'Software Developer',
-        course: 'Complete Web Development Bootcamp',
-        rating: 5,
-        review: 'This course completely changed my career path. The instructors are amazing and the content is up-to-date with industry standards. Highly recommended!',
-        avatar: '/placeholder.svg?height=60&width=60',
-    },
-    {
-        name: 'Maria Garcia',
-        role: 'Marketing Manager',
-        course: 'Digital Marketing Mastery',
-        rating: 4.5,
-        review: 'Excellent course with practical examples. I was able to implement what I learned immediately in my job. The community support is fantastic!',
-        avatar: '/placeholder.svg?height=60&width=60',
-    },
-    {
-        name: 'David Kim',
-        role: 'UX Designer',
-        course: 'UI/UX Design Fundamentals',
-        rating: 5,
-        review: "The best design course I've ever taken. Clear explanations, great projects, and valuable feedback from instructors. Worth every penny!",
-        avatar: '/placeholder.svg?height=60&width=60',
-    },
-]
-
 const HomePage: React.FC = () => {
+    const [courses, setCourses] = useState<any[]>([])
+    const [reviews, setReviews] = useState<any[]>([])
+    const [categories, setCategories] = useState<any[]>([])
+    const [instructors, setInstructors] = useState<any[]>([])
+
+    const activities = [
+        {
+            title: 'Weekly Webinars',
+            description: 'Join live sessions with industry experts every week',
+            icon: <PlayCircleOutlined />,
+            color: '#20B2AA',
+            participants: '500+ weekly',
+        },
+        {
+            title: 'Coding Bootcamps',
+            description: 'Intensive hands-on coding sessions and workshops',
+            icon: <BookOutlined />,
+            color: '#667eea',
+            participants: '200+ monthly',
+        },
+        {
+            title: 'Career Workshops',
+            description: 'Resume building, interview prep, and career guidance',
+            icon: <TrophyOutlined />,
+            color: '#764ba2',
+            participants: '300+ monthly',
+        },
+        {
+            title: 'Student Competitions',
+            description: 'Showcase your skills in friendly competitions',
+            icon: <RocketOutlined />,
+            color: '#ff6b6b',
+            participants: '150+ participants',
+        },
+    ]
+
     const onSearch = (value: string) => {
         console.log('Search:', value)
     }
+
+    const fetchCourses = async () => {
+        try {
+            const response = await CourseService.getAll({})
+            console.log('Response:', response)
+            setCourses(response.data)
+        } catch (e: any) {
+            console.error(e)
+        }
+    }
+
+    const fetchReviews = async () => {
+        try {
+            const response = await ReviewService.getAll({})
+            console.log('Response:', response)
+            setReviews(response.data)
+        } catch (e: any) {
+            console.error(e)
+        }
+    }
+
+    const fetchCategories = async () => {
+        try {
+            const response = await CategoryService.getAll({})
+            console.log('Response:', response)
+            setCategories(response.data)
+        } catch (e: any) {
+            console.error(e)
+        }
+    }
+
+    const fetchInstructors = async () => {
+        try {
+            const response = await InstructorService.getAll({})
+            console.log('Response:', response)
+            setInstructors(response.data)
+        } catch (e: any) {
+            console.error(e)
+        }
+    }
+
+    useEffect(() => {
+        fetchCourses()
+        fetchReviews()
+        fetchCategories()
+        fetchInstructors()
+    }, [])
 
     return (
         <div>
@@ -211,12 +157,17 @@ const HomePage: React.FC = () => {
                         <Button
                             type="primary"
                             size="large"
+                            href={PATHS.COURSES}
                             icon={<PlayCircleOutlined />}
                             className="hero-primary-btn"
                         >
                             Start Learning Today
                         </Button>
-                        <Button size="large" className="hero-secondary-btn">
+                        <Button
+                            href={PATHS.COURSES}
+                            size="large"
+                            className="hero-secondary-btn"
+                        >
                             Browse Courses
                         </Button>
                     </Space>
@@ -381,7 +332,7 @@ const HomePage: React.FC = () => {
                         </Paragraph>
                     </div>
                     <Row gutter={[24, 24]}>
-                        {featuredCourses.map((course) => (
+                        {courses.slice(0, 3).map((course) => (
                             <Col xs={24} md={8} key={course.id}>
                                 <CourseSummaryCard course={course} />
                             </Col>
@@ -452,10 +403,8 @@ const HomePage: React.FC = () => {
                             <Button
                                 type="primary"
                                 size="large"
+                                href={PATHS.COURSES}
                                 className="banner-btn"
-                                onClick={() =>
-                                    (window.location.href = '/courses')
-                                }
                             >
                                 JOIN NOW
                             </Button>
@@ -479,7 +428,7 @@ const HomePage: React.FC = () => {
                         </Paragraph>
                     </div>
                     <Row gutter={[24, 24]}>
-                        {mockInstructors.map((instructor, index) => (
+                        {instructors.slice(0, 3).map((instructor, index) => (
                             <Col xs={24} md={8} key={index}>
                                 <InstructorCard instructor={instructor} />
                             </Col>
@@ -526,7 +475,7 @@ const HomePage: React.FC = () => {
                         </Paragraph>
                     </div>
                     <Row gutter={[24, 24]}>
-                        {feedbacks.map((review, index) => (
+                        {reviews.slice(0, 3).map((review, index) => (
                             <Col xs={24} md={8} key={index}>
                                 <FeedbackCard review={review} />
                             </Col>
@@ -554,22 +503,9 @@ const HomePage: React.FC = () => {
                         </Paragraph>
                     </div>
                     <Row gutter={[24, 24]}>
-                        {categories.map((category, index) => (
+                        {categories.slice(0, 4).map((category, index) => (
                             <Col xs={12} md={6} key={index}>
-                                <Card hoverable className="category-card">
-                                    <div className="category-icon">
-                                        {category.icon}
-                                    </div>
-                                    <Title
-                                        level={4}
-                                        style={{ marginBottom: '8px' }}
-                                    >
-                                        {category.name}
-                                    </Title>
-                                    <Text type="secondary">
-                                        {category.courses} courses
-                                    </Text>
-                                </Card>
+                                <CategoryCard category={category} />
                             </Col>
                         ))}
                     </Row>
@@ -601,13 +537,18 @@ const HomePage: React.FC = () => {
                     </Paragraph>
                     <Space size="large">
                         <Button
+                            href={PATHS.COURSES}
                             type="primary"
                             size="large"
                             className="cta-primary-btn"
                         >
                             Get Started Free
                         </Button>
-                        <Button size="large" className="cta-secondary-btn">
+                        <Button
+                            href={PATHS.COURSES}
+                            size="large"
+                            className="cta-secondary-btn"
+                        >
                             View All Courses
                         </Button>
                     </Space>

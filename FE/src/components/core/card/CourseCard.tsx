@@ -1,12 +1,13 @@
 'use client'
 
-import type React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button, Card, ConfigProvider, Rate, Typography } from 'antd'
 
 import { UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
+import ReviewService from '@/services/review'
 import { formatPrice } from '@/utils/format'
 
 import './styles/CourseCard.css'
@@ -14,6 +15,21 @@ import './styles/CourseCard.css'
 const { Title, Text, Paragraph } = Typography
 
 const CourseCard = ({ course, onEnroll }: any) => {
+    const [averageRating, setAverageRating] = useState(0)
+
+    const fetchAverageRating = async () => {
+        try {
+            const response = await ReviewService.getAverageByCourse(course.id)
+            setAverageRating(response.data?.average_rating)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchAverageRating()
+    }, [course])
+
     const handleEnroll = () => {
         if (onEnroll) {
             onEnroll(course.id)
@@ -28,7 +44,7 @@ const CourseCard = ({ course, onEnroll }: any) => {
                     <div className="course-card-meta">
                         <div className="course-card-rating">
                             <Title level={5} style={{ margin: 0 }}>
-                                {course.rating}
+                                {averageRating}
                             </Title>
                             <ConfigProvider
                                 theme={{
@@ -42,17 +58,17 @@ const CourseCard = ({ course, onEnroll }: any) => {
                                 <Rate
                                     disabled
                                     allowHalf
-                                    defaultValue={course.rating}
+                                    value={averageRating}
                                 />
                             </ConfigProvider>
-                            <Text type="secondary">
-                                ({course.students.toLocaleString()})
-                            </Text>
+                            {/*<Text type="secondary">*/}
+                            {/*    ({course.students.toLocaleString()})*/}
+                            {/*</Text>*/}
                         </div>
                     </div>
                     <div className="course-card-footer">
                         <span className="course-card-price">
-                            {formatPrice(course.price)}
+                            {formatPrice(course?.price)}
                         </span>
                         <Button
                             type="primary"
@@ -69,30 +85,32 @@ const CourseCard = ({ course, onEnroll }: any) => {
         >
             <div className="course-card-cover">
                 <img
-                    src={course.image || '/placeholder.svg'}
-                    alt={course.title}
+                    src={course?.thumbnail || '/placeholder.svg'}
+                    alt={course?.title}
                     className="course-card-image"
                 />
             </div>
 
             <div className="course-card-body">
-                <div className="course-card-category">{course.category}</div>
+                <div className="course-card-category">
+                    {course?.category?.name}
+                </div>
 
                 <Link
-                    to={`/courses/${course.id}`}
+                    to={`/courses/${course?.id}`}
                     style={{ textDecoration: 'none' }}
                 >
                     <Title level={4} className="course-card-title">
-                        {course.title}
+                        {course?.title}
                     </Title>
                 </Link>
 
                 <div className="course-card-instructor">
                     <UserOutlined />
-                    <Text>by {course.instructor}</Text>
+                    <Text>by {course?.instructor?.user?.full_name}</Text>
                 </div>
                 <Paragraph className="course-card-description">
-                    {course.description}
+                    {course?.description}
                 </Paragraph>
             </div>
         </Card>

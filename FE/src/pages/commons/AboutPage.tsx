@@ -16,6 +16,8 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 
+import { PATHS } from '@/routers/path'
+
 import '../styles/About.css'
 
 const { Title, Paragraph, Text } = Typography
@@ -234,6 +236,7 @@ const AboutPage: React.FC = () => {
                     <Row gutter={[24, 32]}>
                         <Col xs={24} sm={12} lg={6}>
                             <Card
+                                styles={{ body: { padding: 0 } }}
                                 className="about-team-card"
                                 style={{ padding: '30px 20px' }}
                             >
@@ -265,6 +268,7 @@ const AboutPage: React.FC = () => {
 
                         <Col xs={24} sm={12} lg={6}>
                             <Card
+                                styles={{ body: { padding: 0 } }}
                                 className="about-team-card"
                                 style={{ padding: '30px 20px' }}
                             >
@@ -296,6 +300,7 @@ const AboutPage: React.FC = () => {
 
                         <Col xs={24} sm={12} lg={6}>
                             <Card
+                                styles={{ body: { padding: 0 } }}
                                 className="about-team-card"
                                 style={{ padding: '30px 20px' }}
                             >
@@ -327,6 +332,7 @@ const AboutPage: React.FC = () => {
 
                         <Col xs={24} sm={12} lg={6}>
                             <Card
+                                styles={{ body: { padding: 0 } }}
                                 className="about-team-card"
                                 style={{ padding: '30px 20px' }}
                             >
@@ -617,6 +623,7 @@ const AboutPage: React.FC = () => {
                     </Paragraph>
                     <Space size="large">
                         <Button
+                            href={PATHS.COURSES}
                             type="primary"
                             size="large"
                             className="about-cta-btn"
@@ -624,8 +631,11 @@ const AboutPage: React.FC = () => {
                             Browse Courses
                         </Button>
                         <Button
+                            href={PATHS.CONTACT}
                             size="large"
                             style={{
+                                background: 'transparent',
+                                color: 'white',
                                 borderColor: 'white',
                                 borderRadius: '25px',
                                 padding: '0 40px',

@@ -12,7 +12,7 @@ services:
     environment:
       DB_HOST: db
     ports:
-      - "80:80"
+      - "8000:8000"
     depends_on:
       - db
 

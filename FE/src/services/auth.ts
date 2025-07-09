@@ -1,7 +1,7 @@
 import { AUTH_API } from '@/constants/api'
 import http from '@/services/http'
 
-export class AuthService {
+class AuthService {
     async login(payload: any): Promise<any> {
         return await http.post(AUTH_API.LOGIN, payload)
     }
