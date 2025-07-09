@@ -1,0 +1,2 @@
+echo "🔧 Formatting code with Prettier..."
+npx prettier --write .
