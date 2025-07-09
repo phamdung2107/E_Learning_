@@ -16,7 +16,7 @@ class ResultQuizController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/quiz/submit",
+     *     path="/api/result-quizzes/submit",
      *     summary="Nộp bài quiz",
      *     tags={"ResultQuiz"},
      *     @OA\RequestBody(
@@ -99,7 +99,7 @@ class ResultQuizController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/quiz/{quizId}/my-result",
+     *     path="/api/result-quizzes/my/{quizId}",
      *     summary="Lấy kết quả quiz của người dùng hiện tại",
      *     tags={"ResultQuiz"},
      *     @OA\Parameter(name="quizId", in="path", required=true, @OA\Schema(type="integer")),
@@ -117,7 +117,7 @@ class ResultQuizController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/quiz/{quizId}/results",
+     *     path="/api/result-quizzes/quiz/{quizId}",
      *     summary="Lấy tất cả kết quả quiz",
      *     tags={"ResultQuiz"},
      *     @OA\Parameter(name="quizId", in="path", required=true, @OA\Schema(type="integer")),

@@ -167,7 +167,7 @@ class CourseController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/courses/me/enrolled",
+     *     path="/api/courses/my/enrolled",
      *     summary="Lấy danh sách khoá học đã đăng ký của người dùng",
      *     tags={"Course"},
      *     security={{"bearerAuth":{}}},

@@ -18,7 +18,7 @@ class PaymentController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/payment/vnpay",
+     *     path="/api/wallet/create-topup",
      *     summary="Tạo URL thanh toán VNPay",
      *     tags={"Payment"},
      *     @OA\RequestBody(
@@ -60,7 +60,7 @@ class PaymentController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/payment/vnpay/return",
+     *     path="/api/wallet/return",
      *     summary="Xử lý kết quả thanh toán VNPay",
      *     tags={"Payment"},
      *     @OA\Response(response=200, description="Xử lý nạp tiền thành công hoặc thất bại")
@@ -144,7 +144,7 @@ class PaymentController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/payments/me",
+     *     path="/api/wallet/my",
      *     summary="Lịch sử giao dịch của người dùng",
      *     tags={"Payment"},
      *     @OA\Response(response=200, description="Danh sách giao dịch")
@@ -159,7 +159,7 @@ class PaymentController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/withdraw",
+     *     path="/api/wallet/withdraw",
      *     summary="Gửi yêu cầu rút tiền",
      *     tags={"Payment"},
      *     @OA\RequestBody(
@@ -196,7 +196,7 @@ class PaymentController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/payments",
+     *     path="/api/wallet",
      *     summary="Danh sách tất cả giao dịch ví (Admin)",
      *     tags={"Payment"},
      *     @OA\Response(response=200, description="Danh sách giao dịch")
@@ -210,7 +210,7 @@ class PaymentController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/payments/{id}/approve",
+     *     path="/api/wallet/withdraw/{id}/approve",
      *     summary="Duyệt yêu cầu rút tiền (Admin)",
      *     tags={"Payment"},
      *     @OA\Parameter(
@@ -239,7 +239,7 @@ class PaymentController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/payments/{id}/reject",
+     *     path="/api/wallet/withdraw/{id}/reject",
      *     summary="Từ chối yêu cầu rút tiền (Admin)",
      *     tags={"Payment"},
      *     @OA\Parameter(

@@ -118,7 +118,7 @@ class ProgressTrackingController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/progress/complete-lesson",
+     *     path="/api/progress/complete",
      *     summary="Đánh dấu hoàn thành bài học",
      *     tags={"Progress Tracking"},
      *     @OA\RequestBody(

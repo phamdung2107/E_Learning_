@@ -120,7 +120,7 @@ class QuestionController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/quizzes/{quizId}/questions",
+     *     path="/api/questions/quiz/{quizId}",
      *     summary="Lấy danh sách câu hỏi theo quiz",
      *     tags={"Question"},
      *     @OA\Parameter(

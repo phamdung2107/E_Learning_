@@ -42,9 +42,9 @@ class InstructorController extends Controller
             ->when($request->search, fn($q) => $q->whereHas('user', fn($u) => $u->where('full_name', 'like', "%{$request->search}%")->orWhere('email', 'like', "%{$request->search}%")))
             ->when($request->status, fn($q) => $q->whereHas('user', fn($u) => $u->where('status', $request->status)));
 
-        $instructors = $query->paginate(10);
+        $Instructor = $query->paginate(10);
 
-        return Response::data(InstructorResource::collection($instructors), $instructors->total());
+        return Response::data(InstructorResource::collection($Instructor), $Instructor->total());
     }
 
     /**
@@ -182,7 +182,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/instructors/{userId}/approve",
+     *     path="/api/instructors/approve/{userId}",
      *     summary="Duyệt yêu cầu giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
@@ -201,7 +201,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/instructors/{userId}/reject",
+     *     path="/api/instructors/reject/{userId}",
      *     summary="Từ chối yêu cầu giảng viên",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
@@ -256,15 +256,15 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/instructors/top",
+     *     path="/api/instructors/top/revenue",
      *     summary="Top giảng viên theo doanh thu",
      *     tags={"Instructor"},
      *     @OA\Response(response=200, description="Top giảng viên")
      * )
      */
-    public function TopInstructors()
+    public function TopInstructor()
     {
-        $instructors = \DB::table('courses as c')
+        $Instructor = \DB::table('courses as c')
             ->join('orders as o', 'c.id', '=', 'o.course_id')
             ->select('c.instructor_id', \DB::raw('SUM(o.price) as total'))
             ->where('c.deleted', 0)
@@ -275,14 +275,14 @@ class InstructorController extends Controller
             ->take(5)
             ->get();
 
-        return Response::data($instructors, $instructors->count());
+        return Response::data($Instructor, $Instructor->count());
     }
 
         /**
      * @OA\Get(
      *     path="/api/instructors/{id}/revenue",
      *     summary="Lấy tổng doanh thu của giảng viên",
-     *     tags={"Instructors"},
+     *     tags={"Instructor"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
      *         name="id",
@@ -327,7 +327,7 @@ class InstructorController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/instructors/user/{userId}",
+     *     path="/api/instructors/by-user/{userId}",
      *     summary="Lấy thông tin giảng viên từ user ID",
      *     tags={"Instructor"},
      *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),

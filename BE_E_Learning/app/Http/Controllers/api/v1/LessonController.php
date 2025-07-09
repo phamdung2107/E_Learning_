@@ -152,7 +152,7 @@ class LessonController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/courses/{courseId}/lessons",
+     *     path="/api/lessons/course/{courseId}",
      *     summary="Danh sách bài học theo khoá học",
      *     tags={"Lesson"},
      *     @OA\Parameter(

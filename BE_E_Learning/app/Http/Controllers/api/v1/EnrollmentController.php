@@ -61,7 +61,7 @@ class EnrollmentController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/enrollments/user/{userId}/courses",
+     *     path="/api/enrollments/user/{userId}",
      *     summary="Lấy danh sách khóa học đã đăng ký của user",
      *     tags={"Enrollment"},
      *     @OA\Parameter(
@@ -86,7 +86,7 @@ class EnrollmentController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/enrollments/course/{courseId}/users",
+     *     path="/api/enrollments/course/{courseId}",
      *     summary="Lấy danh sách học viên đã đăng ký 1 khóa học",
      *     tags={"Enrollment"},
      *     @OA\Parameter(
@@ -111,7 +111,7 @@ class EnrollmentController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/enrollments/course/{courseId}/count",
+     *     path="/api/enrollments/count/{courseId}",
      *     summary="Đếm số lượt đăng ký của một khóa học",
      *     tags={"Enrollment"},
      *     @OA\Parameter(
@@ -132,7 +132,7 @@ class EnrollmentController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/enrollments/top-courses",
+     *     path="/api/enrollments/top/courses",
      *     summary="Top khóa học theo lượt đăng ký",
      *     tags={"Enrollment"},
      *     @OA\Response(response=200, description="Top 5 khoá học có nhiều lượt đăng ký nhất")

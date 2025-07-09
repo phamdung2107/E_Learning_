@@ -142,7 +142,7 @@ class QuizController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/lessons/{lessonId}/quizzes",
+     *     path="/api/quizzes/lesson/{lessonId}",
      *     summary="Lấy quiz theo bài học",
      *     tags={"Quiz"},
      *     @OA\Parameter(

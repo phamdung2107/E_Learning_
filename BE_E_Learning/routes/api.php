@@ -30,7 +30,7 @@ Route::get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('forgot-password', [AuthController::class, 'forgot']);
-Route::get('forgot-password', [AuthController::class, 'verify'])->name('forgot-password');
+Route::post('verify', [AuthController::class, 'verify']);
 Route::post('forgot-password/update-password', [AuthController::class, 'changePassword']);
 Route::get('logout', [AuthController::class, 'logout']);
 Route::get('refresh', [AuthController::class, 'refresh']);
@@ -38,7 +38,7 @@ Route::get('me', [AuthController::class, 'me']);
 
 
 Route::apiResource('users', UserController::class);
-Route::post('change-password', [UserController::class, 'changePassword']);
+Route::post('users/change-password', [UserController::class, 'changePassword']);
 Route::post('users/reset-users/{user}', [UserController::class, 'resetUserPassword']);   // admin  
 Route::post('admin/change-role/{user}', [UserController::class, 'updateRole']);  // admin  
 Route::get('admin/countusers', [UserController::class, 'countUsers']);   // admin  
@@ -51,7 +51,7 @@ Route::post('instructors/reject/{userId}', [InstructorController::class, 'reject
 Route::get('instructors/{id}/courses', [InstructorController::class, 'getCourses']);  // instructor  
 Route::get('instructors/{id}/revenue', [InstructorController::class, 'getRevenue']);    // instructor
 Route::get('instructors/{id}/students', [InstructorController::class, 'getStudents']);   // instructor
-Route::get('top/revenue', [InstructorController::class, 'TopInstructors']); 
+Route::get('instructors/top/revenue', [InstructorController::class, 'TopInstructors']); 
 Route::get('instructors/by-user/{userId}', [InstructorController::class, 'getInstructorByUserId']);   // instructor
 
 Route::prefix('categories')->group(function () {
@@ -195,7 +195,7 @@ Route::prefix('events')->group(function () {
 });
 
 
-Route::prefix('ai-recommendations')->group(function () {
+Route::prefix('ai-recommendation')->group(function () {
     Route::post('/', [AiRecommendationController::class, 'store']);
     Route::get('/', [AiRecommendationController::class, 'index']);
     Route::post('/ai', [AiRecommendationController::class, 'recommendOnly']);

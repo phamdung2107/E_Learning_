@@ -169,7 +169,7 @@ class CategoryController extends Controller
     // [6] Lấy danh mục dạng cây
     /**
      * @OA\Get(
-     *     path="/api/categories/tree",
+     *     path="/api/v1/categories/tree",
      *     summary="Lấy danh mục dạng cây",
      *     tags={"Category"},
      *     @OA\Response(
@@ -218,7 +218,7 @@ class CategoryController extends Controller
     // [8] Lấy tất cả danh mục cấp cha
     /**
      * @OA\Get(
-     *     path="/api/categories/parents",
+     *     path="/api/v1/categories/parents",
      *     summary="Lấy tất cả danh mục cấp cha",
      *     tags={"Category"},
      *     @OA\Response(

@@ -143,7 +143,7 @@ class UserController extends Controller
 
     /**
      * @OA\Patch(
-     *     path="/api/users/{id}/status",
+     *     path="/api/admin/change-role/{user}',",
      *     summary="Cập nhật trạng thái người dùng",
      *     tags={"User"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -219,7 +219,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/users/{id}/reset-password",
+     *     path="/api/users/reset-users/{user}",
      *     summary="Admin đặt lại mật khẩu người dùng",
      *     tags={"User"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
@@ -239,7 +239,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/count",
+     *     path="/api/admin/countusers",
      *     summary="Thống kê số lượng người dùng",
      *     tags={"User"},
      *     @OA\Response(response=200, description="Dữ liệu thống kê")

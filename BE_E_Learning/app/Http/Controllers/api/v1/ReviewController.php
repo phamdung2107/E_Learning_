@@ -154,7 +154,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/courses/{courseId}/reviews",
+     *     path="/api/reviews/course/{courseId}",
      *     summary="Lấy đánh giá theo khóa học",
      *     tags={"Review"},
      *     @OA\Parameter(
@@ -174,7 +174,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/users/{userId}/reviews",
+     *     path="/api/reviews/user/{userId}",
      *     summary="Lấy đánh giá theo người dùng",
      *     tags={"Review"},
      *     @OA\Parameter(
@@ -194,7 +194,7 @@ class ReviewController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/courses/{courseId}/reviews/average",
+     *     path="/api/reviews/average/{courseId}",
      *     summary="Trung bình đánh giá của 1 khoá học",
      *     tags={"Review"},
      *     @OA\Parameter(
