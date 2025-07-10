@@ -114,6 +114,7 @@ Route::prefix('answers')->group(function () {
 
 Route::prefix('progress')->group(function () {
     Route::get('/', [ProgressTrackingController::class, 'index']);
+    Route::get('/summary', [ProgressTrackingController::class, 'getSummaryForCurrentUser']);
     Route::get('/{id}', [ProgressTrackingController::class, 'show']);
     Route::post('/', [ProgressTrackingController::class, 'store']);
     Route::put('/{id}', [ProgressTrackingController::class, 'update']);

@@ -54,10 +54,10 @@ class EventController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-    *             required={"title", "start_date", "end_date"},
-    *             @OA\Property(property="title", type="string", example="Workshop AI"),
+    *             required={"name", "start_date", "end_date", "bonus_percent"},
+    *             @OA\Property(property="name", type="string", example="Workshop AI"),
     *             @OA\Property(property="content", type="string", example="Buổi chia sẻ về AI và học máy"),
-    *             @OA\Property(property="bonus_percent", type="string", example="10"),
+    *             @OA\Property(property="bonus_percent", type="integer", example=10),
     *             @OA\Property(property="start_date", type="string", format="date", example="2025-07-10"),
     *             @OA\Property(property="end_date", type="string", format="date", example="2025-07-11"),
     *         )
@@ -67,8 +67,11 @@ class EventController extends Controller
      */
     public function store(CreateEventRequest $request)
     {
-        $event = Event::create($request->validated());
-        return Response::data();
+        $data = $request->validated();
+        $data['status'] = $data['status'] ?? true;
+
+        $event = Event::create($data);
+        return Response::data($event);
     }
 
     /**
@@ -109,7 +112,7 @@ class EventController extends Controller
      *         @OA\JsonContent(
     *             @OA\Property(property="title", type="string", example="Workshop AI cập nhật"),
     *             @OA\Property(property="content", type="string", example="Mô tả cập nhật về sự kiện"),
-    *             @OA\Property(property="bonus_percent", type="string", example="10"),
+    *             @OA\Property(property="bonus_percent", type="integer", example=10),
     *             @OA\Property(property="start_date", type="string", format="date", example="2025-07-12"),
     *             @OA\Property(property="end_date", type="string", format="date", example="2025-07-13"),
     *         )

@@ -20,6 +20,7 @@ import InstructorCard from '@/components/core/card/InstructorCard'
 import { PATHS } from '@/routers/path'
 import CategoryService from '@/services/category'
 import CourseService from '@/services/course'
+import EnrollmentService from '@/services/enrollment'
 import InstructorService from '@/services/instructor'
 import ReviewService from '@/services/review'
 
@@ -71,8 +72,7 @@ const HomePage: React.FC = () => {
 
     const fetchCourses = async () => {
         try {
-            const response = await CourseService.getAll({})
-            console.log('Response:', response)
+            const response = await EnrollmentService.getTopCourses()
             setCourses(response.data)
         } catch (e: any) {
             console.error(e)
@@ -82,7 +82,6 @@ const HomePage: React.FC = () => {
     const fetchReviews = async () => {
         try {
             const response = await ReviewService.getAll({})
-            console.log('Response:', response)
             setReviews(response.data)
         } catch (e: any) {
             console.error(e)
@@ -92,7 +91,6 @@ const HomePage: React.FC = () => {
     const fetchCategories = async () => {
         try {
             const response = await CategoryService.getAll({})
-            console.log('Response:', response)
             setCategories(response.data)
         } catch (e: any) {
             console.error(e)
@@ -102,7 +100,6 @@ const HomePage: React.FC = () => {
     const fetchInstructors = async () => {
         try {
             const response = await InstructorService.getAll({})
-            console.log('Response:', response)
             setInstructors(response.data)
         } catch (e: any) {
             console.error(e)

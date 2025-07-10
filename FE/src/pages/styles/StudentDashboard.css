@@ -1,0 +1,258 @@
+.student-dashboard {
+    height: 100%;
+    overflow: hidden;
+    background: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+}
+
+.student-dashboard-header {
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.student-dashboard-header h3 {
+    margin: 0 0 4px 0;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.student-dashboard-header .ant-typography {
+    color: #666;
+    font-size: 14px;
+}
+
+.student-stats-row {
+    margin-bottom: 24px;
+    flex-shrink: 0;
+}
+
+.student-stats-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.student-stats-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.student-stats-card .ant-card-body {
+    padding: 16px;
+    text-align: center;
+}
+
+.student-stats-card .ant-statistic-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.student-stats-card .ant-statistic-content {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.student-main-content {
+    flex: 1;
+    min-height: 0;
+}
+
+.student-courses-card {
+    height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+}
+
+.student-courses-card .ant-card-head {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0 20px;
+    flex-shrink: 0;
+}
+
+.student-courses-card .ant-card-head-title {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.student-courses-card .ant-card-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+}
+
+.student-courses-list {
+    width: 100%;
+}
+
+.student-courses-list .ant-space-item {
+    width: 100%;
+}
+
+.student-sidebar {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.student-activity-card {
+    flex: 1;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f0f0;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.student-activity-card .ant-card-head {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0 16px;
+    flex-shrink: 0;
+}
+
+.student-activity-card .ant-card-head-title {
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 14px;
+}
+
+.student-activity-card .ant-card-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+}
+
+.student-activity-list .ant-list-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.student-activity-list .ant-list-item:last-child {
+    border-bottom: none;
+}
+
+.student-activity-list .ant-list-item-meta-title {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.student-activity-list .ant-list-item-meta-description {
+    font-size: 11px;
+    line-height: 1.3;
+}
+
+.student-actions-card {
+    flex-shrink: 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f0f0f0;
+}
+
+.student-actions-card .ant-card-head {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0 16px;
+}
+
+.student-actions-card .ant-card-head-title {
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 14px;
+}
+
+.student-actions-card .ant-card-body {
+    padding: 16px;
+}
+
+.student-actions-list {
+    width: 100%;
+}
+
+.student-actions-list .ant-btn {
+    height: 36px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.student-actions-list .ant-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .student-dashboard {
+        padding: 16px;
+    }
+
+    .student-main-content {
+        flex: none;
+        height: auto;
+    }
+
+    .student-courses-card,
+    .student-activity-card,
+    .student-actions-card {
+        height: auto;
+        margin-bottom: 16px;
+        flex: none;
+    }
+
+    .student-courses-card .ant-card-body,
+    .student-activity-card .ant-card-body {
+        flex: none;
+        height: auto;
+        max-height: 300px;
+    }
+
+    .student-sidebar {
+        height: auto;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 576px) {
+    .student-dashboard {
+        padding: 12px;
+    }
+
+    .student-stats-card .ant-card-body {
+        padding: 12px;
+    }
+
+    .student-stats-card .ant-statistic-content {
+        font-size: 18px;
+    }
+}
+
+/* Custom scrollbar for better UX */
+.student-courses-card .ant-card-body::-webkit-scrollbar,
+.student-activity-card .ant-card-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.student-courses-card .ant-card-body::-webkit-scrollbar-track,
+.student-activity-card .ant-card-body::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 2px;
+}
+
+.student-courses-card .ant-card-body::-webkit-scrollbar-thumb,
+.student-activity-card .ant-card-body::-webkit-scrollbar-thumb {
+    background: #d9d9d9;
+    border-radius: 2px;
+}
+
+.student-courses-card .ant-card-body::-webkit-scrollbar-thumb:hover,
+.student-activity-card .ant-card-body::-webkit-scrollbar-thumb:hover {
+    background: #bfbfbf;
+}

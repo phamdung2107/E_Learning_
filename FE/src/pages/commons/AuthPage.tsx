@@ -48,7 +48,7 @@ const AuthPage: React.FC = () => {
                 loginAction({ email: values.email, password: values.password })
             )
 
-            if (loginResponse.payload) {
+            if (loginResponse.payload && loginResponse.payload.length > 0) {
                 const userResponse = await dispatch(getCurrentUserAction())
                 if (userResponse.payload) {
                     notification.success({

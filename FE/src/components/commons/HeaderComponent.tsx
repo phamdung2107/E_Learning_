@@ -35,10 +35,11 @@ const HeaderComponent: React.FC = () => {
     const isAuthenticated = useSelector(
         (store: any) => store.auth.isAuthenticated
     )
+    const user = useSelector((store: any) => store.auth.user)
     const userMenuItems = [
         {
-            key: 'profile',
-            label: <Link to="/profile">Profile</Link>,
+            key: 'management',
+            label: <Link to={`/${user?.role}`}>Management</Link>,
             icon: <UserOutlined />,
         },
         {

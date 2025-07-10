@@ -1,13 +1,7 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 import { CREDENTIALS } from '@/constants/storage'
-import { AuthSliceState } from '@/interfaces/store/auth.interface'
-import { UserState } from '@/interfaces/user/user.interface'
-import {
-    getLocalStorage,
-    putLocalStorage,
-    removeLocalStorage,
-} from '@/utils/storage'
+import { getLocalStorage, putLocalStorage, removeLocalStorage } from '@/utils/storage'
 
 import { getCurrentUserAction, loginAction } from './authAction'
 
@@ -24,9 +18,9 @@ const initialUserState: any = {
     money: null,
 }
 
-const initialState: AuthSliceState = {
+const initialState = {
     isAuthenticated: Boolean(getLocalStorage(CREDENTIALS.IS_LOGIN)) || false,
-    user: initialUserState,
+    user: getLocalStorage(CREDENTIALS.USER_INFO) ? JSON.parse(<string>getLocalStorage(CREDENTIALS.USER_INFO)) : initialUserState,
 }
 
 const authSlice = createSlice({
@@ -38,20 +32,21 @@ const authSlice = createSlice({
             state.user = null
             removeLocalStorage(CREDENTIALS.IS_LOGIN)
             removeLocalStorage(CREDENTIALS.AUTHENTICATION_TOKEN)
+            removeLocalStorage(CREDENTIALS.USER_INFO)
         },
     },
     extraReducers: (builder) => {
         builder
             .addCase(loginAction.fulfilled, (state, action: any) => {
-                console.log('Login ', action)
                 putLocalStorage(
                     CREDENTIALS.AUTHENTICATION_TOKEN,
-                    action.payload
+                    action.payload,
                 )
             })
             .addCase(getCurrentUserAction.fulfilled, (state, action) => {
                 state.isAuthenticated = true
                 putLocalStorage(CREDENTIALS.IS_LOGIN, 'true')
+                putLocalStorage(CREDENTIALS.USER_INFO, JSON.stringify(action.payload))
                 state.user = action.payload
             })
             .addCase(getCurrentUserAction.rejected, (state, action) => {

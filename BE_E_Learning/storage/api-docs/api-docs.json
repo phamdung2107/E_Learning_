@@ -746,13 +746,13 @@
                 }
             }
         },
-        "/api/categories/tree/all": {
+        "/api/v1/categories/tree": {
             "get": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Lấy danh mục dạng cây",
-                "operationId": "8faba704d39d1e159b6447cec5a24a5d",
+                "operationId": "1f9c049841b13d50a4a62f943631a9a0",
                 "responses": {
                     "200": {
                         "description": "Danh mục dạng cây"
@@ -785,13 +785,13 @@
                 }
             }
         },
-        "/api/categories/parent/all": {
+        "/api/v1/categories/parents": {
             "get": {
                 "tags": [
                     "Category"
                 ],
                 "summary": "Lấy tất cả danh mục cấp cha",
-                "operationId": "166b94bfddec2638b5f38691666a9fbc",
+                "operationId": "a863d659de3bd0a00c994b151770362f",
                 "responses": {
                     "200": {
                         "description": "Danh sách danh mục cha"
@@ -1144,6 +1144,32 @@
                 ],
                 "summary": "Lấy danh sách khoá học đã đăng ký của người dùng",
                 "operationId": "9cb095768b232570ae4f25e515df770f",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Tìm theo tiêu đề",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "Lọc theo danh mục",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "instructor_id",
+                        "in": "query",
+                        "description": "Lọc theo giảng viên",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Danh sách khoá học đã đăng ký"
@@ -1370,18 +1396,23 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "title",
+                                    "name",
                                     "start_date",
-                                    "end_date"
+                                    "end_date",
+                                    "bonus_percent"
                                 ],
                                 "properties": {
-                                    "title": {
+                                    "name": {
                                         "type": "string",
                                         "example": "Workshop AI"
                                     },
-                                    "description": {
+                                    "content": {
                                         "type": "string",
                                         "example": "Buổi chia sẻ về AI và học máy"
+                                    },
+                                    "bonus_percent": {
+                                        "type": "integer",
+                                        "example": 10
                                     },
                                     "start_date": {
                                         "type": "string",
@@ -1457,9 +1488,13 @@
                                         "type": "string",
                                         "example": "Workshop AI cập nhật"
                                     },
-                                    "description": {
+                                    "content": {
                                         "type": "string",
                                         "example": "Mô tả cập nhật về sự kiện"
+                                    },
+                                    "bonus_percent": {
+                                        "type": "integer",
+                                        "example": 10
                                     },
                                     "start_date": {
                                         "type": "string",
@@ -2365,13 +2400,13 @@
                 }
             }
         },
-        "/api/payment/create-topup": {
+        "/api/wallet/create-topup": {
             "post": {
                 "tags": [
                     "Payment"
                 ],
                 "summary": "Tạo URL thanh toán VNPay",
-                "operationId": "9f76b7496220eaf1e975685fce16a1f1",
+                "operationId": "04d106c3f64bdd4fc519a186a83fb2d7",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2743,6 +2778,20 @@
                 "responses": {
                     "200": {
                         "description": "Đã đánh dấu hoàn thành"
+                    }
+                }
+            }
+        },
+        "/api/progress/summary": {
+            "get": {
+                "tags": [
+                    "Progress Tracking"
+                ],
+                "summary": "Lấy tổng số bài học và khóa học đã hoàn thành của user hiện tại",
+                "operationId": "f456506f32d8b276d4c2291e74b0ac4d",
+                "responses": {
+                    "200": {
+                        "description": "Thông tin tổng hợp tiến độ"
                     }
                 }
             }
@@ -3613,13 +3662,13 @@
                 }
             }
         },
-        "/api/admin/change-role/{user}',": {
+        "/api/admin/change-role/{user}": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Cập nhật trạng thái người dùng",
-                "operationId": "1218eeaba86f5eee6af856b94062e16a",
+                "operationId": "431763299ef04142cdf847d3c9aaf1ce",
                 "parameters": [
                     {
                         "name": "id",

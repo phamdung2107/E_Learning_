@@ -171,13 +171,48 @@ class CourseController extends Controller
      *     summary="Lấy danh sách khoá học đã đăng ký của người dùng",
      *     tags={"Course"},
      *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Tìm theo tiêu đề",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="category_id",
+     *         in="query",
+     *         description="Lọc theo danh mục",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="instructor_id",
+     *         in="query",
+     *         description="Lọc theo giảng viên",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(response=200, description="Danh sách khoá học đã đăng ký")
      * )
      */
     public function getMyCourses(Request $request)
     {
         $user = $request->user();
-        $courses = $user->enrollments()->with('course.category', 'course.instructor.user')->get()->pluck('course');
+
+        $enrollments = $user->enrollments()
+            ->with(['course.category', 'course.instructor.user'])
+            ->whereHas('course', function ($q) use ($request) {
+                if ($request->search) {
+                    $q->where('title', 'like', '%' . $request->search . '%');
+                }
+                if ($request->category_id) {
+                    $q->where('category_id', $request->category_id);
+                }
+                if ($request->instructor_id) {
+                    $q->where('instructor_id', $request->instructor_id);
+                }
+            })
+            ->get();
+
+        $courses = $enrollments->pluck('course');
+
         return Response::data($courses, $courses->count());
     }
 

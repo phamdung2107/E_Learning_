@@ -154,4 +154,44 @@ class ProgressTrackingController extends Controller
 
         return Response::data(new ProgressTrackingResource($track));
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/progress/summary",
+     *     summary="Lấy tổng số bài học và khóa học đã hoàn thành của user hiện tại",
+     *     tags={"Progress Tracking"},
+     *     @OA\Response(response=200, description="Thông tin tổng hợp tiến độ")
+     * )
+     */
+    public function getSummaryForCurrentUser(Request $request)
+    {
+        $user = $request->user();
+
+        $completedLessonsCount = ProgressTracking::where('user_id', $user->id)
+            ->where('is_completed', true)
+            ->count();
+
+        $courseIds = ProgressTracking::where('user_id', $user->id)
+            ->pluck('course_id')
+            ->unique();
+
+        $completedCoursesCount = 0;
+
+        foreach ($courseIds as $courseId) {
+            $totalLessons = \App\Models\Lesson::where('course_id', $courseId)->count();
+            $completedLessons = ProgressTracking::where('user_id', $user->id)
+                ->where('course_id', $courseId)
+                ->where('is_completed', true)
+                ->count();
+
+            if ($totalLessons > 0 && $totalLessons === $completedLessons) {
+                $completedCoursesCount++;
+            }
+        }
+
+        return Response::data([
+            'completed_lessons' => $completedLessonsCount,
+            'completed_courses' => $completedCoursesCount,
+        ]);
+    }
 }

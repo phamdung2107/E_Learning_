@@ -6,6 +6,7 @@ import { PlayCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
 import CategoryService from '@/services/category'
+import EnrollmentService from '@/services/enrollment'
 import ReviewService from '@/services/review'
 import { formatPrice } from '@/utils/format'
 
@@ -18,7 +19,9 @@ const CourseSummaryCard = ({ course }: any) => {
 
     const fetchAverageRating = async () => {
         try {
-            const response = await ReviewService.getAverageByCourse(course.id)
+            const response = await ReviewService.getAverageByCourse(
+                course.course_id
+            )
             setAverageRating(response.data?.average_rating)
         } catch (error) {
             console.log(error)
@@ -36,8 +39,8 @@ const CourseSummaryCard = ({ course }: any) => {
             cover={
                 <div className="course-cover">
                     <img
-                        src={course?.thumbnail || '/placeholder.svg'}
-                        alt={course?.title}
+                        src={course?.course.thumbnail || '/placeholder.svg'}
+                        alt={course?.course.title}
                         className="course-image"
                     />
                 </div>
@@ -49,17 +52,17 @@ const CourseSummaryCard = ({ course }: any) => {
                     block
                     className="course-enroll-btn"
                 >
-                    Enroll Now - {formatPrice(course.price)}
+                    Enroll Now - {formatPrice(course.course.price)}
                 </Button>,
             ]}
         >
             <div style={{ marginBottom: '8px' }}>
                 <Text type="secondary" style={{ fontSize: '12px' }}>
-                    {course?.category?.name}
+                    {course?.course.category?.name}
                 </Text>
             </div>
             <Link
-                to={`/courses/${course.id}`}
+                to={`/courses/${course.course.id}`}
                 style={{ textDecoration: 'none' }}
             >
                 <Title
@@ -67,11 +70,11 @@ const CourseSummaryCard = ({ course }: any) => {
                     level={4}
                     style={{ marginBottom: '8px' }}
                 >
-                    {course.title}
+                    {course.course.title}
                 </Title>
             </Link>
             <Text type="secondary">
-                by {course?.instructor?.user?.full_name}
+                by {course?.course.instructor?.user?.full_name}
             </Text>
             <div
                 style={{
@@ -90,7 +93,7 @@ const CourseSummaryCard = ({ course }: any) => {
                 </Space>
                 <Space>
                     <UserOutlined />
-                    <Text>{course?.students?.toLocaleString() || 1}</Text>
+                    <Text>{course.total}</Text>
                 </Space>
             </div>
         </Card>

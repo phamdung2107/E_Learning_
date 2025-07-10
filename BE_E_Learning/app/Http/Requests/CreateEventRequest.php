@@ -19,7 +19,6 @@ class CreateEventRequest extends FormRequest
             'bonus_percent' => 'required|numeric|min:0|max:100',
             'start_time' => 'required|date|before:end_time',
             'end_time' => 'required|date|after:start_time',
-            'status' => 'required|boolean',
         ];
     }
 }

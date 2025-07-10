@@ -26,10 +26,11 @@ import {
     PhoneOutlined,
     QuestionCircleOutlined,
     SendOutlined,
-    TwitterOutlined,
     UserOutlined,
+    XOutlined,
     YoutubeOutlined,
 } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
 import { COMMON_INFORMATION } from '@/constants/information'
 
@@ -37,7 +38,6 @@ import '../styles/Contact.css'
 
 const { Title, Paragraph, Text } = Typography
 const { TextArea } = Input
-const { Panel } = Collapse
 
 const ContactPage: React.FC = () => {
     const [form] = Form.useForm()
@@ -879,36 +879,41 @@ const ContactPage: React.FC = () => {
                     </Paragraph>
 
                     <div className="contact-social-icons">
-                        <div
+                        <Link
+                            target={'_blank'}
+                            to={COMMON_INFORMATION.FACEBOOK_LINK}
                             className="contact-social-icon"
-                            onClick={() => console.log('Facebook')}
                         >
                             <FacebookOutlined />
-                        </div>
-                        <div
+                        </Link>
+                        <Link
+                            target={'_blank'}
+                            to={COMMON_INFORMATION.X_LINK}
                             className="contact-social-icon"
-                            onClick={() => console.log('Twitter')}
                         >
-                            <TwitterOutlined />
-                        </div>
-                        <div
+                            <XOutlined />
+                        </Link>
+                        <Link
+                            target={'_blank'}
+                            to={COMMON_INFORMATION.INSTAGRAM_LINK}
                             className="contact-social-icon"
-                            onClick={() => console.log('Instagram')}
                         >
                             <InstagramOutlined />
-                        </div>
-                        <div
+                        </Link>
+                        <Link
+                            target={'_blank'}
+                            to={COMMON_INFORMATION.YOUTUBE_LINK}
                             className="contact-social-icon"
-                            onClick={() => console.log('YouTube')}
                         >
                             <YoutubeOutlined />
-                        </div>
-                        <div
+                        </Link>
+                        <Link
+                            target={'_blank'}
+                            to={COMMON_INFORMATION.LINKEDIN_LINK}
                             className="contact-social-icon"
-                            onClick={() => console.log('LinkedIn')}
                         >
                             <LinkedinOutlined />
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </section>

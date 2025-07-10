@@ -1,0 +1,207 @@
+'use client'
+
+import type React from 'react'
+import { useState } from 'react'
+
+import { Avatar, Badge, Button, Dropdown, Layout, Menu, Typography } from 'antd'
+
+import {
+    BellOutlined,
+    BookOutlined,
+    CreditCardOutlined,
+    DashboardOutlined,
+    LogoutOutlined,
+    MenuOutlined,
+    QuestionCircleOutlined,
+    TrophyOutlined,
+    UserOutlined,
+} from '@ant-design/icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
+
+import { PATHS, STUDENT_PATHS } from '@/routers/path'
+import { logout } from '@/stores/auth/authSlice'
+
+const { Header, Sider, Content } = Layout
+const { Title } = Typography
+
+const StudentLayout: React.FC = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const user = useSelector((store: any) => store.auth.user)
+    const [collapsed, setCollapsed] = useState(false)
+    const { pathname } = useLocation()
+
+    const menuItems = [
+        {
+            key: STUDENT_PATHS.STUDENT_DASHBOARD,
+            icon: <DashboardOutlined />,
+            label: <Link to={STUDENT_PATHS.STUDENT_DASHBOARD}>Dashboard</Link>,
+        },
+        {
+            key: STUDENT_PATHS.STUDENT_MY_COURSES,
+            icon: <BookOutlined />,
+            label: (
+                <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>My Courses</Link>
+            ),
+        },
+        {
+            key: STUDENT_PATHS.STUDENT_QUIZ,
+            icon: <QuestionCircleOutlined />,
+            label: <Link to={STUDENT_PATHS.STUDENT_QUIZ}>Quizzes</Link>,
+        },
+        {
+            key: STUDENT_PATHS.STUDENT_CERTIFICATE,
+            icon: <TrophyOutlined />,
+            label: (
+                <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>Certificates</Link>
+            ),
+        },
+        {
+            key: STUDENT_PATHS.STUDENT_PAYMENT,
+            icon: <CreditCardOutlined />,
+            label: <Link to={STUDENT_PATHS.STUDENT_PAYMENT}>Payment</Link>,
+        },
+    ]
+    const userMenuItems = [
+        {
+            key: STUDENT_PATHS.STUDENT_PROFILE,
+            icon: <UserOutlined />,
+            label: <Link to={STUDENT_PATHS.STUDENT_PROFILE}>My Profile</Link>,
+        },
+        {
+            key: 'logout',
+            icon: <LogoutOutlined />,
+            label: (
+                <div
+                    onClick={() => {
+                        dispatch(logout())
+                        navigate(PATHS.AUTH)
+                    }}
+                >
+                    Logout
+                </div>
+            ),
+        },
+    ]
+
+    return (
+        <Layout style={{ minHeight: '100vh' }}>
+            <Sider
+                trigger={null}
+                collapsible
+                collapsed={collapsed}
+                style={{
+                    background: '#fff',
+                    boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
+                }}
+            >
+                <div
+                    style={{
+                        padding: '18px',
+                        textAlign: 'center',
+                        borderBottom: '1px solid #f0f0f0',
+                    }}
+                >
+                    <Title
+                        level={4}
+                        style={{
+                            margin: 0,
+                            color: '#20B2AA',
+                            fontSize: '20px',
+                        }}
+                    >
+                        {collapsed ? 'S' : 'Student'}
+                    </Title>
+                </div>
+                <Menu
+                    mode="inline"
+                    selectedKeys={[pathname]}
+                    items={menuItems}
+                    style={{ border: 'none', marginTop: '16px' }}
+                />
+            </Sider>
+
+            <Layout>
+                <Header
+                    style={{
+                        padding: '0 24px',
+                        background: '#fff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    }}
+                >
+                    <Button
+                        type="text"
+                        icon={<MenuOutlined />}
+                        onClick={() => setCollapsed(!collapsed)}
+                        style={{ fontSize: '16px' }}
+                    />
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '16px',
+                        }}
+                    >
+                        <Badge count={10}>
+                            <Button
+                                size="middle"
+                                shape="circle"
+                                icon={
+                                    <BellOutlined
+                                        style={{
+                                            color: '#1976d2',
+                                            cursor: 'pointer',
+                                        }}
+                                    />
+                                }
+                            ></Button>
+                        </Badge>
+
+                        <Dropdown
+                            menu={{ items: userMenuItems }}
+                            placement="bottomRight"
+                        >
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    cursor: 'pointer',
+                                    padding: '4px 8px',
+                                    borderRadius: '8px',
+                                    transition: 'background 0.3s',
+                                }}
+                            >
+                                <Avatar
+                                    size="default"
+                                    icon={<UserOutlined />}
+                                    style={{ marginRight: '8px' }}
+                                />
+                                <span style={{ fontWeight: '500' }}>
+                                    {user?.full_name}
+                                </span>
+                            </div>
+                        </Dropdown>
+                    </div>
+                </Header>
+
+                <Content
+                    style={{
+                        margin: '24px',
+                        padding: '24px',
+                        background: '#f5f5f5',
+                        minHeight: 'calc(100vh - 112px)',
+                    }}
+                >
+                    <Outlet />
+                </Content>
+            </Layout>
+        </Layout>
+    )
+}
+
+export default StudentLayout

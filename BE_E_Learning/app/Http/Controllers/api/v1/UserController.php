@@ -143,7 +143,7 @@ class UserController extends Controller
 
     /**
      * @OA\Patch(
-     *     path="/api/admin/change-role/{user}',",
+     *     path="/api/admin/change-role/{user}",
      *     summary="Cập nhật trạng thái người dùng",
      *     tags={"User"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),

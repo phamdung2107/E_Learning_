@@ -2,6 +2,7 @@ import { Route } from 'react-router-dom'
 
 import NotAuthenticatedLayout from '@/layouts/NotAuthenticatedLayout'
 import PublicLayout from '@/layouts/PublicLayout'
+import StudentLayout from '@/layouts/StudentLayout'
 import AboutPage from '@/pages/commons/AboutPage'
 import AuthPage from '@/pages/commons/AuthPage'
 import ContactPage from '@/pages/commons/ContactPage'
@@ -11,8 +12,10 @@ import EventPage from '@/pages/commons/EventPage'
 import HomePage from '@/pages/commons/HomePage'
 import LoginPage from '@/pages/commons/LoginPage'
 import RegisterPage from '@/pages/commons/RegisterPage'
+import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
+import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 
-import { PATHS } from './path'
+import { PATHS, STUDENT_PATHS } from './path'
 
 const AppRouter = [
     <Route element={<NotAuthenticatedLayout />} key="not-auth">
@@ -27,6 +30,16 @@ const AppRouter = [
         <Route path={PATHS.EVENT} element={<EventPage />} />
         <Route path={PATHS.CONTACT} element={<ContactPage />} />
         <Route path={PATHS.COURSE_DETAIL} element={<CourseDetailPage />} />
+    </Route>,
+    <Route element={<StudentLayout />} key="student">
+        <Route
+            path={STUDENT_PATHS.STUDENT_DASHBOARD}
+            element={<StudentDashboardPage />}
+        />
+        <Route
+            path={STUDENT_PATHS.STUDENT_MY_COURSES}
+            element={<StudentCoursesPage />}
+        />
     </Route>,
 ]
 

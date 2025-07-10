@@ -10,8 +10,8 @@ class CourseService {
         return await http.post(COURSE_API.CREATE, payload)
     }
 
-    async getMyEnrolledCourses(): Promise<any> {
-        return await http.get(COURSE_API.MY_ENROLLED)
+    async getMyEnrolledCourses(params: any): Promise<any> {
+        return await http.get(COURSE_API.MY_ENROLLED(params))
     }
 
     async getDetail(id: number | string): Promise<any> {
