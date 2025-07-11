@@ -6,6 +6,7 @@ export const PUBLIC_PATHS = {
     CONTACT: '/contact',
     COURSE_DETAIL: '/courses/:id',
     LESSON_DETAIL: '/courses/:courseId/lessons/:lessonId',
+    QUIZ_DETAIL: '/courses/:courseId/quizzes/:quizId',
 }
 
 export const AUTH_PATHS = {

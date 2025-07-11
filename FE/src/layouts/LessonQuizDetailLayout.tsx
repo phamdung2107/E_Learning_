@@ -8,7 +8,7 @@ import { Outlet } from 'react-router-dom'
 
 const { Content } = Layout
 
-const LessonDetailLayout: React.FC = () => {
+const LessonQuizDetailLayout: React.FC = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             {/* Main Content with proper top margin */}
@@ -32,4 +32,4 @@ const LessonDetailLayout: React.FC = () => {
     )
 }
 
-export default LessonDetailLayout
+export default LessonQuizDetailLayout
