@@ -166,8 +166,12 @@ class LessonController extends Controller
      */
     public function getByCourse($courseId)
     {
-        $lessons = Lesson::where('course_id', $courseId)->where('deleted', 0)
-            ->orderBy('order_number')->get();
+        $lessons = Lesson::with('progressForCurrentUser')
+            ->where('course_id', $courseId)
+            ->where('deleted', 0)
+            ->orderBy('order_number')
+            ->get();
+
         return Response::data(LessonResource::collection($lessons), $lessons->count());
     }
 }

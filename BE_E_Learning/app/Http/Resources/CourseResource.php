@@ -22,7 +22,8 @@ class CourseResource extends JsonResource
             'status'       => $this->status,
             'instructor' => new InstructorResource($this->whenLoaded('instructor')),
             'category'  => new CategoryResource($this->whenLoaded('category')),
-            'thumbnail' => $this->thumbnail
+            'thumbnail' => $this->thumbnail,
+            'updated_at' => $this->updated_at
         ];
     }
 }

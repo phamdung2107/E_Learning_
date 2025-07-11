@@ -4,7 +4,6 @@ import type React from 'react'
 import { useEffect, useState } from 'react'
 
 import {
-    Breadcrumb,
     Button,
     Card,
     Col,
@@ -22,21 +21,24 @@ import {
     CheckOutlined,
     ClockCircleOutlined,
     FileTextOutlined,
-    GlobalOutlined,
-    HeartOutlined,
-    HomeOutlined,
     PlayCircleOutlined,
     RightOutlined,
     ShareAltOutlined,
-    StarOutlined,
     TrophyOutlined,
     UserOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import CourseCard from '@/components/core/card/CourseCard'
-import { formatPrice } from '@/utils/format'
+import { DATE_TIME_FORMAT } from '@/constants/date'
+import CourseService from '@/services/course'
+import EnrollmentService from '@/services/enrollment'
+import LessonService from '@/services/lesson'
+import lesson from '@/services/lesson'
+import QuizService from '@/services/quiz'
+import ReviewService from '@/services/review'
+import { formatDateTime, formatPrice } from '@/utils/format'
 
 import '../styles/CourseDetail.css'
 
@@ -47,6 +49,13 @@ const CourseDetailPage: React.FC = () => {
     const params = useParams()
     const courseId = params.id as string
     const [course, setCourse] = useState<any>(null)
+    const [totalStudentsOfCourse, setTotalStudentsOfCourse] = useState(0)
+    const [totalCoursesOfInstructor, setTotalCoursesOfInstructor] = useState(0)
+    const [totalStudentsOfInstructor, setTotalStudentsOfInstructor] =
+        useState(0)
+    const [averageRating, setAverageRating] = useState(0)
+    const [lessons, setLessons] = useState<any[]>([])
+    const [reviews, setReviews] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('overview')
 
@@ -373,6 +382,21 @@ const CourseDetailPage: React.FC = () => {
         ],
     }
 
+    const requirements = [
+        'No experience needed',
+        'A computer with internet connection',
+        'Willingness to learn and practice',
+    ]
+
+    const features = [
+        'Learn through video',
+        'Downloadable resources',
+        'Full lifetime access',
+        'Access on mobile and TV',
+        'Certificate of completion',
+        '30-day money-back guarantee',
+    ]
+
     const relatedCourses: any[] = [
         {
             id: 2,
@@ -420,16 +444,74 @@ const CourseDetailPage: React.FC = () => {
         },
     ]
 
-    useEffect(() => {
-        // Simulate API call
-        const loadCourse = async () => {
-            setLoading(true)
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            setCourse(mockCourse)
+    const fetchTotalStudentsOfCourse = async () => {
+        try {
+            const response = await EnrollmentService.countByCourse(courseId)
+            setTotalStudentsOfCourse(response.data.enrolled)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const fetchAverageRating = async () => {
+        try {
+            const response = await ReviewService.getAverageByCourse(courseId)
+            setAverageRating(response.data.average_rating)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const fetchLessons = async () => {
+        try {
+            const response = await LessonService.getByCourse(courseId)
+
+            if (!response.data) {
+                setLessons([])
+                return
+            }
+
+            const newLessons = await Promise.all(
+                response.data.map(async (lesson: any) => {
+                    try {
+                        const quizRes = await QuizService.getByLesson(lesson.id)
+                        return {
+                            ...lesson,
+                            quizzes: quizRes.data || [],
+                        }
+                    } catch (e) {
+                        return {
+                            ...lesson,
+                            quizzes: [],
+                        }
+                    }
+                })
+            )
+
+            setLessons(newLessons)
+            console.log(newLessons)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const fetchCourseDetail = async () => {
+        setLoading(true)
+        try {
+            const response = await CourseService.getDetail(courseId)
+            setCourse(response.data)
+        } catch (error) {
+            console.log(error)
+        } finally {
             setLoading(false)
         }
+    }
 
-        loadCourse()
+    useEffect(() => {
+        fetchCourseDetail()
+        fetchTotalStudentsOfCourse()
+        fetchAverageRating()
+        fetchLessons()
     }, [courseId])
 
     const handleEnroll = () => {
@@ -478,33 +560,37 @@ const CourseDetailPage: React.FC = () => {
 
                             <div className="course-detail-hero-meta">
                                 <div className="course-detail-hero-meta-item">
-                                    <StarOutlined />
+                                    <Rate
+                                        disabled
+                                        allowHalf
+                                        defaultValue={averageRating}
+                                    />
                                     <span>
-                                        {course.rating} (
-                                        {course.students.toLocaleString()}{' '}
+                                        {averageRating} ({totalStudentsOfCourse}{' '}
                                         students)
                                     </span>
                                 </div>
                                 <div className="course-detail-hero-meta-item">
                                     <UserOutlined />
                                     <span>
-                                        Created by {course.instructor.name}
+                                        Created by{' '}
+                                        {course.instructor.user.full_name}
                                     </span>
                                 </div>
                                 <div className="course-detail-hero-meta-item">
                                     <ClockCircleOutlined />
                                     <span>
-                                        Last updated {course.lastUpdated}
+                                        Last updated{' '}
+                                        {formatDateTime(
+                                            course.updated_at,
+                                            DATE_TIME_FORMAT
+                                        )}
                                     </span>
-                                </div>
-                                <div className="course-detail-hero-meta-item">
-                                    <GlobalOutlined />
-                                    <span>{course.language}</span>
                                 </div>
                             </div>
 
                             <Paragraph className="course-detail-hero-description">
-                                {course.longDescription}
+                                {course.description}
                             </Paragraph>
 
                             <div className="course-detail-hero-actions">
@@ -534,7 +620,7 @@ const CourseDetailPage: React.FC = () => {
                                 }}
                             >
                                 <img
-                                    src={course.image || '/placeholder.svg'}
+                                    src={course.thumbnail || '/placeholder.svg'}
                                     alt={course.title}
                                     style={{
                                         width: '100%',
@@ -582,7 +668,7 @@ const CourseDetailPage: React.FC = () => {
                                         <div className="course-detail-stat-item">
                                             <BookOutlined className="course-detail-stat-icon" />
                                             <div className="course-detail-stat-number">
-                                                {course.lessons}
+                                                {lessons.length}
                                             </div>
                                             <div className="course-detail-stat-label">
                                                 Lessons
@@ -591,7 +677,7 @@ const CourseDetailPage: React.FC = () => {
                                         <div className="course-detail-stat-item">
                                             <ClockCircleOutlined className="course-detail-stat-icon" />
                                             <div className="course-detail-stat-number">
-                                                {course.duration}
+                                                {/*{course.duration}*/}
                                             </div>
                                             <div className="course-detail-stat-label">
                                                 Total Duration
@@ -600,7 +686,7 @@ const CourseDetailPage: React.FC = () => {
                                         <div className="course-detail-stat-item">
                                             <UserOutlined className="course-detail-stat-icon" />
                                             <div className="course-detail-stat-number">
-                                                {course.students.toLocaleString()}
+                                                {totalStudentsOfCourse}
                                             </div>
                                             <div className="course-detail-stat-label">
                                                 Students
@@ -609,54 +695,14 @@ const CourseDetailPage: React.FC = () => {
                                         <div className="course-detail-stat-item">
                                             <TrophyOutlined className="course-detail-stat-icon" />
                                             <div className="course-detail-stat-number">
-                                                {course.level}
+                                                intermediate
                                             </div>
                                             <div className="course-detail-stat-label">
                                                 Level
                                             </div>
                                         </div>
                                     </div>
-
-                                    <Title
-                                        level={3}
-                                        style={{ marginBottom: '20px' }}
-                                    >
-                                        What you'll learn
-                                    </Title>
-                                    <Row gutter={[16, 16]}>
-                                        {course.whatYouWillLearn.map(
-                                            (item: string, index: number) => (
-                                                <Col
-                                                    xs={24}
-                                                    md={12}
-                                                    key={index}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            display: 'flex',
-                                                            alignItems:
-                                                                'flex-start',
-                                                            gap: '12px',
-                                                        }}
-                                                    >
-                                                        <CheckOutlined
-                                                            style={{
-                                                                color: '#20b2aa',
-                                                                marginTop:
-                                                                    '4px',
-                                                                fontSize:
-                                                                    '16px',
-                                                            }}
-                                                        />
-                                                        <Text>{item}</Text>
-                                                    </div>
-                                                </Col>
-                                            )
-                                        )}
-                                    </Row>
-
                                     <Divider />
-
                                     <Title
                                         level={3}
                                         style={{ marginBottom: '20px' }}
@@ -664,7 +710,7 @@ const CourseDetailPage: React.FC = () => {
                                         Requirements
                                     </Title>
                                     <ul style={{ paddingLeft: '20px' }}>
-                                        {course.requirements.map(
+                                        {requirements.map(
                                             (req: string, index: number) => (
                                                 <li
                                                     key={index}
@@ -689,11 +735,6 @@ const CourseDetailPage: React.FC = () => {
                                     <div className="course-detail-enrollment-header">
                                         <div className="course-detail-enrollment-price">
                                             {formatPrice(course.price)}
-                                            <div className="course-detail-enrollment-original-price">
-                                                {formatPrice(
-                                                    course.originalPrice
-                                                )}
-                                            </div>
                                         </div>
                                     </div>
                                     <div className="course-detail-enrollment-body">
@@ -721,7 +762,7 @@ const CourseDetailPage: React.FC = () => {
                                             This course includes:
                                         </Title>
                                         <ul className="course-detail-enrollment-features">
-                                            {course.features.map(
+                                            {features.map(
                                                 (
                                                     feature: string,
                                                     index: number
@@ -754,7 +795,7 @@ const CourseDetailPage: React.FC = () => {
                                 level={2}
                                 style={{ color: 'white', margin: 0 }}
                             >
-                                Course Curriculum
+                                Lessons of Course
                             </Title>
                             <Paragraph
                                 style={{
@@ -762,9 +803,7 @@ const CourseDetailPage: React.FC = () => {
                                     margin: '10px 0 0 0',
                                 }}
                             >
-                                {course.curriculum.length} modules •{' '}
-                                {course.lessons} lessons • {course.duration}{' '}
-                                total length
+                                {lessons.length} lessons
                             </Paragraph>
                         </div>
                         <div className="course-detail-curriculum-body">
@@ -774,45 +813,50 @@ const CourseDetailPage: React.FC = () => {
                                     <RightOutlined rotate={isActive ? 90 : 0} />
                                 )}
                             >
-                                {course.curriculum.map((module: any) => (
+                                {lessons.map((lesson: any) => (
                                     <Panel
                                         header={
                                             <div className="course-detail-module-header">
                                                 <div>
                                                     <div className="course-detail-module-title">
-                                                        {module.title}
+                                                        {lesson?.title}
                                                     </div>
                                                     <div className="course-detail-module-meta">
-                                                        {module.lessons} lessons
-                                                        • {module.duration}
+                                                        1 lesson
                                                     </div>
                                                 </div>
                                             </div>
                                         }
-                                        key={module.id}
+                                        key={lesson.id}
                                     >
-                                        {module.items.map(
-                                            (lesson: any, index: number) => (
-                                                <div
-                                                    key={index}
-                                                    className="course-detail-lesson"
-                                                >
-                                                    <div className="course-detail-lesson-info">
-                                                        <span className="course-detail-lesson-icon">
-                                                            {getTypeIcon(
-                                                                lesson.type
-                                                            )}
-                                                        </span>
-                                                        <span className="course-detail-lesson-title">
-                                                            {lesson.title}
-                                                        </span>
-                                                    </div>
-                                                    <span className="course-detail-lesson-duration">
-                                                        {lesson.duration}
+                                        <Link
+                                            to={`/courses/${courseId}/lessons/${lesson.id}`}
+                                            className="course-detail-lesson"
+                                        >
+                                            <div className="course-detail-lesson-info">
+                                                <span className="course-detail-lesson-icon">
+                                                    <PlayCircleOutlined />
+                                                </span>
+                                                <span className="course-detail-lesson-title">
+                                                    {lesson.content}
+                                                </span>
+                                            </div>
+                                        </Link>
+                                        {lesson?.quizzes.map((quiz: any) => (
+                                            <Link
+                                                to={`/courses/${courseId}/quizzes/${quiz.id}`}
+                                                className="course-detail-lesson"
+                                            >
+                                                <div className="course-detail-lesson-info">
+                                                    <span className="course-detail-lesson-icon">
+                                                        <FileTextOutlined />
+                                                    </span>
+                                                    <span className="course-detail-lesson-title">
+                                                        {quiz.title}
                                                     </span>
                                                 </div>
-                                            )
-                                        )}
+                                            </Link>
+                                        ))}
                                     </Panel>
                                 ))}
                             </Collapse>
@@ -826,7 +870,7 @@ const CourseDetailPage: React.FC = () => {
                 <div className="course-detail-instructor-content">
                     <Card className="course-detail-instructor-card">
                         <Row gutter={[32, 32]} align="middle">
-                            <Col xs={24} md={8} style={{ textAlign: 'center' }}>
+                            <Col xs={24} md={8}>
                                 <div className="course-detail-instructor-avatar">
                                     <UserOutlined />
                                 </div>
@@ -834,7 +878,7 @@ const CourseDetailPage: React.FC = () => {
                                     level={3}
                                     style={{ marginBottom: '8px' }}
                                 >
-                                    {course.instructor.name}
+                                    {course.instructor.user.full_name}
                                 </Title>
                                 <Text
                                     style={{
@@ -843,12 +887,12 @@ const CourseDetailPage: React.FC = () => {
                                         fontWeight: '600',
                                     }}
                                 >
-                                    {course.instructor.title}
+                                    {course.instructor.bio}
                                 </Text>
                                 <div className="course-detail-instructor-stats">
                                     <div className="course-detail-instructor-stat">
                                         <div className="course-detail-instructor-stat-number">
-                                            {course.instructor.rating}
+                                            {/*{course.instructor.rating}*/}
                                         </div>
                                         <div className="course-detail-instructor-stat-label">
                                             Rating
@@ -856,7 +900,7 @@ const CourseDetailPage: React.FC = () => {
                                     </div>
                                     <div className="course-detail-instructor-stat">
                                         <div className="course-detail-instructor-stat-number">
-                                            {course.instructor.students.toLocaleString()}
+                                            {/*{course.instructor.students.toLocaleString()}*/}
                                         </div>
                                         <div className="course-detail-instructor-stat-label">
                                             Students
@@ -864,7 +908,7 @@ const CourseDetailPage: React.FC = () => {
                                     </div>
                                     <div className="course-detail-instructor-stat">
                                         <div className="course-detail-instructor-stat-number">
-                                            {course.instructor.courses}
+                                            {/*{course.instructor.courses}*/}
                                         </div>
                                         <div className="course-detail-instructor-stat-label">
                                             Courses
@@ -891,14 +935,14 @@ const CourseDetailPage: React.FC = () => {
                                 <Space wrap>
                                     <Tag color="blue">
                                         Experience:{' '}
-                                        {course.instructor.experience}
+                                        {course.instructor.experience_years}
                                     </Tag>
                                     <Tag color="green">
-                                        Rating: {course.instructor.rating}/5
+                                        {/*Rating: {course.instructor.rating}/5*/}
                                     </Tag>
                                     <Tag color="orange">
                                         Students:{' '}
-                                        {course.instructor.students.toLocaleString()}
+                                        {/*{course.instructor.students.toLocaleString()}*/}
                                     </Tag>
                                 </Space>
                             </Col>
@@ -922,43 +966,43 @@ const CourseDetailPage: React.FC = () => {
 
                     <div className="course-detail-reviews-summary">
                         <div className="course-detail-reviews-rating">
-                            {course.rating}
+                            {/*{course.rating}*/}
                         </div>
                         <div className="course-detail-reviews-stars">
-                            <Rate disabled allowHalf value={course.rating} />
+                            {/*<Rate disabled allowHalf value={course.rating} />*/}
                         </div>
                         <div className="course-detail-reviews-count">
-                            Based on {course.students.toLocaleString()} student
+                            {/*Based on {course.students.toLocaleString()} student*/}
                             reviews
                         </div>
                     </div>
 
                     <Row gutter={[24, 24]}>
-                        {course.reviews.map((review: any) => (
-                            <Col xs={24} md={12} key={review.id}>
-                                <div className="course-detail-review-card">
-                                    <div className="course-detail-review-header">
-                                        <div className="course-detail-review-avatar">
-                                            <UserOutlined />
-                                        </div>
-                                        <div className="course-detail-review-info">
-                                            <div className="course-detail-review-name">
-                                                {review.name}
-                                            </div>
-                                            <div className="course-detail-review-date">
-                                                {review.date}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="course-detail-review-rating">
-                                        <Rate disabled value={review.rating} />
-                                    </div>
-                                    <div className="course-detail-review-text">
-                                        {review.comment}
-                                    </div>
-                                </div>
-                            </Col>
-                        ))}
+                        {/*{course.reviews.map((review: any) => (*/}
+                        {/*    <Col xs={24} md={12} key={review.id}>*/}
+                        {/*        <div className="course-detail-review-card">*/}
+                        {/*            <div className="course-detail-review-header">*/}
+                        {/*                <div className="course-detail-review-avatar">*/}
+                        {/*                    <UserOutlined />*/}
+                        {/*                </div>*/}
+                        {/*                <div className="course-detail-review-info">*/}
+                        {/*                    <div className="course-detail-review-name">*/}
+                        {/*                        {review.name}*/}
+                        {/*                    </div>*/}
+                        {/*                    <div className="course-detail-review-date">*/}
+                        {/*                        {review.date}*/}
+                        {/*                    </div>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*            <div className="course-detail-review-rating">*/}
+                        {/*                <Rate disabled value={review.rating} />*/}
+                        {/*            </div>*/}
+                        {/*            <div className="course-detail-review-text">*/}
+                        {/*                {review.comment}*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </Col>*/}
+                        {/*))}*/}
                     </Row>
                 </div>
             </section>

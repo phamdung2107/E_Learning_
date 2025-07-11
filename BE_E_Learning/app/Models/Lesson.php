@@ -16,4 +16,9 @@ class Lesson extends Model
     public function course() { return $this->belongsTo(Course::class); }
     public function quizzes() { return $this->hasMany(Quiz::class); }
     public function progressTrackings() { return $this->hasMany(ProgressTracking::class); }
+    public function progressForCurrentUser()
+    {
+        return $this->hasOne(ProgressTracking::class)
+                    ->where('user_id', auth()->id());
+    }
 }

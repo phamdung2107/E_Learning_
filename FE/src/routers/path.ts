@@ -5,6 +5,7 @@ export const PUBLIC_PATHS = {
     EVENT: '/event',
     CONTACT: '/contact',
     COURSE_DETAIL: '/courses/:id',
+    LESSON_DETAIL: '/courses/:courseId/lessons/:lessonId',
 }
 
 export const AUTH_PATHS = {

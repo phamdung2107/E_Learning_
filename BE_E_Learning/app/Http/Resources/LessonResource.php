@@ -21,6 +21,7 @@ class LessonResource extends JsonResource
             'content'       => $this->content,
             'course_id'     => $this->course_id,
             'order_number'  => $this->order_number,
+            'is_completed' => (bool) optional($this->progressForCurrentUser)->is_completed,
         ];
     }
 }

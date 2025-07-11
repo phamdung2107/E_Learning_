@@ -237,3 +237,27 @@ export const CERTIFICATE_API = {
     DETAIL: (id: number | string) => `/certificates/${id}`,
     DELETE: (id: number | string) => `/certificates/${id}`,
 }
+
+export const QUIZ_API = {
+    LIST: (params: any) => {
+        const query = Object.keys(params)
+            .filter(
+                (key) =>
+                    params[key] !== undefined &&
+                    params[key] !== null &&
+                    params[key] !== 0 &&
+                    params[key] !== ''
+            )
+            .map(
+                (key) =>
+                    `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+            )
+            .join('&')
+        return `/quizzes${query ? '?' + query : ''}`
+    },
+    CREATE: `/quizzes`,
+    DETAIL: (id: number | string) => `/quizzes/${id}`,
+    UPDATE: (id: number | string) => `/quizzes/${id}`,
+    DELETE: (id: number | string) => `/quizzes/${id}`,
+    BY_LESSON: (lessonId: number | string) => `/quizzes/lesson/${lessonId}`,
+}
