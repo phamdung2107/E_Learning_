@@ -261,3 +261,60 @@ export const QUIZ_API = {
     DELETE: (id: number | string) => `/quizzes/${id}`,
     BY_LESSON: (lessonId: number | string) => `/quizzes/lesson/${lessonId}`,
 }
+
+export const QUESTION_API = {
+    LIST: (params: any) => {
+        const query = Object.keys(params)
+            .filter(
+                (key) =>
+                    params[key] !== undefined &&
+                    params[key] !== null &&
+                    params[key] !== 0 &&
+                    params[key] !== ''
+            )
+            .map(
+                (key) =>
+                    `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+            )
+            .join('&')
+        return `/questions${query ? '?' + query : ''}`
+    },
+    CREATE: `/questions`,
+    DETAIL: (id: number | string) => `/questions/${id}`,
+    UPDATE: (id: number | string) => `/questions/${id}`,
+    DELETE: (id: number | string) => `/questions/${id}`,
+    BY_QUIZ: (quizId: number | string) => `/questions/quiz/${quizId}`,
+}
+
+export const ANSWER_API = {
+    LIST: (params: any) => {
+        const query = Object.keys(params)
+            .filter(
+                (key) =>
+                    params[key] !== undefined &&
+                    params[key] !== null &&
+                    params[key] !== 0 &&
+                    params[key] !== ''
+            )
+            .map(
+                (key) =>
+                    `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+            )
+            .join('&')
+        return `/answers${query ? '?' + query : ''}`
+    },
+    CREATE: `/answers`,
+    DETAIL: (id: number | string) => `/answers/${id}`,
+    UPDATE: (id: number | string) => `/answers/${id}`,
+    DELETE: (id: number | string) => `/answers/${id}`,
+    BY_QUESTION: (questionId: number | string) =>
+        `/answers/question/${questionId}`,
+}
+
+export const RESULT_QUIZ_API = {
+    LIST: (quizId: any) => {
+        return `/result-quizzes/quiz/${quizId}`
+    },
+    CREATE: `/result-quizzes/submit`,
+    MY_RESULT_QUIZ: (quizId: any) => `/result-quizzes/my/${quizId}`,
+}

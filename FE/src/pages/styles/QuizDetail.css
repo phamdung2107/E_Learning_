@@ -194,7 +194,6 @@
 .quiz-main {
     flex: 1;
     background: white;
-    height: calc(100vh - 120px);
     overflow-y: auto;
 }
 

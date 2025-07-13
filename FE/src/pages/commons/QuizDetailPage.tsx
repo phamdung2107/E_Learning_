@@ -32,9 +32,11 @@ import {
 import { useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
+import AnswerService from '@/services/answer'
 import CourseService from '@/services/course'
 import LessonService from '@/services/lesson'
 import ProgressService from '@/services/progress'
+import QuestionService from '@/services/question'
 import QuizService from '@/services/quiz'
 
 import '../styles/QuizDetail.css'
@@ -58,6 +60,7 @@ const QuizDetailPage: React.FC = () => {
     const [timeLeft, setTimeLeft] = useState(0)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [quizStarted, setQuizStarted] = useState(false)
+    const [questions, setQuestions] = useState<any[]>([])
 
     useEffect(() => {
         fetchData()
@@ -73,7 +76,33 @@ const QuizDetailPage: React.FC = () => {
             // Fetch quiz details
             const quizResponse = await QuizService.getDetail(quizId)
             setQuiz(quizResponse.data)
-            // const lessonResponse = await LessonService.getDetail(quizResponse.data.lesson_id)
+            const questionResponse = await QuestionService.getByQuiz(quizId)
+            const questionsData = questionResponse.data
+
+            // Fetch answers for each question
+            const questionsWithAnswers = await Promise.all(
+                questionsData.map(async (question: any) => {
+                    try {
+                        const answerResponse =
+                            await AnswerService.getByQuestion(question.id)
+                        return {
+                            ...question,
+                            options: answerResponse.data.map((answer: any) => ({
+                                id: answer.id,
+                                text: answer.answer_text,
+                                is_correct: answer.is_correct,
+                            })),
+                        }
+                    } catch (error) {
+                        console.error(
+                            `Error fetching answers for question ${question.id}:`,
+                            error
+                        )
+                        return { ...question, options: [] }
+                    }
+                })
+            )
+            setQuestions(questionsWithAnswers)
 
             // Fetch course details
             const courseResponse = await CourseService.getDetail(courseId)
@@ -110,28 +139,77 @@ const QuizDetailPage: React.FC = () => {
         }
     }
 
-    useEffect(() => {
-        if (quizStarted && timeLeft > 0) {
-            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
-            return () => clearTimeout(timer)
-        } else if (timeLeft === 0 && quiz && quizStarted) {
-            handleSubmitQuiz()
+    // Function to fetch selected answer for a specific question
+    const fetchAnswer = async (questionId: number) => {
+        try {
+            // Assuming the API returns the user's selected answer for the question
+            const response = await fetch(
+                `http://127.0.0.1:8000/api/result-quizzes/${questionId}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        accept: '*/*',
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '', // Add CSRF token if required
+                    },
+                }
+            )
+            const data = await response.json()
+            if (data.answer_id !== undefined) {
+                setAnswers((prev) => ({
+                    ...prev,
+                    [currentQuestion]: data.answer_id.toString(),
+                }))
+            }
+        } catch (error) {
+            console.error('Error fetching answer:', error)
         }
-    }, [timeLeft, quiz, quizStarted])
+    }
+
+    // Modified handleAnswerChange to save answer immediately
+    const handleAnswerChange = async (value: string) => {
+        setAnswers({
+            ...answers,
+            [currentQuestion]: value,
+        })
+
+        // Save answer to API
+        try {
+            await fetch('http://127.0.0.1:8000/api/result-quizzes/submit', {
+                method: 'POST',
+                headers: {
+                    accept: '*/*',
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '', // Add CSRF token if required
+                },
+                body: JSON.stringify({
+                    quiz_id: Number.parseInt(quizId),
+                    answers: [
+                        {
+                            question_id: questions[currentQuestion].id,
+                            answer_id: Number.parseInt(value),
+                        },
+                    ],
+                }),
+            })
+        } catch (error) {
+            console.error('Error saving answer:', error)
+        }
+    }
+
+    // Fetch answer when changing questions
+    useEffect(() => {
+        if (quizStarted && questions[currentQuestion]?.id) {
+            fetchAnswer(questions[currentQuestion].id)
+        }
+    }, [currentQuestion, quizStarted])
 
     const handleStartQuiz = () => {
         setQuizStarted(true)
     }
 
-    const handleAnswerChange = (value: string) => {
-        setAnswers({
-            ...answers,
-            [currentQuestion]: value,
-        })
-    }
-
     const handleNextQuestion = () => {
-        if (currentQuestion < quiz.questions.length - 1) {
+        if (currentQuestion < questions.length - 1) {
             setCurrentQuestion(currentQuestion + 1)
         }
     }
@@ -151,29 +229,44 @@ const QuizDetailPage: React.FC = () => {
                 try {
                     setIsSubmitting(true)
 
-                    // Prepare answers for API
+                    // Prepare answers for final submission
                     const formattedAnswers = Object.keys(answers).map(
                         (questionIndex) => ({
                             question_id:
-                                quiz.questions[Number.parseInt(questionIndex)]
-                                    .id,
-                            selected_option: Number.parseInt(
+                                questions[Number.parseInt(questionIndex)].id,
+                            answer_id: Number.parseInt(
                                 answers[Number.parseInt(questionIndex)]
                             ),
                         })
                     )
 
                     // Submit quiz to API
-                    const response = await QuizService.create(formattedAnswers)
+                    const response = await fetch(
+                        'http://127.0.0.1:8000/api/result-quizzes/submit',
+                        {
+                            method: 'POST',
+                            headers: {
+                                accept: '*/*',
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '', // Add CSRF token if required
+                            },
+                            body: JSON.stringify({
+                                quiz_id: Number.parseInt(quizId),
+                                answers: formattedAnswers,
+                            }),
+                        }
+                    )
 
+                    const result = await response.json()
                     message.success('Quiz submitted successfully!')
 
                     // Redirect to results page
                     router(
-                        `/courses/${courseId}/quizzes/${quizId}/results?score=${response.data.score}&correct=${response.data.correct_answers}&total=${quiz.questions.length}`
+                        `/courses/${courseId}/quizzes/${quizId}/results?score=${result.score}&correct=${result.correct_answers}&total=${questions.length}`
                     )
                 } catch (error) {
                     console.error('Error submitting quiz:', error)
+                    message.error('Failed to submit quiz. Please try again.')
                 } finally {
                     setIsSubmitting(false)
                 }
@@ -364,37 +457,26 @@ const QuizDetailPage: React.FC = () => {
                                             <div className="quiz-info-item">
                                                 <Text strong>Questions:</Text>
                                                 <Text>
-                                                    {quiz?.questions?.length ||
-                                                        0}{' '}
+                                                    {questions?.length || 0}{' '}
                                                     questions
                                                 </Text>
                                             </div>
 
                                             <div className="quiz-info-item">
                                                 <Text strong>Duration:</Text>
-                                                <Text>
-                                                    {quiz?.duration
-                                                        ? `${quiz.duration} minutes`
-                                                        : 'No time limit'}
-                                                </Text>
+                                                <Text>No time limit</Text>
                                             </div>
 
                                             <div className="quiz-info-item">
                                                 <Text strong>
                                                     Passing Score:
                                                 </Text>
-                                                <Text>
-                                                    {quiz?.passing_score || 70}%
-                                                </Text>
+                                                <Text>100%</Text>
                                             </div>
 
                                             <div className="quiz-info-item">
                                                 <Text strong>Attempts:</Text>
-                                                <Text>
-                                                    {quiz?.max_attempts
-                                                        ? `${quiz.max_attempts} attempts`
-                                                        : 'Unlimited'}
-                                                </Text>
+                                                <Text>Unlimited</Text>
                                             </div>
                                         </div>
                                     </div>
@@ -461,12 +543,12 @@ const QuizDetailPage: React.FC = () => {
                                     <Progress
                                         percent={
                                             ((currentQuestion + 1) /
-                                                quiz.questions.length) *
+                                                questions.length) *
                                             100
                                         }
                                         strokeColor="#20B2AA"
                                         format={() =>
-                                            `${currentQuestion + 1}/${quiz.questions.length}`
+                                            `${currentQuestion + 1}/${questions.length}`
                                         }
                                     />
                                 </Card>
@@ -482,15 +564,20 @@ const QuizDetailPage: React.FC = () => {
                                                 }}
                                             />
                                             Question {currentQuestion + 1} of{' '}
-                                            {quiz.questions.length}
+                                            {questions.length} (Choose{' '}
+                                            {questions[currentQuestion]
+                                                ?.question_type === 'single'
+                                                ? 'one answer'
+                                                : 'many answers'}
+                                            )
                                         </Title>
                                         <Title
                                             level={4}
                                             className="quiz-question-title"
                                         >
                                             {
-                                                quiz.questions[currentQuestion]
-                                                    .question
+                                                questions[currentQuestion]
+                                                    ?.question_text
                                             }
                                         </Title>
                                     </div>
@@ -503,19 +590,19 @@ const QuizDetailPage: React.FC = () => {
                                         className="quiz-options"
                                     >
                                         <div className="quiz-options-container">
-                                            {quiz.questions[
+                                            {questions[
                                                 currentQuestion
-                                            ].options?.map(
+                                            ]?.options?.map(
                                                 (
-                                                    option: string,
+                                                    option: any,
                                                     index: number
                                                 ) => (
                                                     <Radio
-                                                        key={index}
-                                                        value={index.toString()}
+                                                        key={option.id}
+                                                        value={option.id.toString()}
                                                         className="quiz-option"
                                                     >
-                                                        {option}
+                                                        {option.text}
                                                     </Radio>
                                                 )
                                             )}
@@ -536,12 +623,12 @@ const QuizDetailPage: React.FC = () => {
                                         <div className="quiz-progress-info">
                                             <Text type="secondary">
                                                 {Object.keys(answers).length} of{' '}
-                                                {quiz.questions.length} answered
+                                                {questions.length} answered
                                             </Text>
                                         </div>
 
                                         {currentQuestion ===
-                                        quiz.questions.length - 1 ? (
+                                        questions.length - 1 ? (
                                             <Button
                                                 type="primary"
                                                 onClick={handleSubmitQuiz}
@@ -571,7 +658,7 @@ const QuizDetailPage: React.FC = () => {
                                     size="small"
                                 >
                                     <div className="quiz-navigator-buttons">
-                                        {quiz.questions.map(
+                                        {questions.map(
                                             (_: any, index: number) => (
                                                 <Button
                                                     key={index}
@@ -624,12 +711,12 @@ const QuizDetailPage: React.FC = () => {
                                             <span style={{ color: '#52c41a' }}>
                                                 ●
                                             </span>{' '}
-                                            Answered •
+                                            Answered
                                             <span style={{ color: '#d9d9d9' }}>
                                                 {' '}
                                                 ●
                                             </span>{' '}
-                                            Not Answered •
+                                            Not Answered
                                             <span style={{ color: '#20B2AA' }}>
                                                 {' '}
                                                 ●

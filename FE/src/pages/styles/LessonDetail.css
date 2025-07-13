@@ -20,7 +20,6 @@
 .lesson-sidebar {
     background: white;
     border-right: 1px solid #e8e8e8;
-    height: calc(100vh - 120px);
 }
 
 .lesson-sidebar-content {
@@ -191,7 +190,6 @@
 
 .lesson-main {
     background: white;
-    height: calc(100vh - 120px);
     overflow-y: auto;
 }
 

@@ -115,7 +115,7 @@ const LessonDetailPage: React.FC = () => {
                 user.id,
                 courseId
             )
-            setProgress(response.data)
+            setProgress(response.total)
         } catch (error) {
             console.error('Error fetching progress:', error)
         }
@@ -194,9 +194,7 @@ const LessonDetailPage: React.FC = () => {
 
     const getProgressPercentage = () => {
         if (!progress) return 0
-        return Math.round(
-            (progress.completed_lessons / progress.total_lessons) * 100
-        )
+        return Math.round((progress / lessons.length) * 100)
     }
 
     if (!course || !currentLesson) {
@@ -229,8 +227,7 @@ const LessonDetailPage: React.FC = () => {
                     </Col>
                     <Col>
                         <Text type="secondary">
-                            Progress: {progress?.completed_lessons || 0}/
-                            {progress?.total_lessons || lessons.length} lessons
+                            Progress: {progress || 0}/{lessons.length} lessons
                         </Text>
                     </Col>
                 </Row>
