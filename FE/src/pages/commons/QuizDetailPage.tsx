@@ -16,6 +16,7 @@ import {
     Spin,
     Typography,
     message,
+    notification,
 } from 'antd'
 
 import {
@@ -38,6 +39,7 @@ import LessonService from '@/services/lesson'
 import ProgressService from '@/services/progress'
 import QuestionService from '@/services/question'
 import QuizService from '@/services/quiz'
+import ResultQuizService from '@/services/resultQuiz'
 
 import '../styles/QuizDetail.css'
 
@@ -63,6 +65,9 @@ const QuizDetailPage: React.FC = () => {
     const [questions, setQuestions] = useState<any[]>([])
 
     useEffect(() => {
+        setQuizStarted(false)
+        setAnswers({})
+        setCurrentQuestion(0)
         fetchData()
     }, [quizId, courseId])
 
@@ -140,67 +145,33 @@ const QuizDetailPage: React.FC = () => {
     }
 
     // Function to fetch selected answer for a specific question
-    const fetchAnswer = async (questionId: number) => {
+    const fetchAnswer = async (questionId: number, questionIndex: number) => {
         try {
-            // Assuming the API returns the user's selected answer for the question
-            const response = await fetch(
-                `http://127.0.0.1:8000/api/result-quizzes/${questionId}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        accept: '*/*',
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '', // Add CSRF token if required
-                    },
-                }
-            )
-            const data = await response.json()
-            if (data.answer_id !== undefined) {
+            // Use ResultQuizService to fetch the user's selected answer
+            const response = await ResultQuizService.getMyQuiz(quizId)
+            if (response.data && response.data.answer_id !== undefined) {
                 setAnswers((prev) => ({
                     ...prev,
-                    [currentQuestion]: data.answer_id.toString(),
+                    [questionIndex]: response.data.answer_id.toString(),
                 }))
             }
         } catch (error) {
-            console.error('Error fetching answer:', error)
+            console.error('Error fetching selected answer:', error)
         }
     }
 
-    // Modified handleAnswerChange to save answer immediately
-    const handleAnswerChange = async (value: string) => {
+    // Modified handleAnswerChange to only update local state
+    const handleAnswerChange = (value: string) => {
         setAnswers({
             ...answers,
             [currentQuestion]: value,
         })
-
-        // Save answer to API
-        try {
-            await fetch('http://127.0.0.1:8000/api/result-quizzes/submit', {
-                method: 'POST',
-                headers: {
-                    accept: '*/*',
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '', // Add CSRF token if required
-                },
-                body: JSON.stringify({
-                    quiz_id: Number.parseInt(quizId),
-                    answers: [
-                        {
-                            question_id: questions[currentQuestion].id,
-                            answer_id: Number.parseInt(value),
-                        },
-                    ],
-                }),
-            })
-        } catch (error) {
-            console.error('Error saving answer:', error)
-        }
     }
 
     // Fetch answer when changing questions
     useEffect(() => {
         if (quizStarted && questions[currentQuestion]?.id) {
-            fetchAnswer(questions[currentQuestion].id)
+            fetchAnswer(questions[currentQuestion].id, currentQuestion)
         }
     }, [currentQuestion, quizStarted])
 
@@ -239,34 +210,26 @@ const QuizDetailPage: React.FC = () => {
                             ),
                         })
                     )
-
+                    const payload = {
+                        quiz_id: Number.parseInt(quizId),
+                        answers: formattedAnswers,
+                    }
                     // Submit quiz to API
-                    const response = await fetch(
-                        'http://127.0.0.1:8000/api/result-quizzes/submit',
-                        {
-                            method: 'POST',
-                            headers: {
-                                accept: '*/*',
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '', // Add CSRF token if required
-                            },
-                            body: JSON.stringify({
-                                quiz_id: Number.parseInt(quizId),
-                                answers: formattedAnswers,
-                            }),
-                        }
-                    )
-
-                    const result = await response.json()
-                    message.success('Quiz submitted successfully!')
-
-                    // Redirect to results page
-                    router(
-                        `/courses/${courseId}/quizzes/${quizId}/results?score=${result.score}&correct=${result.correct_answers}&total=${questions.length}`
-                    )
+                    const response = await ResultQuizService.create(payload)
+                    if (response.status === 200) {
+                        notification.success({
+                            message: 'Quiz submitted successfully!',
+                            description: `Your quiz has been submitted. Redirecting to results...`,
+                        })
+                        // Redirect to results page
+                        router(`/courses/${courseId}/quizzes/${quizId}/results`)
+                    }
                 } catch (error) {
                     console.error('Error submitting quiz:', error)
-                    message.error('Failed to submit quiz. Please try again.')
+                    notification.error({
+                        message: 'Submission Failed',
+                        description: 'Failed to submit quiz. Please try again.',
+                    })
                 } finally {
                     setIsSubmitting(false)
                 }
@@ -521,7 +484,18 @@ const QuizDetailPage: React.FC = () => {
                                             </li>
                                         </ul>
                                     </div>
-
+                                    <Button
+                                        type="default"
+                                        size="large"
+                                        onClick={() =>
+                                            router(
+                                                `/courses/${courseId}/quizzes/${quizId}/results`
+                                            )
+                                        }
+                                        className="quiz-result-button"
+                                    >
+                                        View Result
+                                    </Button>
                                     <Button
                                         type="primary"
                                         size="large"

@@ -12,6 +12,7 @@ import EventPage from '@/pages/commons/EventPage'
 import HomePage from '@/pages/commons/HomePage'
 import LessonDetailPage from '@/pages/commons/LessonDetailPage'
 import QuizDetailPage from '@/pages/commons/QuizDetailPage'
+import ResultQuizPage from '@/pages/commons/ResultQuizPage'
 import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
 import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 
@@ -21,6 +22,7 @@ const AppRouter = [
     <Route element={<LessonQuizDetailLayout />} key="not-auth">
         <Route path={PATHS.LESSON_DETAIL} element={<LessonDetailPage />} />
         <Route path={PATHS.QUIZ_DETAIL} element={<QuizDetailPage />} />
+        <Route path={PATHS.RESULT_QUIZ_DETAIL} element={<ResultQuizPage />} />
     </Route>,
     <Route element={<PublicLayout />} key="public">
         <Route path={PATHS.HOME} element={<HomePage />} />

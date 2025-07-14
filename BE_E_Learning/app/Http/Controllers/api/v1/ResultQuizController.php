@@ -71,7 +71,7 @@ class ResultQuizController extends Controller
                 ResultAnswer::create([
                     'result_quiz_id' => $resultQuiz->id,
                     'question_id' => $item['question_id'],
-                    'answer_id' => $item['answer_id'],
+                    'selected_answer_id' => $item['answer_id'],
                     'is_correct' => $isCorrect,
                 ]);
 
@@ -93,7 +93,7 @@ class ResultQuizController extends Controller
             return Response::data();
         } catch (\Exception $e) {
             DB::rollBack();
-            return Response::data(['message' => 'Đã có lỗi xảy ra khi nộp bài'], 500);
+            return Response::data(['message' => $e], 500);
         }
     }
 

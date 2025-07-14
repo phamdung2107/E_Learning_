@@ -11,7 +11,7 @@ class ResultQuizService {
     }
 
     async getMyQuiz(id: number | string): Promise<any> {
-        return await http.delete(RESULT_QUIZ_API.MY_RESULT_QUIZ(id))
+        return await http.get(RESULT_QUIZ_API.MY_RESULT_QUIZ(id))
     }
 }
 

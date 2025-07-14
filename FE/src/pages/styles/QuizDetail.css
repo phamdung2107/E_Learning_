@@ -264,8 +264,21 @@
     font-weight: 500;
 }
 
+.quiz-result-button {
+    padding: 0 40px;
+    height: 48px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
 .quiz-start-button:hover {
     background: #1a9b94 !important;
+}
+
+.quiz-result-button:hover {
+    background: #1a9b94 !important;
+    color: white !important;
+    border: none !important;
 }
 
 /* Quiz Taking Interface */

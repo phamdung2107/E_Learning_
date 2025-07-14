@@ -14,7 +14,7 @@ class ResultAnswer extends Model
     protected $fillable = [
         'result_quiz_id',
         'question_id',
-        'answer_id',
+        'selected_answer_id',
         'is_correct'
     ];
 
