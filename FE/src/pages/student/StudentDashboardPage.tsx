@@ -123,7 +123,7 @@ const StudentDashboard: React.FC = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Lessons"
+                            title="Lessons Completed"
                             value={progressSummary.completed_lessons || 0}
                             prefix={<CheckCircleOutlined />}
                             valueStyle={{ color: '#52c41a' }}
@@ -133,7 +133,7 @@ const StudentDashboard: React.FC = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Completed"
+                            title="Courses Completed"
                             value={progressSummary.completed_courses || 0}
                             prefix={<CheckCircleOutlined />}
                             valueStyle={{ color: '#52c41a' }}

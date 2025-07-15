@@ -13,6 +13,7 @@ import {
     LogoutOutlined,
     MenuOutlined,
     QuestionCircleOutlined,
+    ShoppingCartOutlined,
     TrophyOutlined,
     UserOutlined,
 } from '@ant-design/icons'
@@ -46,11 +47,6 @@ const StudentLayout: React.FC = () => {
             ),
         },
         {
-            key: STUDENT_PATHS.STUDENT_QUIZ,
-            icon: <QuestionCircleOutlined />,
-            label: <Link to={STUDENT_PATHS.STUDENT_QUIZ}>Quizzes</Link>,
-        },
-        {
             key: STUDENT_PATHS.STUDENT_CERTIFICATE,
             icon: <TrophyOutlined />,
             label: (
@@ -58,9 +54,9 @@ const StudentLayout: React.FC = () => {
             ),
         },
         {
-            key: STUDENT_PATHS.STUDENT_PAYMENT,
-            icon: <CreditCardOutlined />,
-            label: <Link to={STUDENT_PATHS.STUDENT_PAYMENT}>Payment</Link>,
+            key: STUDENT_PATHS.STUDENT_CART,
+            icon: <ShoppingCartOutlined />,
+            label: <Link to={STUDENT_PATHS.STUDENT_CART}>My Cart</Link>,
         },
     ]
     const userMenuItems = [
@@ -153,6 +149,21 @@ const StudentLayout: React.FC = () => {
                                 shape="circle"
                                 icon={
                                     <BellOutlined
+                                        style={{
+                                            color: '#1976d2',
+                                            cursor: 'pointer',
+                                        }}
+                                    />
+                                }
+                            ></Button>
+                        </Badge>
+                        <Badge count={10}>
+                            <Button
+                                size="middle"
+                                shape="circle"
+                                href={STUDENT_PATHS.STUDENT_CART}
+                                icon={
+                                    <ShoppingCartOutlined
                                         style={{
                                             color: '#1976d2',
                                             cursor: 'pointer',

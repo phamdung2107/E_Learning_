@@ -9,7 +9,13 @@ export const AUTH_API = {
 }
 
 export const USER_API = {
-    GET_CURRENT_USER: 'user/me',
+    GET_ALL: '/users',
+    GET_BY_ID: (id: number | string) => `/users/${id}`,
+    CREATE: '/users',
+    UPDATE: (id: number | string) => `/users/${id}`,
+    DELETE: (id: number | string) => `/users/${id}`,
+    CHANGE_PASSWORD: '/users/change-password',
+    RESET_USER: (userId: number | string) => `/users/reset-users/${userId}`,
 }
 
 export const COURSE_API = {

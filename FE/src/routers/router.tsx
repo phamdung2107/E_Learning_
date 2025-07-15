@@ -13,8 +13,11 @@ import HomePage from '@/pages/commons/HomePage'
 import LessonDetailPage from '@/pages/commons/LessonDetailPage'
 import QuizDetailPage from '@/pages/commons/QuizDetailPage'
 import ResultQuizPage from '@/pages/commons/ResultQuizPage'
+import StudentOrderCoursePage from '@/pages/student/StudentCartPage'
+import StudentCertificatePage from '@/pages/student/StudentCertificatePage'
 import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
 import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
+import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
 
 import { PATHS, STUDENT_PATHS } from './path'
 
@@ -41,6 +44,18 @@ const AppRouter = [
         <Route
             path={STUDENT_PATHS.STUDENT_MY_COURSES}
             element={<StudentCoursesPage />}
+        />
+        <Route
+            path={STUDENT_PATHS.STUDENT_PROFILE}
+            element={<StudentProfilePage />}
+        />
+        <Route
+            path={STUDENT_PATHS.STUDENT_CERTIFICATE}
+            element={<StudentCertificatePage />}
+        />
+        <Route
+            path={STUDENT_PATHS.STUDENT_CART}
+            element={<StudentOrderCoursePage />}
         />
     </Route>,
 ]

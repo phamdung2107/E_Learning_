@@ -22,7 +22,7 @@ export const STUDENT_PATHS = {
     STUDENT_QUIZ: '/student/quiz',
     STUDENT_CERTIFICATE: '/student/certificate',
     STUDENT_PROFILE: '/student/profile',
-    STUDENT_PAYMENT: '/student/payment',
+    STUDENT_CART: '/student/cart',
 }
 
 export const PRIVATE_PATHS = {}

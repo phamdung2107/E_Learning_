@@ -88,7 +88,7 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
                     {course.status === 'completed' ? (
                         <Tag color="success">Completed</Tag>
                     ) : (
-                        <Link to={`/student/learn/${course.id}`}>
+                        <Link to={`/courses/${course.id}`}>
                             <Button
                                 type="primary"
                                 icon={<PlayCircleOutlined />}

@@ -66,7 +66,7 @@ const EnrollCourseCard = ({ course }: any) => {
                     </Link>
                 ) : (
                     <Link
-                        to={`/student/learn/${course.id}`}
+                        to={`/courses/${course.id}`}
                         key={`learn-${course.id}`}
                     >
                         <Button
