@@ -2,8 +2,6 @@ import type React from 'react'
 
 import { Avatar, Card, Rate, Typography } from 'antd'
 
-import { UserOutlined } from '@ant-design/icons'
-
 import './styles/FeedbackCard.css'
 
 const { Paragraph, Text } = Typography

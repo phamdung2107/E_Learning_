@@ -324,3 +324,30 @@ export const RESULT_QUIZ_API = {
     CREATE: `/result-quizzes/submit`,
     MY_RESULT_QUIZ: (quizId: any) => `/result-quizzes/my/${quizId}`,
 }
+
+export const ORDER_API = {
+    MY_ORDERS: '/orders',
+    CREATE: '/orders',
+    CONFIRM_ORDER: (orderId: any) => `/orders/${orderId}/confirm`,
+    CANCEL_ORDER: (orderId: any) => `/orders/${orderId}/cancel`,
+    DETAIL: (orderId: any) => `/orders/${orderId}`,
+    DELETE: (orderId: any) => `/orders/${orderId}`,
+}
+
+export const PAYMENT_API = {
+    LIST: '/wallet',
+    APPROVE: (id: any) => `/wallet/withdraw/${id}/approve`,
+    REJECT: (id: any) => `/wallet/withdraw/${id}/reject`,
+    WITHDRAW: `/wallet/withdraw`,
+    MY_PAYMENT: '/wallet/my',
+    PROCESS_PAYMENT: '/wallet/return',
+    CREATE_PAYMENT: '/wallet/create-topup',
+}
+
+export const NOTIFICATION_API = {
+    LIST: '/notifications',
+    DETAIL: (id: any) => `/notifications/${id}`,
+    DELETE: (id: any) => `/notifications/${id}`,
+    MARK_AS_READ: (id: any) => `/notifications/${id}/read`,
+    LIST_UNREAD: `/notifications/unread`,
+}

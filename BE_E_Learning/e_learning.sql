@@ -374,14 +374,11 @@ CREATE TABLE `notifications` (
 --
 -- Table structure for table `orders`
 --
-
 CREATE TABLE `orders` (
   `id` int NOT NULL,
   `user_id` int DEFAULT NULL,
-  `total_amount` decimal(10,2) DEFAULT '0.00',
+  `course_id` int DEFAULT NULL,
   `original_price` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `voucher_code` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `discount_value` decimal(10,2) DEFAULT '0.00',
   `payment_status` enum('pending','paid','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'pending',
   `payment_method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'wallet',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -773,7 +770,8 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `course_id` (`course_id`),
+  ADD KEY `orders_ibfk_1` (`user_id`);
 
 --
 -- Indexes for table `payments`
@@ -1020,7 +1018,8 @@ ALTER TABLE `notifications`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `payments`

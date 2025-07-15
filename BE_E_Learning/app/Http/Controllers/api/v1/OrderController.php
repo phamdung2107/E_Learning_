@@ -51,7 +51,7 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => $user->id,
             'course_id' => $course->id,
-            'original_price' => $course->original_price,
+            'original_price' => $course->price,
             'payment_status' => 'pending',
             'payment_method' => 'wallet'
         ]);
@@ -60,7 +60,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Put(
      *     path="/api/orders/{id}/confirm",
      *     summary="Xác nhận thanh toán đơn hàng",
      *     tags={"Order"},
@@ -97,7 +97,7 @@ class OrderController extends Controller
 
             Notification::create([
                 'user_id' => $user->id,
-                'type' => 'course_purchase',
+                'type' => 'course',
                 'title' => 'Mua khóa học thành công',
                 'body' => 'Bạn đã mua khóa học thành công.'
             ]);
@@ -107,12 +107,12 @@ class OrderController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Lỗi khi thanh toán'], 500);
+            return response()->json(['message' => $e], 500);
         }
     }
 
     /**
-     * @OA\Post(
+     * @OA\Put(
      *     path="/api/orders/{id}/cancel",
      *     summary="Huỷ đơn hàng",
      *     tags={"Order"},
@@ -146,7 +146,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $orders = Order::where('user_id', $user->id)->latest()->get();
+        $orders = Order::with(['course'])->where('user_id', $user->id)->latest()->get();
         return Response::data(OrderResource::collection($orders), $orders->count());
     }
 

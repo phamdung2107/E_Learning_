@@ -14,6 +14,7 @@ import {
     Space,
     Tag,
     Typography,
+    notification,
 } from 'antd'
 
 import {
@@ -35,7 +36,7 @@ import { DATE_TIME_FORMAT } from '@/constants/date'
 import CourseService from '@/services/course'
 import EnrollmentService from '@/services/enrollment'
 import LessonService from '@/services/lesson'
-import lesson from '@/services/lesson'
+import OrderService from '@/services/order'
 import QuizService from '@/services/quiz'
 import ReviewService from '@/services/review'
 import { formatDateTime, formatPrice } from '@/utils/format'
@@ -49,6 +50,7 @@ const CourseDetailPage: React.FC = () => {
     const params = useParams()
     const courseId = params.id as string
     const [course, setCourse] = useState<any>(null)
+    const [enrollLoading, setEnrollLoading] = useState(false)
     const [totalStudentsOfCourse, setTotalStudentsOfCourse] = useState(0)
     const [totalCoursesOfInstructor, setTotalCoursesOfInstructor] = useState(0)
     const [totalStudentsOfInstructor, setTotalStudentsOfInstructor] =
@@ -58,329 +60,6 @@ const CourseDetailPage: React.FC = () => {
     const [reviews, setReviews] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [activeTab, setActiveTab] = useState('overview')
-
-    // Mock course data - in real app, this would come from API
-    const mockCourse = {
-        id: Number.parseInt(courseId),
-        title: 'Complete Web Development Bootcamp 2024',
-        description:
-            'Master modern web development with this comprehensive course covering HTML, CSS, JavaScript, React, Node.js, and more. Build real-world projects and become a full-stack developer ready for the job market.',
-        longDescription:
-            "This comprehensive web development bootcamp is designed to take you from beginner to professional developer. You'll learn the latest technologies and best practices used by top companies worldwide. The course includes hands-on projects, real-world applications, and career guidance to help you land your dream job in tech.",
-        instructor: {
-            name: 'John Smith',
-            title: 'Senior Full Stack Developer',
-            bio: 'John is a senior full-stack developer with over 10 years of experience working at top tech companies including Google and Facebook. He has taught over 100,000 students and is passionate about helping others break into the tech industry.',
-            avatar: '/placeholder.svg?height=120&width=120',
-            rating: 4.9,
-            students: 50000,
-            courses: 12,
-            experience: '10+ years',
-        },
-        category: 'Web Development',
-        level: 'beginner',
-        duration: '40 hours',
-        lessons: 156,
-        rating: 4.8,
-        students: 15420,
-        price: 1990000,
-        originalPrice: 2990000,
-        image: '/placeholder.svg?height=400&width=600',
-        language: 'English',
-        lastUpdated: 'December 2023',
-        certificate: true,
-        lifetime: true,
-        curriculum: [
-            {
-                id: 1,
-                title: 'Introduction to Web Development',
-                lessons: 8,
-                duration: '2h 30m',
-                items: [
-                    {
-                        title: 'What is Web Development?',
-                        duration: '15m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Setting up Development Environment',
-                        duration: '20m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Understanding the Web',
-                        duration: '18m',
-                        type: 'video',
-                    },
-                    { title: 'HTML Basics', duration: '25m', type: 'video' },
-                    {
-                        title: 'CSS Fundamentals',
-                        duration: '30m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'JavaScript Introduction',
-                        duration: '22m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'First Project Setup',
-                        duration: '15m',
-                        type: 'video',
-                    },
-                    { title: 'Module Quiz', duration: '5m', type: 'quiz' },
-                ],
-            },
-            {
-                id: 2,
-                title: 'HTML & CSS Mastery',
-                lessons: 12,
-                duration: '4h 15m',
-                items: [
-                    {
-                        title: 'Advanced HTML Elements',
-                        duration: '25m',
-                        type: 'video',
-                    },
-                    { title: 'Semantic HTML', duration: '20m', type: 'video' },
-                    {
-                        title: 'CSS Grid System',
-                        duration: '35m',
-                        type: 'video',
-                    },
-                    { title: 'Flexbox Layout', duration: '30m', type: 'video' },
-                    {
-                        title: 'Responsive Design',
-                        duration: '40m',
-                        type: 'video',
-                    },
-                    { title: 'CSS Animations', duration: '25m', type: 'video' },
-                    { title: 'SASS/SCSS', duration: '30m', type: 'video' },
-                    { title: 'CSS Frameworks', duration: '20m', type: 'video' },
-                    {
-                        title: 'Project: Portfolio Website',
-                        duration: '45m',
-                        type: 'project',
-                    },
-                    { title: 'Code Review', duration: '15m', type: 'video' },
-                    {
-                        title: 'Best Practices',
-                        duration: '10m',
-                        type: 'reading',
-                    },
-                    {
-                        title: 'Module Assessment',
-                        duration: '10m',
-                        type: 'quiz',
-                    },
-                ],
-            },
-            {
-                id: 3,
-                title: 'JavaScript Programming',
-                lessons: 15,
-                duration: '6h 45m',
-                items: [
-                    {
-                        title: 'JavaScript Fundamentals',
-                        duration: '30m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Variables and Data Types',
-                        duration: '25m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Functions and Scope',
-                        duration: '35m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Objects and Arrays',
-                        duration: '40m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'DOM Manipulation',
-                        duration: '45m',
-                        type: 'video',
-                    },
-                    { title: 'Event Handling', duration: '30m', type: 'video' },
-                    {
-                        title: 'Async JavaScript',
-                        duration: '40m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Promises and Async/Await',
-                        duration: '35m',
-                        type: 'video',
-                    },
-                    { title: 'Fetch API', duration: '25m', type: 'video' },
-                    { title: 'Error Handling', duration: '20m', type: 'video' },
-                    { title: 'ES6+ Features', duration: '30m', type: 'video' },
-                    {
-                        title: 'Project: Interactive Web App',
-                        duration: '60m',
-                        type: 'project',
-                    },
-                    {
-                        title: 'Code Challenge',
-                        duration: '30m',
-                        type: 'exercise',
-                    },
-                    {
-                        title: 'Debugging Techniques',
-                        duration: '20m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Final Assessment',
-                        duration: '15m',
-                        type: 'quiz',
-                    },
-                ],
-            },
-            {
-                id: 4,
-                title: 'React Development',
-                lessons: 18,
-                duration: '8h 20m',
-                items: [
-                    {
-                        title: 'Introduction to React',
-                        duration: '25m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Components and JSX',
-                        duration: '30m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Props and State',
-                        duration: '35m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Event Handling in React',
-                        duration: '25m',
-                        type: 'video',
-                    },
-                    { title: 'React Hooks', duration: '45m', type: 'video' },
-                    {
-                        title: 'State Management',
-                        duration: '40m',
-                        type: 'video',
-                    },
-                    { title: 'React Router', duration: '35m', type: 'video' },
-                    { title: 'Forms in React', duration: '30m', type: 'video' },
-                    {
-                        title: 'API Integration',
-                        duration: '40m',
-                        type: 'video',
-                    },
-                    { title: 'Context API', duration: '25m', type: 'video' },
-                    {
-                        title: 'Performance Optimization',
-                        duration: '30m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Testing React Apps',
-                        duration: '35m',
-                        type: 'video',
-                    },
-                    { title: 'Deployment', duration: '20m', type: 'video' },
-                    {
-                        title: 'Project: E-commerce App',
-                        duration: '90m',
-                        type: 'project',
-                    },
-                    {
-                        title: 'Code Review Session',
-                        duration: '30m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Best Practices',
-                        duration: '15m',
-                        type: 'reading',
-                    },
-                    {
-                        title: 'Advanced Patterns',
-                        duration: '25m',
-                        type: 'video',
-                    },
-                    {
-                        title: 'Final Project',
-                        duration: '60m',
-                        type: 'project',
-                    },
-                ],
-            },
-        ],
-        reviews: [
-            {
-                id: 1,
-                name: 'Sarah Johnson',
-                avatar: '/placeholder.svg?height=50&width=50',
-                rating: 5,
-                date: '2 weeks ago',
-                comment:
-                    'Absolutely fantastic course! John explains everything clearly and the projects are really practical. I landed my first developer job after completing this course.',
-            },
-            {
-                id: 2,
-                name: 'Mike Chen',
-                avatar: '/placeholder.svg?height=50&width=50',
-                rating: 5,
-                date: '1 month ago',
-                comment:
-                    "Best investment I've made in my career. The curriculum is comprehensive and up-to-date. The instructor is very knowledgeable and responsive to questions.",
-            },
-            {
-                id: 3,
-                name: 'Emily Rodriguez',
-                avatar: '/placeholder.svg?height=50&width=50',
-                rating: 4,
-                date: '3 weeks ago',
-                comment:
-                    'Great course with lots of hands-on practice. The projects helped me build a strong portfolio. Would definitely recommend to anyone starting in web development.',
-            },
-            {
-                id: 4,
-                name: 'David Kim',
-                avatar: '/placeholder.svg?height=50&width=50',
-                rating: 5,
-                date: '1 week ago',
-                comment:
-                    'Excellent content and presentation. The course covers everything you need to know to become a full-stack developer. The support from the instructor is amazing.',
-            },
-        ],
-        features: [
-            '40 hours of on-demand video',
-            '156 downloadable resources',
-            'Full lifetime access',
-            'Access on mobile and TV',
-            'Certificate of completion',
-            '30-day money-back guarantee',
-        ],
-        requirements: [
-            'No programming experience needed',
-            'A computer with internet connection',
-            'Willingness to learn and practice',
-        ],
-        whatYouWillLearn: [
-            'Build responsive websites with HTML, CSS, and JavaScript',
-            'Create dynamic web applications with React',
-            'Understand backend development with Node.js',
-            'Work with databases and APIs',
-            'Deploy applications to the cloud',
-            'Build a professional portfolio',
-        ],
-    }
 
     const requirements = [
         'No experience needed',
@@ -397,52 +76,7 @@ const CourseDetailPage: React.FC = () => {
         '30-day money-back guarantee',
     ]
 
-    const relatedCourses: any[] = [
-        {
-            id: 2,
-            title: 'Advanced React Development',
-            description:
-                'Take your React skills to the next level with advanced patterns and techniques.',
-            instructor: 'Jane Doe',
-            category: 'Web Development',
-            level: 'advanced',
-            duration: '25h',
-            rating: 4.9,
-            students: 8500,
-            price: 2490000,
-            originalPrice: 3490000,
-            image: '/placeholder.svg?height=200&width=300',
-        },
-        {
-            id: 3,
-            title: 'Node.js Backend Development',
-            description:
-                'Master backend development with Node.js, Express, and MongoDB.',
-            instructor: 'Alex Wilson',
-            category: 'Backend Development',
-            level: 'intermediate',
-            duration: '35h',
-            rating: 4.7,
-            students: 6200,
-            price: 2190000,
-            image: '/placeholder.svg?height=200&width=300',
-        },
-        {
-            id: 4,
-            title: 'JavaScript Algorithms & Data Structures',
-            description:
-                'Strengthen your programming fundamentals with algorithms and data structures.',
-            instructor: 'Maria Garcia',
-            category: 'Programming',
-            level: 'intermediate',
-            duration: '30h',
-            rating: 4.8,
-            students: 9800,
-            price: 1890000,
-            originalPrice: 2690000,
-            image: '/placeholder.svg?height=200&width=300',
-        },
-    ]
+    const relatedCourses: any[] = []
 
     const fetchTotalStudentsOfCourse = async () => {
         try {
@@ -514,9 +148,25 @@ const CourseDetailPage: React.FC = () => {
         fetchLessons()
     }, [courseId])
 
-    const handleEnroll = () => {
-        console.log('Enrolling in course:', courseId)
-        // Handle enrollment logic here
+    const handleEnroll = async () => {
+        setEnrollLoading(true)
+        try {
+            const res = await OrderService.create({
+                course_id: Number(courseId),
+            })
+            if (res.status === 200) {
+                notification.success({
+                    message: 'Enroll successfully. Please check your cart.',
+                })
+            }
+        } catch (error) {
+            console.log(error)
+            notification.error({
+                message: 'Enroll failed. Please try again.',
+            })
+        } finally {
+            setEnrollLoading(false)
+        }
     }
 
     const getTypeIcon = (type: string) => {
@@ -602,6 +252,7 @@ const CourseDetailPage: React.FC = () => {
                                             size="large"
                                             className="course-detail-hero-btn"
                                             onClick={handleEnroll}
+                                            loading={enrollLoading}
                                         >
                                             Enroll Now
                                         </Button>

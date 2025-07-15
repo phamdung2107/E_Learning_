@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Rate, Space, Typography } from 'antd'
 
-import { PlayCircleOutlined, UserOutlined } from '@ant-design/icons'
+import { UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
-import CategoryService from '@/services/category'
-import EnrollmentService from '@/services/enrollment'
 import ReviewService from '@/services/review'
 import { formatPrice } from '@/utils/format'
 

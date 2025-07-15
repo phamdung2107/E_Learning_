@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { CREDENTIALS } from '@/constants/storage'
+import { CART, CREDENTIALS, NOTIFICATION } from '@/constants/storage'
 import { getLocalStorage, putLocalStorage, removeLocalStorage } from '@/utils/storage'
 
 import { getCurrentUserAction, loginAction } from './authAction'
@@ -33,6 +33,8 @@ const authSlice = createSlice({
             removeLocalStorage(CREDENTIALS.IS_LOGIN)
             removeLocalStorage(CREDENTIALS.AUTHENTICATION_TOKEN)
             removeLocalStorage(CREDENTIALS.USER_INFO)
+            removeLocalStorage(CART.COUNT)
+            removeLocalStorage(NOTIFICATION.COUNT)
         },
     },
     extraReducers: (builder) => {

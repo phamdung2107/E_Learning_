@@ -1,6 +1,6 @@
 'use client'
 
-import type React from 'react'
+import React, { useEffect } from 'react'
 
 import { Badge, Button, Col, Dropdown, Layout, Row, Typography } from 'antd'
 
@@ -23,6 +23,9 @@ import { Link, useLocation } from 'react-router-dom'
 import { COMMON_INFORMATION } from '@/constants/information'
 import { PUBLIC_PATHS } from '@/routers/path'
 import { logout } from '@/stores/auth/authSlice'
+import { getCurrentCartAction } from '@/stores/cart/cartAction'
+import { setCart } from '@/stores/cart/cartSlice'
+import { setNotification } from '@/stores/notification/notificationSlice'
 
 import './styles/Header.css'
 
@@ -36,6 +39,7 @@ const HeaderComponent: React.FC = () => {
         (store: any) => store.auth.isAuthenticated
     )
     const user = useSelector((store: any) => store.auth.user)
+    const countCart = useSelector((store: any) => store.cart.count)
     const userMenuItems = [
         {
             key: 'management',
@@ -44,10 +48,26 @@ const HeaderComponent: React.FC = () => {
         },
         {
             key: 'logout',
-            label: <div onClick={() => dispatch(logout())}>Logout</div>,
+            label: (
+                <div
+                    onClick={() => {
+                        dispatch(logout())
+                        dispatch(setCart())
+                        dispatch(setNotification())
+                    }}
+                >
+                    Logout
+                </div>
+            ),
             icon: <LogoutOutlined />,
         },
     ]
+
+    useEffect(() => {
+        if (countCart) {
+            dispatch(getCurrentCartAction())
+        }
+    }, [countCart])
 
     return (
         <Layout>
@@ -326,8 +346,9 @@ const HeaderComponent: React.FC = () => {
                         <Col>
                             <Row gutter={20} align="middle">
                                 <Col>
-                                    <Badge count={10}>
+                                    <Badge count={Number(countCart)}>
                                         <Button
+                                            href={`/${user?.role}/cart`}
                                             size="middle"
                                             shape="circle"
                                             icon={

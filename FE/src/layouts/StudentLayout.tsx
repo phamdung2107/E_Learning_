@@ -8,11 +8,9 @@ import { Avatar, Badge, Button, Dropdown, Layout, Menu, Typography } from 'antd'
 import {
     BellOutlined,
     BookOutlined,
-    CreditCardOutlined,
     DashboardOutlined,
     LogoutOutlined,
     MenuOutlined,
-    QuestionCircleOutlined,
     ShoppingCartOutlined,
     TrophyOutlined,
     UserOutlined,
@@ -22,6 +20,8 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { PATHS, STUDENT_PATHS } from '@/routers/path'
 import { logout } from '@/stores/auth/authSlice'
+import { setCart } from '@/stores/cart/cartSlice'
+import { setNotification } from '@/stores/notification/notificationSlice'
 
 const { Header, Sider, Content } = Layout
 const { Title } = Typography
@@ -29,6 +29,10 @@ const { Title } = Typography
 const StudentLayout: React.FC = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const countCart = useSelector((store: any) => store.cart.count)
+    const countNotification = useSelector(
+        (store: any) => store.notification.count
+    )
     const user = useSelector((store: any) => store.auth.user)
     const [collapsed, setCollapsed] = useState(false)
     const { pathname } = useLocation()
@@ -72,6 +76,8 @@ const StudentLayout: React.FC = () => {
                 <div
                     onClick={() => {
                         dispatch(logout())
+                        dispatch(setCart())
+                        dispatch(setNotification())
                         navigate(PATHS.AUTH)
                     }}
                 >
@@ -143,7 +149,7 @@ const StudentLayout: React.FC = () => {
                             gap: '16px',
                         }}
                     >
-                        <Badge count={10}>
+                        <Badge count={Number(countNotification)}>
                             <Button
                                 size="middle"
                                 shape="circle"
@@ -157,7 +163,7 @@ const StudentLayout: React.FC = () => {
                                 }
                             ></Button>
                         </Badge>
-                        <Badge count={10}>
+                        <Badge count={Number(countCart)}>
                             <Button
                                 size="middle"
                                 shape="circle"

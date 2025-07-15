@@ -2307,12 +2307,12 @@
             }
         },
         "/api/orders/{id}/confirm": {
-            "post": {
+            "put": {
                 "tags": [
                     "Order"
                 ],
                 "summary": "Xác nhận thanh toán đơn hàng",
-                "operationId": "436c889cff2a0471c36b9df087da6543",
+                "operationId": "397841394471c4a564127ba5e9cdef4d",
                 "parameters": [
                     {
                         "name": "id",
@@ -2331,12 +2331,12 @@
             }
         },
         "/api/orders/{id}/cancel": {
-            "post": {
+            "put": {
                 "tags": [
                     "Order"
                 ],
                 "summary": "Huỷ đơn hàng",
-                "operationId": "676df2370b61c7435f1c3fe3430e4bf4",
+                "operationId": "ec77389f2e70744b3334db6b395696ce",
                 "parameters": [
                     {
                         "name": "id",

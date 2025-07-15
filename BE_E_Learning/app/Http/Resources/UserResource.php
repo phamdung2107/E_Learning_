@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'role' => $this->role,
             'avatar' => $this->avatar,
             'status' => $this->status,
-            'money' => number_format($this->money, 2),
+            'money' => $this->money,
         ];
     }
 }

@@ -55,7 +55,7 @@ const EnrollCourseCard = ({ course }: any) => {
                 />
             }
             actions={[
-                completedLessons === lessons ? (
+                completedLessons === lessons && completedLessons > 0 ? (
                     <Link
                         to={`/student/certificates/${course.id}`}
                         key={`certificate-${course.id}`}

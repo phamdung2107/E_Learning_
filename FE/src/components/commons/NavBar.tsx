@@ -2,15 +2,7 @@ import React from 'react'
 
 import { Menu, Tooltip } from 'antd'
 
-import {
-    AppstoreOutlined,
-    ClusterOutlined,
-    DeploymentUnitOutlined,
-    GlobalOutlined,
-    LayoutOutlined,
-    LineChartOutlined,
-    SettingOutlined,
-} from '@ant-design/icons'
+import { AppstoreOutlined } from '@ant-design/icons'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { PATHS } from '@/routers/path'

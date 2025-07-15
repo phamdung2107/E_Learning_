@@ -4,7 +4,6 @@ import type React from 'react'
 import { useEffect, useState } from 'react'
 
 import {
-    Alert,
     Button,
     Card,
     Col,
@@ -13,17 +12,13 @@ import {
     Progress,
     Radio,
     Row,
-    Spin,
     Typography,
-    message,
     notification,
 } from 'antd'
 
 import {
     ArrowLeftOutlined,
-    BookOutlined,
     CheckCircleOutlined,
-    ClockCircleOutlined,
     FileTextOutlined,
     LeftOutlined,
     PlayCircleOutlined,

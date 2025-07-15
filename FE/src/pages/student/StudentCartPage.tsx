@@ -1,56 +1,117 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import {
     Button,
     Card,
     Col,
-    InputNumber,
+    Image,
     Row,
+    Space,
     Table,
     Tag,
     Typography,
+    notification,
 } from 'antd'
+
+import { DeleteOutlined } from '@ant-design/icons'
+import { useDispatch } from 'react-redux'
+
+import { CheckoutOrderModal } from '@/components/core/modal/CheckoutOrderModal'
+import { DeleteOrderModal } from '@/components/core/modal/DeleteOrderModal'
+import OrderService from '@/services/order'
+import { getCurrentUserAction } from '@/stores/auth/authAction'
+import { getCurrentCartAction } from '@/stores/cart/cartAction'
+import { formatPrice } from '@/utils/format'
 
 const { Title, Text } = Typography
 
 const StudentCartPage = () => {
-    const [courses, setCourses] = useState([
-        {
-            key: '1',
-            image: 'path-to-image-1.jpg', // Replace with actual image path
-            name: 'Marketing: First Day Guide',
-            price: 3000000,
-            quantity: 1,
-        },
-        {
-            key: '2',
-            image: 'path-to-image-2.jpg', // Replace with actual image path
-            name: 'Design: Basics for Beginners',
-            price: 2500000,
-            quantity: 2,
-        },
-    ])
+    const dispatch = useDispatch()
+    const [orders, setOrders] = useState<any[]>([])
+    const [record, setRecord] = useState()
+    const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
+    const [isModalCheckoutOpen, setIsModalCheckoutOpen] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
+    const [checkoutLoading, setCheckoutLoading] = useState(false)
 
-    const updateQuantity = (key, value) => {
-        setCourses(
-            courses.map((course) =>
-                course.key === key ? { ...course, quantity: value } : course
+    const fetchOrders = async () => {
+        try {
+            const response = await OrderService.getMyOrders()
+            setOrders(
+                response.data
+                    .filter((order: any) => order.payment_status === 'pending')
+                    .map((order: any) => ({
+                        ...order,
+                        courseImage: order.course.thumbnail,
+                        courseName: order.course.title,
+                    }))
             )
-        )
+        } catch (e) {
+            console.error(e)
+        }
     }
 
-    const total = courses.reduce(
-        (sum, course) => sum + course.price * course.quantity,
-        0
-    )
+    useEffect(() => {
+        fetchOrders()
+    }, [])
 
-    const columns = [
+    const total = useMemo(() => {
+        return orders.reduce(
+            (sum, order) => sum + Number(order?.original_price),
+            0
+        )
+    }, [orders])
+
+    const handleDelete = async (values: any) => {
+        setDeleteLoading(true)
+        try {
+            await OrderService.delete(values.id)
+            notification.success({
+                message: 'Delete order successfully',
+            })
+            await fetchOrders()
+        } catch (e) {
+            console.error(e)
+            notification.success({
+                message: 'Delete order failed. Please try again later.',
+            })
+        } finally {
+            setDeleteLoading(false)
+            setIsModalDeleteOpen(false)
+        }
+    }
+
+    const handleCheckout = async (values: any) => {
+        console.log('values:', values)
+        setCheckoutLoading(true)
+        try {
+            for (const order of values) {
+                await OrderService.confirm(order.id)
+            }
+            notification.success({
+                message: 'Order confirmed successfully',
+            })
+            dispatch(getCurrentUserAction())
+            dispatch(getCurrentCartAction())
+            await fetchOrders()
+        } catch (e) {
+            console.error(e)
+            notification.success({
+                message: 'Order confirmed failed. Please try again later.',
+            })
+        } finally {
+            setCheckoutLoading(false)
+            setIsModalCheckoutOpen(false)
+        }
+    }
+
+    const columns: any = [
         {
             title: 'Image',
-            dataIndex: 'image',
-            key: 'image',
-            render: (text) => (
-                <img
+            dataIndex: 'courseImage',
+            key: 'courseImage',
+            render: (text: any) => (
+                <Image
                     src={text}
                     alt="course"
                     style={{ width: '80px', height: 'auto' }}
@@ -59,32 +120,36 @@ const StudentCartPage = () => {
         },
         {
             title: 'Course Name',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'courseName',
+            key: 'courseName',
+            align: 'left' as const,
         },
         {
             title: 'Price',
-            dataIndex: 'price',
-            key: 'price',
-            render: (text) => `$${text.toLocaleString()}`,
+            dataIndex: 'original_price',
+            key: 'original_price',
+            align: 'center' as const,
+            render: (text: any) => `${formatPrice(text)}`,
         },
         {
-            title: 'Quantity',
-            dataIndex: 'quantity',
-            key: 'quantity',
-            render: (text, record) => (
-                <InputNumber
-                    min={1}
-                    value={text}
-                    onChange={(value) => updateQuantity(record.key, value)}
-                />
+            title: 'Action',
+            key: 'action',
+            align: 'center',
+            width: 120,
+            render: (record: any) => (
+                <Space>
+                    <Button
+                        danger
+                        size="small"
+                        icon={<DeleteOutlined />}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            setRecord(record)
+                            setIsModalDeleteOpen(true)
+                        }}
+                    />
+                </Space>
             ),
-        },
-        {
-            title: 'Total',
-            key: 'total',
-            render: (record) =>
-                `$${(record.price * record.quantity).toLocaleString()}`,
         },
     ]
 
@@ -103,7 +168,7 @@ const StudentCartPage = () => {
                     >
                         <Table
                             columns={columns}
-                            dataSource={courses}
+                            dataSource={orders}
                             pagination={false}
                             bordered
                             style={{ borderRadius: '8px' }}
@@ -122,11 +187,7 @@ const StudentCartPage = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={12}>Subtotal</Col>
                             <Col span={12} style={{ textAlign: 'right' }}>
-                                ${total.toLocaleString()}
-                            </Col>
-                            <Col span={12}>Shipping Fee</Col>
-                            <Col span={12} style={{ textAlign: 'right' }}>
-                                $0
+                                {formatPrice(total)}
                             </Col>
                             <Col span={12}>
                                 <Tag color="blue">Total</Tag>
@@ -138,19 +199,44 @@ const StudentCartPage = () => {
                                     fontWeight: 'bold',
                                 }}
                             >
-                                ${total.toLocaleString()}
+                                {formatPrice(total)}
                             </Col>
                         </Row>
                         <Button
                             type="primary"
                             size="large"
                             style={{ marginTop: '20px', float: 'right' }}
+                            onClick={() => setIsModalCheckoutOpen(true)}
+                            disabled={orders.length === 0}
                         >
                             Checkout
                         </Button>
                     </Card>
                 </Col>
             </Row>
+
+            <DeleteOrderModal
+                visible={isModalDeleteOpen}
+                onClose={() => {
+                    // @ts-ignore
+                    setRecord(null)
+                    setIsModalDeleteOpen(false)
+                }}
+                onSubmit={(values: any) => handleDelete(values)}
+                loading={deleteLoading}
+                record={record}
+            />
+
+            <CheckoutOrderModal
+                visible={isModalCheckoutOpen}
+                onClose={() => {
+                    // @ts-ignore
+                    setIsModalCheckoutOpen(false)
+                }}
+                onSubmit={(values: any) => handleCheckout(values)}
+                loading={checkoutLoading}
+                orders={orders}
+            />
         </div>
     )
 }

@@ -16,7 +16,6 @@ import {
 
 import {
     ArrowLeftOutlined,
-    BookOutlined,
     CheckCircleOutlined,
     FileTextOutlined,
     LeftOutlined,

@@ -3,3 +3,11 @@ export const CREDENTIALS = {
     IS_LOGIN: 'IS_LOGIN',
     USER_INFO: 'USER_INFO',
 }
+
+export const CART = {
+    COUNT: 'CART_COUNT',
+}
+
+export const NOTIFICATION = {
+    COUNT: 'NOTIFICATION_COUNT',
+}

@@ -15,17 +15,22 @@ import {
 } from 'antd'
 
 import {
+    BellOutlined,
     BookOutlined,
     CheckCircleOutlined,
-    QuestionCircleOutlined,
+    DollarCircleOutlined,
+    InfoCircleOutlined,
+    ShoppingCartOutlined,
     TrophyOutlined,
 } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import EnrollCourseSummaryCard from '@/components/core/card/EnrollCourseSummaryCard'
+import { STUDENT_PATHS } from '@/routers/path'
 import CertificateService from '@/services/certificate'
 import CourseService from '@/services/course'
+import NotificationService from '@/services/notification'
 import ProgressService from '@/services/progress'
 
 import '../styles/StudentDashboard.css'
@@ -37,7 +42,16 @@ const StudentDashboard: React.FC = () => {
     const [enrolledCourses, setEnrolledCourses] = useState<any[]>([])
     const [progressSummary, setProgressSummary] = useState<any>({})
     const [totalCertificate, setTotalCertificate] = useState(0)
-    const [recentActivity, setRecentActivity] = useState<any[]>([])
+    const [notifications, setNotifications] = useState<any[]>([])
+
+    const fetchNotifications = async () => {
+        try {
+            const response = await NotificationService.getAll()
+            setNotifications(response.data)
+        } catch (e) {
+            console.error('Failed to fetch notifications:', e)
+        }
+    }
 
     const fetchEnrolledCourses = async () => {
         try {
@@ -68,36 +82,34 @@ const StudentDashboard: React.FC = () => {
         }
     }
 
+    const getNotificationIcon = (type: string) => {
+        switch (type) {
+            case 'system':
+                return <InfoCircleOutlined style={{ color: '#1890ff' }} />
+            case 'course':
+                return <BookOutlined style={{ color: '#20B2AA' }} />
+            case 'payment':
+                return <DollarCircleOutlined style={{ color: '#faad14' }} />
+            case 'other':
+            default:
+                return <BellOutlined style={{ color: '#999' }} />
+        }
+    }
+
+    const markAsRead = async (id: number) => {
+        try {
+            await NotificationService.maskAsRead(id)
+            await fetchNotifications()
+        } catch (e) {
+            console.error('Failed to mark as read:', e)
+        }
+    }
+
     useEffect(() => {
         fetchEnrolledCourses()
         fetchProgressSummary()
         fetchTotalCertificate()
-        setRecentActivity([
-            {
-                id: 1,
-                type: 'lesson_completed',
-                title: 'Completed: React Hooks Deep Dive',
-                course: 'React Advanced Concepts',
-                time: '2 hours ago',
-                icon: <CheckCircleOutlined style={{ color: '#52c41a' }} />,
-            },
-            {
-                id: 2,
-                type: 'quiz_completed',
-                title: 'Quiz Score: 85% - Express.js Fundamentals',
-                course: 'Node.js Backend Development',
-                time: '1 day ago',
-                icon: <TrophyOutlined style={{ color: '#faad14' }} />,
-            },
-            {
-                id: 3,
-                type: 'certificate_earned',
-                title: 'Certificate Earned: Database Design',
-                course: 'Database Design Fundamentals',
-                time: '3 days ago',
-                icon: <TrophyOutlined style={{ color: '#1890ff' }} />,
-            },
-        ])
+        fetchNotifications()
     }, [])
 
     return (
@@ -166,7 +178,7 @@ const StudentDashboard: React.FC = () => {
                                 }}
                             >
                                 <span>My Courses</span>
-                                <Link to="/student/courses">
+                                <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>
                                     <Button type="link" size="small">
                                         View All
                                     </Button>
@@ -191,30 +203,49 @@ const StudentDashboard: React.FC = () => {
                 {/* Sidebar */}
                 <Col xs={24} lg={10}>
                     <div className="student-sidebar">
-                        {/* Recent Activity */}
                         <Card
                             className="student-activity-card"
-                            title="Recent Activity"
+                            title="Notifications"
                         >
                             <List
                                 className="student-activity-list"
                                 size="small"
-                                dataSource={recentActivity}
+                                dataSource={notifications}
                                 renderItem={(item) => (
-                                    <List.Item>
+                                    <List.Item
+                                        style={{
+                                            opacity: item.is_read ? 0.5 : 1,
+                                            transition: 'opacity 0.3s ease',
+                                        }}
+                                        actions={
+                                            !item.is_read
+                                                ? [
+                                                      <Button
+                                                          size="small"
+                                                          type="link"
+                                                          onClick={() =>
+                                                              markAsRead(
+                                                                  item.id
+                                                              )
+                                                          }
+                                                      >
+                                                          Mark as read
+                                                      </Button>,
+                                                  ]
+                                                : []
+                                        }
+                                    >
                                         <List.Item.Meta
-                                            avatar={item.icon}
+                                            avatar={getNotificationIcon(
+                                                item.type
+                                            )}
                                             title={<Text>{item.title}</Text>}
                                             description={
-                                                <div>
-                                                    <Text type="secondary">
-                                                        {item.course}
-                                                    </Text>
-                                                    <br />
-                                                    <Text type="secondary">
-                                                        {item.time}
-                                                    </Text>
-                                                </div>
+                                                <Text type="secondary">
+                                                    {new Date(
+                                                        item.created_at
+                                                    ).toLocaleString()}
+                                                </Text>
                                             }
                                         />
                                     </List.Item>
@@ -232,22 +263,22 @@ const StudentDashboard: React.FC = () => {
                                 className="student-actions-list"
                                 size="small"
                             >
-                                <Link to="/student/courses">
+                                <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>
                                     <Button block icon={<BookOutlined />}>
                                         My Courses
                                     </Button>
                                 </Link>
-                                <Link to="/student/quiz">
-                                    <Button
-                                        block
-                                        icon={<QuestionCircleOutlined />}
-                                    >
-                                        Take Quiz
-                                    </Button>
-                                </Link>
-                                <Link to="/student/certificates">
+                                <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>
                                     <Button block icon={<TrophyOutlined />}>
                                         Certificates
+                                    </Button>
+                                </Link>
+                                <Link to={STUDENT_PATHS.STUDENT_CART}>
+                                    <Button
+                                        block
+                                        icon={<ShoppingCartOutlined />}
+                                    >
+                                        My Cart
                                     </Button>
                                 </Link>
                             </Space>

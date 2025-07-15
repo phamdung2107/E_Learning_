@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Card, Typography } from 'antd'
 
-import { BookOutlined, RocketOutlined, TrophyOutlined } from '@ant-design/icons'
+import { RocketOutlined } from '@ant-design/icons'
 
 import CategoryService from '@/services/category'
 

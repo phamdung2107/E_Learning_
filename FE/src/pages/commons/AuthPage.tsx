@@ -1,7 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
     Button,
@@ -24,6 +23,8 @@ import { useNavigate } from 'react-router-dom'
 import { PATHS } from '@/routers/path'
 import AuthService from '@/services/auth'
 import { getCurrentUserAction, loginAction } from '@/stores/auth/authAction'
+import { getCurrentCartAction } from '@/stores/cart/cartAction'
+import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
 
 const { Text, Link } = Typography
 
@@ -50,6 +51,8 @@ const AuthPage: React.FC = () => {
 
             if (loginResponse.payload && loginResponse.payload.length > 0) {
                 const userResponse = await dispatch(getCurrentUserAction())
+                dispatch(getCurrentCartAction())
+                dispatch(getCurrentNotificationAction())
                 if (userResponse.payload) {
                     notification.success({
                         message: 'Login success!',

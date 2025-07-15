@@ -5,13 +5,7 @@ import { useEffect, useState } from 'react'
 
 import { Button, Card, Typography } from 'antd'
 
-import {
-    CalendarOutlined,
-    ClockCircleOutlined,
-    FireOutlined,
-    GiftOutlined,
-    PlayCircleOutlined,
-} from '@ant-design/icons'
+import { FireOutlined, GiftOutlined } from '@ant-design/icons'
 
 import './styles/EventCard.css'
 
