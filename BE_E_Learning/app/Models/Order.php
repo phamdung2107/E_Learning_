@@ -11,8 +11,8 @@ class Order extends Model
 
     protected $table = 'orders';
 
-    protected $fillable = ['user_id', 'total_amount', 'voucher_id', 'payment_status'];
+    protected $fillable = ['user_id','course_id', 'original_price', 'payment_status','payment_method'];
 
     public function user() { return $this->belongsTo(User::class); }
-    public function voucher() { return $this->belongsTo(Voucher::class); }
+    public function course() { return $this->belongsTo(Course::class); }
 }

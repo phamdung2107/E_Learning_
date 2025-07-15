@@ -41,7 +41,7 @@ class OrderController extends Controller
 
         $exists = Order::where('user_id', $user->id)
             ->where('course_id', $course->id)
-            ->whereIn('status', ['pending', 'paid'])
+            ->whereIn('payment_status', ['pending', 'paid'])
             ->exists();
 
         if ($exists) {
@@ -51,8 +51,8 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => $user->id,
             'course_id' => $course->id,
-            'price' => $course->price,
-            'status' => 'pending',
+            'original_price' => $course->price,
+            'payment_status' => 'pending',
             'payment_method' => 'wallet'
         ]);
 
@@ -73,7 +73,7 @@ class OrderController extends Controller
         $user = $request->user();
         $order = Order::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
-        if ($order->status !== 'pending') {
+        if ($order->payment_status !== 'pending') {
             return response()->json(['message' => 'Đơn hàng không hợp lệ để xác nhận.'], 400);
         }
 
@@ -86,13 +86,13 @@ class OrderController extends Controller
             $user->money -= $order->price;
             $user->save();
 
-            $order->status = 'paid';
+            $order->payment_status = 'paid';
             $order->save();
 
             Enrollment::create([
                 'user_id' => $user->id,
                 'course_id' => $order->course_id,
-                'status' => 'active'
+                'payment_status' => 'active'
             ]);
 
             Notification::create([
@@ -125,11 +125,11 @@ class OrderController extends Controller
         $user = $request->user();
         $order = Order::where('id', $id)->where('user_id', $user->id)->firstOrFail();
 
-        if ($order->status !== 'pending') {
+        if ($order->payment_status !== 'pending') {
             return response()->json(['message' => 'Không thể hủy đơn hàng đã xử lý.'], 400);
         }
 
-        $order->status = 'canceled';
+        $order->payment_status = 'canceled';
         $order->save();
 
         return Response::data(['message' => 'Đã hủy đơn hàng']);
