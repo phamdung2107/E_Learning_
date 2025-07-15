@@ -12,8 +12,8 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'course' => new CourseResource($this->whenLoaded('course')),
             'user' => new UserResource($this->whenLoaded('user')),
-            'price' => $this->price,
-            'status' => $this->status,
+            'original_price' => $this->price,
+            'payment_status' => $this->status,
             'payment_method' => $this->payment_method,
             'created_at' => $this->created_at->toDateTimeString(),
         ];
