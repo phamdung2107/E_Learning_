@@ -1946,6 +1946,79 @@
                 ]
             }
         },
+        "/api/instructors/{id}/monthly-revenue": {
+            "get": {
+                "tags": [
+                    "Instructor"
+                ],
+                "summary": "Lấy doanh thu theo từng tháng của giảng viên",
+                "operationId": "e553b73aa478876fed2024e974a853e6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của giảng viên",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Năm cần tính (mặc định là năm hiện tại)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2025
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Thành công. Trả về doanh thu của từng tháng.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "month": {
+                                                        "type": "string",
+                                                        "example": "01"
+                                                    },
+                                                    "revenue": {
+                                                        "type": "number",
+                                                        "example": 1200000
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/instructors/by-user/{userId}": {
             "get": {
                 "tags": [

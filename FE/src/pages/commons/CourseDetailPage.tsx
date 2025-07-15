@@ -3,19 +3,7 @@
 import type React from 'react'
 import { useEffect, useState } from 'react'
 
-import {
-    Button,
-    Card,
-    Col,
-    Collapse,
-    Divider,
-    Rate,
-    Row,
-    Space,
-    Tag,
-    Typography,
-    notification,
-} from 'antd'
+import { Button, Card, Col, Collapse, Divider, notification, Rate, Row, Space, Tag, Typography } from 'antd'
 
 import {
     BookOutlined,
@@ -27,7 +15,6 @@ import {
     ShareAltOutlined,
     TrophyOutlined,
     UserOutlined,
-    VideoCameraOutlined,
 } from '@ant-design/icons'
 import { Link, useParams } from 'react-router-dom'
 
@@ -39,6 +26,7 @@ import LessonService from '@/services/lesson'
 import OrderService from '@/services/order'
 import QuizService from '@/services/quiz'
 import ReviewService from '@/services/review'
+import InstructorService from '@/services/instructor'
 import { formatDateTime, formatPrice } from '@/utils/format'
 
 import '../styles/CourseDetail.css'
@@ -59,7 +47,6 @@ const CourseDetailPage: React.FC = () => {
     const [lessons, setLessons] = useState<any[]>([])
     const [reviews, setReviews] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
-    const [activeTab, setActiveTab] = useState('overview')
 
     const requirements = [
         'No experience needed',
@@ -78,64 +65,48 @@ const CourseDetailPage: React.FC = () => {
 
     const relatedCourses: any[] = []
 
-    const fetchTotalStudentsOfCourse = async () => {
-        try {
-            const response = await EnrollmentService.countByCourse(courseId)
-            setTotalStudentsOfCourse(response.data.enrolled)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const fetchAverageRating = async () => {
-        try {
-            const response = await ReviewService.getAverageByCourse(courseId)
-            setAverageRating(response.data.average_rating)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const fetchLessons = async () => {
-        try {
-            const response = await LessonService.getByCourse(courseId)
-
-            if (!response.data) {
-                setLessons([])
-                return
-            }
-
-            const newLessons = await Promise.all(
-                response.data.map(async (lesson: any) => {
-                    try {
-                        const quizRes = await QuizService.getByLesson(lesson.id)
-                        return {
-                            ...lesson,
-                            quizzes: quizRes.data || [],
-                        }
-                    } catch (e) {
-                        return {
-                            ...lesson,
-                            quizzes: [],
-                        }
-                    }
-                })
-            )
-
-            setLessons(newLessons)
-            console.log(newLessons)
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
     const fetchCourseDetail = async () => {
         setLoading(true)
         try {
-            const response = await CourseService.getDetail(courseId)
-            setCourse(response.data)
+            const courseRes = await CourseService.getDetail(courseId)
+            const courseData = courseRes.data
+            setCourse(courseData)
+
+            const [
+                resStudent,
+                resCourse,
+                enrollmentRes,
+                avgRatingRes,
+                lessonsRes,
+                reviewsRes
+            ] = await Promise.all([
+                InstructorService.getStudents(courseData.instructor.id),
+                InstructorService.getCourses(courseData.instructor.id),
+                EnrollmentService.countByCourse(courseId),
+                ReviewService.getAverageByCourse(courseId),
+                LessonService.getByCourse(courseId),
+                ReviewService.getByCourse(courseId)
+            ])
+
+            setTotalStudentsOfInstructor(resStudent.total)
+            setTotalCoursesOfInstructor(resCourse.total)
+            setTotalStudentsOfCourse(enrollmentRes.data.enrolled)
+            setAverageRating(avgRatingRes.data.average_rating)
+            setReviews(reviewsRes.data)
+
+            const lessonsWithQuiz = await Promise.all(
+                (lessonsRes.data || []).map(async (lesson: any) => {
+                    try {
+                        const quizRes = await QuizService.getByLesson(lesson.id)
+                        return { ...lesson, quizzes: quizRes.data || [] }
+                    } catch {
+                        return { ...lesson, quizzes: [] }
+                    }
+                })
+            )
+            setLessons(lessonsWithQuiz)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         } finally {
             setLoading(false)
         }
@@ -143,9 +114,6 @@ const CourseDetailPage: React.FC = () => {
 
     useEffect(() => {
         fetchCourseDetail()
-        fetchTotalStudentsOfCourse()
-        fetchAverageRating()
-        fetchLessons()
     }, [courseId])
 
     const handleEnroll = async () => {
@@ -166,21 +134,6 @@ const CourseDetailPage: React.FC = () => {
             })
         } finally {
             setEnrollLoading(false)
-        }
-    }
-
-    const getTypeIcon = (type: string) => {
-        switch (type) {
-            case 'video':
-                return <VideoCameraOutlined />
-            case 'quiz':
-                return <FileTextOutlined />
-            case 'project':
-                return <TrophyOutlined />
-            case 'reading':
-                return <BookOutlined />
-            default:
-                return <PlayCircleOutlined />
         }
     }
 
@@ -395,6 +348,7 @@ const CourseDetailPage: React.FC = () => {
                                             block
                                             className="course-detail-enrollment-btn"
                                             onClick={handleEnroll}
+                                            loading={enrollLoading}
                                         >
                                             Enroll Now
                                         </Button>
@@ -543,15 +497,7 @@ const CourseDetailPage: React.FC = () => {
                                 <div className="course-detail-instructor-stats">
                                     <div className="course-detail-instructor-stat">
                                         <div className="course-detail-instructor-stat-number">
-                                            {/*{course.instructor.rating}*/}
-                                        </div>
-                                        <div className="course-detail-instructor-stat-label">
-                                            Rating
-                                        </div>
-                                    </div>
-                                    <div className="course-detail-instructor-stat">
-                                        <div className="course-detail-instructor-stat-number">
-                                            {/*{course.instructor.students.toLocaleString()}*/}
+                                            {totalStudentsOfInstructor}
                                         </div>
                                         <div className="course-detail-instructor-stat-label">
                                             Students
@@ -559,7 +505,7 @@ const CourseDetailPage: React.FC = () => {
                                     </div>
                                     <div className="course-detail-instructor-stat">
                                         <div className="course-detail-instructor-stat-number">
-                                            {/*{course.instructor.courses}*/}
+                                            {totalCoursesOfInstructor}
                                         </div>
                                         <div className="course-detail-instructor-stat-label">
                                             Courses
@@ -588,12 +534,9 @@ const CourseDetailPage: React.FC = () => {
                                         Experience:{' '}
                                         {course.instructor.experience_years}
                                     </Tag>
-                                    <Tag color="green">
-                                        {/*Rating: {course.instructor.rating}/5*/}
-                                    </Tag>
                                     <Tag color="orange">
                                         Students:{' '}
-                                        {/*{course.instructor.students.toLocaleString()}*/}
+                                        {totalStudentsOfInstructor}
                                     </Tag>
                                 </Space>
                             </Col>
@@ -617,43 +560,48 @@ const CourseDetailPage: React.FC = () => {
 
                     <div className="course-detail-reviews-summary">
                         <div className="course-detail-reviews-rating">
-                            {/*{course.rating}*/}
+                            {averageRating}
                         </div>
                         <div className="course-detail-reviews-stars">
-                            {/*<Rate disabled allowHalf value={course.rating} />*/}
+                            <Rate disabled allowHalf value={averageRating} />
                         </div>
                         <div className="course-detail-reviews-count">
-                            {/*Based on {course.students.toLocaleString()} student*/}
+                            Based on {totalStudentsOfCourse} student
                             reviews
                         </div>
                     </div>
 
                     <Row gutter={[24, 24]}>
-                        {/*{course.reviews.map((review: any) => (*/}
-                        {/*    <Col xs={24} md={12} key={review.id}>*/}
-                        {/*        <div className="course-detail-review-card">*/}
-                        {/*            <div className="course-detail-review-header">*/}
-                        {/*                <div className="course-detail-review-avatar">*/}
-                        {/*                    <UserOutlined />*/}
-                        {/*                </div>*/}
-                        {/*                <div className="course-detail-review-info">*/}
-                        {/*                    <div className="course-detail-review-name">*/}
-                        {/*                        {review.name}*/}
-                        {/*                    </div>*/}
-                        {/*                    <div className="course-detail-review-date">*/}
-                        {/*                        {review.date}*/}
-                        {/*                    </div>*/}
-                        {/*                </div>*/}
-                        {/*            </div>*/}
-                        {/*            <div className="course-detail-review-rating">*/}
-                        {/*                <Rate disabled value={review.rating} />*/}
-                        {/*            </div>*/}
-                        {/*            <div className="course-detail-review-text">*/}
-                        {/*                {review.comment}*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*    </Col>*/}
-                        {/*))}*/}
+                        {reviews.slice(0, 4).map((review: any) => (
+                            <Col xs={24} md={12} key={review.id}>
+                                <div className="course-detail-review-card">
+                                    <div className="course-detail-review-header">
+                                        <div className="course-detail-review-avatar">
+                                            <UserOutlined />
+                                        </div>
+                                        <div className="course-detail-review-info">
+                                            <div className="course-detail-review-name">
+                                                {review.user.full_name}
+                                            </div>
+                                            <div className="course-detail-review-date">
+                                                {review.date}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="course-detail-review-rating">
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <Rate disabled value={review.rating} />
+                                            <Title style={{ marginBottom: 0, marginLeft: 5 }} level={5}>
+                                                ({review.rating})
+                                            </Title>
+                                        </div>
+                                    </div>
+                                    <div className="course-detail-review-text">
+                                        {review.comment}
+                                    </div>
+                                </div>
+                            </Col>
+                        ))}
                     </Row>
                 </div>
             </section>

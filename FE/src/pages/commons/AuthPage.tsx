@@ -22,9 +22,10 @@ import { useNavigate } from 'react-router-dom'
 
 import { PATHS } from '@/routers/path'
 import AuthService from '@/services/auth'
-import { getCurrentUserAction, loginAction } from '@/stores/auth/authAction'
+import { getCurrentInstructorAction, getCurrentUserAction, loginAction } from '@/stores/auth/authAction'
 import { getCurrentCartAction } from '@/stores/cart/cartAction'
 import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
+import { setInstructor } from '@/stores/auth/authSlice'
 
 const { Text, Link } = Typography
 
@@ -53,7 +54,13 @@ const AuthPage: React.FC = () => {
                 const userResponse = await dispatch(getCurrentUserAction())
                 dispatch(getCurrentCartAction())
                 dispatch(getCurrentNotificationAction())
-                if (userResponse.payload) {
+
+                const user = userResponse.payload
+                if (user) {
+                    const instructorRes = await dispatch(getCurrentInstructorAction(userResponse.payload.id))
+                    if (instructorRes.payload) {
+                        dispatch(setInstructor(instructorRes.payload))
+                    }
                     notification.success({
                         message: 'Login success!',
                         description: 'Welcome back',
@@ -63,8 +70,7 @@ const AuthPage: React.FC = () => {
             } else {
                 notification.error({
                     message: 'Login failed!',
-                    description:
-                        loginResponse.payload?.message || 'Invalid credentials',
+                    description: loginResponse.payload?.message || 'Invalid credentials',
                 })
             }
         } catch (e: any) {

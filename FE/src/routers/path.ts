@@ -25,6 +25,13 @@ export const STUDENT_PATHS = {
     STUDENT_CART: '/student/cart',
 }
 
+export const INSTRUCTOR_PATHS = {
+    INSTRUCTOR_DASHBOARD: '/instructor',
+    INSTRUCTOR_MY_COURSES: '/instructor/courses',
+    INSTRUCTOR_PROFILE: '/instructor/profile',
+    INSTRUCTOR_MY_STUDENTS: '/instructor/students',
+}
+
 export const PRIVATE_PATHS = {}
 
 export const PATHS = {

@@ -106,6 +106,7 @@ export const INSTRUCTOR_API = {
 
     COURSES: (id: any) => `/instructors/${id}/courses`,
     REVENUE: (id: any) => `/instructors/${id}/revenue`,
+    MONTHLY_REVENUE: (id: any) => `/instructors/${id}/monthly-revenue`,
     STUDENTS: (id: any) => `/instructors/${id}/students`,
 }
 

@@ -19,10 +19,22 @@ import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
 import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
 
-import { PATHS, STUDENT_PATHS } from './path'
+import { INSTRUCTOR_PATHS, PATHS, STUDENT_PATHS } from './path'
+import RequiredAuth from '@/layouts/RequiredAuth'
+import InstructorLayout from '@/layouts/InstructorLayout'
+import InstructorDashboardPage from '@/pages/instructor/InstructorDashboardPage'
+import InstructorCoursePage from '@/pages/instructor/InstructorCoursePage'
+import InstructorStudentPage from '@/pages/instructor/InstructorStudentPage'
 
 const AppRouter = [
-    <Route element={<LessonQuizDetailLayout />} key="not-auth">
+    <Route
+        element={
+            <RequiredAuth>
+                <LessonQuizDetailLayout />
+            </RequiredAuth>
+        }
+        key="lesson-quiz-detail-layout"
+    >
         <Route path={PATHS.LESSON_DETAIL} element={<LessonDetailPage />} />
         <Route path={PATHS.QUIZ_DETAIL} element={<QuizDetailPage />} />
         <Route path={PATHS.RESULT_QUIZ_DETAIL} element={<ResultQuizPage />} />
@@ -36,7 +48,14 @@ const AppRouter = [
         <Route path={PATHS.CONTACT} element={<ContactPage />} />
         <Route path={PATHS.COURSE_DETAIL} element={<CourseDetailPage />} />
     </Route>,
-    <Route element={<StudentLayout />} key="student">
+    <Route
+        element={
+            <RequiredAuth>
+                <StudentLayout />
+            </RequiredAuth>
+        }
+        key="student"
+    >
         <Route
             path={STUDENT_PATHS.STUDENT_DASHBOARD}
             element={<StudentDashboardPage />}
@@ -56,6 +75,31 @@ const AppRouter = [
         <Route
             path={STUDENT_PATHS.STUDENT_CART}
             element={<StudentOrderCoursePage />}
+        />
+    </Route>,
+    <Route
+        element={
+            <RequiredAuth>
+                <InstructorLayout />
+            </RequiredAuth>
+        }
+        key="student"
+    >
+        <Route
+            path={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}
+            element={<InstructorDashboardPage />}
+        />
+        <Route
+            path={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}
+            element={<InstructorCoursePage />}
+        />
+        {/*<Route*/}
+        {/*    path={INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE}*/}
+        {/*    element={<InstructorProfilePage />}*/}
+        {/*/>*/}
+        <Route
+            path={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}
+            element={<InstructorStudentPage />}
         />
     </Route>,
 ]

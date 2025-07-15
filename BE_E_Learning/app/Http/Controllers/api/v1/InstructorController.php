@@ -269,7 +269,7 @@ class InstructorController extends Controller
             ->select('c.instructor_id', \DB::raw('SUM(o.price) as total'))
             ->where('c.deleted', 0)
             ->where('o.deleted', 0)
-            ->where('o.status', 'paid') // giả sử chỉ tính doanh thu khi đã thanh toán
+            ->where('o.payment_status', 'paid') // giả sử chỉ tính doanh thu khi đã thanh toán
             ->groupBy('c.instructor_id')
             ->orderByDesc('total')
             ->take(5)
@@ -318,12 +318,74 @@ class InstructorController extends Controller
             ->where('c.instructor_id', $instructor->id)
             ->where('c.deleted', 0)
             ->where('o.deleted', 0)
-            ->where('o.status', 'paid') // chỉ tính đơn đã thanh toán
-            ->sum('o.price');
+            ->where('o.payment_status', 'paid') // chỉ tính đơn đã thanh toán
+            ->sum('o.original_price');
 
         return Response::data(['revenue' => (float)$revenue], 1);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/instructors/{id}/monthly-revenue",
+     *     summary="Lấy doanh thu theo từng tháng của giảng viên",
+     *     tags={"Instructor"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID của giảng viên",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="year",
+     *         in="query",
+     *         required=false,
+     *         description="Năm cần tính (mặc định là năm hiện tại)",
+     *         @OA\Schema(type="integer", example=2025)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Thành công. Trả về doanh thu của từng tháng.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="month", type="string", example="01"),
+     *                     @OA\Property(property="revenue", type="number", example=1200000)
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Success")
+     *         )
+     *     )
+     * )
+     */
+    public function getMonthlyRevenue($id, Request $request)
+    {
+        $instructor = Instructor::findOrFail($id);
+        $year = $request->query('year', now()->year);
+
+        $revenues = DB::table('courses as c')
+            ->join('orders as o', 'c.id', '=', 'o.course_id')
+            ->where('c.instructor_id', $instructor->id)
+            ->where('c.deleted', 0)
+            ->where('o.deleted', 0)
+            ->where('o.payment_status', 'paid')
+            ->whereYear('o.created_at', $year)
+            ->selectRaw('MONTH(o.created_at) as month, SUM(o.original_price) as revenue')
+            ->groupByRaw('MONTH(o.created_at)')
+            ->pluck('revenue', 'month');
+
+        $result = [];
+        for ($m = 1; $m <= 12; $m++) {
+            $result[] = [
+                'month' => str_pad($m, 2, '0', STR_PAD_LEFT) . '/' . $year,
+                'revenue' => (float) ($revenues[$m] ?? 0),
+            ];
+        }
+
+        return Response::data($result);
+    }
 
     /**
      * @OA\Get(
@@ -336,7 +398,7 @@ class InstructorController extends Controller
      */
     public function getInstructorByUserId($userId)
     {
-        $instructor = Instructor::where('user_id', $userId)->firstOrFail();
+        $instructor = Instructor::with(['user'])->where('user_id', $userId)->firstOrFail();
         return Response::data(new InstructorResource($instructor));
     }
 }

@@ -50,6 +50,10 @@ class InstructorService {
         return await http.get(INSTRUCTOR_API.REVENUE(id))
     }
 
+    async getMonthlyRevenue(id: number | string): Promise<any> {
+        return await http.get(INSTRUCTOR_API.MONTHLY_REVENUE(id))
+    }
+
     async getStudents(id: number | string): Promise<any> {
         return await http.get(INSTRUCTOR_API.STUDENTS(id))
     }

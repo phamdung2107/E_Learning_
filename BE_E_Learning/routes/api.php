@@ -53,6 +53,7 @@ Route::get('instructors/{id}/revenue', [InstructorController::class, 'getRevenue
 Route::get('instructors/{id}/students', [InstructorController::class, 'getStudents']);   // instructor
 Route::get('instructors/top/revenue', [InstructorController::class, 'TopInstructors']); 
 Route::get('instructors/by-user/{userId}', [InstructorController::class, 'getInstructorByUserId']);   // instructor
+Route::get('instructors/{id}/monthly-revenue', [InstructorController::class, 'getMonthlyRevenue']);
 
 Route::prefix('categories')->group(function () {
     Route::post('/', [CategoryController::class, 'store']);               // admin     

@@ -36,6 +36,12 @@ const authSlice = createSlice({
             removeLocalStorage(CART.COUNT)
             removeLocalStorage(NOTIFICATION.COUNT)
         },
+        setInstructor: (state, action) => {
+            state.isAuthenticated = true
+            state.user = action.payload
+            putLocalStorage(CREDENTIALS.IS_LOGIN, 'true')
+            putLocalStorage(CREDENTIALS.USER_INFO, JSON.stringify(action.payload))
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -58,6 +64,6 @@ const authSlice = createSlice({
     },
 })
 
-export const { logout } = authSlice.actions
+export const { logout, setInstructor } = authSlice.actions
 
 export default authSlice.reducer
