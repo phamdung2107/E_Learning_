@@ -51,7 +51,7 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => $user->id,
             'course_id' => $course->id,
-            'original_price' => $course->price,
+            'original_price' => $course->original_price,
             'payment_status' => 'pending',
             'payment_method' => 'wallet'
         ]);
@@ -77,13 +77,13 @@ class OrderController extends Controller
             return response()->json(['message' => 'Đơn hàng không hợp lệ để xác nhận.'], 400);
         }
 
-        if ($user->money < $order->price) {
+        if ($user->money < $order->original_price) {
             return response()->json(['message' => 'Số dư không đủ để thanh toán'], 400);
         }
 
         DB::beginTransaction();
         try {
-            $user->money -= $order->price;
+            $user->money -= $order->original_price;
             $user->save();
 
             $order->payment_status = 'paid';
