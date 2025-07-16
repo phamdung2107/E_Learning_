@@ -2,7 +2,13 @@ import { Button, Image, Popconfirm, Space, Tag } from 'antd'
 
 import { DATE_TIME_FORMAT } from '@/constants/date'
 import { formatDateTime, formatPrice } from '@/utils/format'
-import { DeleteOutlined, FormOutlined, QuestionCircleOutlined } from '@ant-design/icons'
+import {
+    DeleteOutlined,
+    FormOutlined,
+    HistoryOutlined,
+    QuestionCircleOutlined,
+    UploadOutlined,
+} from '@ant-design/icons'
 
 export const RESULT_QUIZ_COLUMNS: any = [
     {
@@ -44,6 +50,8 @@ export const RESULT_QUIZ_COLUMNS: any = [
 export const getManageCourseColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
+    publishCourse: (record: any) => void,
+    archiveCourse: (record: any) => void,
     categoryOptions: any[] = []
 ) => [
     {
@@ -51,6 +59,7 @@ export const getManageCourseColumns = (
         dataIndex: 'id',
         key: 'id',
         align: 'center',
+        fixed: 'left',
     },
     {
         title: 'Title',
@@ -136,7 +145,8 @@ export const getManageCourseColumns = (
         title: 'Action',
         key: 'action',
         align: 'center',
-        width: 150,
+        width: 200,
+        fixed: 'right',
         render: (record: any) => (
             <Space>
                 <Button
@@ -165,6 +175,48 @@ export const getManageCourseColumns = (
                         danger
                         size="small"
                         icon={<DeleteOutlined />}
+                    />
+                </Popconfirm>
+                <Popconfirm
+                    title="Publish the course"
+                    description={`Are you sure to publish this course`}
+                    onConfirm={(e) => {
+                        // @ts-ignore
+                        e.stopPropagation()
+                        publishCourse(record)
+                    }}
+                    onCancel={() => {}}
+                    icon={<QuestionCircleOutlined style={{ color: 'green' }} />}
+                    okText="Publish"
+                    cancelText="Cancel"
+                >
+                    <Button
+                        variant="solid"
+                        size="small"
+                        color='green'
+                        icon={<UploadOutlined />}
+                        disabled={record.status === 'published'}
+                    />
+                </Popconfirm>
+                <Popconfirm
+                    title="Archive the course"
+                    description={`Are you sure to archive this course`}
+                    onConfirm={(e) => {
+                        // @ts-ignore
+                        e.stopPropagation()
+                        archiveCourse(record)
+                    }}
+                    onCancel={() => {}}
+                    icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
+                    okText="Archive"
+                    cancelText="Cancel"
+                >
+                    <Button
+                        variant="solid"
+                        size="small"
+                        color='orange'
+                        icon={<HistoryOutlined />}
+                        disabled={record.status === 'archived'}
                     />
                 </Popconfirm>
             </Space>

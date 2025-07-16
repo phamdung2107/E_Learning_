@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Card, Spin, Table, Typography } from 'antd'
+import { Button, Card, notification, Spin, Table, Typography } from 'antd'
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 
 import InstructorService from '@/services/instructor'
@@ -8,6 +8,7 @@ import CourseService from '@/services/course'
 import { useSelector } from 'react-redux'
 import { getManageCourseColumns } from '@/constants/table'
 import UpdateCourseModal from '@/components/core/modal/UpdateCourseModal'
+import CreateCourseModal from '@/components/core/modal/CreateCourseModal'
 
 const { Title, Text } = Typography
 
@@ -20,6 +21,7 @@ const InstructorManageCoursesPage = () => {
     const [isModalCreateOpen, setIsModalCreateOpen] = useState(false)
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false)
     const [updateLoading, setUpdateLoading] = useState(false)
+    const [createLoading, setCreateLoading] = useState(false)
     const [refreshLoading, setRefreshLoading] = useState(false)
 
     const fetchData = async () => {
@@ -50,13 +52,100 @@ const InstructorManageCoursesPage = () => {
             if (response.status === 200) {
                 setRecord(null)
                 setIsModalUpdateOpen(false)
-                fetchData()
+                await fetchData()
+                notification.success({
+                    message: 'Update course successfully',
+                })
             }
         } catch (e) {
             console.error(e)
+            notification.error({
+                message: 'Update course failed. Please try again later.',
+            })
         } finally {
             setUpdateLoading(false)
             setIsModalUpdateOpen(false)
+        }
+    }
+
+    const handleCreateCourse = async (values: any) => {
+        setCreateLoading(true)
+        try {
+            const response = await CourseService.create({
+                title: values.title,
+                description: values.description,
+                price: values.price,
+                category_id: values.category_id,
+                instructor_id: user?.id,
+                thumbnail: values.thumbnail,
+            })
+            if (response.status === 200) {
+                setIsModalCreateOpen(false)
+                await fetchData()
+                notification.success({
+                    message: 'Create course successfully',
+                })
+            }
+        }
+        catch (e) {
+            console.error(e)
+            notification.error({
+                message: 'Create course failed. Please try again later.',
+            })
+        } finally {
+            setCreateLoading(false)
+            setIsModalCreateOpen(false)
+        }
+    }
+
+    const handleDeleteCourse = async (values: any) => {
+        try {
+            const response = await CourseService.delete(values.id)
+            if (response.status === 200) {
+                await fetchData()
+                notification.success({
+                    message: 'Delete course successfully',
+                })
+            }
+        } catch (e) {
+            console.error(e)
+            notification.error({
+                message: 'Delete course failed. Please try again later.',
+            })
+        }
+    }
+
+    const handlePublishCourse = async (values: any) => {
+        try {
+            const response = await CourseService.publish(values.id)
+            if (response.status === 200) {
+                await fetchData()
+                notification.success({
+                    message: 'Publish course successfully',
+                })
+            }
+        } catch (e) {
+            console.error(e)
+            notification.error({
+                message: 'Publish course failed. Please try again later.',
+            })
+        }
+    }
+
+    const handleArchiveCourse = async (values: any) => {
+        try {
+            const response = await CourseService.archive(values.id)
+            if (response.status === 200) {
+                await fetchData()
+                notification.success({
+                    message: 'Archive course successfully',
+                })
+            }
+        } catch (e) {
+            console.error(e)
+            notification.error({
+                message: 'Archive course failed. Please try again later.',
+            })
         }
     }
 
@@ -67,10 +156,11 @@ const InstructorManageCoursesPage = () => {
 
     const openModalDelete = (item: any) => {
         setRecord(item)
+        handleDeleteCourse(item)
     }
 
     const columns: any = useMemo(() => {
-        return getManageCourseColumns(openModalUpdate, openModalDelete, categories)
+        return getManageCourseColumns(openModalUpdate, openModalDelete, handlePublishCourse, handleArchiveCourse, categories)
     }, [categories])
 
     useEffect(() => {
@@ -124,6 +214,15 @@ const InstructorManageCoursesPage = () => {
                 onSubmit={(values: any) => handleUpdateCourse(values)}
                 loading={updateLoading}
                 record={record}
+                categories={categories}
+            />
+            <CreateCourseModal
+                visible={isModalCreateOpen}
+                onClose={() => {
+                    setIsModalCreateOpen(false)
+                }}
+                onSubmit={(values: any) => handleCreateCourse(values)}
+                loading={createLoading}
                 categories={categories}
             />
             {refreshLoading && (
