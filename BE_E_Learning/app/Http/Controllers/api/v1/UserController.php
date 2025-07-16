@@ -118,27 +118,27 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $user = User::findOrFail($id);
-
         $data = $request->validated();
 
+        // Xử lý avatar
         if ($request->hasFile('avatar')) {
-            $file = $request->file('avatar');
-            $path = $file->store('avatars', 'public');
-
-            if ($user->avatar) {
+            // Xóa avatar cũ nếu có
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
                 Storage::disk('public')->delete($user->avatar);
             }
 
-            $data['avatar'] = $path;
+            // Lưu avatar mới
+            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
         }
 
+        // Cập nhật role nếu được truyền vào
         if ($request->filled('role')) {
-           $data['role'] = $request->role ;
+            $data['role'] = $request->role;
         }
 
         $user->update($data);
 
-        return Response::data(new UserResource($user));
+        return Response::data();
     }
 
     /**

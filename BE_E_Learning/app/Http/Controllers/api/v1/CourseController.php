@@ -86,8 +86,16 @@ class CourseController extends Controller
      */
     public function store(CreateCourseRequest $request)
     {
-        $course = Course::create($request->validated());
-        return Response::data(new CourseResource($course));
+        $data = $request->validated();
+
+        if ($request->hasFile('thumbnail')) {
+            // Lưu ảnh vào storage/app/public/thumbnails
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $data['thumbnail'] = $path;
+        }
+
+        $course = Course::create($data);
+        return Response::data();
     }
 
     /**
@@ -137,8 +145,22 @@ class CourseController extends Controller
     public function update(UpdateCourseRequest $request, $id)
     {
         $course = Course::findOrFail($id);
-        $course->update($request->validated());
-        return Response::data(new CourseResource($course));
+        $data = $request->validated();
+
+        if ($request->hasFile('thumbnail')) {
+        // Xóa ảnh cũ nếu cần
+        if ($course->thumbnail && \Storage::exists($course->thumbnail)) {
+                \Storage::delete($course->thumbnail);
+            }
+
+            // Lưu ảnh mới
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $data['thumbnail'] = $path;
+        }
+
+        $course->update($data);
+
+        return Response::data();
     }
 
     /**
