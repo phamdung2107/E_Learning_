@@ -23,7 +23,7 @@ import { INSTRUCTOR_PATHS, PATHS, STUDENT_PATHS } from './path'
 import RequiredAuth from '@/layouts/RequiredAuth'
 import InstructorLayout from '@/layouts/InstructorLayout'
 import InstructorDashboardPage from '@/pages/instructor/InstructorDashboardPage'
-import InstructorCoursePage from '@/pages/instructor/InstructorCoursePage'
+import InstructorCoursePage from '@/pages/instructor/InstructorManageCoursesPage'
 import InstructorStudentPage from '@/pages/instructor/InstructorStudentPage'
 
 const AppRouter = [

@@ -1,30 +1,55 @@
-import { Button, Card, Col, List, Row, Space, Statistic, Typography } from 'antd'
-import {
-    BookOutlined,
-    CheckCircleOutlined, DollarOutlined,
-    ShoppingCartOutlined,
-    TrophyOutlined,
-    UserOutlined,
-} from '@ant-design/icons'
+import { Button, Card, Col, Row, Space, Statistic, Typography } from 'antd'
+import { BookOutlined, DollarOutlined, StarOutlined, TrophyOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import { STUDENT_PATHS } from '@/routers/path'
-import EnrollCourseSummaryCard from '@/components/core/card/EnrollCourseSummaryCard'
-import type React from 'react'
+import { INSTRUCTOR_PATHS } from '@/routers/path'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { MonthlyRevenueChart } from '@/components/charts/MonthlyRevenueChart'
+import StudentActivityChart from '@/components/charts/StudentActivityChart'
+
+import '../styles/InstructorDashboard.css'
+import InstructorService from '@/services/instructor'
 
 const { Title, Text } = Typography
 
 const InstructorDashboardPage = () => {
     const user = useSelector((store: any) => store.auth.user)
-    console.log('user:', user.id)
+    const [courseCount, setCourseCount] = useState(0)
+    const [studentCount, setStudentCount] = useState(0)
+    const [revenue, setRevenue] = useState(0)
+    const averageRating = 4.7
+
+    const fetchData = async () => {
+        try {
+            const [
+                resStudent,
+                resCourse,
+                resRevenue,
+            ] = await Promise.all([
+                InstructorService.getStudents(user?.id),
+                InstructorService.getCourses(user?.id),
+                InstructorService.getRevenue(user?.id),
+            ])
+
+            setCourseCount(resCourse.total)
+            setStudentCount(resStudent.total)
+            setRevenue(resRevenue.data.revenue)
+
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     return (
         <div className="student-dashboard">
             {/* Header */}
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>Welcome back, {user?.full_name}! 👋</Title>
-                <Text type="secondary">Continue your learning journey</Text>
+                <Title level={2}>Welcome back, {user?.user?.full_name}! 👋</Title>
+                <Text type="secondary">Manage your courses and track your teaching progress</Text>
             </Card>
 
             {/* Stats Cards */}
@@ -33,7 +58,7 @@ const InstructorDashboardPage = () => {
                     <Card className="student-stats-card">
                         <Statistic
                             title="Courses"
-                            value={1}
+                            value={courseCount}
                             prefix={<BookOutlined />}
                             valueStyle={{ color: '#20B2AA' }}
                         />
@@ -43,7 +68,7 @@ const InstructorDashboardPage = () => {
                     <Card className="student-stats-card">
                         <Statistic
                             title="Students"
-                            value={2 || 0}
+                            value={studentCount}
                             prefix={<UserOutlined />}
                             valueStyle={{ color: '#52c41a' }}
                         />
@@ -52,26 +77,28 @@ const InstructorDashboardPage = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Courses Completed"
-                            value={2 || 0}
-                            prefix={<CheckCircleOutlined />}
-                            valueStyle={{ color: '#52c41a' }}
+                            title="Revenue"
+                            value={revenue}
+                            prefix={<DollarOutlined />}
+                            valueStyle={{ color: '#1890ff' }}
                         />
                     </Card>
                 </Col>
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Revenue"
-                            value={2}
-                            prefix={<DollarOutlined />}
-                            valueStyle={{ color: '#1890ff' }}
+                            title="Average Rating"
+                            value={averageRating}
+                            prefix={<StarOutlined />}
+                            valueStyle={{ color: '#faad14' }}
+                            suffix="/ 5"
                         />
                     </Card>
                 </Col>
             </Row>
 
             <Row gutter={[16, 16]} className="student-main-content">
+                {/* My Courses */}
                 <Col xs={24} lg={14}>
                     <Card
                         className="student-courses-card"
@@ -84,107 +111,60 @@ const InstructorDashboardPage = () => {
                                 }}
                             >
                                 <span>Monthly Revenue</span>
-                                <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>
-                                    <Button type="link" size="small">
-                                        View All
-                                    </Button>
-                                </Link>
                             </div>
                         }
                     >
                         <MonthlyRevenueChart instructorId={user.id} />
                     </Card>
                 </Col>
+
+                {/* Sidebar */}
+                <Col xs={24} lg={10}>
+                    <div className="student-sidebar">
+                        <Card
+                            className="student-activity-card"
+                            title="Analytics"
+                        >
+                            <StudentActivityChart instructorId={user.id} />
+                        </Card>
+
+                        {/* Quick Actions */}
+                        <Card
+                            className="student-actions-card"
+                            title="Quick Actions"
+                        >
+                            <Space
+                                direction="vertical"
+                                className="student-actions-list"
+                                size="small"
+                            >
+                                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}>
+                                    <Button block icon={<BookOutlined />}>
+                                        Create New Course
+                                    </Button>
+                                </Link>
+                                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}>
+                                    <Button block icon={<BookOutlined />}>
+                                        Manage Courses
+                                    </Button>
+                                </Link>
+                                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}>
+                                    <Button block icon={<UserOutlined />}>
+                                        Manage Students
+                                    </Button>
+                                </Link>
+                                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}>
+                                    <Button block icon={<TrophyOutlined />}>
+                                        View Analytics
+                                    </Button>
+                                </Link>
+                            </Space>
+                        </Card>
+                    </div>
+                </Col>
             </Row>
-
-            {/*    /!* Sidebar *!/*/}
-            {/*    <Col xs={24} lg={10}>*/}
-            {/*        <div className="student-sidebar">*/}
-            {/*            <Card*/}
-            {/*                className="student-activity-card"*/}
-            {/*                title="Notifications"*/}
-            {/*            >*/}
-            {/*                <List*/}
-            {/*                    className="student-activity-list"*/}
-            {/*                    size="small"*/}
-            {/*                    dataSource={notifications}*/}
-            {/*                    renderItem={(item) => (*/}
-            {/*                        <List.Item*/}
-            {/*                            style={{*/}
-            {/*                                opacity: item.is_read ? 0.5 : 1,*/}
-            {/*                                transition: 'opacity 0.3s ease',*/}
-            {/*                            }}*/}
-            {/*                            actions={*/}
-            {/*                                !item.is_read*/}
-            {/*                                    ? [*/}
-            {/*                                        <Button*/}
-            {/*                                            size="small"*/}
-            {/*                                            type="link"*/}
-            {/*                                            onClick={() =>*/}
-            {/*                                                markAsRead(*/}
-            {/*                                                    item.id*/}
-            {/*                                                )*/}
-            {/*                                            }*/}
-            {/*                                        >*/}
-            {/*                                            Mark as read*/}
-            {/*                                        </Button>,*/}
-            {/*                                    ]*/}
-            {/*                                    : []*/}
-            {/*                            }*/}
-            {/*                        >*/}
-            {/*                            <List.Item.Meta*/}
-            {/*                                avatar={getNotificationIcon(*/}
-            {/*                                    item.type*/}
-            {/*                                )}*/}
-            {/*                                title={<Text>{item.title}</Text>}*/}
-            {/*                                description={*/}
-            {/*                                    <Text type="secondary">*/}
-            {/*                                        {new Date(*/}
-            {/*                                            item.created_at*/}
-            {/*                                        ).toLocaleString()}*/}
-            {/*                                    </Text>*/}
-            {/*                                }*/}
-            {/*                            />*/}
-            {/*                        </List.Item>*/}
-            {/*                    )}*/}
-            {/*                />*/}
-            {/*            </Card>*/}
-
-            {/*            /!* Quick Actions *!/*/}
-            {/*            <Card*/}
-            {/*                className="student-actions-card"*/}
-            {/*                title="Quick Actions"*/}
-            {/*            >*/}
-            {/*                <Space*/}
-            {/*                    direction="vertical"*/}
-            {/*                    className="student-actions-list"*/}
-            {/*                    size="small"*/}
-            {/*                >*/}
-            {/*                    <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>*/}
-            {/*                        <Button block icon={<BookOutlined />}>*/}
-            {/*                            My Courses*/}
-            {/*                        </Button>*/}
-            {/*                    </Link>*/}
-            {/*                    <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>*/}
-            {/*                        <Button block icon={<TrophyOutlined />}>*/}
-            {/*                            Certificates*/}
-            {/*                        </Button>*/}
-            {/*                    </Link>*/}
-            {/*                    <Link to={STUDENT_PATHS.STUDENT_CART}>*/}
-            {/*                        <Button*/}
-            {/*                            block*/}
-            {/*                            icon={<ShoppingCartOutlined />}*/}
-            {/*                        >*/}
-            {/*                            My Cart*/}
-            {/*                        </Button>*/}
-            {/*                    </Link>*/}
-            {/*                </Space>*/}
-            {/*            </Card>*/}
-            {/*        </div>*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
         </div>
-    )
-}
+    );
+};
 
 export default InstructorDashboardPage

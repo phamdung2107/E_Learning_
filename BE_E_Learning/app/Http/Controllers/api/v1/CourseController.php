@@ -129,7 +129,6 @@ class CourseController extends Controller
      *             @OA\Property(property="description", type="string", example="Chuyên sâu về Laravel"),
      *             @OA\Property(property="price", type="number", format="float", example=299000),
      *             @OA\Property(property="category_id", type="integer", example=1),
-     *             @OA\Property(property="instructor_id", type="integer", example=2)
      *         )
      *     ),
      *     @OA\Response(response=200, description="Cập nhật khoá học thành công")
