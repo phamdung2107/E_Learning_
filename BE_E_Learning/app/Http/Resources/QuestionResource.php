@@ -20,6 +20,7 @@ class QuestionResource extends JsonResource
             'question_text' => $this->question_text,
             'question_type' => $this->question_type,
             'order_number' => $this->order_number,
+            'answers' => AnswerResource::collection($this->whenLoaded('answers')),
         ];
     }
 }

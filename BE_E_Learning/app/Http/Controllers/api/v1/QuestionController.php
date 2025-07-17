@@ -134,7 +134,11 @@ class QuestionController extends Controller
      */
     public function getByQuiz($quizId)
     {
-        $questions = Question::where('quiz_id', $quizId)->orderBy('order_number')->get();
+        $questions = Question::with('answers')
+            ->where('quiz_id', $quizId)
+            ->orderBy('order_number')
+            ->get();
+
         return Response::data(QuestionResource::collection($questions), $questions->count());
     }
 }
