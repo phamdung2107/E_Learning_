@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Input, Modal, Select, Upload } from 'antd'
+import { Button, Form, Input, Modal, notification, Select, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 
 const { Option } = Select
@@ -23,14 +23,21 @@ const CreateCourseModal = ({ visible, onClose, onSubmit, loading, categories }: 
     const handleSubmit = (values: any) => {
         const submitValues = {
             ...values,
-            thumbnail: fileList.length > 0 ? fileList[0].name : null,
+            thumbnail: fileList.length > 0 && fileList[0].originFileObj ? fileList[0].originFileObj : null,
         }
         onSubmit(submitValues)
         handleCancel()
     }
 
     const handleUploadChange = ({ fileList: newFileList }: any) => {
-        setFileList(newFileList)
+        const filteredList = newFileList.filter((file: any) => {
+            const isImage = file.type.startsWith('image/');
+            if (!isImage) {
+                notification.error({ message: 'You can only upload image files!' });
+            }
+            return isImage;
+        });
+        setFileList(filteredList);
     }
 
     return (

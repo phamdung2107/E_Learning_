@@ -132,14 +132,30 @@ class CourseController extends Controller
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
+     *         required=true,
+     *         content={
+     *             @OA\MediaType(
+     *                 mediaType="multipart/form-data",
+     *                 @OA\Schema(
+     *                     required={"title", "description", "price", "category_id"},
+     *                     @OA\Property(property="title", type="string", example="Laravel nâng cao"),
+     *                     @OA\Property(property="description", type="string", example="Chuyên sâu về Laravel"),
+     *                     @OA\Property(property="price", type="number", format="float", example=299000),
+     *                     @OA\Property(property="category_id", type="integer", example=1),
+     *                     @OA\Property(property="thumbnail", type="string", format="binary")
+     *                 )
+     *             )
+     *         }
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cập nhật khoá học thành công",
      *         @OA\JsonContent(
-     *             @OA\Property(property="title", type="string", example="Laravel nâng cao"),
-     *             @OA\Property(property="description", type="string", example="Chuyên sâu về Laravel"),
-     *             @OA\Property(property="price", type="number", format="float", example=299000),
-     *             @OA\Property(property="category_id", type="integer", example=1),
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(property="data", type="object")
      *         )
      *     ),
-     *     @OA\Response(response=200, description="Cập nhật khoá học thành công")
+     *     @OA\Response(response=404, description="Không tìm thấy khoá học")
      * )
      */
     public function update(UpdateCourseRequest $request, $id)
@@ -148,19 +164,20 @@ class CourseController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('thumbnail')) {
-        // Xóa ảnh cũ nếu cần
-        if ($course->thumbnail && \Storage::exists($course->thumbnail)) {
-                \Storage::delete($course->thumbnail);
+            // Xóa ảnh cũ nếu cần
+            if ($course->thumbnail && \Storage::disk('public')->exists($course->thumbnail)) {
+                \Storage::disk('public')->delete($course->thumbnail);
             }
 
             // Lưu ảnh mới
             $path = $request->file('thumbnail')->store('thumbnails', 'public');
             $data['thumbnail'] = $path;
+            logger()->info('Thumbnail updated: ' . $path);
         }
 
         $course->update($data);
 
-        return Response::data();
+        return Response::data($request->hasFile('thumbnail'));
     }
 
     /**

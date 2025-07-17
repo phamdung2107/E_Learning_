@@ -10,10 +10,10 @@ import {
     BookOutlined,
     DashboardOutlined,
     LogoutOutlined,
-    MenuOutlined,
+    MenuOutlined, QuestionOutlined,
     ShoppingCartOutlined,
     TrophyOutlined,
-    UserOutlined,
+    UserOutlined, VideoCameraOutlined,
 } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
@@ -48,6 +48,20 @@ const InstructorLayout: React.FC = () => {
             icon: <BookOutlined />,
             label: (
                 <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}>My Courses</Link>
+            ),
+        },
+        {
+            key: INSTRUCTOR_PATHS.INSTRUCTOR_MY_LESSONS,
+            icon: <VideoCameraOutlined />,
+            label: (
+                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_LESSONS}>My Lessons</Link>
+            ),
+        },
+        {
+            key: INSTRUCTOR_PATHS.INSTRUCTOR_MY_QUIZZIES,
+            icon: <QuestionOutlined />,
+            label: (
+                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_QUIZZIES}>My Quizzes</Link>
             ),
         },
         {

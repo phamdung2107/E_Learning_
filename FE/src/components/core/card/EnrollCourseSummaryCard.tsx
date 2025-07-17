@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 
 import LessonService from '@/services/lesson'
 import ProgressService from '@/services/progress'
+import { BASE_IMAGE_URL } from '@/constants/image'
 
 const { Text, Title } = Typography
 
@@ -52,7 +53,7 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
             <Row gutter={16} align="middle">
                 <Col xs={24} sm={6}>
                     <img
-                        src={course.thumbnail || '/placeholder.svg'}
+                        src={`${BASE_IMAGE_URL}${course?.thumbnail}`}
                         alt={course.title}
                         style={{
                             width: '100%',

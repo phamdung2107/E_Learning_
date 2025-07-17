@@ -70,27 +70,23 @@ const CoursesPage: React.FC = () => {
         try {
             setLoading(true)
 
-            // Build filter object for API call (no pagination params)
             const apiFilters: any = {}
 
-            // Add search keyword if exists
             if (filters.search || searchKeyword) {
                 apiFilters.search = filters.search || searchKeyword
             }
 
-            // Add category filter if exists
             if (filters.category_id || selectedCategory) {
                 apiFilters.category_id = filters.category_id || selectedCategory
             }
 
-            // Add instructor filter if exists
             if (filters.instructor_id || selectedInstructor) {
                 apiFilters.instructor_id =
                     filters.instructor_id || selectedInstructor
             }
 
             const response = await CourseService.getAll(apiFilters)
-            setAllCourses(response.data || [])
+            setAllCourses(response.data.filter((course: any) => course.status === 'published') || [])
         } catch (e) {
             console.error(e)
             setAllCourses([])

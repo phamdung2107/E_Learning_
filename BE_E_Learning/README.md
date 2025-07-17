@@ -74,3 +74,7 @@ Re-generate api docs
 ```
 docker-compose exec app php artisan l5-swagger:generate
 ```
+Excute link image
+```
+docker-compose exec app php artisan storage:link
+```

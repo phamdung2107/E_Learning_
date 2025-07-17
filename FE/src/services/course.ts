@@ -1,5 +1,6 @@
 import { COURSE_API } from '@/constants/api'
 import http from '@/services/http'
+import httpFile from '@/services/httpFile'
 
 class CourseService {
     async getAll(params: any): Promise<any> {
@@ -7,7 +8,7 @@ class CourseService {
     }
 
     async create(payload: any): Promise<any> {
-        return await http.post(COURSE_API.CREATE, payload)
+        return await httpFile.post(COURSE_API.CREATE, payload)
     }
 
     async getMyEnrolledCourses(params: any): Promise<any> {
@@ -19,7 +20,7 @@ class CourseService {
     }
 
     async update(id: number | string, payload: any): Promise<any> {
-        return await http.put(COURSE_API.UPDATE(id), payload)
+        return await httpFile.post(COURSE_API.UPDATE(id), payload)
     }
 
     async delete(id: number | string): Promise<any> {

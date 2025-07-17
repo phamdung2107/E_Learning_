@@ -9,6 +9,7 @@ import ReviewService from '@/services/review'
 import { formatPrice } from '@/utils/format'
 
 import './styles/CourseSummaryCard.css'
+import { BASE_IMAGE_URL } from '@/constants/image'
 
 const { Title, Text } = Typography
 
@@ -37,7 +38,7 @@ const CourseSummaryCard = ({ course }: any) => {
             cover={
                 <div className="course-cover">
                     <img
-                        src={course?.course.thumbnail || '/placeholder.svg'}
+                        src={`${BASE_IMAGE_URL}${course?.thumbnail}`}
                         alt={course?.course.title}
                         className="course-image"
                     />

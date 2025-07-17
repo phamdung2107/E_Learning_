@@ -3,12 +3,14 @@ import { Button, Image, Popconfirm, Space, Tag } from 'antd'
 import { DATE_TIME_FORMAT } from '@/constants/date'
 import { formatDateTime, formatPrice } from '@/utils/format'
 import {
-    DeleteOutlined,
+    DeleteOutlined, EditOutlined,
     FormOutlined,
-    HistoryOutlined,
+    HistoryOutlined, PlusOutlined,
     QuestionCircleOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+import { BASE_IMAGE_URL } from '@/constants/image'
 
 export const RESULT_QUIZ_COLUMNS: any = [
     {
@@ -60,6 +62,13 @@ export const getManageCourseColumns = (
         key: 'id',
         align: 'center',
         fixed: 'left',
+        render: (text: any) => {
+            return (
+                <Link to={`/instructor/courses/${text}`} target="_blank">
+                    {text}
+                </Link>
+            )
+        },
     },
     {
         title: 'Title',
@@ -75,7 +84,7 @@ export const getManageCourseColumns = (
         render: (text: any) => {
             return (
                 <Image
-                    src={text}
+                    src={`${BASE_IMAGE_URL}${text}`}
                     alt="course"
                     style={{ width: '80px', height: 'auto' }}
                 />
@@ -89,7 +98,6 @@ export const getManageCourseColumns = (
         align: 'center',
         render: (text: any) => {
             const currentCategory = categoryOptions.filter((category: any) => category.id === text)
-            console.log(currentCategory)
             return (
                 <div>
                     {currentCategory[0]?.name}
@@ -217,6 +225,242 @@ export const getManageCourseColumns = (
                         color='orange'
                         icon={<HistoryOutlined />}
                         disabled={record.status === 'archived'}
+                    />
+                </Popconfirm>
+            </Space>
+        ),
+    },
+]
+
+export const getManageLessonColumns = (
+    openModalUpdate: (record: any) => void,
+    openModalDelete: (record: any) => void,
+    openModalCreate: (record: any) => void,
+) => [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        align: 'center',
+        fixed: 'left',
+        width: 70,
+        render: (text: any) => {
+            return (
+                <Link to={`/instructor/courses/${text}`} target="_blank">
+                    {text}
+                </Link>
+            )
+        },
+    },
+    {
+        title: 'Title',
+        dataIndex: 'title',
+        key: 'title',
+        align: 'left',
+    },
+    {
+        title: 'Video url',
+        dataIndex: 'video_url',
+        key: 'video_url',
+        align: 'center',
+    },
+    {
+        title: 'Content',
+        dataIndex: 'content',
+        key: 'content',
+        align: 'left',
+    },
+    {
+        title: 'Order number',
+        dataIndex: 'order_number',
+        key: 'order_number',
+        align: 'center',
+    },
+    {
+        title: 'Action',
+        key: 'action',
+        align: 'center',
+        width: 120,
+        fixed: 'right',
+        render: (record: any) => (
+            <Space>
+                <Button
+                    type="primary"
+                    size="small"
+                    icon={<FormOutlined />}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        openModalUpdate(record)
+                    }}
+                />
+                <Popconfirm
+                    title="Delete the lesson"
+                    description={`Are you sure to delete this lesson`}
+                    onConfirm={(e) => {
+                        // @ts-ignore
+                        e.stopPropagation()
+                        openModalDelete(record)
+                    }}
+                    onCancel={() => {}}
+                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                    okText="Delete"
+                    cancelText="Cancel"
+                >
+                    <Button
+                        danger
+                        size="small"
+                        icon={<DeleteOutlined />}
+                    />
+                </Popconfirm>
+                <Button
+                    variant='outlined'
+                    color="green"
+                    size="small"
+                    icon={<PlusOutlined />}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        openModalCreate(record)
+                    }}
+                />
+            </Space>
+        ),
+    },
+]
+
+export const getManageQuizColumns = (
+    openModalUpdate: (record: any) => void,
+    openModalDelete: (record: any) => void,
+    openModalCreate: (record: any) => void,
+) => [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        align: 'center',
+        fixed: 'left',
+        width: 70,
+    },
+    {
+        title: 'Title',
+        dataIndex: 'title',
+        key: 'title',
+        align: 'left',
+    },
+    {
+        title: 'Description',
+        dataIndex: 'description',
+        key: 'description',
+        align: 'left',
+    },
+    {
+        title: 'Action',
+        key: 'action',
+        align: 'center',
+        width: 120,
+        fixed: 'right',
+        render: (record: any) => (
+            <Space>
+                <Button
+                    type="primary"
+                    size="small"
+                    icon={<FormOutlined />}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        openModalUpdate(record)
+                    }}
+                />
+                <Popconfirm
+                    title="Delete the quiz"
+                    description={`Are you sure to delete this quiz`}
+                    onConfirm={(e) => {
+                        // @ts-ignore
+                        e.stopPropagation()
+                        openModalDelete(record)
+                    }}
+                    onCancel={() => {}}
+                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                    okText="Delete"
+                    cancelText="Cancel"
+                >
+                    <Button
+                        danger
+                        size="small"
+                        icon={<DeleteOutlined />}
+                    />
+                </Popconfirm>
+                <Button
+                    variant='solid'
+                    color="green"
+                    size="small"
+                    icon={<EditOutlined />}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        openModalCreate(record)
+                    }}
+                />
+            </Space>
+        ),
+    },
+]
+
+export const getManageQuestionColumns = (
+    openModalUpdate: (record: any) => void,
+    openModalDelete: (record: any) => void,
+) => [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        align: 'center',
+        fixed: 'left',
+        width: 70,
+    },
+    {
+        title: 'Question Text',
+        dataIndex: 'question_text',
+        key: 'question_text',
+        align: 'left',
+    },
+    {
+        title: 'Question Type',
+        dataIndex: 'question_type',
+        key: 'question_type',
+        align: 'center',
+    },
+    {
+        title: 'Action',
+        key: 'action',
+        align: 'center',
+        width: 120,
+        fixed: 'right',
+        render: (record: any) => (
+            <Space>
+                <Button
+                    type="primary"
+                    size="small"
+                    icon={<FormOutlined />}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        openModalUpdate(record)
+                    }}
+                />
+                <Popconfirm
+                    title="Delete the question and its answers"
+                    description={`Are you sure to delete this question`}
+                    onConfirm={(e) => {
+                        // @ts-ignore
+                        e.stopPropagation()
+                        openModalDelete(record)
+                    }}
+                    onCancel={() => {}}
+                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                    okText="Delete"
+                    cancelText="Cancel"
+                >
+                    <Button
+                        danger
+                        size="small"
+                        icon={<DeleteOutlined />}
                     />
                 </Popconfirm>
             </Space>

@@ -9,6 +9,7 @@ services:
     volumes:
       - .:/var/www/html
       - vendor_data:/var/www/html/vendor
+      - storage_data:/var/www/html/storage
     environment:
       DB_HOST: db
     ports:
@@ -33,3 +34,4 @@ services:
 volumes:
   db_data:
   vendor_data:
+  storage_data:

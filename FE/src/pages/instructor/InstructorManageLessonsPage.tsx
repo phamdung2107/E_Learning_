@@ -12,7 +12,7 @@ import CreateCourseModal from '@/components/core/modal/CreateCourseModal'
 
 const { Title, Text } = Typography
 
-const InstructorManageCoursesPage = () => {
+const InstructorManageLessonsPage = () => {
     const user = useSelector((store: any) => store.auth.user)
 
     const [courses, setCourses] = useState<any[]>([])
@@ -177,8 +177,8 @@ const InstructorManageCoursesPage = () => {
     return (
         <div className="instructor-manage-courses" style={{ padding: '24px' }}>
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>Manage Courses</Title>
-                <Text type="secondary">View and action with my courses</Text>
+                <Title level={2}>Manage Lessons</Title>
+                <Text type="secondary">View and action with my lessons</Text>
             </Card>
             <Card style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -245,4 +245,4 @@ const InstructorManageCoursesPage = () => {
     )
 };
 
-export default InstructorManageCoursesPage
+export default InstructorManageLessonsPage

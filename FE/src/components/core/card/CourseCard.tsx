@@ -11,6 +11,7 @@ import ReviewService from '@/services/review'
 import { formatPrice } from '@/utils/format'
 
 import './styles/CourseCard.css'
+import { BASE_IMAGE_URL } from '@/constants/image'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -85,7 +86,7 @@ const CourseCard = ({ course, onEnroll }: any) => {
         >
             <div className="course-card-cover">
                 <img
-                    src={course?.thumbnail || '/placeholder.svg'}
+                    src={`${BASE_IMAGE_URL}${course?.thumbnail}`}
                     alt={course?.title}
                     className="course-card-image"
                 />

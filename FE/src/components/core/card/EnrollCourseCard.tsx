@@ -10,6 +10,7 @@ import { DATE_FORMAT } from '@/constants/date'
 import LessonService from '@/services/lesson'
 import ProgressService from '@/services/progress'
 import { formatDateTime } from '@/utils/format'
+import { BASE_IMAGE_URL } from '@/constants/image'
 
 const { Text, Title } = Typography
 
@@ -50,7 +51,7 @@ const EnrollCourseCard = ({ course }: any) => {
             cover={
                 <img
                     alt={course.title}
-                    src={course.thumbnail || '/placeholder.svg'}
+                    src={`${BASE_IMAGE_URL}${course?.thumbnail}`}
                     style={{ height: '200px', objectFit: 'cover' }}
                 />
             }
