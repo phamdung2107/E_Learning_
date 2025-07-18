@@ -1,9 +1,16 @@
-import { Button, Form, Input, Modal } from 'antd'
 import React, { useEffect } from 'react'
+
+import { Button, Form, Input, Modal } from 'antd'
 
 const { TextArea } = Input
 
-const UpdateQuizModal = ({ visible, onClose, onSubmit, loading, record }: any) => {
+const UpdateQuizModal = ({
+    visible,
+    onClose,
+    onSubmit,
+    loading,
+    record,
+}: any) => {
     const [form] = Form.useForm()
 
     useEffect(() => {
@@ -53,24 +60,46 @@ const UpdateQuizModal = ({ visible, onClose, onSubmit, loading, record }: any) =
                 <Form.Item
                     label="Title"
                     name="title"
-                    rules={[{ required: true, message: 'Please enter the quiz title' }]}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter the quiz title',
+                        },
+                    ]}
                 >
                     <Input allowClear placeholder="Enter quiz title" />
                 </Form.Item>
                 <Form.Item
                     label="Description"
                     name="description"
-                    rules={[{ required: true, message: 'Please enter a description' }]}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter a description',
+                        },
+                    ]}
                 >
-                    <TextArea rows={4} allowClear placeholder="Enter quiz description" />
+                    <TextArea
+                        rows={4}
+                        allowClear
+                        placeholder="Enter quiz description"
+                    />
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
                     <div style={{ display: 'flex' }}>
-                        <Button key="reset" type="default" onClick={handleReset}>
+                        <Button
+                            key="reset"
+                            type="default"
+                            onClick={handleReset}
+                        >
                             Reset
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
-                        <Button key="cancel" type="default" onClick={handleCancel}>
+                        <Button
+                            key="cancel"
+                            type="default"
+                            onClick={handleCancel}
+                        >
                             Cancel
                         </Button>
                         <Button

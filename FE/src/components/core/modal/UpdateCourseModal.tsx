@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Form, Input, Modal, notification, Select, Upload } from 'antd'
+
+import { Button, Form, Input, Modal, Select, Upload, notification } from 'antd'
+
 import { UploadOutlined } from '@ant-design/icons'
 
 const { Option } = Select
 const { TextArea } = Input
 
-const UpdateCourseModal = ({ visible, onClose, onSubmit, loading, record, categories }: any) => {
+const UpdateCourseModal = ({
+    visible,
+    onClose,
+    onSubmit,
+    loading,
+    record,
+    categories,
+}: any) => {
     const [form] = Form.useForm()
     const [fileList, setFileList] = useState<any>([])
 
@@ -20,32 +29,32 @@ const UpdateCourseModal = ({ visible, onClose, onSubmit, loading, record, catego
                 status: record.status,
                 thumbnail: record.thumbnail
                     ? [
-                        {
-                            uid: '-1',
-                            name: record.thumbnail,
-                            status: 'done',
-                            url: record.thumbnail, // Giả sử thumbnail là tên file, có thể cần thêm base URL nếu backend yêu cầu
-                        },
-                    ]
+                          {
+                              uid: '-1',
+                              name: record.thumbnail,
+                              status: 'done',
+                              url: record.thumbnail, // Giả sử thumbnail là tên file, có thể cần thêm base URL nếu backend yêu cầu
+                          },
+                      ]
                     : [],
-            });
+            })
             setFileList(
                 record.thumbnail
                     ? [
-                        {
-                            uid: '-1',
-                            name: record.thumbnail,
-                            status: 'done',
-                            url: record.thumbnail,
-                        },
-                    ]
-                    : [],
+                          {
+                              uid: '-1',
+                              name: record.thumbnail,
+                              status: 'done',
+                              url: record.thumbnail,
+                          },
+                      ]
+                    : []
             )
         } else {
             form.resetFields()
             setFileList([])
         }
-    }, [visible, record, form]);
+    }, [visible, record, form])
 
     // Xử lý reset form về giá trị ban đầu
     const handleReset = () => {
@@ -57,42 +66,45 @@ const UpdateCourseModal = ({ visible, onClose, onSubmit, loading, record, catego
             status: record?.status,
             thumbnail: record?.thumbnail
                 ? [
-                    {
-                        uid: '-1',
-                        name: record.thumbnail,
-                        status: 'done',
-                        url: record.thumbnail,
-                    },
-                ]
+                      {
+                          uid: '-1',
+                          name: record.thumbnail,
+                          status: 'done',
+                          url: record.thumbnail,
+                      },
+                  ]
                 : [],
-        });
+        })
         setFileList(
             record?.thumbnail
                 ? [
-                    {
-                        uid: '-1',
-                        name: record.thumbnail,
-                        status: 'done',
-                        url: record.thumbnail,
-                    },
-                ]
-                : [],
+                      {
+                          uid: '-1',
+                          name: record.thumbnail,
+                          status: 'done',
+                          url: record.thumbnail,
+                      },
+                  ]
+                : []
         )
-    };
+    }
 
     // Xử lý khi hủy
     const handleCancel = () => {
         form.resetFields()
         setFileList([])
         onClose()
-    };
+    }
 
     // Xử lý khi submit
     const handleSubmit = (values: any) => {
         console.log(fileList)
         const submitValues = {
             ...values,
-            thumbnail: fileList.length > 0 && fileList[0].originFileObj ? fileList[0].originFileObj : null,
+            thumbnail:
+                fileList.length > 0 && fileList[0].originFileObj
+                    ? fileList[0].originFileObj
+                    : null,
         }
         onSubmit(submitValues)
         handleCancel()
@@ -102,14 +114,16 @@ const UpdateCourseModal = ({ visible, onClose, onSubmit, loading, record, catego
     const handleUploadChange = ({ fileList: newFileList }: any) => {
         // Chỉ cho phép upload file ảnh
         const filteredList = newFileList.filter((file: any) => {
-            const isImage = file.type.startsWith('image/');
+            const isImage = file.type.startsWith('image/')
             if (!isImage) {
-                notification.error({ message: 'You can only upload image files!' });
+                notification.error({
+                    message: 'You can only upload image files!',
+                })
             }
-            return isImage;
-        });
-        setFileList(filteredList);
-    };
+            return isImage
+        })
+        setFileList(filteredList)
+    }
 
     return (
         <Modal
@@ -130,34 +144,58 @@ const UpdateCourseModal = ({ visible, onClose, onSubmit, loading, record, catego
                 <Form.Item
                     label="Title"
                     name="title"
-                    rules={[{ required: true, message: 'Please enter the course title' }]}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter the course title',
+                        },
+                    ]}
                 >
                     <Input allowClear placeholder="Enter course title" />
                 </Form.Item>
                 <Form.Item
                     label="Description"
                     name="description"
-                    rules={[{ required: true, message: 'Please enter a description' }]}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter a description',
+                        },
+                    ]}
                 >
-                    <TextArea rows={4} allowClear placeholder="Enter course description" />
+                    <TextArea
+                        rows={4}
+                        allowClear
+                        placeholder="Enter course description"
+                    />
                 </Form.Item>
                 <Form.Item
                     label="Price"
                     name="price"
                     rules={[
-                        { required: true, message: 'Please enter the course price' },
+                        {
+                            required: true,
+                            message: 'Please enter the course price',
+                        },
                         {
                             pattern: /^\d+(\.\d{1,2})?$/,
-                            message: 'Please enter a valid price (e.g., 599000.00)',
+                            message:
+                                'Please enter a valid price (e.g., 599000.00)',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter price (e.g., 599000.00)" addonAfter="VND" />
+                    <Input
+                        allowClear
+                        placeholder="Enter price (e.g., 599000.00)"
+                        addonAfter="VND"
+                    />
                 </Form.Item>
                 <Form.Item
                     label="Category"
                     name="category_id"
-                    rules={[{ required: true, message: 'Please select a category' }]}
+                    rules={[
+                        { required: true, message: 'Please select a category' },
+                    ]}
                 >
                     <Select placeholder="Select a category">
                         {categories.map((category: any) => (
@@ -170,7 +208,9 @@ const UpdateCourseModal = ({ visible, onClose, onSubmit, loading, record, catego
                 <Form.Item
                     label="Status"
                     name="status"
-                    rules={[{ required: true, message: 'Please select a status' }]}
+                    rules={[
+                        { required: true, message: 'Please select a status' },
+                    ]}
                 >
                     <Select placeholder="Select status">
                         <Option value="published">Published</Option>
@@ -197,16 +237,26 @@ const UpdateCourseModal = ({ visible, onClose, onSubmit, loading, record, catego
                         onChange={handleUploadChange}
                         beforeUpload={() => false} // Ngăn upload tự động
                     >
-                        <Button icon={<UploadOutlined />}>Upload Thumbnail</Button>
+                        <Button icon={<UploadOutlined />}>
+                            Upload Thumbnail
+                        </Button>
                     </Upload>
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
                     <div style={{ display: 'flex' }}>
-                        <Button key="reset" type="default" onClick={handleReset}>
+                        <Button
+                            key="reset"
+                            type="default"
+                            onClick={handleReset}
+                        >
                             Reset
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
-                        <Button key="cancel" type="default" onClick={handleCancel}>
+                        <Button
+                            key="cancel"
+                            type="default"
+                            onClick={handleCancel}
+                        >
                             Cancel
                         </Button>
                         <Button
@@ -222,7 +272,7 @@ const UpdateCourseModal = ({ visible, onClose, onSubmit, loading, record, catego
                 </Form.Item>
             </Form>
         </Modal>
-    );
-};
+    )
+}
 
 export default UpdateCourseModal

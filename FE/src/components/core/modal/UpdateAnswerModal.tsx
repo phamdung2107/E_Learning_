@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
 
-const { TextArea } = Input
-
-const UpdateLessonModal = ({
+const UpdateQuizModal = ({
     visible,
     onClose,
     onSubmit,
@@ -16,10 +14,8 @@ const UpdateLessonModal = ({
     useEffect(() => {
         if (visible && record) {
             form.setFieldsValue({
-                title: record.title,
-                video_url: record.video_url,
-                content: record.content,
-                order_number: record.order_number,
+                answer_text: record.answer_text,
+                is_correct: record.is_correct,
             })
         } else {
             form.resetFields()
@@ -28,10 +24,8 @@ const UpdateLessonModal = ({
 
     const handleReset = () => {
         form.setFieldsValue({
-            title: record.title,
-            video_url: record.video_url,
-            content: record.content,
-            order_number: record.order_number,
+            answer_text: record.answer_text,
+            is_correct: record.is_correct,
         })
     }
 
@@ -47,7 +41,7 @@ const UpdateLessonModal = ({
 
     return (
         <Modal
-            title={`Edit Lesson: ${record?.title || 'Lesson'}`}
+            title={`Edit Answer: ${record?.answer_text || 'Quiz'}`}
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -62,61 +56,23 @@ const UpdateLessonModal = ({
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    label="Title"
-                    name="title"
+                    label="Answer text"
+                    name="answer_text"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the lesson title',
+                            message: 'Please enter the quiz answer text',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter lesson title" />
+                    <Input allowClear placeholder="Enter quiz answer text" />
                 </Form.Item>
                 <Form.Item
-                    label="Video url"
-                    name="video_url"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter the lesson video url',
-                        },
-                    ]}
+                    label="Is correct"
+                    name="is_correct"
+                    valuePropName="checked"
                 >
-                    <Input allowClear placeholder="Enter lesson video url" />
-                </Form.Item>
-                <Form.Item
-                    label="Content"
-                    name="content"
-                    rules={[
-                        { required: true, message: 'Please enter a content' },
-                    ]}
-                >
-                    <TextArea
-                        rows={4}
-                        allowClear
-                        placeholder="Enter lesson content"
-                    />
-                </Form.Item>
-                <Form.Item
-                    label="Order number"
-                    name="order_number"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter the lesson order number',
-                        },
-                        {
-                            pattern: /^\d+(\.\d{1,2})?$/,
-                            message: 'Please enter a valid (e.g., 1)',
-                        },
-                    ]}
-                >
-                    <Input
-                        type="number"
-                        allowClear
-                        placeholder="Enter order number (e.g., 1)"
-                    />
+                    <Checkbox>Correct</Checkbox>
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
                     <div style={{ display: 'flex' }}>
@@ -151,4 +107,4 @@ const UpdateLessonModal = ({
     )
 }
 
-export default UpdateLessonModal
+export default UpdateQuizModal

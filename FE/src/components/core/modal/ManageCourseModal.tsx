@@ -1,10 +1,17 @@
 import React from 'react'
+
 import { Button, Form, Input, Modal, Select, Upload } from 'antd'
+
 import { UploadOutlined } from '@ant-design/icons'
 
 const { Option } = Select
 
-const ManageCourseModal = ({ visible, onCancel, onSave, initialValues }: any) => {
+const ManageCourseModal = ({
+    visible,
+    onCancel,
+    onSave,
+    initialValues,
+}: any) => {
     const [form] = Form.useForm()
 
     // Đặt giá trị ban đầu cho form khi chỉnh sửa
@@ -37,14 +44,21 @@ const ManageCourseModal = ({ visible, onCancel, onSave, initialValues }: any) =>
                 <Form.Item
                     name="title"
                     label="Course Title"
-                    rules={[{ required: true, message: 'Please enter the course title' }]}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter the course title',
+                        },
+                    ]}
                 >
                     <Input placeholder="Enter course title" />
                 </Form.Item>
                 <Form.Item
                     name="category"
                     label="Category"
-                    rules={[{ required: true, message: 'Please select a category' }]}
+                    rules={[
+                        { required: true, message: 'Please select a category' },
+                    ]}
                 >
                     <Select placeholder="Select a category">
                         <Option value="Programming">Programming</Option>
@@ -56,9 +70,17 @@ const ManageCourseModal = ({ visible, onCancel, onSave, initialValues }: any) =>
                 <Form.Item
                     name="description"
                     label="Description"
-                    rules={[{ required: true, message: 'Please enter a description' }]}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter a description',
+                        },
+                    ]}
                 >
-                    <Input.TextArea rows={4} placeholder="Enter course description" />
+                    <Input.TextArea
+                        rows={4}
+                        placeholder="Enter course description"
+                    />
                 </Form.Item>
                 <Form.Item
                     name="thumbnail"
@@ -77,7 +99,9 @@ const ManageCourseModal = ({ visible, onCancel, onSave, initialValues }: any) =>
                         maxCount={1}
                         beforeUpload={() => false} // Ngăn upload tự động
                     >
-                        <Button icon={<UploadOutlined />}>Upload Thumbnail</Button>
+                        <Button icon={<UploadOutlined />}>
+                            Upload Thumbnail
+                        </Button>
                     </Upload>
                 </Form.Item>
             </Form>

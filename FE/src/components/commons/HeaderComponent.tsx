@@ -43,7 +43,11 @@ const HeaderComponent: React.FC = () => {
     const userMenuItems = [
         {
             key: 'management',
-            label: <Link to={`/${user?.role ? user?.role : user?.user?.role}`}>Management</Link>,
+            label: (
+                <Link to={`/${user?.role ? user?.role : user?.user?.role}`}>
+                    Management
+                </Link>
+            ),
             icon: <UserOutlined />,
         },
         {

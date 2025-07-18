@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { Typography } from 'antd'
+
 import { Line } from '@ant-design/charts'
 
 const { Text } = Typography
@@ -61,9 +63,7 @@ const StudentActivityChart = ({ instructorId }: any) => {
         // },
     }
 
-    return (
-        <Line {...config} />
-    )
+    return <Line {...config} />
 }
 
 export default StudentActivityChart

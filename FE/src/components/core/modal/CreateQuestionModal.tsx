@@ -1,38 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Input, Modal, Select } from 'antd'
 
 const { TextArea } = Input
 
-const UpdateLessonModal = ({
-    visible,
-    onClose,
-    onSubmit,
-    loading,
-    record,
-}: any) => {
+const CreateQuestionModal = ({ visible, onClose, onSubmit, loading }: any) => {
     const [form] = Form.useForm()
 
-    useEffect(() => {
-        if (visible && record) {
-            form.setFieldsValue({
-                title: record.title,
-                video_url: record.video_url,
-                content: record.content,
-                order_number: record.order_number,
-            })
-        } else {
-            form.resetFields()
-        }
-    }, [visible, record, form])
-
     const handleReset = () => {
-        form.setFieldsValue({
-            title: record.title,
-            video_url: record.video_url,
-            content: record.content,
-            order_number: record.order_number,
-        })
+        form.resetFields()
     }
 
     const handleCancel = () => {
@@ -47,7 +23,7 @@ const UpdateLessonModal = ({
 
     return (
         <Modal
-            title={`Edit Lesson: ${record?.title || 'Lesson'}`}
+            title="Create New Question"
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -55,48 +31,41 @@ const UpdateLessonModal = ({
             className="course-modal"
             footer={null}
         >
-            <Form
-                form={form}
-                labelAlign="left"
-                layout="vertical"
-                onFinish={handleSubmit}
-            >
+            <Form form={form} layout="vertical" onFinish={handleSubmit}>
                 <Form.Item
-                    label="Title"
-                    name="title"
+                    label="Question text"
+                    name="question_text"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the lesson title',
+                            message: 'Please enter a question text',
                         },
-                    ]}
-                >
-                    <Input allowClear placeholder="Enter lesson title" />
-                </Form.Item>
-                <Form.Item
-                    label="Video url"
-                    name="video_url"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter the lesson video url',
-                        },
-                    ]}
-                >
-                    <Input allowClear placeholder="Enter lesson video url" />
-                </Form.Item>
-                <Form.Item
-                    label="Content"
-                    name="content"
-                    rules={[
-                        { required: true, message: 'Please enter a content' },
                     ]}
                 >
                     <TextArea
                         rows={4}
                         allowClear
-                        placeholder="Enter lesson content"
+                        placeholder="Enter lesson question text"
                     />
+                </Form.Item>
+                <Form.Item
+                    label="Question type"
+                    name="question_type"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please select a question type',
+                        },
+                    ]}
+                >
+                    <Select allowClear placeholder="Select question type">
+                        <Select.Option value="single">
+                            Single choice
+                        </Select.Option>
+                        <Select.Option value="multiple">
+                            Multiple choice
+                        </Select.Option>
+                    </Select>
                 </Form.Item>
                 <Form.Item
                     label="Order number"
@@ -142,7 +111,7 @@ const UpdateLessonModal = ({
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Edit
+                            Create
                         </Button>
                     </div>
                 </Form.Item>
@@ -151,4 +120,4 @@ const UpdateLessonModal = ({
     )
 }
 
-export default UpdateLessonModal
+export default CreateQuestionModal

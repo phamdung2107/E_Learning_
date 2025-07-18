@@ -1,14 +1,23 @@
-import { Button, Card, Col, Row, Space, Statistic, Typography } from 'antd'
-import { BookOutlined, DollarOutlined, StarOutlined, TrophyOutlined, UserOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
-import { INSTRUCTOR_PATHS } from '@/routers/path'
 import React, { useEffect, useState } from 'react'
+
+import { Button, Card, Col, Row, Space, Statistic, Typography } from 'antd'
+
+import {
+    BookOutlined,
+    DollarOutlined,
+    StarOutlined,
+    TrophyOutlined,
+    UserOutlined,
+} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+
 import { MonthlyRevenueChart } from '@/components/charts/MonthlyRevenueChart'
 import StudentActivityChart from '@/components/charts/StudentActivityChart'
+import { INSTRUCTOR_PATHS } from '@/routers/path'
+import InstructorService from '@/services/instructor'
 
 import '../styles/InstructorDashboard.css'
-import InstructorService from '@/services/instructor'
 
 const { Title, Text } = Typography
 
@@ -21,11 +30,7 @@ const InstructorDashboardPage = () => {
 
     const fetchData = async () => {
         try {
-            const [
-                resStudent,
-                resCourse,
-                resRevenue,
-            ] = await Promise.all([
+            const [resStudent, resCourse, resRevenue] = await Promise.all([
                 InstructorService.getStudents(user?.id),
                 InstructorService.getCourses(user?.id),
                 InstructorService.getRevenue(user?.id),
@@ -34,7 +39,6 @@ const InstructorDashboardPage = () => {
             setCourseCount(resCourse.total)
             setStudentCount(resStudent.total)
             setRevenue(resRevenue.data.revenue)
-
         } catch (e) {
             console.error(e)
         }
@@ -48,8 +52,12 @@ const InstructorDashboardPage = () => {
         <div className="student-dashboard">
             {/* Header */}
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>Welcome back, {user?.user?.full_name}! 👋</Title>
-                <Text type="secondary">Manage your courses and track your teaching progress</Text>
+                <Title level={2}>
+                    Welcome back, {user?.user?.full_name}! 👋
+                </Title>
+                <Text type="secondary">
+                    Manage your courses and track your teaching progress
+                </Text>
             </Card>
 
             {/* Stats Cards */}
@@ -138,22 +146,30 @@ const InstructorDashboardPage = () => {
                                 className="student-actions-list"
                                 size="small"
                             >
-                                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}>
+                                <Link
+                                    to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}
+                                >
                                     <Button block icon={<BookOutlined />}>
                                         Create New Course
                                     </Button>
                                 </Link>
-                                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}>
+                                <Link
+                                    to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}
+                                >
                                     <Button block icon={<BookOutlined />}>
                                         Manage Courses
                                     </Button>
                                 </Link>
-                                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}>
+                                <Link
+                                    to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}
+                                >
                                     <Button block icon={<UserOutlined />}>
                                         Manage Students
                                     </Button>
                                 </Link>
-                                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}>
+                                <Link
+                                    to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}
+                                >
                                     <Button block icon={<TrophyOutlined />}>
                                         View Analytics
                                     </Button>
@@ -164,7 +180,7 @@ const InstructorDashboardPage = () => {
                 </Col>
             </Row>
         </div>
-    );
-};
+    )
+}
 
 export default InstructorDashboardPage

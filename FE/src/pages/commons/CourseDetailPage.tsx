@@ -3,7 +3,19 @@
 import type React from 'react'
 import { useEffect, useState } from 'react'
 
-import { Button, Card, Col, Collapse, Divider, notification, Rate, Row, Space, Tag, Typography } from 'antd'
+import {
+    Button,
+    Card,
+    Col,
+    Collapse,
+    Divider,
+    Rate,
+    Row,
+    Space,
+    Tag,
+    Typography,
+    notification,
+} from 'antd'
 
 import {
     BookOutlined,
@@ -22,11 +34,11 @@ import CourseCard from '@/components/core/card/CourseCard'
 import { DATE_TIME_FORMAT } from '@/constants/date'
 import CourseService from '@/services/course'
 import EnrollmentService from '@/services/enrollment'
+import InstructorService from '@/services/instructor'
 import LessonService from '@/services/lesson'
 import OrderService from '@/services/order'
 import QuizService from '@/services/quiz'
 import ReviewService from '@/services/review'
-import InstructorService from '@/services/instructor'
 import { formatDateTime, formatPrice } from '@/utils/format'
 
 import '../styles/CourseDetail.css'
@@ -78,14 +90,14 @@ const CourseDetailPage: React.FC = () => {
                 enrollmentRes,
                 avgRatingRes,
                 lessonsRes,
-                reviewsRes
+                reviewsRes,
             ] = await Promise.all([
                 InstructorService.getStudents(courseData.instructor.id),
                 InstructorService.getCourses(courseData.instructor.id),
                 EnrollmentService.countByCourse(courseId),
                 ReviewService.getAverageByCourse(courseId),
                 LessonService.getByCourse(courseId),
-                ReviewService.getByCourse(courseId)
+                ReviewService.getByCourse(courseId),
             ])
 
             setTotalStudentsOfInstructor(resStudent.total)
@@ -535,8 +547,7 @@ const CourseDetailPage: React.FC = () => {
                                         {course.instructor.experience_years}
                                     </Tag>
                                     <Tag color="orange">
-                                        Students:{' '}
-                                        {totalStudentsOfInstructor}
+                                        Students: {totalStudentsOfInstructor}
                                     </Tag>
                                 </Space>
                             </Col>
@@ -566,8 +577,7 @@ const CourseDetailPage: React.FC = () => {
                             <Rate disabled allowHalf value={averageRating} />
                         </div>
                         <div className="course-detail-reviews-count">
-                            Based on {totalStudentsOfCourse} student
-                            reviews
+                            Based on {totalStudentsOfCourse} student reviews
                         </div>
                     </div>
 
@@ -589,9 +599,23 @@ const CourseDetailPage: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="course-detail-review-rating">
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <Rate disabled value={review.rating} />
-                                            <Title style={{ marginBottom: 0, marginLeft: 5 }} level={5}>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <Rate
+                                                disabled
+                                                value={review.rating}
+                                            />
+                                            <Title
+                                                style={{
+                                                    marginBottom: 0,
+                                                    marginLeft: 5,
+                                                }}
+                                                level={5}
+                                            >
                                                 ({review.rating})
                                             </Title>
                                         </div>

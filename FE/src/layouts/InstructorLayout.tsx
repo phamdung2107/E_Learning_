@@ -10,15 +10,17 @@ import {
     BookOutlined,
     DashboardOutlined,
     LogoutOutlined,
-    MenuOutlined, QuestionOutlined,
+    MenuOutlined,
+    QuestionOutlined,
     ShoppingCartOutlined,
     TrophyOutlined,
-    UserOutlined, VideoCameraOutlined,
+    UserOutlined,
+    VideoCameraOutlined,
 } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import { PATHS, INSTRUCTOR_PATHS } from '@/routers/path'
+import { INSTRUCTOR_PATHS, PATHS } from '@/routers/path'
 import { logout } from '@/stores/auth/authSlice'
 import { setCart } from '@/stores/cart/cartSlice'
 import { setNotification } from '@/stores/notification/notificationSlice'
@@ -41,34 +43,28 @@ const InstructorLayout: React.FC = () => {
         {
             key: INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD,
             icon: <DashboardOutlined />,
-            label: <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}>Dashboard</Link>,
+            label: (
+                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}>
+                    Dashboard
+                </Link>
+            ),
         },
         {
             key: INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES,
             icon: <BookOutlined />,
             label: (
-                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}>My Courses</Link>
-            ),
-        },
-        {
-            key: INSTRUCTOR_PATHS.INSTRUCTOR_MY_LESSONS,
-            icon: <VideoCameraOutlined />,
-            label: (
-                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_LESSONS}>My Lessons</Link>
-            ),
-        },
-        {
-            key: INSTRUCTOR_PATHS.INSTRUCTOR_MY_QUIZZIES,
-            icon: <QuestionOutlined />,
-            label: (
-                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_QUIZZIES}>My Quizzes</Link>
+                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}>
+                    My Courses
+                </Link>
             ),
         },
         {
             key: INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS,
             icon: <UserOutlined />,
             label: (
-                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}>My Students</Link>
+                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}>
+                    My Students
+                </Link>
             ),
         },
     ]
@@ -76,7 +72,9 @@ const InstructorLayout: React.FC = () => {
         {
             key: INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE,
             icon: <UserOutlined />,
-            label: <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE}>My Profile</Link>,
+            label: (
+                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE}>My Profile</Link>
+            ),
         },
         {
             key: 'logout',

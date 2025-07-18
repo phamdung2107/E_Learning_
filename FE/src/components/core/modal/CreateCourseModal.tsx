@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
-import { Button, Form, Input, Modal, notification, Select, Upload } from 'antd'
+
+import { Button, Form, Input, Modal, Select, Upload, notification } from 'antd'
+
 import { UploadOutlined } from '@ant-design/icons'
 
 const { Option } = Select
 const { TextArea } = Input
 
-const CreateCourseModal = ({ visible, onClose, onSubmit, loading, categories }: any) => {
+const CreateCourseModal = ({
+    visible,
+    onClose,
+    onSubmit,
+    loading,
+    categories,
+}: any) => {
     const [form] = Form.useForm()
     const [fileList, setFileList] = useState<any>([])
 
@@ -23,7 +31,10 @@ const CreateCourseModal = ({ visible, onClose, onSubmit, loading, categories }: 
     const handleSubmit = (values: any) => {
         const submitValues = {
             ...values,
-            thumbnail: fileList.length > 0 && fileList[0].originFileObj ? fileList[0].originFileObj : null,
+            thumbnail:
+                fileList.length > 0 && fileList[0].originFileObj
+                    ? fileList[0].originFileObj
+                    : null,
         }
         onSubmit(submitValues)
         handleCancel()
@@ -31,13 +42,15 @@ const CreateCourseModal = ({ visible, onClose, onSubmit, loading, categories }: 
 
     const handleUploadChange = ({ fileList: newFileList }: any) => {
         const filteredList = newFileList.filter((file: any) => {
-            const isImage = file.type.startsWith('image/');
+            const isImage = file.type.startsWith('image/')
             if (!isImage) {
-                notification.error({ message: 'You can only upload image files!' });
+                notification.error({
+                    message: 'You can only upload image files!',
+                })
             }
-            return isImage;
-        });
-        setFileList(filteredList);
+            return isImage
+        })
+        setFileList(filteredList)
     }
 
     return (
@@ -50,42 +63,61 @@ const CreateCourseModal = ({ visible, onClose, onSubmit, loading, categories }: 
             className="course-modal"
             footer={null}
         >
-            <Form
-                form={form}
-                layout="vertical"
-                onFinish={handleSubmit}
-            >
+            <Form form={form} layout="vertical" onFinish={handleSubmit}>
                 <Form.Item
                     label="Title"
                     name="title"
-                    rules={[{ required: true, message: 'Please enter the course title' }]}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter the course title',
+                        },
+                    ]}
                 >
                     <Input allowClear placeholder="Enter course title" />
                 </Form.Item>
                 <Form.Item
                     label="Description"
                     name="description"
-                    rules={[{ required: true, message: 'Please enter a description' }]}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please enter a description',
+                        },
+                    ]}
                 >
-                    <TextArea rows={4} allowClear placeholder="Enter course description" />
+                    <TextArea
+                        rows={4}
+                        allowClear
+                        placeholder="Enter course description"
+                    />
                 </Form.Item>
                 <Form.Item
                     label="Price"
                     name="price"
                     rules={[
-                        { required: true, message: 'Please enter the course price' },
+                        {
+                            required: true,
+                            message: 'Please enter the course price',
+                        },
                         {
                             pattern: /^\d+(\.\d{1,2})?$/,
-                            message: 'Please enter a valid price (e.g., 199000.00)',
+                            message:
+                                'Please enter a valid price (e.g., 199000.00)',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter price (e.g., 199000.00)" />
+                    <Input
+                        allowClear
+                        placeholder="Enter price (e.g., 199000.00)"
+                    />
                 </Form.Item>
                 <Form.Item
                     label="Category"
                     name="category_id"
-                    rules={[{ required: true, message: 'Please select a category' }]}
+                    rules={[
+                        { required: true, message: 'Please select a category' },
+                    ]}
                 >
                     <Select placeholder="Select a category">
                         {categories.map((category: any) => (
@@ -114,16 +146,26 @@ const CreateCourseModal = ({ visible, onClose, onSubmit, loading, categories }: 
                         onChange={handleUploadChange}
                         beforeUpload={() => false} // Ngăn upload tự động
                     >
-                        <Button icon={<UploadOutlined />}>Upload Thumbnail</Button>
+                        <Button icon={<UploadOutlined />}>
+                            Upload Thumbnail
+                        </Button>
                     </Upload>
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
                     <div style={{ display: 'flex' }}>
-                        <Button key="reset" type="default" onClick={handleReset}>
+                        <Button
+                            key="reset"
+                            type="default"
+                            onClick={handleReset}
+                        >
                             Reset
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
-                        <Button key="cancel" type="default" onClick={handleCancel}>
+                        <Button
+                            key="cancel"
+                            type="default"
+                            onClick={handleCancel}
+                        >
                             Cancel
                         </Button>
                         <Button
@@ -140,6 +182,6 @@ const CreateCourseModal = ({ visible, onClose, onSubmit, loading, categories }: 
             </Form>
         </Modal>
     )
-};
+}
 
 export default CreateCourseModal

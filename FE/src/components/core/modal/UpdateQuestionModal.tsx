@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react'
 
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Input, Modal, Select } from 'antd'
 
-const { TextArea } = Input
-
-const UpdateLessonModal = ({
+const UpdateQuizModal = ({
     visible,
     onClose,
     onSubmit,
@@ -16,9 +14,8 @@ const UpdateLessonModal = ({
     useEffect(() => {
         if (visible && record) {
             form.setFieldsValue({
-                title: record.title,
-                video_url: record.video_url,
-                content: record.content,
+                question_text: record.question_text,
+                question_type: record.question_type,
                 order_number: record.order_number,
             })
         } else {
@@ -28,9 +25,8 @@ const UpdateLessonModal = ({
 
     const handleReset = () => {
         form.setFieldsValue({
-            title: record.title,
-            video_url: record.video_url,
-            content: record.content,
+            question_text: record.question_text,
+            question_type: record.question_type,
             order_number: record.order_number,
         })
     }
@@ -47,7 +43,7 @@ const UpdateLessonModal = ({
 
     return (
         <Modal
-            title={`Edit Lesson: ${record?.title || 'Lesson'}`}
+            title={`Edit Question: ${record?.question_text || 'Quiz'}`}
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -62,41 +58,35 @@ const UpdateLessonModal = ({
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    label="Title"
-                    name="title"
+                    label="Question text"
+                    name="question_text"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the lesson title',
+                            message: 'Please enter the quiz question text',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter lesson title" />
+                    <Input allowClear placeholder="Enter quiz question text" />
                 </Form.Item>
                 <Form.Item
-                    label="Video url"
-                    name="video_url"
+                    label="Question type"
+                    name="question_type"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the lesson video url',
+                            message: 'Please select a question type',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter lesson video url" />
-                </Form.Item>
-                <Form.Item
-                    label="Content"
-                    name="content"
-                    rules={[
-                        { required: true, message: 'Please enter a content' },
-                    ]}
-                >
-                    <TextArea
-                        rows={4}
-                        allowClear
-                        placeholder="Enter lesson content"
-                    />
+                    <Select allowClear placeholder="Select question type">
+                        <Select.Option value="single">
+                            Single choice
+                        </Select.Option>
+                        <Select.Option value="multiple">
+                            Multiple choice
+                        </Select.Option>
+                    </Select>
                 </Form.Item>
                 <Form.Item
                     label="Order number"
@@ -151,4 +141,4 @@ const UpdateLessonModal = ({
     )
 }
 
-export default UpdateLessonModal
+export default UpdateQuizModal

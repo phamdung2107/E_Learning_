@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { DATE_FORMAT } from '@/constants/date'
+import { BASE_IMAGE_URL } from '@/constants/image'
 import LessonService from '@/services/lesson'
 import ProgressService from '@/services/progress'
 import { formatDateTime } from '@/utils/format'
-import { BASE_IMAGE_URL } from '@/constants/image'
 
 const { Text, Title } = Typography
 

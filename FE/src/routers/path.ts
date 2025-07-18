@@ -29,8 +29,6 @@ export const INSTRUCTOR_PATHS = {
     INSTRUCTOR_DASHBOARD: '/instructor',
     INSTRUCTOR_MY_COURSES: '/instructor/courses',
     INSTRUCTOR_DETAIL_COURSE: '/instructor/courses/:courseId',
-    INSTRUCTOR_MY_LESSONS: '/instructor/lessons',
-    INSTRUCTOR_MY_QUIZZIES: '/instructor/quizzes',
     INSTRUCTOR_PROFILE: '/instructor/profile',
     INSTRUCTOR_MY_STUDENTS: '/instructor/students',
 }

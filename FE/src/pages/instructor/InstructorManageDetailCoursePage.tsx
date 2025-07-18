@@ -1,17 +1,18 @@
-import { Button, Card, notification, Spin, Table, Typography } from 'antd'
-import { PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+
+import { Button, Card, Spin, Table, Typography, notification } from 'antd'
+
+import { PlusOutlined, ReloadOutlined } from '@ant-design/icons'
+import { useParams } from 'react-router-dom'
+
+import CreateLessonModal from '@/components/core/modal/CreateLessonModal'
+import CreateQuizModal from '@/components/core/modal/CreateQuizModal'
+import ListQuestionModal from '@/components/core/modal/ListQuestionModal'
+import UpdateLessonModal from '@/components/core/modal/UpdateLessonModal'
+import UpdateQuizModal from '@/components/core/modal/UpdateQuizModal'
 import { getManageLessonColumns, getManageQuizColumns } from '@/constants/table'
 import LessonService from '@/services/lesson'
 import QuizService from '@/services/quiz'
-import { useParams } from 'react-router-dom'
-import CreateLessonModal from '@/components/core/modal/CreateLessonModal'
-import updateLessonModal from '@/components/core/modal/UpdateLessonModal'
-import UpdateLessonModal from '@/components/core/modal/UpdateLessonModal'
-import CreateQuizModal from '@/components/core/modal/CreateQuizModal'
-import UpdateQuizModal from '@/components/core/modal/UpdateQuizModal'
-import ListQuestionModal from '@/components/core/modal/ListQuestionModal'
 
 const { Title, Text } = Typography
 
@@ -22,11 +23,14 @@ const InstructorManageDetailCoursePage = () => {
     const [lessons, setLessons] = useState<any[]>([])
     const [quizData, setQuizData] = useState<Record<string, any[]>>({})
     const [record, setRecord] = useState<any>(null)
-    const [isModalCreateLessonOpen, setIsModalCreateLessonOpen] = useState(false)
-    const [isModalUpdateLessonOpen, setIsModalUpdateLessonOpen] = useState(false)
+    const [isModalCreateLessonOpen, setIsModalCreateLessonOpen] =
+        useState(false)
+    const [isModalUpdateLessonOpen, setIsModalUpdateLessonOpen] =
+        useState(false)
     const [isModalCreateQuizOpen, setIsModalCreateQuizOpen] = useState(false)
     const [isModalUpdateQuizOpen, setIsModalUpdateQuizOpen] = useState(false)
-    const [isModalListQuestionOpen, setIsModalListQuestionOpen] = useState(false)
+    const [isModalListQuestionOpen, setIsModalListQuestionOpen] =
+        useState(false)
 
     const [createLessonLoading, setCreateLessonLoading] = useState(false)
     const [updateLessonLoading, setUpdateLessonLoading] = useState(false)
@@ -239,8 +243,16 @@ const InstructorManageDetailCoursePage = () => {
         setIsModalListQuestionOpen(true)
     }
 
-    const lessonColumns: any = getManageLessonColumns(openModalLessonUpdate, openModalLessonDelete, openModalQuizCreate)
-    const quizColumns: any = getManageQuizColumns(openModalQuizUpdate, openModalQuizDelete, openModalListQuestion)
+    const lessonColumns: any = getManageLessonColumns(
+        openModalLessonUpdate,
+        openModalLessonDelete,
+        openModalQuizCreate
+    )
+    const quizColumns: any = getManageQuizColumns(
+        openModalQuizUpdate,
+        openModalQuizDelete,
+        openModalListQuestion
+    )
 
     return (
         <div className="instructor-manage-courses" style={{ padding: '24px' }}>
@@ -267,8 +279,7 @@ const InstructorManageDetailCoursePage = () => {
                         icon={<PlusOutlined />}
                         onClick={() => setIsModalCreateLessonOpen(true)}
                         style={{ marginBottom: '16px' }}
-                    >
-                    </Button>
+                    ></Button>
                 </div>
                 <Table
                     bordered
@@ -345,11 +356,7 @@ const InstructorManageDetailCoursePage = () => {
             />
             {refreshLoading && (
                 <div className="full-page-loading">
-                    <Spin
-                        fullscreen={true}
-                        size="large"
-                        tip="Loading..."
-                    />
+                    <Spin fullscreen={true} size="large" tip="Loading..." />
                 </div>
             )}
         </div>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+
 import { DualAxes } from '@ant-design/charts'
+
 import InstructorService from '@/services/instructor'
 
 interface MonthlyRevenueData {
@@ -65,7 +67,5 @@ export const MonthlyRevenueChart = ({ instructorId }: any) => {
         },
     }
 
-    return (
-        <DualAxes {...config} />
-    )
+    return <DualAxes {...config} />
 }

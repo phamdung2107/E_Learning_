@@ -86,7 +86,11 @@ const CoursesPage: React.FC = () => {
             }
 
             const response = await CourseService.getAll(apiFilters)
-            setAllCourses(response.data.filter((course: any) => course.status === 'published') || [])
+            setAllCourses(
+                response.data.filter(
+                    (course: any) => course.status === 'published'
+                ) || []
+            )
         } catch (e) {
             console.error(e)
             setAllCourses([])

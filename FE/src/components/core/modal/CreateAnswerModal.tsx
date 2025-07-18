@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
 
 const { TextArea } = Input
 
-const CreateLessonModal = ({ visible, onClose, onSubmit, loading }: any) => {
+const CreateAnswerModal = ({ visible, onClose, onSubmit, loading }: any) => {
     const [form] = Form.useForm()
 
     const handleReset = () => {
@@ -23,7 +23,7 @@ const CreateLessonModal = ({ visible, onClose, onSubmit, loading }: any) => {
 
     return (
         <Modal
-            title="Create New Lesson"
+            title="Create Answer"
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -33,61 +33,27 @@ const CreateLessonModal = ({ visible, onClose, onSubmit, loading }: any) => {
         >
             <Form form={form} layout="vertical" onFinish={handleSubmit}>
                 <Form.Item
-                    label="Title"
-                    name="title"
+                    label="Answer text"
+                    name="answer_text"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the lesson title',
+                            message: 'Please enter a answer text',
                         },
-                    ]}
-                >
-                    <Input allowClear placeholder="Enter lesson title" />
-                </Form.Item>
-                <Form.Item
-                    label="Video url"
-                    name="video_url"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter the lesson video url',
-                        },
-                    ]}
-                >
-                    <Input allowClear placeholder="Enter lesson video url" />
-                </Form.Item>
-                <Form.Item
-                    label="Content"
-                    name="content"
-                    rules={[
-                        { required: true, message: 'Please enter a content' },
                     ]}
                 >
                     <TextArea
                         rows={4}
                         allowClear
-                        placeholder="Enter lesson content"
+                        placeholder="Enter lesson answer text"
                     />
                 </Form.Item>
                 <Form.Item
-                    label="Order number"
-                    name="order_number"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please enter the lesson order number',
-                        },
-                        {
-                            pattern: /^\d+(\.\d{1,2})?$/,
-                            message: 'Please enter a valid (e.g., 1)',
-                        },
-                    ]}
+                    label="Is correct"
+                    name="is_correct"
+                    valuePropName="checked"
                 >
-                    <Input
-                        type="number"
-                        allowClear
-                        placeholder="Enter order number (e.g., 1)"
-                    />
+                    <Checkbox>Correct</Checkbox>
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
                     <div style={{ display: 'flex' }}>
@@ -122,4 +88,4 @@ const CreateLessonModal = ({ visible, onClose, onSubmit, loading }: any) => {
     )
 }
 
-export default CreateLessonModal
+export default CreateAnswerModal

@@ -1,14 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Card, notification, Spin, Table, Typography } from 'antd'
-import { PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 
-import InstructorService from '@/services/instructor'
+import { Button, Card, Spin, Table, Typography, notification } from 'antd'
+
+import { PlusOutlined, ReloadOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
+
+import CreateCourseModal from '@/components/core/modal/CreateCourseModal'
+import UpdateCourseModal from '@/components/core/modal/UpdateCourseModal'
+import { getManageCourseColumns } from '@/constants/table'
 import CategoryService from '@/services/category'
 import CourseService from '@/services/course'
-import { useSelector } from 'react-redux'
-import { getManageCourseColumns } from '@/constants/table'
-import UpdateCourseModal from '@/components/core/modal/UpdateCourseModal'
-import CreateCourseModal from '@/components/core/modal/CreateCourseModal'
+import InstructorService from '@/services/instructor'
 
 const { Title, Text } = Typography
 
@@ -93,8 +95,7 @@ const InstructorManageCoursesPage = () => {
                     message: 'Create course successfully',
                 })
             }
-        }
-        catch (e) {
+        } catch (e) {
             console.error(e)
             notification.error({
                 message: 'Create course failed. Please try again later.',
@@ -167,7 +168,13 @@ const InstructorManageCoursesPage = () => {
     }
 
     const columns: any = useMemo(() => {
-        return getManageCourseColumns(openModalUpdate, openModalDelete, handlePublishCourse, handleArchiveCourse, categories)
+        return getManageCourseColumns(
+            openModalUpdate,
+            openModalDelete,
+            handlePublishCourse,
+            handleArchiveCourse,
+            categories
+        )
     }, [categories])
 
     useEffect(() => {
@@ -199,8 +206,7 @@ const InstructorManageCoursesPage = () => {
                         icon={<PlusOutlined />}
                         onClick={() => setIsModalCreateOpen(true)}
                         style={{ marginBottom: '16px' }}
-                    >
-                    </Button>
+                    ></Button>
                 </div>
                 <Table
                     bordered
@@ -234,15 +240,11 @@ const InstructorManageCoursesPage = () => {
             />
             {refreshLoading && (
                 <div className="full-page-loading">
-                    <Spin
-                        fullscreen={true}
-                        size="large"
-                        tip="Loading..."
-                    />
+                    <Spin fullscreen={true} size="large" tip="Loading..." />
                 </div>
             )}
         </div>
     )
-};
+}
 
 export default InstructorManageCoursesPage

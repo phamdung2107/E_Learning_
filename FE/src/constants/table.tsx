@@ -1,16 +1,19 @@
 import { Button, Image, Popconfirm, Space, Tag } from 'antd'
 
-import { DATE_TIME_FORMAT } from '@/constants/date'
-import { formatDateTime, formatPrice } from '@/utils/format'
 import {
-    DeleteOutlined, EditOutlined,
+    DeleteOutlined,
+    EditOutlined,
     FormOutlined,
-    HistoryOutlined, PlusOutlined,
+    HistoryOutlined,
+    PlusOutlined,
     QuestionCircleOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+
+import { DATE_TIME_FORMAT } from '@/constants/date'
 import { BASE_IMAGE_URL } from '@/constants/image'
+import { formatDateTime, formatPrice } from '@/utils/format'
 
 export const RESULT_QUIZ_COLUMNS: any = [
     {
@@ -97,12 +100,10 @@ export const getManageCourseColumns = (
         key: 'category_id',
         align: 'center',
         render: (text: any) => {
-            const currentCategory = categoryOptions.filter((category: any) => category.id === text)
-            return (
-                <div>
-                    {currentCategory[0]?.name}
-                </div>
+            const currentCategory = categoryOptions.filter(
+                (category: any) => category.id === text
             )
+            return <div>{currentCategory[0]?.name}</div>
         },
     },
     {
@@ -122,11 +123,7 @@ export const getManageCourseColumns = (
         key: 'price',
         align: 'center',
         render: (text: any) => {
-            return (
-                <div>
-                    {formatPrice(text)}
-                </div>
-            )
+            return <div>{formatPrice(text)}</div>
         },
     },
     {
@@ -145,7 +142,6 @@ export const getManageCourseColumns = (
                         <Tag color="default">Draft</Tag>
                     )}
                 </div>
-
             )
         },
     },
@@ -179,11 +175,7 @@ export const getManageCourseColumns = (
                     okText="Delete"
                     cancelText="Cancel"
                 >
-                    <Button
-                        danger
-                        size="small"
-                        icon={<DeleteOutlined />}
-                    />
+                    <Button danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
                 <Popconfirm
                     title="Publish the course"
@@ -201,7 +193,7 @@ export const getManageCourseColumns = (
                     <Button
                         variant="solid"
                         size="small"
-                        color='green'
+                        color="green"
                         icon={<UploadOutlined />}
                         disabled={record.status === 'published'}
                     />
@@ -215,14 +207,16 @@ export const getManageCourseColumns = (
                         archiveCourse(record)
                     }}
                     onCancel={() => {}}
-                    icon={<QuestionCircleOutlined style={{ color: 'orange' }} />}
+                    icon={
+                        <QuestionCircleOutlined style={{ color: 'orange' }} />
+                    }
                     okText="Archive"
                     cancelText="Cancel"
                 >
                     <Button
                         variant="solid"
                         size="small"
-                        color='orange'
+                        color="orange"
                         icon={<HistoryOutlined />}
                         disabled={record.status === 'archived'}
                     />
@@ -235,7 +229,7 @@ export const getManageCourseColumns = (
 export const getManageLessonColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
-    openModalCreate: (record: any) => void,
+    openModalCreate: (record: any) => void
 ) => [
     {
         title: 'ID',
@@ -306,14 +300,10 @@ export const getManageLessonColumns = (
                     okText="Delete"
                     cancelText="Cancel"
                 >
-                    <Button
-                        danger
-                        size="small"
-                        icon={<DeleteOutlined />}
-                    />
+                    <Button danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
                 <Button
-                    variant='outlined'
+                    variant="outlined"
                     color="green"
                     size="small"
                     icon={<PlusOutlined />}
@@ -330,7 +320,7 @@ export const getManageLessonColumns = (
 export const getManageQuizColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
-    openModalCreate: (record: any) => void,
+    openModalCreate: (record: any) => void
 ) => [
     {
         title: 'ID',
@@ -382,14 +372,10 @@ export const getManageQuizColumns = (
                     okText="Delete"
                     cancelText="Cancel"
                 >
-                    <Button
-                        danger
-                        size="small"
-                        icon={<DeleteOutlined />}
-                    />
+                    <Button danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
                 <Button
-                    variant='solid'
+                    variant="solid"
                     color="green"
                     size="small"
                     icon={<EditOutlined />}
@@ -406,6 +392,7 @@ export const getManageQuizColumns = (
 export const getManageQuestionColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
+    openModalCreate: (record: any) => void
 ) => [
     {
         title: 'ID',
@@ -426,6 +413,7 @@ export const getManageQuestionColumns = (
         dataIndex: 'question_type',
         key: 'question_type',
         align: 'center',
+        width: 150,
     },
     {
         title: 'Action',
@@ -457,13 +445,68 @@ export const getManageQuestionColumns = (
                     okText="Delete"
                     cancelText="Cancel"
                 >
-                    <Button
-                        danger
-                        size="small"
-                        icon={<DeleteOutlined />}
-                    />
+                    <Button danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
+                <Button
+                    color="green"
+                    variant="outlined"
+                    size="small"
+                    icon={<PlusOutlined />}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        openModalCreate(record)
+                    }}
+                />
             </Space>
         ),
+    },
+]
+
+export const MANAGE_STUDENT_COLUMNS: any = [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        align: 'center',
+        fixed: 'left',
+        width: 70,
+    },
+    {
+        title: 'Full name',
+        dataIndex: 'full_name',
+        key: 'full_name',
+        align: 'left',
+    },
+    {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+        align: 'left',
+    },
+    {
+        title: 'Phone number',
+        dataIndex: 'phone',
+        key: 'phone',
+        align: 'center',
+    },
+    {
+        title: 'Date of birth',
+        dataIndex: 'date_of_birth',
+        key: 'date_of_birth',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? formatDateTime(text, 'DD/MM/YYYY') : ''}</div>
+        },
+    },
+    {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        align: 'center' as const,
+        render: (text: any) => {
+            return (
+                <Tag color={text === 'active' ? 'green' : 'error'}>{text}</Tag>
+            )
+        },
     },
 ]

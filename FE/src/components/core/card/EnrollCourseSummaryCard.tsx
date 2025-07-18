@@ -6,9 +6,9 @@ import { PlayCircleOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import { BASE_IMAGE_URL } from '@/constants/image'
 import LessonService from '@/services/lesson'
 import ProgressService from '@/services/progress'
-import { BASE_IMAGE_URL } from '@/constants/image'
 
 const { Text, Title } = Typography
 

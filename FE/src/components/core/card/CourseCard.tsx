@@ -7,11 +7,11 @@ import { Button, Card, ConfigProvider, Rate, Typography } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
+import { BASE_IMAGE_URL } from '@/constants/image'
 import ReviewService from '@/services/review'
 import { formatPrice } from '@/utils/format'
 
 import './styles/CourseCard.css'
-import { BASE_IMAGE_URL } from '@/constants/image'
 
 const { Title, Text, Paragraph } = Typography
 

@@ -1,7 +1,9 @@
 import { Route } from 'react-router-dom'
 
+import InstructorLayout from '@/layouts/InstructorLayout'
 import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import PublicLayout from '@/layouts/PublicLayout'
+import RequiredAuth from '@/layouts/RequiredAuth'
 import StudentLayout from '@/layouts/StudentLayout'
 import AboutPage from '@/pages/commons/AboutPage'
 import AuthPage from '@/pages/commons/AuthPage'
@@ -13,6 +15,11 @@ import HomePage from '@/pages/commons/HomePage'
 import LessonDetailPage from '@/pages/commons/LessonDetailPage'
 import QuizDetailPage from '@/pages/commons/QuizDetailPage'
 import ResultQuizPage from '@/pages/commons/ResultQuizPage'
+import InstructorDashboardPage from '@/pages/instructor/InstructorDashboardPage'
+import InstructorCoursePage from '@/pages/instructor/InstructorManageCoursesPage'
+import InstructorManageDetailCoursePage from '@/pages/instructor/InstructorManageDetailCoursePage'
+import { InstructorProfilePage } from '@/pages/instructor/InstructorProfilePage'
+import InstructorStudentPage from '@/pages/instructor/InstructorStudentPage'
 import StudentOrderCoursePage from '@/pages/student/StudentCartPage'
 import StudentCertificatePage from '@/pages/student/StudentCertificatePage'
 import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
@@ -20,13 +27,6 @@ import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
 
 import { INSTRUCTOR_PATHS, PATHS, STUDENT_PATHS } from './path'
-import RequiredAuth from '@/layouts/RequiredAuth'
-import InstructorLayout from '@/layouts/InstructorLayout'
-import InstructorDashboardPage from '@/pages/instructor/InstructorDashboardPage'
-import InstructorCoursePage from '@/pages/instructor/InstructorManageCoursesPage'
-import InstructorStudentPage from '@/pages/instructor/InstructorStudentPage'
-import InstructorManageLessonsPage from '@/pages/instructor/InstructorManageLessonsPage'
-import InstructorManageDetailCoursePage from '@/pages/instructor/InstructorManageDetailCoursePage'
 
 const AppRouter = [
     <Route
@@ -95,17 +95,13 @@ const AppRouter = [
             path={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}
             element={<InstructorCoursePage />}
         />
-        {/*<Route*/}
-        {/*    path={INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE}*/}
-        {/*    element={<InstructorProfilePage />}*/}
-        {/*/>*/}
+        <Route
+            path={INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE}
+            element={<InstructorProfilePage />}
+        />
         <Route
             path={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}
             element={<InstructorStudentPage />}
-        />
-        <Route
-            path={INSTRUCTOR_PATHS.INSTRUCTOR_MY_LESSONS}
-            element={<InstructorManageLessonsPage />}
         />
         <Route
             path={INSTRUCTOR_PATHS.INSTRUCTOR_DETAIL_COURSE}
