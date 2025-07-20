@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Table, Typography } from 'antd'
 
@@ -27,6 +27,10 @@ const InstructorStudentPage = () => {
             setRefreshLoading(false)
         }
     }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     return (
         <div className="instructor-manage-courses" style={{ padding: '24px' }}>

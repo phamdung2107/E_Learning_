@@ -15,7 +15,9 @@ import { ReloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import RequestInstructorModal from '@/components/core/modal/RequestInstructorModal'
 import { StudentDepositModal } from '@/components/core/modal/StudentDepositModal'
+import InstructorService from '@/services/instructor'
 import PaymentService from '@/services/payment'
 import UserService from '@/services/user'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
@@ -30,6 +32,8 @@ export const StudentProfilePage = () => {
     const currentUser = useSelector((state: any) => state.auth.user)
     const [previewImage, setPreviewImage] = useState(currentUser?.avatar || '')
     const [selectedFile, setSelectedFile] = useState(null)
+    const [isRequestModalOpen, setIsRequestModalOpen] = useState(false)
+    const [requestLoading, setRequestLoading] = useState(false)
     const [isModalDepositOpen, setIsModalDepositOpen] = useState(false)
     const [depositLoading, setDepositLoading] = useState(false)
     const tabListNoTitle = [
@@ -126,6 +130,27 @@ export const StudentProfilePage = () => {
         } finally {
             setDepositLoading(false)
             setIsModalDepositOpen(false)
+        }
+    }
+
+    const handleRequestInstructor = async (values: any) => {
+        setRequestLoading(true)
+        try {
+            const response =
+                await InstructorService.requestBecomeInstructor(values)
+            if (response.status === 200) {
+                notification.success({
+                    message: 'Request instructor success',
+                })
+            }
+        } catch (e) {
+            console.error('Error: ', e)
+            notification.error({
+                message: 'Error request instructor',
+            })
+        } finally {
+            setRequestLoading(false)
+            setIsRequestModalOpen(false)
         }
     }
 
@@ -226,6 +251,14 @@ export const StudentProfilePage = () => {
                             <Select.Option value="female">Female</Select.Option>
                         </Select>
                     </Form.Item>
+                    <Button
+                        style={{ padding: 0, marginBottom: 24 }}
+                        type="link"
+                        onClick={() => setIsRequestModalOpen(true)}
+                    >
+                        Do you want to become an instructor ?
+                    </Button>
+
                     <Form.Item hidden name="avatar">
                         <Input />
                     </Form.Item>
@@ -328,6 +361,15 @@ export const StudentProfilePage = () => {
                 }}
                 onSubmit={(values: any) => handleDeposit(values)}
                 loading={depositLoading}
+            />
+            <RequestInstructorModal
+                visible={isRequestModalOpen}
+                onClose={() => {
+                    // @ts-ignore
+                    setIsRequestModalOpen(false)
+                }}
+                onSubmit={(values: any) => handleRequestInstructor(values)}
+                loading={requestLoading}
             />
         </div>
     )

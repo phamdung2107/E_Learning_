@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { StudentDepositModal } from '@/components/core/modal/StudentDepositModal'
+import InstructorService from '@/services/instructor'
 import PaymentService from '@/services/payment'
 import UserService from '@/services/user'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
@@ -45,7 +46,12 @@ export const InstructorProfilePage = () => {
 
     useEffect(() => {
         if (currentUser) {
-            form.setFieldsValue(currentUser?.user)
+            form.setFieldsValue({
+                ...currentUser.user,
+                bio: currentUser.bio || '',
+                experience_years: currentUser.experience_years || 0,
+                linkedin_url: currentUser.linkedin_url || '',
+            })
             setPreviewImage(currentUser?.user?.avatar || '')
         }
     }, [currentUser])
@@ -56,8 +62,14 @@ export const InstructorProfilePage = () => {
 
     const handleUpdateProfile = async (values: any) => {
         try {
-            const res = await UserService.update(currentUser.id, values)
-            if (res.status === 200) {
+            const resUser = await UserService.update(currentUser.user.id, {
+                full_name: values.full_name,
+                email: values.email,
+                date_of_birth: values.date_of_birth,
+                gender: values.gender,
+                phone: values.phone,
+            })
+            if (resUser.status === 200) {
                 notification.success({
                     message: 'Update profile success',
                 })
@@ -184,6 +196,54 @@ export const InstructorProfilePage = () => {
                         <Input placeholder="Enter full name" />
                     </Form.Item>
                     <Form.Item name="email" label="Email">
+                        <Input disabled />
+                    </Form.Item>
+                    <Form.Item
+                        name="phone"
+                        label="Phone"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your phone number',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        name="bio"
+                        label="Bio"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your bio',
+                            },
+                        ]}
+                    >
+                        <Input disabled />
+                    </Form.Item>
+                    <Form.Item
+                        name="experience_years"
+                        label="Experience years"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your experience years',
+                            },
+                        ]}
+                    >
+                        <Input disabled type="number" />
+                    </Form.Item>
+                    <Form.Item
+                        name="linkedin_url"
+                        label="LinkedIn url"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your linkedin url',
+                            },
+                        ]}
+                    >
                         <Input disabled />
                     </Form.Item>
                     <Form.Item label="Money">
