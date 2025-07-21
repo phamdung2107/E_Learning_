@@ -15,8 +15,8 @@ import { ReloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import InstructorWithDrawModal from '@/components/core/modal/InstructorWithDrawModal'
 import { StudentDepositModal } from '@/components/core/modal/StudentDepositModal'
-import InstructorService from '@/services/instructor'
 import PaymentService from '@/services/payment'
 import UserService from '@/services/user'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
@@ -31,8 +31,8 @@ export const InstructorProfilePage = () => {
     const currentUser = useSelector((state: any) => state.auth.user)
     const [previewImage, setPreviewImage] = useState(currentUser?.avatar || '')
     const [selectedFile, setSelectedFile] = useState(null)
-    const [isModalDepositOpen, setIsModalDepositOpen] = useState(false)
-    const [depositLoading, setDepositLoading] = useState(false)
+    const [isModalWithDrawOpen, setIsModalWithDrawOpen] = useState(false)
+    const [withDrawLoading, setWithDrawLoading] = useState(false)
     const tabListNoTitle = [
         {
             key: 'profile',
@@ -115,29 +115,27 @@ export const InstructorProfilePage = () => {
         }
     }
 
-    const handleDeposit = async (values: any) => {
-        setDepositLoading(true)
+    const handleWithDraw = async (values: any) => {
+        setWithDrawLoading(true)
         try {
-            const response = await PaymentService.create({
+            const response = await PaymentService.withdraw({
                 amount: values.amount,
+                bank_account: values.bank_account,
+                note: values.note,
             })
             if (response.status === 200) {
                 notification.success({
-                    message: 'Deposit success',
+                    message: 'Gửi yêu cầu rút tiền thành công',
                 })
-                window.open(
-                    response.data.payment_url.original.payment_url,
-                    '_blank'
-                )
             }
         } catch (error) {
-            console.error('Error depositing:', error)
+            console.error('Error withDrawing:', error)
             notification.error({
-                message: 'Error depositing',
+                message: 'Gửi yêu cầu rút tiền thất bại',
             })
         } finally {
-            setDepositLoading(false)
-            setIsModalDepositOpen(false)
+            setWithDrawLoading(false)
+            setIsModalWithDrawOpen(false)
         }
     }
 
@@ -262,9 +260,9 @@ export const InstructorProfilePage = () => {
                             <Button
                                 style={{ width: '20%' }}
                                 type="primary"
-                                onClick={() => setIsModalDepositOpen(true)}
+                                onClick={() => setIsModalWithDrawOpen(true)}
                             >
-                                Deposit
+                                Rút tiền
                             </Button>
                         </Input.Group>
                     </Form.Item>
@@ -380,14 +378,14 @@ export const InstructorProfilePage = () => {
             >
                 {contentListNoTitle[activeTabKey]}
             </Card>
-            <StudentDepositModal
-                visible={isModalDepositOpen}
+            <InstructorWithDrawModal
+                visible={isModalWithDrawOpen}
                 onClose={() => {
                     // @ts-ignore
-                    setIsModalDepositOpen(false)
+                    setIsModalWithDrawOpen(false)
                 }}
-                onSubmit={(values: any) => handleDeposit(values)}
-                loading={depositLoading}
+                onSubmit={(values: any) => handleWithDraw(values)}
+                loading={withDrawLoading}
             />
         </div>
     )

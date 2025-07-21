@@ -11,6 +11,7 @@ import ListQuestionModal from '@/components/core/modal/ListQuestionModal'
 import UpdateLessonModal from '@/components/core/modal/UpdateLessonModal'
 import UpdateQuizModal from '@/components/core/modal/UpdateQuizModal'
 import { getManageLessonColumns, getManageQuizColumns } from '@/constants/table'
+import CourseService from '@/services/course'
 import LessonService from '@/services/lesson'
 import QuizService from '@/services/quiz'
 
@@ -21,6 +22,7 @@ const InstructorManageDetailCoursePage = () => {
     const courseId = params.courseId as string
     const [refreshLoading, setRefreshLoading] = useState(false)
     const [lessons, setLessons] = useState<any[]>([])
+    const [courseData, setCourseData] = useState<any>()
     const [quizData, setQuizData] = useState<Record<string, any[]>>({})
     const [record, setRecord] = useState<any>(null)
     const [isModalCreateLessonOpen, setIsModalCreateLessonOpen] =
@@ -42,7 +44,9 @@ const InstructorManageDetailCoursePage = () => {
         setRefreshLoading(true)
         try {
             const resLessons = await LessonService.getByCourse(courseId)
+            const resCourse = await CourseService.getDetail(courseId)
             setLessons(resLessons.data)
+            setCourseData(resCourse.data)
         } catch (e) {
             console.error(e)
         } finally {
@@ -257,7 +261,7 @@ const InstructorManageDetailCoursePage = () => {
     return (
         <div className="instructor-manage-courses" style={{ padding: '24px' }}>
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>Detail Course</Title>
+                <Title level={2}>Detail Course: {courseData?.title}</Title>
                 <Text type="secondary">View and action with detail course</Text>
             </Card>
             <Card style={{ marginBottom: '24px' }}>
