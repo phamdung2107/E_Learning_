@@ -1,7 +1,4 @@
-'use client'
-
-import type React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { Avatar, Badge, Button, Dropdown, Layout, Menu, Typography } from 'antd'
 
@@ -16,7 +13,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import { INSTRUCTOR_PATHS, PATHS } from '@/routers/path'
+import { ADMIN_PATHS, PATHS } from '@/routers/path'
 import { logout } from '@/stores/auth/authSlice'
 import { setCart } from '@/stores/cart/cartSlice'
 import { setNotification } from '@/stores/notification/notificationSlice'
@@ -24,7 +21,7 @@ import { setNotification } from '@/stores/notification/notificationSlice'
 const { Header, Sider, Content } = Layout
 const { Title } = Typography
 
-const InstructorLayout: React.FC = () => {
+const AdminLayout = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const countNotification = useSelector(
@@ -36,40 +33,43 @@ const InstructorLayout: React.FC = () => {
 
     const menuItems = [
         {
-            key: INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD,
+            key: ADMIN_PATHS.ADMIN_DASHBOARD,
             icon: <DashboardOutlined />,
-            label: (
-                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}>
-                    Dashboard
-                </Link>
-            ),
+            label: <Link to={ADMIN_PATHS.ADMIN_DASHBOARD}>Dashboard</Link>,
         },
         {
-            key: INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES,
-            icon: <BookOutlined />,
-            label: (
-                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}>
-                    My Courses
-                </Link>
-            ),
-        },
-        {
-            key: INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS,
+            key: ADMIN_PATHS.ADMIN_MANAGE_INSTRUCTORS,
             icon: <UserOutlined />,
             label: (
-                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}>
-                    My Students
+                <Link to={ADMIN_PATHS.ADMIN_MANAGE_INSTRUCTORS}>
+                    Manage Instructors
+                </Link>
+            ),
+        },
+        {
+            key: ADMIN_PATHS.ADMIN_MANAGE_COURSES,
+            icon: <BookOutlined />,
+            label: (
+                <Link to={ADMIN_PATHS.ADMIN_MANAGE_COURSES}>
+                    Manage Courses
+                </Link>
+            ),
+        },
+        {
+            key: ADMIN_PATHS.ADMIN_MANAGE_STUDENTS,
+            icon: <UserOutlined />,
+            label: (
+                <Link to={ADMIN_PATHS.ADMIN_MANAGE_STUDENTS}>
+                    Manage Students
                 </Link>
             ),
         },
     ]
     const userMenuItems = [
         {
-            key: INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE,
+            key: ADMIN_PATHS.ADMIN_PROFILE,
             icon: <UserOutlined />,
-            label: (
-                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE}>My Profile</Link>
-            ),
+            label: <Link to={ADMIN_PATHS.ADMIN_PROFILE}>My Profile</Link>,
         },
         {
             key: 'logout',
@@ -115,7 +115,7 @@ const InstructorLayout: React.FC = () => {
                             fontSize: '20px',
                         }}
                     >
-                        {collapsed ? 'I' : 'Instructor'}
+                        {collapsed ? 'A' : 'Admin'}
                     </Title>
                 </div>
                 <Menu
@@ -186,7 +186,7 @@ const InstructorLayout: React.FC = () => {
                                     style={{ marginRight: '8px' }}
                                 />
                                 <span style={{ fontWeight: '500' }}>
-                                    {user?.user?.full_name}
+                                    {user?.full_name}
                                 </span>
                             </div>
                         </Dropdown>
@@ -208,4 +208,4 @@ const InstructorLayout: React.FC = () => {
     )
 }
 
-export default InstructorLayout
+export default AdminLayout

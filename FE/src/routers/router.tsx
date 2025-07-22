@@ -1,10 +1,14 @@
 import { Route } from 'react-router-dom'
 
+import AdminLayout from '@/layouts/AdminLayout'
 import InstructorLayout from '@/layouts/InstructorLayout'
 import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import PublicLayout from '@/layouts/PublicLayout'
 import RequiredAuth from '@/layouts/RequiredAuth'
 import StudentLayout from '@/layouts/StudentLayout'
+import AdminDashboardPage from '@/pages/admin/AdminDashboardPage'
+import AdminManageCoursesPage from '@/pages/admin/AdminManageCoursesPage'
+import AdminManageStudentPage from '@/pages/admin/AdminManageStudentPage'
 import AboutPage from '@/pages/commons/AboutPage'
 import AuthPage from '@/pages/commons/AuthPage'
 import ContactPage from '@/pages/commons/ContactPage'
@@ -26,7 +30,7 @@ import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
 import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
 
-import { INSTRUCTOR_PATHS, PATHS, STUDENT_PATHS } from './path'
+import { ADMIN_PATHS, INSTRUCTOR_PATHS, PATHS, STUDENT_PATHS } from './path'
 
 const AppRouter = [
     <Route
@@ -35,7 +39,7 @@ const AppRouter = [
                 <LessonQuizDetailLayout />
             </RequiredAuth>
         }
-        key="lesson-quiz-detail-layout"
+        key="lesson-quiz-detail"
     >
         <Route path={PATHS.LESSON_DETAIL} element={<LessonDetailPage />} />
         <Route path={PATHS.QUIZ_DETAIL} element={<QuizDetailPage />} />
@@ -85,7 +89,7 @@ const AppRouter = [
                 <InstructorLayout />
             </RequiredAuth>
         }
-        key="student"
+        key="instructor"
     >
         <Route
             path={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}
@@ -106,6 +110,31 @@ const AppRouter = [
         <Route
             path={INSTRUCTOR_PATHS.INSTRUCTOR_DETAIL_COURSE}
             element={<InstructorManageDetailCoursePage />}
+        />
+    </Route>,
+    <Route
+        element={
+            <RequiredAuth>
+                <AdminLayout />
+            </RequiredAuth>
+        }
+        key="admin"
+    >
+        <Route
+            path={ADMIN_PATHS.ADMIN_DASHBOARD}
+            element={<AdminDashboardPage />}
+        />
+        <Route
+            path={ADMIN_PATHS.ADMIN_MANAGE_COURSES}
+            element={<AdminManageCoursesPage />}
+        />
+        {/*<Route*/}
+        {/*    path={ADMIN_PATHS.ADMIN_PROFILE}*/}
+        {/*    element={<AdminProfilePage />}*/}
+        {/*/>*/}
+        <Route
+            path={ADMIN_PATHS.ADMIN_MANAGE_STUDENTS}
+            element={<AdminManageStudentPage />}
         />
     </Route>,
 ]

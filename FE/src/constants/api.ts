@@ -16,6 +16,8 @@ export const USER_API = {
     DELETE: (id: number | string) => `/users/${id}`,
     CHANGE_PASSWORD: '/users/change-password',
     RESET_USER: (userId: number | string) => `/users/reset-users/${userId}`,
+    UPDATE_ROLE: (userId: number | string) => `/admin/change-role/${userId}`,
+    COUNT_USERS: '/admin/countusers',
 }
 
 export const COURSE_API = {

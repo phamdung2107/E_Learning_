@@ -31,6 +31,17 @@ class UserService {
     async resetUser(userId: number | string): Promise<AxiosResponse<any>> {
         return await http.post(USER_API.RESET_USER(userId))
     }
+
+    async changeRole(
+        userId: number | string,
+        payload: any
+    ): Promise<AxiosResponse<any>> {
+        return await http.patch(USER_API.UPDATE_ROLE(userId), payload)
+    }
+
+    async countUsers(): Promise<AxiosResponse<any>> {
+        return await http.get(USER_API.COUNT_USERS)
+    }
 }
 
 export default new UserService()
