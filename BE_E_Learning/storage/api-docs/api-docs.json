@@ -3762,12 +3762,12 @@
             }
         },
         "/api/admin/change-role/{user}": {
-            "patch": {
+            "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Cập nhật trạng thái người dùng",
-                "operationId": "431763299ef04142cdf847d3c9aaf1ce",
+                "operationId": "aad7cc501772a91eaa2afa7a22100a5b",
                 "parameters": [
                     {
                         "name": "id",
@@ -3800,12 +3800,12 @@
             }
         },
         "/api/admin/change-status/{user}": {
-            "patch": {
+            "post": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Cập nhật trạng thái người dùng",
-                "operationId": "3eeae106d99e78a5fc1ee84e0a6edc22",
+                "operationId": "52fb720410b37321007513865715b08d",
                 "parameters": [
                     {
                         "name": "id",

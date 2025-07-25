@@ -140,7 +140,7 @@ class UserController extends Controller
     }
 
     /**
-     * @OA\Patch(
+     * @OA\Post(
      *     path="/api/admin/change-role/{user}",
      *     summary="Cập nhật trạng thái người dùng",
      *     tags={"User"},
@@ -170,7 +170,7 @@ class UserController extends Controller
     }
 
     /**
-     * @OA\Patch(
+     * @OA\Post(
      *     path="/api/admin/change-status/{user}",
      *     summary="Cập nhật trạng thái người dùng",
      *     tags={"User"},
