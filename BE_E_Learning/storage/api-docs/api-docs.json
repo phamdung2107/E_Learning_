@@ -1076,9 +1076,16 @@
                     }
                 ],
                 "requestBody": {
+                    "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "price",
+                                    "category_id"
+                                ],
                                 "properties": {
                                     "title": {
                                         "type": "string",
@@ -1096,6 +1103,10 @@
                                     "category_id": {
                                         "type": "integer",
                                         "example": 1
+                                    },
+                                    "thumbnail": {
+                                        "type": "string",
+                                        "format": "binary"
                                     }
                                 },
                                 "type": "object"
@@ -1105,7 +1116,26 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Cập nhật khoá học thành công"
+                        "description": "Cập nhật khoá học thành công",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Không tìm thấy khoá học"
                     }
                 }
             },
@@ -3738,6 +3768,44 @@
                 ],
                 "summary": "Cập nhật trạng thái người dùng",
                 "operationId": "431763299ef04142cdf847d3c9aaf1ce",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "role": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Trạng thái đã được cập nhật"
+                    }
+                }
+            }
+        },
+        "/api/admin/change-status/{user}": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Cập nhật trạng thái người dùng",
+                "operationId": "3eeae106d99e78a5fc1ee84e0a6edc22",
                 "parameters": [
                     {
                         "name": "id",
