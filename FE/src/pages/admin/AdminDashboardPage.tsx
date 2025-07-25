@@ -61,8 +61,12 @@ const AdminDashboardPage = () => {
             </Card>
 
             {/* Stats Cards */}
-            <Row gutter={[16, 16]} className="student-stats-row">
-                <Col xs={12} sm={6}>
+            <Row
+                gutter={[16, 16]}
+                justify="space-between"
+                className="student-stats-row"
+            >
+                <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
                             title="Total Users"
@@ -72,7 +76,7 @@ const AdminDashboardPage = () => {
                         />
                     </Card>
                 </Col>
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
                             title="Active Users"
@@ -82,44 +86,33 @@ const AdminDashboardPage = () => {
                         />
                     </Card>
                 </Col>
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
                             title="Total Instructors"
                             value={countUsers?.instructors}
                             prefix={<UserOutlined />}
-                            valueStyle={{ color: '#52c41a' }}
+                            valueStyle={{ color: 'blue' }}
                         />
                     </Card>
                 </Col>
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
                             title="Banned Users"
                             value={countUsers?.banned}
                             prefix={<UserOutlined />}
-                            valueStyle={{ color: '#52c41a' }}
+                            valueStyle={{ color: 'red' }}
                         />
                     </Card>
                 </Col>
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
                             title="Revenue"
                             value={revenue}
                             prefix={<DollarOutlined />}
                             valueStyle={{ color: '#1890ff' }}
-                        />
-                    </Card>
-                </Col>
-                <Col xs={12} sm={6}>
-                    <Card className="student-stats-card">
-                        <Statistic
-                            title="Average Rating"
-                            value={averageRating}
-                            prefix={<StarOutlined />}
-                            valueStyle={{ color: '#faad14' }}
-                            suffix="/ 5"
                         />
                     </Card>
                 </Col>

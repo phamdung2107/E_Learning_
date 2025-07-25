@@ -99,3 +99,39 @@ export const getPageInfo = (pathname: string) => {
         }
     )
 }
+
+export const getRoleName = (role: string) => {
+    if (role === 'admin') {
+        return 'Quản trị viên'
+    } else if (role === 'instructor') {
+        return 'Giảng viên'
+    } else if (role === 'student') {
+        return 'Người học'
+    } else {
+        return 'Unknown'
+    }
+}
+
+export const getStatusNameAndColor = (status: string) => {
+    if (status === 'active') {
+        return {
+            name: 'Hoạt động',
+            color: 'green',
+        }
+    } else if (status === 'inactive') {
+        return {
+            name: 'Ngừng hoạt động',
+            color: 'default',
+        }
+    } else if (status === 'banned') {
+        return {
+            name: 'Bị khóa',
+            color: 'red',
+        }
+    } else {
+        return {
+            name: 'Unknown',
+            color: 'default',
+        }
+    }
+}

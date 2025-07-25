@@ -33,8 +33,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::query()
-            ->when($request->role, function ($q) use ($request) {
+        $users = User::when($request->role, function ($q) use ($request) {
                 $q->where('role', $request->role);
             })
             ->when($request->position_id, function ($q) use ($request) {
@@ -48,11 +47,10 @@ class UserController extends Controller
             })
             ->when($request->status, function ($q) use ($request) {
                 $q->where('status', $request->status);
-            });
-
-        $users = $query->paginate(10);
-
-        return Response::data(UserResource::collection($users),$users->total());
+            })
+            ->get();
+        
+        return Response::data(UserResource::collection($users), $users->count());
     }
 
     /**

@@ -1,12 +1,16 @@
 import { Button, Image, Popconfirm, Space, Tag } from 'antd'
 
 import {
+    CheckCircleOutlined,
+    CloseCircleOutlined,
     DeleteOutlined,
     EditOutlined,
     FormOutlined,
     HistoryOutlined,
+    InteractionOutlined,
     PlusOutlined,
     QuestionCircleOutlined,
+    ReloadOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
@@ -14,6 +18,7 @@ import { Link } from 'react-router-dom'
 import { DATE_TIME_FORMAT } from '@/constants/date'
 import { BASE_IMAGE_URL } from '@/constants/image'
 import { formatDateTime, formatPrice } from '@/utils/format'
+import { getRoleName, getStatusNameAndColor } from '@/utils/get'
 
 export const RESULT_QUIZ_COLUMNS: any = [
     {
@@ -490,6 +495,12 @@ export const MANAGE_STUDENT_COLUMNS: any = [
         align: 'center',
     },
     {
+        title: 'Gender',
+        dataIndex: 'gender',
+        key: 'gender',
+        align: 'center',
+    },
+    {
         title: 'Date of birth',
         dataIndex: 'date_of_birth',
         key: 'date_of_birth',
@@ -505,8 +516,140 @@ export const MANAGE_STUDENT_COLUMNS: any = [
         align: 'center' as const,
         render: (text: any) => {
             return (
-                <Tag color={text === 'active' ? 'green' : 'error'}>{text}</Tag>
+                <Tag color={getStatusNameAndColor(text).color}>
+                    {getStatusNameAndColor(text).name}
+                </Tag>
             )
         },
+    },
+]
+
+export const getManageUserColumns: any = (
+    onEdit: (record: any) => void,
+    onDelete: (record: any) => void,
+    onResetPassword: (record: any) => void
+) => [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        align: 'center',
+        fixed: 'left',
+        width: 70,
+    },
+    {
+        title: 'Họ và tên',
+        dataIndex: 'full_name',
+        key: 'full_name',
+        align: 'left',
+    },
+    {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+        align: 'left',
+    },
+    {
+        title: 'Số điện thoại',
+        dataIndex: 'phone',
+        key: 'phone',
+        align: 'center',
+    },
+    {
+        title: 'Vai trò',
+        dataIndex: 'role',
+        key: 'role',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{getRoleName(text)}</div>
+        },
+    },
+    {
+        title: 'Giới tính',
+        dataIndex: 'gender',
+        key: 'gender',
+        align: 'center',
+    },
+    {
+        title: 'Ngày sinh',
+        dataIndex: 'date_of_birth',
+        key: 'date_of_birth',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? formatDateTime(text, 'DD/MM/YYYY') : ''}</div>
+        },
+    },
+    {
+        title: 'Ví tiền',
+        dataIndex: 'money',
+        key: 'money',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? formatPrice(text) : ''}</div>
+        },
+    },
+    {
+        title: 'Trạng thái',
+        dataIndex: 'status',
+        key: 'status',
+        align: 'center' as const,
+        render: (text: any) => {
+            return (
+                <Tag color={getStatusNameAndColor(text).color}>
+                    {getStatusNameAndColor(text).name}
+                </Tag>
+            )
+        },
+    },
+    {
+        title: 'Hành động',
+        key: 'action',
+        align: 'center',
+        width: 150,
+        fixed: 'right',
+        render: (record: any) => (
+            <Space
+                style={{
+                    visibility: record.machineId !== '-' ? 'visible' : 'hidden',
+                }}
+            >
+                <Button
+                    type="primary"
+                    size="small"
+                    icon={<FormOutlined />}
+                    style={{ borderRadius: 8 }}
+                    onClick={() => onEdit(record)}
+                />
+                <Button
+                    danger
+                    size="small"
+                    icon={<DeleteOutlined />}
+                    style={{ borderRadius: 8 }}
+                    onClick={() => onDelete(record)}
+                />
+                <Button
+                    size="small"
+                    icon={<InteractionOutlined />}
+                    style={{ borderRadius: 8 }}
+                    onClick={() => onResetPassword(record)}
+                />
+                <Button
+                    variant="outlined"
+                    size="small"
+                    color="green"
+                    icon={<CheckCircleOutlined />}
+                    style={{ borderRadius: 8 }}
+                    onClick={() => onResetPassword(record)}
+                />
+                <Button
+                    variant="outlined"
+                    size="small"
+                    color="red"
+                    icon={<CloseCircleOutlined />}
+                    style={{ borderRadius: 8 }}
+                    onClick={() => onResetPassword(record)}
+                />
+            </Space>
+        ),
     },
 ]

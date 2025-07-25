@@ -38,6 +38,13 @@ const AdminLayout = () => {
             label: <Link to={ADMIN_PATHS.ADMIN_DASHBOARD}>Dashboard</Link>,
         },
         {
+            key: ADMIN_PATHS.ADMIN_MANAGE_USERS,
+            icon: <UserOutlined />,
+            label: (
+                <Link to={ADMIN_PATHS.ADMIN_MANAGE_USERS}>Manage Users</Link>
+            ),
+        },
+        {
             key: ADMIN_PATHS.ADMIN_MANAGE_INSTRUCTORS,
             icon: <UserOutlined />,
             label: (
@@ -52,15 +59,6 @@ const AdminLayout = () => {
             label: (
                 <Link to={ADMIN_PATHS.ADMIN_MANAGE_COURSES}>
                     Manage Courses
-                </Link>
-            ),
-        },
-        {
-            key: ADMIN_PATHS.ADMIN_MANAGE_STUDENTS,
-            icon: <UserOutlined />,
-            label: (
-                <Link to={ADMIN_PATHS.ADMIN_MANAGE_STUDENTS}>
-                    Manage Students
                 </Link>
             ),
         },
