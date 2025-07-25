@@ -41,6 +41,7 @@ Route::apiResource('users', UserController::class);
 Route::post('users/change-password', [UserController::class, 'changePassword']);
 Route::post('users/reset-users/{user}', [UserController::class, 'resetUserPassword']);   // admin  
 Route::post('admin/change-role/{user}', [UserController::class, 'updateRole']);  // admin  
+Route::post('admin/change-status/{user}', [UserController::class, 'updateStatus']);  // admin  
 Route::get('admin/countusers', [UserController::class, 'countUsers']);   // admin  
 
 

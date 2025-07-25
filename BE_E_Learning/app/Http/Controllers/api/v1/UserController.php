@@ -146,7 +146,7 @@ class UserController extends Controller
      *     tags={"User"},
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(@OA\JsonContent(
-     *         @OA\Property(property="status", type="string")
+     *         @OA\Property(property="role", type="string")
      *     )),
      *     @OA\Response(response=200, description="Trạng thái đã được cập nhật")
      * )
@@ -154,9 +154,9 @@ class UserController extends Controller
     public function updateRole(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->status = $request->status;
+        $user->role = $request->role;
         $user->save();
-        if ($request->status === 'instructor') {
+        if ($request->role === 'instructor') {
         $exists = Instructor::where('user_id', $user->id)->exists();
 
         if (!$exists) {
@@ -165,6 +165,27 @@ class UserController extends Controller
             ]);
         }
     }
+
+        return Response::data();
+    }
+
+    /**
+     * @OA\Patch(
+     *     path="/api/admin/change-role/{user}",
+     *     summary="Cập nhật trạng thái người dùng",
+     *     tags={"User"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(@OA\JsonContent(
+     *         @OA\Property(property="status", type="string")
+     *     )),
+     *     @OA\Response(response=200, description="Trạng thái đã được cập nhật")
+     * )
+     */
+    public function updateStatus (Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->status = $request->status;
+        $user->save();
 
         return Response::data();
     }
