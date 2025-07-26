@@ -6,6 +6,8 @@ import {
     BellOutlined,
     BookOutlined,
     DashboardOutlined,
+    DollarCircleFilled,
+    DollarCircleOutlined,
     LogoutOutlined,
     MenuOutlined,
     UserOutlined,
@@ -45,20 +47,20 @@ const AdminLayout = () => {
             ),
         },
         {
-            key: ADMIN_PATHS.ADMIN_MANAGE_INSTRUCTORS,
-            icon: <UserOutlined />,
-            label: (
-                <Link to={ADMIN_PATHS.ADMIN_MANAGE_INSTRUCTORS}>
-                    Manage Instructors
-                </Link>
-            ),
-        },
-        {
             key: ADMIN_PATHS.ADMIN_MANAGE_COURSES,
             icon: <BookOutlined />,
             label: (
                 <Link to={ADMIN_PATHS.ADMIN_MANAGE_COURSES}>
                     Manage Courses
+                </Link>
+            ),
+        },
+        {
+            key: ADMIN_PATHS.ADMIN_MANAGE_TRANSACTIONS,
+            icon: <DollarCircleOutlined />,
+            label: (
+                <Link to={ADMIN_PATHS.ADMIN_MANAGE_TRANSACTIONS}>
+                    Manage Transactions
                 </Link>
             ),
         },

@@ -231,6 +231,169 @@ export const getManageCourseColumns = (
     },
 ]
 
+export const getAdminManageCourseColumns = (
+    openModalDelete: (record: any) => void,
+    publishCourse: (record: any) => void,
+    archiveCourse: (record: any) => void
+) => [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        align: 'center',
+        fixed: 'left',
+        render: (text: any) => {
+            return (
+                <Link to={`/instructor/courses/${text}`} target="_blank">
+                    {text}
+                </Link>
+            )
+        },
+    },
+    {
+        title: 'Title',
+        dataIndex: 'title',
+        key: 'title',
+        align: 'left',
+    },
+    {
+        title: 'Thumbnail',
+        dataIndex: 'thumbnail',
+        key: 'thumbnail',
+        align: 'center',
+        render: (text: any) => {
+            return (
+                <Image
+                    src={`${BASE_IMAGE_URL}${text}`}
+                    alt="course"
+                    style={{ width: '80px', height: 'auto' }}
+                />
+            )
+        },
+    },
+    {
+        title: 'Category',
+        dataIndex: 'category_name',
+        key: 'category_name',
+        align: 'center',
+    },
+    {
+        title: 'Instructor',
+        dataIndex: 'instructor_full_name',
+        key: 'instructor_full_name',
+        align: 'center',
+    },
+    {
+        title: 'Students',
+        dataIndex: 'enrollments_count',
+        key: 'enrollments_count',
+        align: 'center',
+    },
+    {
+        title: 'Description',
+        dataIndex: 'description',
+        key: 'description',
+    },
+    {
+        title: 'Price',
+        dataIndex: 'price',
+        key: 'price',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{formatPrice(text)}</div>
+        },
+    },
+    {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        align: 'center',
+        render: (text: any) => {
+            return (
+                <div>
+                    {text === 'published' ? (
+                        <Tag color="green">Published</Tag>
+                    ) : text === 'archived' ? (
+                        <Tag color="orange">Archived</Tag>
+                    ) : (
+                        <Tag color="default">Draft</Tag>
+                    )}
+                </div>
+            )
+        },
+    },
+    {
+        title: 'Action',
+        key: 'action',
+        align: 'center',
+        width: 200,
+        fixed: 'right',
+        render: (record: any) => (
+            <Space>
+                <Popconfirm
+                    title="Delete the course"
+                    description={`Are you sure to delete this course`}
+                    onConfirm={(e) => {
+                        // @ts-ignore
+                        e.stopPropagation()
+                        openModalDelete(record)
+                    }}
+                    onCancel={() => {}}
+                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                    okText="Delete"
+                    cancelText="Cancel"
+                >
+                    <Button danger size="small" icon={<DeleteOutlined />} />
+                </Popconfirm>
+                <Popconfirm
+                    title="Publish the course"
+                    description={`Are you sure to publish this course`}
+                    onConfirm={(e) => {
+                        // @ts-ignore
+                        e.stopPropagation()
+                        publishCourse(record)
+                    }}
+                    onCancel={() => {}}
+                    icon={<QuestionCircleOutlined style={{ color: 'green' }} />}
+                    okText="Publish"
+                    cancelText="Cancel"
+                >
+                    <Button
+                        variant="solid"
+                        size="small"
+                        color="green"
+                        icon={<UploadOutlined />}
+                        disabled={record.status === 'published'}
+                    />
+                </Popconfirm>
+                <Popconfirm
+                    title="Archive the course"
+                    description={`Are you sure to archive this course`}
+                    onConfirm={(e) => {
+                        // @ts-ignore
+                        e.stopPropagation()
+                        archiveCourse(record)
+                    }}
+                    onCancel={() => {}}
+                    icon={
+                        <QuestionCircleOutlined style={{ color: 'orange' }} />
+                    }
+                    okText="Archive"
+                    cancelText="Cancel"
+                >
+                    <Button
+                        variant="solid"
+                        size="small"
+                        color="orange"
+                        icon={<HistoryOutlined />}
+                        disabled={record.status === 'archived'}
+                    />
+                </Popconfirm>
+            </Space>
+        ),
+    },
+]
+
 export const getManageLessonColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
@@ -651,5 +814,60 @@ export const getManageUserColumns: any = (
                 />
             </Space>
         ),
+    },
+]
+
+export const MANAGE_TRANSACTION_COLUMNS: any = [
+    {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+        align: 'center',
+        fixed: 'left',
+        width: 70,
+    },
+    {
+        title: 'Người đăng ký',
+        dataIndex: 'user',
+        key: 'user',
+        align: 'center',
+    },
+    {
+        title: 'Khóa học',
+        dataIndex: 'course',
+        key: 'course',
+        align: 'center',
+    },
+    {
+        title: 'Giá',
+        dataIndex: 'original_price',
+        key: 'original_price',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? formatPrice(text) : ''}</div>
+        },
+    },
+    {
+        title: 'Phương thức thanh toán',
+        dataIndex: 'payment_method',
+        key: 'payment_method',
+        align: 'center',
+    },
+    {
+        title: 'Trạng thái thanh toán',
+        dataIndex: 'payment_status',
+        key: 'payment_status',
+        align: 'center',
+    },
+    {
+        title: 'Ngày tạo',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        align: 'center',
+        render: (text: any) => {
+            return (
+                <div>{text ? formatDateTime(text, DATE_TIME_FORMAT) : ''}</div>
+            )
+        },
     },
 ]

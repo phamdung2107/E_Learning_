@@ -8,7 +8,9 @@ import RequiredAuth from '@/layouts/RequiredAuth'
 import StudentLayout from '@/layouts/StudentLayout'
 import AdminDashboardPage from '@/pages/admin/AdminDashboardPage'
 import AdminManageCoursesPage from '@/pages/admin/AdminManageCoursesPage'
+import AdminManageTransactionsPage from '@/pages/admin/AdminManageTransactionsPage'
 import AdminManageUsersPage from '@/pages/admin/AdminManageUsersPage'
+import AdminProfilePage from '@/pages/admin/AdminProfilePage'
 import AboutPage from '@/pages/commons/AboutPage'
 import AuthPage from '@/pages/commons/AuthPage'
 import ContactPage from '@/pages/commons/ContactPage'
@@ -128,13 +130,17 @@ const AppRouter = [
             path={ADMIN_PATHS.ADMIN_MANAGE_COURSES}
             element={<AdminManageCoursesPage />}
         />
-        {/*<Route*/}
-        {/*    path={ADMIN_PATHS.ADMIN_PROFILE}*/}
-        {/*    element={<AdminProfilePage />}*/}
-        {/*/>*/}
+        <Route
+            path={ADMIN_PATHS.ADMIN_PROFILE}
+            element={<AdminProfilePage />}
+        />
         <Route
             path={ADMIN_PATHS.ADMIN_MANAGE_USERS}
             element={<AdminManageUsersPage />}
+        />
+        <Route
+            path={ADMIN_PATHS.ADMIN_MANAGE_TRANSACTIONS}
+            element={<AdminManageTransactionsPage />}
         />
     </Route>,
 ]

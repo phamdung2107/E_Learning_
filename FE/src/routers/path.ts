@@ -38,7 +38,7 @@ export const ADMIN_PATHS = {
     ADMIN_MANAGE_COURSES: '/admin/courses',
     ADMIN_PROFILE: '/admin/profile',
     ADMIN_MANAGE_USERS: '/admin/users',
-    ADMIN_MANAGE_TRANSACTION: '/admin/transactions',
+    ADMIN_MANAGE_TRANSACTIONS: '/admin/transactions',
     ADMIN_MANAGE_INSTRUCTORS: '/admin/instructors',
 }
 

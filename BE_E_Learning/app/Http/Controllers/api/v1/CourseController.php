@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
@@ -49,7 +49,7 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Course::with(['category', 'instructor.user'])
+        $query = Course::with(['category', 'instructor.user'])->withCount('enrollments')
             ->when($request->search, function ($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->search . '%');
             })

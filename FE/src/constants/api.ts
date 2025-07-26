@@ -17,6 +17,8 @@ export const USER_API = {
     CHANGE_PASSWORD: '/users/change-password',
     RESET_USER: (userId: number | string) => `/users/reset-users/${userId}`,
     UPDATE_ROLE: (userId: number | string) => `/admin/change-role/${userId}`,
+    UPDATE_STATUS: (userId: number | string) =>
+        `/admin/change-status/${userId}`,
     COUNT_USERS: '/admin/countusers',
 }
 

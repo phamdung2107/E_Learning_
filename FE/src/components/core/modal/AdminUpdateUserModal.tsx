@@ -20,6 +20,7 @@ const AdminUpdateUserModal = ({
                 gender: record.gender,
                 date_of_birth: record.date_of_birth,
                 role: record.role,
+                status: record.status,
             })
         } else {
             form.resetFields()
@@ -34,6 +35,7 @@ const AdminUpdateUserModal = ({
             gender: record.gender,
             date_of_birth: record.date_of_birth,
             role: record.role,
+            status: record.status,
         })
     }
 
@@ -63,16 +65,7 @@ const AdminUpdateUserModal = ({
                 layout="vertical"
                 onFinish={handleSubmit}
             >
-                <Form.Item
-                    label="Họ và tên"
-                    name="full_name"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Vui lòng nhập họ và tên',
-                        },
-                    ]}
-                >
+                <Form.Item label="Họ và tên" name="full_name">
                     <Input allowClear placeholder="Nhập họ và tên" />
                 </Form.Item>
                 <Form.Item
@@ -87,16 +80,7 @@ const AdminUpdateUserModal = ({
                 >
                     <Input disabled allowClear placeholder="Nhập email" />
                 </Form.Item>
-                <Form.Item
-                    label="Số điện thoại"
-                    name="phone"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Vui lòng nhập số điện thoại',
-                        },
-                    ]}
-                >
+                <Form.Item label="Số điện thoại" name="phone">
                     <Input allowClear placeholder="Nhập số điện thoại" />
                 </Form.Item>
                 <Form.Item
@@ -122,9 +106,15 @@ const AdminUpdateUserModal = ({
                 <Form.Item name="date_of_birth" label="Ngày sinh">
                     <Input type="date" />
                 </Form.Item>
+                <Form.Item name="gender" label="Giới tính">
+                    <Select allowClear placeholder="Chọn giới tính">
+                        <Select.Option value="male">Nam</Select.Option>
+                        <Select.Option value="female">Nữ</Select.Option>
+                    </Select>
+                </Form.Item>
                 <Form.Item
-                    name="gender"
-                    label="Giới tính"
+                    name="status"
+                    label="Trạng thái"
                     rules={[
                         {
                             required: true,
@@ -132,9 +122,12 @@ const AdminUpdateUserModal = ({
                         },
                     ]}
                 >
-                    <Select allowClear placeholder="Chọn giới tính">
-                        <Select.Option value="male">Nam</Select.Option>
-                        <Select.Option value="female">Nữ</Select.Option>
+                    <Select allowClear placeholder="Chọn trạng thái">
+                        <Select.Option value="active">Hoạt động</Select.Option>
+                        <Select.Option value="inactive">
+                            Ngừng hoạt động
+                        </Select.Option>
+                        <Select.Option value="banned">Bị khóa</Select.Option>
                     </Select>
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>

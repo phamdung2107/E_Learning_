@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
@@ -146,7 +146,15 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $orders = Order::with(['course'])->where('user_id', $user->id)->latest()->get();
+
+        $ordersQuery = Order::with('course')->latest();
+
+        if ($user->role !== 'admin') {
+            $ordersQuery->where('user_id', $user->id);
+        }
+
+        $orders = $ordersQuery->get();
+
         return Response::data(OrderResource::collection($orders), $orders->count());
     }
 

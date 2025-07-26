@@ -36,7 +36,14 @@ class UserService {
         userId: number | string,
         payload: any
     ): Promise<AxiosResponse<any>> {
-        return await http.patch(USER_API.UPDATE_ROLE(userId), payload)
+        return await http.post(USER_API.UPDATE_ROLE(userId), payload)
+    }
+
+    async changeStatus(
+        userId: number | string,
+        payload: any
+    ): Promise<AxiosResponse<any>> {
+        return await http.post(USER_API.UPDATE_STATUS(userId), payload)
     }
 
     async countUsers(): Promise<AxiosResponse<any>> {

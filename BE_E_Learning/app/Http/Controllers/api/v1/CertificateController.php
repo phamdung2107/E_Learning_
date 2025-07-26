@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers\api\v1;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;

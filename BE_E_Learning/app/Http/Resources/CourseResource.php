@@ -20,6 +20,7 @@ class CourseResource extends JsonResource
             'description'  => $this->description,
             'price'        => $this->price,
             'status'       => $this->status,
+            'enrollments_count' => $this->enrollments_count,
             'instructor' => new InstructorResource($this->whenLoaded('instructor')),
             'category'  => new CategoryResource($this->whenLoaded('category')),
             'thumbnail' => $this->thumbnail,
