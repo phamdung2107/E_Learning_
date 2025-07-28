@@ -51,7 +51,7 @@ const InstructorManageCoursesPage = () => {
             formData.append('price', values.price)
             formData.append('category_id', values.category_id)
             if (values.thumbnail instanceof File) {
-                formData.append('thumbnail', values.thumbnail) // Gửi file binary
+                formData.append('thumbnail', values.thumbnail)
             }
             formData.append('_method', 'PUT')
 
@@ -61,13 +61,13 @@ const InstructorManageCoursesPage = () => {
                 setIsModalUpdateOpen(false)
                 await fetchData()
                 notification.success({
-                    message: 'Update course successfully',
+                    message: 'Cập nhật khóa học thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Update course failed. Please try again later.',
+                message: 'Cập nhật khóa học thất bại. Vui lòng thử lại sau.',
             })
         } finally {
             setUpdateLoading(false)
@@ -92,13 +92,13 @@ const InstructorManageCoursesPage = () => {
                 setIsModalCreateOpen(false)
                 await fetchData()
                 notification.success({
-                    message: 'Create course successfully',
+                    message: 'Tạo khóa học thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Create course failed. Please try again later.',
+                message: 'Tạo khóa học thất bại. Vui lòng thử lại sau.',
             })
         } finally {
             setCreateLoading(false)
@@ -112,13 +112,13 @@ const InstructorManageCoursesPage = () => {
             if (response.status === 200) {
                 await fetchData()
                 notification.success({
-                    message: 'Delete course successfully',
+                    message: 'Xóa khóa học thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Delete course failed. Please try again later.',
+                message: 'Xóa khóa học thất bại. Vui lòng thử lại sau.',
             })
         }
     }
@@ -129,13 +129,13 @@ const InstructorManageCoursesPage = () => {
             if (response.status === 200) {
                 await fetchData()
                 notification.success({
-                    message: 'Publish course successfully',
+                    message: 'Xuất bản khóa học thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Publish course failed. Please try again later.',
+                message: 'Xuất bản khóa học thất bại. Vui lòng thử lại sau.',
             })
         }
     }
@@ -146,13 +146,13 @@ const InstructorManageCoursesPage = () => {
             if (response.status === 200) {
                 await fetchData()
                 notification.success({
-                    message: 'Archive course successfully',
+                    message: 'Lưu trữ khóa học thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Archive course failed. Please try again later.',
+                message: 'Lưu trữ khóa học thất bại. Vui lòng thử lại sau.',
             })
         }
     }
@@ -184,8 +184,10 @@ const InstructorManageCoursesPage = () => {
     return (
         <div className="instructor-manage-courses" style={{ padding: '24px' }}>
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>Manage Courses</Title>
-                <Text type="secondary">View and action with my courses</Text>
+                <Title level={2}>Quản lý khóa học</Title>
+                <Text type="secondary">
+                    Xem và thao tác với các khóa học của tôi
+                </Text>
             </Card>
             <Card style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -198,7 +200,7 @@ const InstructorManageCoursesPage = () => {
                         loading={refreshLoading}
                         style={{ marginBottom: '16px', marginRight: '16px' }}
                     >
-                        Refresh
+                        Làm mới
                     </Button>
                     <Button
                         type="primary"
@@ -206,7 +208,9 @@ const InstructorManageCoursesPage = () => {
                         icon={<PlusOutlined />}
                         onClick={() => setIsModalCreateOpen(true)}
                         style={{ marginBottom: '16px' }}
-                    ></Button>
+                    >
+                        Thêm mới
+                    </Button>
                 </div>
                 <Table
                     bordered

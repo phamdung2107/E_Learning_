@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import InstructorWithDrawModal from '@/components/core/modal/InstructorWithDrawModal'
-import { StudentDepositModal } from '@/components/core/modal/StudentDepositModal'
 import PaymentService from '@/services/payment'
 import UserService from '@/services/user'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
@@ -36,11 +35,11 @@ export const InstructorProfilePage = () => {
     const tabListNoTitle = [
         {
             key: 'profile',
-            label: 'Profile',
+            label: 'Thông tin cá nhân',
         },
         {
             key: 'password',
-            label: 'Password',
+            label: 'Đổi mật khẩu',
         },
     ]
 
@@ -71,14 +70,14 @@ export const InstructorProfilePage = () => {
             })
             if (resUser.status === 200) {
                 notification.success({
-                    message: 'Update profile success',
+                    message: 'Cập nhật thông tin thành công',
                 })
                 dispatch(getCurrentUserAction())
             }
         } catch (error) {
             console.error('Error updating profile:', error)
             notification.error({
-                message: 'Error updating profile',
+                message: 'Cập nhật thông tin thất bại',
             })
         }
     }
@@ -94,14 +93,14 @@ export const InstructorProfilePage = () => {
     const handleChangePassword = async (values: any) => {
         if (values.new_password !== values.confirm_password) {
             return notification.error({
-                message: 'Passwords do not match',
+                message: 'Mật khẩu xác nhận không khớp',
             })
         }
         try {
             const res = await UserService.changePassword(values)
             if (res.status === 200) {
                 notification.success({
-                    message: 'Change password success',
+                    message: 'Đổi mật khẩu thành công',
                 })
             } else {
                 notification.error(res.data)
@@ -110,7 +109,7 @@ export const InstructorProfilePage = () => {
         } catch (error) {
             console.error('Error changing password:', error)
             notification.error({
-                message: 'Error changing password',
+                message: 'Đổi mật khẩu thất bại',
             })
         }
     }
@@ -175,34 +174,32 @@ export const InstructorProfilePage = () => {
                             onChange={handleFileChange}
                             accept="image/*"
                         >
-                            <Button icon={<UploadOutlined />}>
-                                Choose image
-                            </Button>
+                            <Button icon={<UploadOutlined />}>Chọn ảnh</Button>
                         </Upload>
                     </div>
                     <br />
                     <Form.Item
                         name="full_name"
-                        label="Full name"
+                        label="Họ và tên"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your full name',
+                                message: 'Vui lòng nhập họ và tên',
                             },
                         ]}
                     >
-                        <Input placeholder="Enter full name" />
+                        <Input placeholder="Nhập họ và tên" />
                     </Form.Item>
                     <Form.Item name="email" label="Email">
                         <Input disabled />
                     </Form.Item>
                     <Form.Item
                         name="phone"
-                        label="Phone"
+                        label="Số điện thoại"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your phone number',
+                                message: 'Vui lòng nhập số điện thoại',
                             },
                         ]}
                     >
@@ -210,11 +207,11 @@ export const InstructorProfilePage = () => {
                     </Form.Item>
                     <Form.Item
                         name="bio"
-                        label="Bio"
+                        label="Giới thiệu bản thân"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your bio',
+                                message: 'Vui lòng nhập giới thiệu bản thân',
                             },
                         ]}
                     >
@@ -222,11 +219,11 @@ export const InstructorProfilePage = () => {
                     </Form.Item>
                     <Form.Item
                         name="experience_years"
-                        label="Experience years"
+                        label="Số năm kinh nghiệm"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your experience years',
+                                message: 'Vui lòng nhập số năm kinh nghiệm',
                             },
                         ]}
                     >
@@ -234,17 +231,17 @@ export const InstructorProfilePage = () => {
                     </Form.Item>
                     <Form.Item
                         name="linkedin_url"
-                        label="LinkedIn url"
+                        label="Đường dẫn LinkedIn"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your linkedin url',
+                                message: 'Vui lòng nhập đường dẫn LinkedIn',
                             },
                         ]}
                     >
                         <Input disabled />
                     </Form.Item>
-                    <Form.Item label="Money">
+                    <Form.Item label="Số dư ví">
                         <Input.Group compact>
                             <Form.Item
                                 name="money"
@@ -266,22 +263,22 @@ export const InstructorProfilePage = () => {
                             </Button>
                         </Input.Group>
                     </Form.Item>
-                    <Form.Item name="date_of_birth" label="Birthday">
+                    <Form.Item name="date_of_birth" label="Ngày sinh">
                         <Input type="date" />
                     </Form.Item>
                     <Form.Item
                         name="gender"
-                        label="Gender"
+                        label="Giới tính"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please select your gender',
+                                message: 'Vui lòng chọn giới tính',
                             },
                         ]}
                     >
-                        <Select allowClear placeholder="Select your gender">
-                            <Select.Option value="male">Male</Select.Option>
-                            <Select.Option value="female">Female</Select.Option>
+                        <Select allowClear placeholder="Chọn giới tính">
+                            <Select.Option value="male">Nam</Select.Option>
+                            <Select.Option value="female">Nữ</Select.Option>
                         </Select>
                     </Form.Item>
                     <Form.Item hidden name="avatar">
@@ -289,14 +286,14 @@ export const InstructorProfilePage = () => {
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            Save changes
+                            Lưu thay đổi
                         </Button>
                         <Button
                             type="default"
                             style={{ marginLeft: 8 }}
                             onClick={() => form.resetFields()}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                     </Form.Item>
                 </Form>
@@ -312,43 +309,43 @@ export const InstructorProfilePage = () => {
                 >
                     <Form.Item
                         name="oldPassword"
-                        label="Current password"
+                        label="Mật khẩu hiện tại"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your current password',
+                                message: 'Vui lòng nhập mật khẩu hiện tại',
                             },
                         ]}
                     >
-                        <Input.Password placeholder="Enter current password" />
+                        <Input.Password placeholder="Nhập mật khẩu hiện tại" />
                     </Form.Item>
                     <Form.Item
                         name="newPassword"
-                        label="New password"
+                        label="Mật khẩu mới"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input new password',
+                                message: 'Vui lòng nhập mật khẩu mới',
                             },
                         ]}
                     >
-                        <Input.Password placeholder="Enter new password" />
+                        <Input.Password placeholder="Nhập mật khẩu mới" />
                     </Form.Item>
                     <Form.Item
                         name="confirmPassword"
-                        label="Confirm password"
+                        label="Xác nhận mật khẩu"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please confirm new password',
+                                message: 'Vui lòng xác nhận mật khẩu mới',
                             },
                         ]}
                     >
-                        <Input.Password placeholder="Enter confirm password" />
+                        <Input.Password placeholder="Nhập lại mật khẩu mới" />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            Change password
+                            Đổi mật khẩu
                         </Button>
                     </Form.Item>
                 </Form>
@@ -368,7 +365,7 @@ export const InstructorProfilePage = () => {
                         onClick={() => dispatch(getCurrentUserAction())}
                         type="link"
                     >
-                        Refresh
+                        Làm mới
                     </Button>
                 }
                 onTabChange={onTabChange}

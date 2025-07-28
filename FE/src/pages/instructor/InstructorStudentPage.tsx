@@ -35,8 +35,8 @@ const InstructorStudentPage = () => {
     return (
         <div className="instructor-manage-courses" style={{ padding: '24px' }}>
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>Manage Students</Title>
-                <Text type="secondary">View and action with students</Text>
+                <Title level={2}>Quản lý học viên</Title>
+                <Text type="secondary">Xem và thao tác với học viên</Text>
             </Card>
             <Card style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -49,7 +49,7 @@ const InstructorStudentPage = () => {
                         loading={refreshLoading}
                         style={{ marginBottom: '16px', marginRight: '16px' }}
                     >
-                        Refresh
+                        Làm mới
                     </Button>
                 </div>
                 <Table

@@ -87,13 +87,13 @@ const InstructorManageDetailCoursePage = () => {
                 setIsModalCreateLessonOpen(false)
                 await fetchData()
                 notification.success({
-                    message: 'Create lesson successfully',
+                    message: 'Tạo bài học thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Create lesson failed. Please try again later.',
+                message: 'Tạo bài học thất bại. Vui lòng thử lại sau.',
             })
         } finally {
             setCreateLessonLoading(false)
@@ -114,13 +114,13 @@ const InstructorManageDetailCoursePage = () => {
                 setIsModalUpdateLessonOpen(false)
                 await fetchData()
                 notification.success({
-                    message: 'Update lesson successfully',
+                    message: 'Cập nhật bài học thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Update lesson failed. Please try again later.',
+                message: 'Cập nhật bài học thất bại. Vui lòng thử lại sau.',
             })
         } finally {
             setUpdateLessonLoading(false)
@@ -134,13 +134,13 @@ const InstructorManageDetailCoursePage = () => {
             if (response.status === 200) {
                 await fetchData()
                 notification.success({
-                    message: 'Delete lesson successfully',
+                    message: 'Xóa bài học thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Delete lesson failed. Please try again later.',
+                message: 'Xóa bài học thất bại. Vui lòng thử lại sau.',
             })
         }
     }
@@ -158,13 +158,13 @@ const InstructorManageDetailCoursePage = () => {
                 await fetchData()
                 await fetchQuizByLesson(response.data.lesson_id)
                 notification.success({
-                    message: 'Create quiz successfully',
+                    message: 'Tạo bài kiểm tra thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Create quiz failed. Please try again later.',
+                message: 'Tạo bài kiểm tra thất bại. Vui lòng thử lại sau.',
             })
         } finally {
             setCreateQuizLoading(false)
@@ -184,13 +184,14 @@ const InstructorManageDetailCoursePage = () => {
                 await fetchData()
                 await fetchQuizByLesson(response.data.lesson_id)
                 notification.success({
-                    message: 'Update quiz successfully',
+                    message: 'Cập nhật bài kiểm tra thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Update quiz failed. Please try again later.',
+                message:
+                    'Cập nhật bài kiểm tra thất bại. Vui lòng thử lại sau.',
             })
         } finally {
             setUpdateQuizLoading(false)
@@ -205,13 +206,13 @@ const InstructorManageDetailCoursePage = () => {
                 await fetchData()
                 await fetchQuizByLesson(response.data.lesson_id)
                 notification.success({
-                    message: 'Delete quiz successfully',
+                    message: 'Xóa bài kiểm tra thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Delete quiz failed. Please try again later.',
+                message: 'Xóa bài kiểm tra thất bại. Vui lòng thử lại sau.',
             })
         }
     }
@@ -242,7 +243,6 @@ const InstructorManageDetailCoursePage = () => {
     }
 
     const openModalListQuestion = (item: any) => {
-        console.log(item)
         setRecord(item)
         setIsModalListQuestionOpen(true)
     }
@@ -261,8 +261,10 @@ const InstructorManageDetailCoursePage = () => {
     return (
         <div className="instructor-manage-courses" style={{ padding: '24px' }}>
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>Detail Course: {courseData?.title}</Title>
-                <Text type="secondary">View and action with detail course</Text>
+                <Title level={2}>Chi tiết khóa học: {courseData?.title}</Title>
+                <Text type="secondary">
+                    Xem và thao tác với chi tiết khóa học
+                </Text>
             </Card>
             <Card style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -275,7 +277,7 @@ const InstructorManageDetailCoursePage = () => {
                         loading={refreshLoading}
                         style={{ marginBottom: '16px', marginRight: '16px' }}
                     >
-                        Refresh
+                        Làm mới
                     </Button>
                     <Button
                         type="primary"
@@ -283,7 +285,9 @@ const InstructorManageDetailCoursePage = () => {
                         icon={<PlusOutlined />}
                         onClick={() => setIsModalCreateLessonOpen(true)}
                         style={{ marginBottom: '16px' }}
-                    ></Button>
+                    >
+                        Thêm bài học
+                    </Button>
                 </div>
                 <Table
                     bordered

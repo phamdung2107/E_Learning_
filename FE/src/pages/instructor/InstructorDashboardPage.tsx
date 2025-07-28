@@ -53,10 +53,10 @@ const InstructorDashboardPage = () => {
             {/* Header */}
             <Card style={{ marginBottom: '24px' }}>
                 <Title level={2}>
-                    Welcome back, {user?.user?.full_name}! 👋
+                    Chào mừng trở lại, {user?.user?.full_name}! 👋
                 </Title>
                 <Text type="secondary">
-                    Manage your courses and track your teaching progress
+                    Quản lý khóa học và theo dõi tiến trình giảng dạy của bạn
                 </Text>
             </Card>
 
@@ -65,7 +65,7 @@ const InstructorDashboardPage = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Courses"
+                            title="Khóa học"
                             value={courseCount}
                             prefix={<BookOutlined />}
                             valueStyle={{ color: '#20B2AA' }}
@@ -75,7 +75,7 @@ const InstructorDashboardPage = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Students"
+                            title="Học viên"
                             value={studentCount}
                             prefix={<UserOutlined />}
                             valueStyle={{ color: '#52c41a' }}
@@ -85,7 +85,7 @@ const InstructorDashboardPage = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Revenue"
+                            title="Doanh thu"
                             value={revenue}
                             prefix={<DollarOutlined />}
                             valueStyle={{ color: '#1890ff' }}
@@ -95,7 +95,7 @@ const InstructorDashboardPage = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Average Rating"
+                            title="Đánh giá trung bình"
                             value={averageRating}
                             prefix={<StarOutlined />}
                             valueStyle={{ color: '#faad14' }}
@@ -118,7 +118,7 @@ const InstructorDashboardPage = () => {
                                     alignItems: 'center',
                                 }}
                             >
-                                <span>Monthly Revenue</span>
+                                <span>Doanh thu theo tháng</span>
                             </div>
                         }
                     >
@@ -131,7 +131,7 @@ const InstructorDashboardPage = () => {
                     <div className="student-sidebar">
                         <Card
                             className="student-activity-card"
-                            title="Analytics"
+                            title="Phân tích"
                         >
                             <StudentActivityChart instructorId={user.id} />
                         </Card>
@@ -139,7 +139,7 @@ const InstructorDashboardPage = () => {
                         {/* Quick Actions */}
                         <Card
                             className="student-actions-card"
-                            title="Quick Actions"
+                            title="Truy cập nhanh"
                         >
                             <Space
                                 direction="vertical"
@@ -150,28 +150,28 @@ const InstructorDashboardPage = () => {
                                     to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}
                                 >
                                     <Button block icon={<BookOutlined />}>
-                                        Create New Course
+                                        Tạo khóa học mới
                                     </Button>
                                 </Link>
                                 <Link
                                     to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}
                                 >
                                     <Button block icon={<BookOutlined />}>
-                                        Manage Courses
+                                        Quản lý khóa học
                                     </Button>
                                 </Link>
                                 <Link
                                     to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}
                                 >
                                     <Button block icon={<UserOutlined />}>
-                                        Manage Students
+                                        Quản lý học viên
                                     </Button>
                                 </Link>
                                 <Link
                                     to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}
                                 >
                                     <Button block icon={<TrophyOutlined />}>
-                                        View Analytics
+                                        Xem phân tích
                                     </Button>
                                 </Link>
                             </Space>
