@@ -18,7 +18,7 @@ export const StudentDepositModal = ({
 
     return (
         <Modal
-            title="Deposit"
+            title="Nạp tiền"
             open={visible}
             onCancel={onClose}
             centered
@@ -31,20 +31,22 @@ export const StudentDepositModal = ({
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    label="Amount"
+                    label="Số tiền"
                     name="amount"
-                    rules={[{ required: true, message: 'Amount is required' }]}
+                    rules={[
+                        { required: true, message: 'Vui lòng nhập số tiền' },
+                    ]}
                 >
                     <Input
                         allowClear
-                        placeholder="Enter amount"
+                        placeholder="Nhập số tiền"
                         addonAfter={'VND'}
                     />
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
                     <div style={{ display: 'flex' }}>
                         <Button key="cancel" type="default" onClick={onClose}>
-                            Cancel
+                            Hủy
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -54,7 +56,7 @@ export const StudentDepositModal = ({
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Done
+                            Xác nhận
                         </Button>
                     </div>
                 </Form.Item>

@@ -14,7 +14,6 @@ const ManageCourseModal = ({
 }: any) => {
     const [form] = Form.useForm()
 
-    // Đặt giá trị ban đầu cho form khi chỉnh sửa
     React.useEffect(() => {
         if (initialValues) {
             form.setFieldsValue(initialValues)
@@ -23,7 +22,6 @@ const ManageCourseModal = ({
         }
     }, [initialValues, form])
 
-    // Xử lý khi submit form
     const handleOk = () => {
         form.validateFields().then((values) => {
             onSave(values)
@@ -33,58 +31,58 @@ const ManageCourseModal = ({
 
     return (
         <Modal
-            title={initialValues ? 'Edit Course' : 'Add New Course'}
+            title={initialValues ? 'Chỉnh sửa khóa học' : 'Thêm khóa học mới'}
             visible={visible}
             onOk={handleOk}
             onCancel={onCancel}
-            okText={initialValues ? 'Save' : 'Create'}
-            cancelText="Cancel"
+            okText={initialValues ? 'Lưu' : 'Tạo mới'}
+            cancelText="Hủy"
         >
             <Form form={form} layout="vertical">
                 <Form.Item
                     name="title"
-                    label="Course Title"
+                    label="Tiêu đề khóa học"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the course title',
+                            message: 'Vui lòng nhập tiêu đề khóa học',
                         },
                     ]}
                 >
-                    <Input placeholder="Enter course title" />
+                    <Input placeholder="Nhập tiêu đề khóa học" />
                 </Form.Item>
                 <Form.Item
                     name="category"
-                    label="Category"
+                    label="Danh mục"
                     rules={[
-                        { required: true, message: 'Please select a category' },
+                        { required: true, message: 'Vui lòng chọn danh mục' },
                     ]}
                 >
-                    <Select placeholder="Select a category">
-                        <Option value="Programming">Programming</Option>
-                        <Option value="Web Development">Web Development</Option>
-                        <Option value="Data Science">Data Science</Option>
-                        <Option value="Design">Design</Option>
+                    <Select placeholder="Chọn danh mục">
+                        <Option value="Programming">Lập trình</Option>
+                        <Option value="Web Development">Phát triển web</Option>
+                        <Option value="Data Science">Khoa học dữ liệu</Option>
+                        <Option value="Design">Thiết kế</Option>
                     </Select>
                 </Form.Item>
                 <Form.Item
                     name="description"
-                    label="Description"
+                    label="Mô tả"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter a description',
+                            message: 'Vui lòng nhập mô tả',
                         },
                     ]}
                 >
                     <Input.TextArea
                         rows={4}
-                        placeholder="Enter course description"
+                        placeholder="Nhập mô tả khóa học"
                     />
                 </Form.Item>
                 <Form.Item
                     name="thumbnail"
-                    label="Thumbnail"
+                    label="Ảnh đại diện"
                     valuePropName="fileList"
                     getValueFromEvent={(e) => {
                         if (Array.isArray(e)) {
@@ -97,10 +95,10 @@ const ManageCourseModal = ({
                         name="thumbnail"
                         listType="picture"
                         maxCount={1}
-                        beforeUpload={() => false} // Ngăn upload tự động
+                        beforeUpload={() => false}
                     >
                         <Button icon={<UploadOutlined />}>
-                            Upload Thumbnail
+                            Tải lên ảnh đại diện
                         </Button>
                     </Upload>
                 </Form.Item>

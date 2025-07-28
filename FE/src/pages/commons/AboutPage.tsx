@@ -32,14 +32,13 @@ const AboutPage: React.FC = () => {
 
                 <div className="about-hero-content">
                     <Title level={1} className="about-hero-title">
-                        About Mona Course Pro
+                        Về Mona Course Pro
                     </Title>
                     <Paragraph className="about-hero-description">
-                        We are passionate about transforming education through
-                        technology. Our mission is to make high-quality learning
-                        accessible to everyone, everywhere, empowering
-                        individuals to achieve their dreams and build successful
-                        careers.
+                        Chúng tôi đam mê việc thay đổi giáo dục thông qua công
+                        nghệ. Sứ mệnh của chúng tôi là mang đến cơ hội học tập
+                        chất lượng cao cho mọi người, ở mọi nơi, giúp mỗi cá
+                        nhân đạt được ước mơ và xây dựng sự nghiệp thành công.
                     </Paragraph>
                 </div>
             </section>
@@ -51,7 +50,7 @@ const AboutPage: React.FC = () => {
                 <div className="about-mission-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Our Foundation
+                            Nền tảng của chúng tôi
                         </Title>
                         <Paragraph
                             style={{
@@ -61,8 +60,8 @@ const AboutPage: React.FC = () => {
                                 margin: '0 auto',
                             }}
                         >
-                            Built on strong principles that guide everything we
-                            do
+                            Được xây dựng trên những nguyên tắc vững chắc định
+                            hướng mọi hoạt động của chúng tôi
                         </Paragraph>
                     </div>
 
@@ -79,16 +78,15 @@ const AboutPage: React.FC = () => {
                                     level={3}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Our Mission
+                                    Sứ mệnh
                                 </Title>
                                 <Paragraph
                                     style={{ color: '#666', fontSize: '16px' }}
                                 >
-                                    To democratize education by providing
-                                    world-class learning experiences that are
-                                    accessible, engaging, and effective for
-                                    learners of all backgrounds and skill
-                                    levels.
+                                    Dân chủ hóa giáo dục bằng cách cung cấp trải
+                                    nghiệm học tập đẳng cấp thế giới, dễ tiếp
+                                    cận, hấp dẫn và hiệu quả cho mọi đối tượng
+                                    học viên ở mọi trình độ.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -105,15 +103,15 @@ const AboutPage: React.FC = () => {
                                     level={3}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Our Vision
+                                    Tầm nhìn
                                 </Title>
                                 <Paragraph
                                     style={{ color: '#666', fontSize: '16px' }}
                                 >
-                                    To become the leading global platform where
-                                    millions of learners discover their
-                                    potential, master new skills, and transform
-                                    their careers through innovative education.
+                                    Trở thành nền tảng giáo dục hàng đầu toàn
+                                    cầu, nơi hàng triệu học viên khám phá tiềm
+                                    năng, làm chủ kỹ năng mới và thay đổi sự
+                                    nghiệp thông qua giáo dục đổi mới sáng tạo.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -130,15 +128,16 @@ const AboutPage: React.FC = () => {
                                     level={3}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Our Values
+                                    Giá trị cốt lõi
                                 </Title>
                                 <Paragraph
                                     style={{ color: '#666', fontSize: '16px' }}
                                 >
-                                    Excellence, innovation, inclusivity, and
-                                    student success drive every decision we
-                                    make. We believe in the power of education
-                                    to change lives and communities.
+                                    Xuất sắc, đổi mới, hòa nhập và thành công
+                                    của học viên là kim chỉ nam cho mọi quyết
+                                    định của chúng tôi. Chúng tôi tin vào sức
+                                    mạnh của giáo dục để thay đổi cuộc sống và
+                                    cộng đồng.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -159,7 +158,7 @@ const AboutPage: React.FC = () => {
                         </Col>
                         <Col xs={24} lg={12}>
                             <Title level={2} style={{ marginBottom: '24px' }}>
-                                Our Story
+                                Câu chuyện của chúng tôi
                             </Title>
                             <Paragraph
                                 style={{
@@ -168,12 +167,12 @@ const AboutPage: React.FC = () => {
                                     marginBottom: '20px',
                                 }}
                             >
-                                Founded in 2020 by a team of passionate
-                                educators and technologists, Mona Course Pro
-                                began with a simple yet powerful vision: to
-                                bridge the gap between traditional education and
-                                the rapidly evolving demands of the modern
-                                workforce.
+                                Được thành lập năm 2020 bởi đội ngũ giáo viên và
+                                chuyên gia công nghệ đầy nhiệt huyết, Mona
+                                Course Pro bắt đầu với tầm nhìn đơn giản nhưng
+                                mạnh mẽ: thu hẹp khoảng cách giữa giáo dục
+                                truyền thống và nhu cầu phát triển nhanh chóng
+                                của lực lượng lao động hiện đại.
                             </Paragraph>
                             <Paragraph
                                 style={{
@@ -182,13 +181,13 @@ const AboutPage: React.FC = () => {
                                     marginBottom: '20px',
                                 }}
                             >
-                                What started as a small initiative to help
-                                professionals upskill during the pandemic has
-                                grown into a comprehensive learning platform
-                                serving thousands of students worldwide. We've
-                                partnered with industry experts, renowned
-                                institutions, and leading companies to create
-                                courses that truly matter.
+                                Từ một sáng kiến nhỏ nhằm hỗ trợ người đi làm
+                                nâng cao kỹ năng trong đại dịch, chúng tôi đã
+                                phát triển thành nền tảng học tập toàn diện phục
+                                vụ hàng ngàn học viên trên toàn thế giới. Chúng
+                                tôi hợp tác với các chuyên gia, tổ chức uy tín
+                                và doanh nghiệp hàng đầu để xây dựng các khóa
+                                học thực sự giá trị.
                             </Paragraph>
                             <Paragraph
                                 style={{
@@ -197,20 +196,20 @@ const AboutPage: React.FC = () => {
                                     marginBottom: '30px',
                                 }}
                             >
-                                Today, we're proud to be at the forefront of
-                                educational innovation, continuously evolving
-                                our platform to meet the changing needs of
-                                learners in the digital age.
+                                Ngày nay, chúng tôi tự hào là đơn vị tiên phong
+                                trong đổi mới giáo dục, không ngừng phát triển
+                                nền tảng để đáp ứng nhu cầu thay đổi của người
+                                học trong kỷ nguyên số.
                             </Paragraph>
                             <Space>
                                 <Text strong style={{ color: '#20B2AA' }}>
-                                    Est. 2020
+                                    Thành lập 2020
                                 </Text>
                                 <Text strong style={{ color: '#667eea' }}>
-                                    50,000+ Students
+                                    50.000+ Học viên
                                 </Text>
                                 <Text strong style={{ color: '#ff6b6b' }}>
-                                    1,200+ Instructors
+                                    1.200+ Giảng viên
                                 </Text>
                             </Space>
                         </Col>
@@ -225,11 +224,11 @@ const AboutPage: React.FC = () => {
                 <div className="about-team-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Meet Our Leadership Team
+                            Đội ngũ lãnh đạo
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            Experienced leaders driving innovation in education
-                            technology
+                            Những nhà lãnh đạo giàu kinh nghiệm dẫn dắt đổi mới
+                            trong công nghệ giáo dục
                         </Paragraph>
                     </div>
 
@@ -250,7 +249,7 @@ const AboutPage: React.FC = () => {
                                     Sarah Chen
                                 </Title>
                                 <Text className="about-team-role">
-                                    CEO & Co-Founder
+                                    CEO & Đồng sáng lập
                                 </Text>
                                 <Paragraph
                                     ellipsis={{ rows: 3 }}
@@ -260,8 +259,9 @@ const AboutPage: React.FC = () => {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    Former VP of Education at TechCorp. 15+
-                                    years in EdTech and product development.
+                                    Nguyên Phó Chủ tịch Giáo dục tại TechCorp.
+                                    Hơn 15 năm kinh nghiệm trong lĩnh vực EdTech
+                                    và phát triển sản phẩm.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -282,7 +282,7 @@ const AboutPage: React.FC = () => {
                                     Michael Rodriguez
                                 </Title>
                                 <Text className="about-team-role">
-                                    CTO & Co-Founder
+                                    CTO & Đồng sáng lập
                                 </Text>
                                 <Paragraph
                                     ellipsis={{ rows: 3 }}
@@ -292,8 +292,8 @@ const AboutPage: React.FC = () => {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    Former Senior Engineer at Google. Expert in
-                                    scalable learning platforms and AI.
+                                    Nguyên Kỹ sư cao cấp tại Google. Chuyên gia
+                                    về nền tảng học tập quy mô lớn và AI.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -314,7 +314,7 @@ const AboutPage: React.FC = () => {
                                     Emily Johnson
                                 </Title>
                                 <Text className="about-team-role">
-                                    Chief Marketing Officer
+                                    Giám đốc Marketing
                                 </Text>
                                 <Paragraph
                                     ellipsis={{ rows: 3 }}
@@ -324,8 +324,8 @@ const AboutPage: React.FC = () => {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    Marketing strategist with 12+ years building
-                                    global education brands.
+                                    Chiến lược gia marketing với hơn 12 năm xây
+                                    dựng thương hiệu giáo dục toàn cầu.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -346,7 +346,7 @@ const AboutPage: React.FC = () => {
                                     David Kim
                                 </Title>
                                 <Text className="about-team-role">
-                                    Head of Content
+                                    Trưởng bộ phận nội dung
                                 </Text>
                                 <Paragraph
                                     ellipsis={{ rows: 3 }}
@@ -356,8 +356,8 @@ const AboutPage: React.FC = () => {
                                         textAlign: 'center',
                                     }}
                                 >
-                                    Curriculum designer and former university
-                                    professor with 20+ years experience.
+                                    Nhà thiết kế chương trình học, nguyên giảng
+                                    viên đại học với hơn 20 năm kinh nghiệm.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -376,7 +376,7 @@ const AboutPage: React.FC = () => {
                             level={2}
                             style={{ color: 'white', marginBottom: '16px' }}
                         >
-                            Our Impact in Numbers
+                            Thành tựu nổi bật
                         </Title>
                         <Paragraph
                             style={{
@@ -384,7 +384,7 @@ const AboutPage: React.FC = () => {
                                 color: 'rgba(255,255,255,0.9)',
                             }}
                         >
-                            Transforming lives through education worldwide
+                            Thay đổi cuộc sống qua giáo dục trên toàn thế giới
                         </Paragraph>
                     </div>
 
@@ -398,7 +398,7 @@ const AboutPage: React.FC = () => {
                                                 color: 'rgba(255,255,255,0.8)',
                                             }}
                                         >
-                                            Students Enrolled
+                                            Học viên đã đăng ký
                                         </span>
                                     }
                                     value={50000}
@@ -420,7 +420,7 @@ const AboutPage: React.FC = () => {
                                                 color: 'rgba(255,255,255,0.8)',
                                             }}
                                         >
-                                            Courses Available
+                                            Khóa học hiện có
                                         </span>
                                     }
                                     value={5000}
@@ -442,7 +442,7 @@ const AboutPage: React.FC = () => {
                                                 color: 'rgba(255,255,255,0.8)',
                                             }}
                                         >
-                                            Expert Instructors
+                                            Giảng viên chuyên gia
                                         </span>
                                     }
                                     value={1200}
@@ -464,7 +464,7 @@ const AboutPage: React.FC = () => {
                                                 color: 'rgba(255,255,255,0.8)',
                                             }}
                                         >
-                                            Countries Reached
+                                            Quốc gia tiếp cận
                                         </span>
                                     }
                                     value={45}
@@ -488,11 +488,11 @@ const AboutPage: React.FC = () => {
                 <div className="about-values-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            What Drives Us
+                            Giá trị thúc đẩy chúng tôi
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            The core values that shape our culture and guide our
-                            decisions
+                            Những giá trị cốt lõi định hình văn hóa và định
+                            hướng mọi quyết định của chúng tôi
                         </Paragraph>
                     </div>
 
@@ -509,14 +509,14 @@ const AboutPage: React.FC = () => {
                                     level={4}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Innovation
+                                    Đổi mới
                                 </Title>
                                 <Paragraph
                                     style={{ color: '#666', fontSize: '14px' }}
                                 >
-                                    We continuously push boundaries to create
-                                    cutting-edge learning experiences that adapt
-                                    to the future of education.
+                                    Chúng tôi không ngừng sáng tạo để mang đến
+                                    trải nghiệm học tập tiên tiến, thích ứng với
+                                    tương lai của giáo dục.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -533,14 +533,14 @@ const AboutPage: React.FC = () => {
                                     level={4}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Quality
+                                    Chất lượng
                                 </Title>
                                 <Paragraph
                                     style={{ color: '#666', fontSize: '14px' }}
                                 >
-                                    Every course, feature, and interaction is
-                                    crafted with meticulous attention to detail
-                                    and highest standards.
+                                    Mỗi khóa học, tính năng và tương tác đều
+                                    được chăm chút tỉ mỉ, đảm bảo tiêu chuẩn cao
+                                    nhất.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -557,14 +557,14 @@ const AboutPage: React.FC = () => {
                                     level={4}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Community
+                                    Cộng đồng
                                 </Title>
                                 <Paragraph
                                     style={{ color: '#666', fontSize: '14px' }}
                                 >
-                                    We foster an inclusive global community
-                                    where learners support each other and grow
-                                    together.
+                                    Chúng tôi xây dựng cộng đồng toàn cầu hòa
+                                    nhập, nơi học viên hỗ trợ và phát triển cùng
+                                    nhau.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -581,14 +581,13 @@ const AboutPage: React.FC = () => {
                                     level={4}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Growth
+                                    Phát triển
                                 </Title>
                                 <Paragraph
                                     style={{ color: '#666', fontSize: '14px' }}
                                 >
-                                    We believe in continuous learning and
-                                    improvement, both for our students and our
-                                    organization.
+                                    Chúng tôi tin vào việc học tập và phát triển
+                                    không ngừng, cả cho học viên lẫn tổ chức.
                                 </Paragraph>
                             </Card>
                         </Col>
@@ -606,7 +605,7 @@ const AboutPage: React.FC = () => {
                         level={2}
                         style={{ color: 'white', marginBottom: '24px' }}
                     >
-                        Ready to Start Your Learning Journey?
+                        Sẵn sàng bắt đầu hành trình học tập?
                     </Title>
                     <Paragraph
                         style={{
@@ -615,11 +614,10 @@ const AboutPage: React.FC = () => {
                             marginBottom: '40px',
                         }}
                     >
-                        Join our community of learners and take the first step
-                        towards achieving your goals. Whether you're looking to
-                        advance your career, learn new skills, or explore your
-                        passions, we're here to support you every step of the
-                        way.
+                        Tham gia cộng đồng học viên của chúng tôi và bắt đầu
+                        chinh phục mục tiêu của bạn. Dù bạn muốn phát triển sự
+                        nghiệp, học kỹ năng mới hay khám phá đam mê, chúng tôi
+                        luôn đồng hành cùng bạn trên từng chặng đường.
                     </Paragraph>
                     <Space size="large">
                         <Button
@@ -628,7 +626,7 @@ const AboutPage: React.FC = () => {
                             size="large"
                             className="about-cta-btn"
                         >
-                            Browse Courses
+                            Xem các khóa học
                         </Button>
                         <Button
                             href={PATHS.CONTACT}
@@ -651,7 +649,7 @@ const AboutPage: React.FC = () => {
                                 e.currentTarget.style.color = 'white'
                             }}
                         >
-                            Contact Us
+                            Liên hệ với chúng tôi
                         </Button>
                     </Space>
                 </div>

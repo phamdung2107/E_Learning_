@@ -40,7 +40,7 @@ const InstructorLayout: React.FC = () => {
             icon: <DashboardOutlined />,
             label: (
                 <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}>
-                    Dashboard
+                    Bảng điều khiển
                 </Link>
             ),
         },
@@ -49,7 +49,7 @@ const InstructorLayout: React.FC = () => {
             icon: <BookOutlined />,
             label: (
                 <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}>
-                    My Courses
+                    Khóa học của tôi
                 </Link>
             ),
         },
@@ -58,7 +58,7 @@ const InstructorLayout: React.FC = () => {
             icon: <UserOutlined />,
             label: (
                 <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}>
-                    My Students
+                    Học sinh của tôi
                 </Link>
             ),
         },
@@ -68,7 +68,9 @@ const InstructorLayout: React.FC = () => {
             key: INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE,
             icon: <UserOutlined />,
             label: (
-                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE}>My Profile</Link>
+                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_PROFILE}>
+                    Thông tin cá nhân
+                </Link>
             ),
         },
         {
@@ -83,7 +85,7 @@ const InstructorLayout: React.FC = () => {
                         navigate(PATHS.AUTH)
                     }}
                 >
-                    Logout
+                    Đăng xuất
                 </div>
             ),
         },

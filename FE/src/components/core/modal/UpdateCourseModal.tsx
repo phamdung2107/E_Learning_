@@ -18,7 +18,6 @@ const UpdateCourseModal = ({
     const [form] = Form.useForm()
     const [fileList, setFileList] = useState<any>([])
 
-    // Cập nhật form khi visible hoặc record thay đổi
     useEffect(() => {
         if (visible && record) {
             form.setFieldsValue({
@@ -33,7 +32,7 @@ const UpdateCourseModal = ({
                               uid: '-1',
                               name: record.thumbnail,
                               status: 'done',
-                              url: record.thumbnail, // Giả sử thumbnail là tên file, có thể cần thêm base URL nếu backend yêu cầu
+                              url: record.thumbnail,
                           },
                       ]
                     : [],
@@ -56,7 +55,6 @@ const UpdateCourseModal = ({
         }
     }, [visible, record, form])
 
-    // Xử lý reset form về giá trị ban đầu
     const handleReset = () => {
         form.setFieldsValue({
             title: record?.title,
@@ -89,16 +87,13 @@ const UpdateCourseModal = ({
         )
     }
 
-    // Xử lý khi hủy
     const handleCancel = () => {
         form.resetFields()
         setFileList([])
         onClose()
     }
 
-    // Xử lý khi submit
     const handleSubmit = (values: any) => {
-        console.log(fileList)
         const submitValues = {
             ...values,
             thumbnail:
@@ -110,14 +105,12 @@ const UpdateCourseModal = ({
         handleCancel()
     }
 
-    // Xử lý upload file
     const handleUploadChange = ({ fileList: newFileList }: any) => {
-        // Chỉ cho phép upload file ảnh
         const filteredList = newFileList.filter((file: any) => {
             const isImage = file.type.startsWith('image/')
             if (!isImage) {
                 notification.error({
-                    message: 'You can only upload image files!',
+                    message: 'Chỉ được phép tải lên tệp hình ảnh!',
                 })
             }
             return isImage
@@ -127,7 +120,7 @@ const UpdateCourseModal = ({
 
     return (
         <Modal
-            title={`Edit Course: ${record?.title || 'Course'}`}
+            title={`Chỉnh sửa khóa học: ${record?.title || 'Khóa học'}`}
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -142,62 +135,62 @@ const UpdateCourseModal = ({
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    label="Title"
+                    label="Tiêu đề"
                     name="title"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the course title',
+                            message: 'Vui lòng nhập tiêu đề khóa học',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter course title" />
+                    <Input allowClear placeholder="Nhập tiêu đề khóa học" />
                 </Form.Item>
                 <Form.Item
-                    label="Description"
+                    label="Mô tả"
                     name="description"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter a description',
+                            message: 'Vui lòng nhập mô tả',
                         },
                     ]}
                 >
                     <TextArea
                         rows={4}
                         allowClear
-                        placeholder="Enter course description"
+                        placeholder="Nhập mô tả khóa học"
                     />
                 </Form.Item>
                 <Form.Item
-                    label="Price"
+                    label="Giá"
                     name="price"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the course price',
+                            message: 'Vui lòng nhập giá khóa học',
                         },
                         {
                             pattern: /^\d+(\.\d{1,2})?$/,
                             message:
-                                'Please enter a valid price (e.g., 599000.00)',
+                                'Vui lòng nhập giá hợp lệ (ví dụ: 599000.00)',
                         },
                     ]}
                 >
                     <Input
                         allowClear
-                        placeholder="Enter price (e.g., 599000.00)"
+                        placeholder="Nhập giá (ví dụ: 599000.00)"
                         addonAfter="VND"
                     />
                 </Form.Item>
                 <Form.Item
-                    label="Category"
+                    label="Danh mục"
                     name="category_id"
                     rules={[
-                        { required: true, message: 'Please select a category' },
+                        { required: true, message: 'Vui lòng chọn danh mục' },
                     ]}
                 >
-                    <Select placeholder="Select a category">
+                    <Select placeholder="Chọn danh mục">
                         {categories.map((category: any) => (
                             <Option key={category.id} value={category.id}>
                                 {category.name}
@@ -206,20 +199,20 @@ const UpdateCourseModal = ({
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    label="Status"
+                    label="Trạng thái"
                     name="status"
                     rules={[
-                        { required: true, message: 'Please select a status' },
+                        { required: true, message: 'Vui lòng chọn trạng thái' },
                     ]}
                 >
-                    <Select placeholder="Select status">
-                        <Option value="published">Published</Option>
-                        <Option value="archived">Archived</Option>
-                        <Option value="draft">Draft</Option>
+                    <Select placeholder="Chọn trạng thái">
+                        <Option value="published">Đã xuất bản</Option>
+                        <Option value="archived">Đã lưu trữ</Option>
+                        <Option value="draft">Bản nháp</Option>
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    label="Thumbnail"
+                    label="Ảnh đại diện"
                     name="thumbnail"
                     valuePropName="fileList"
                     getValueFromEvent={(e) => {
@@ -235,10 +228,10 @@ const UpdateCourseModal = ({
                         maxCount={1}
                         fileList={fileList}
                         onChange={handleUploadChange}
-                        beforeUpload={() => false} // Ngăn upload tự động
+                        beforeUpload={() => false}
                     >
                         <Button icon={<UploadOutlined />}>
-                            Upload Thumbnail
+                            Tải lên ảnh đại diện
                         </Button>
                     </Upload>
                 </Form.Item>
@@ -249,7 +242,7 @@ const UpdateCourseModal = ({
                             type="default"
                             onClick={handleReset}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -257,7 +250,7 @@ const UpdateCourseModal = ({
                             type="default"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -266,7 +259,7 @@ const UpdateCourseModal = ({
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Edit
+                            Lưu thay đổi
                         </Button>
                     </div>
                 </Form.Item>

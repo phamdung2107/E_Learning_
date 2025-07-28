@@ -37,13 +37,17 @@ const AdminLayout = () => {
         {
             key: ADMIN_PATHS.ADMIN_DASHBOARD,
             icon: <DashboardOutlined />,
-            label: <Link to={ADMIN_PATHS.ADMIN_DASHBOARD}>Dashboard</Link>,
+            label: (
+                <Link to={ADMIN_PATHS.ADMIN_DASHBOARD}>Bảng điều khiến</Link>
+            ),
         },
         {
             key: ADMIN_PATHS.ADMIN_MANAGE_USERS,
             icon: <UserOutlined />,
             label: (
-                <Link to={ADMIN_PATHS.ADMIN_MANAGE_USERS}>Manage Users</Link>
+                <Link to={ADMIN_PATHS.ADMIN_MANAGE_USERS}>
+                    Quản lý người dùng
+                </Link>
             ),
         },
         {
@@ -51,7 +55,7 @@ const AdminLayout = () => {
             icon: <BookOutlined />,
             label: (
                 <Link to={ADMIN_PATHS.ADMIN_MANAGE_COURSES}>
-                    Manage Courses
+                    Quản lý khóa học
                 </Link>
             ),
         },
@@ -60,7 +64,7 @@ const AdminLayout = () => {
             icon: <DollarCircleOutlined />,
             label: (
                 <Link to={ADMIN_PATHS.ADMIN_MANAGE_TRANSACTIONS}>
-                    Manage Transactions
+                    Quản lý giao dịch
                 </Link>
             ),
         },

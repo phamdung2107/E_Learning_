@@ -25,7 +25,6 @@ const StudentCertificates: React.FC = () => {
             const response = await CertificateService.getAll({
                 user: user.id,
             })
-            console.log('Certificates:', response.data)
             setCertificates(response.data || [])
         } catch (e) {
             console.error(e)
@@ -55,9 +54,9 @@ const StudentCertificates: React.FC = () => {
     return (
         <div>
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>My Certificates</Title>
+                <Title level={2}>Chứng chỉ của tôi</Title>
                 <Text type="secondary">
-                    View and download your awarded certificates
+                    Xem và tải về các chứng chỉ bạn đã nhận được
                 </Text>
             </Card>
 
@@ -66,9 +65,7 @@ const StudentCertificates: React.FC = () => {
                     <div style={{ textAlign: 'center', padding: '40px' }}>
                         <Spin size="large" />
                         <div style={{ marginTop: '16px' }}>
-                            <Text type="secondary">
-                                Loading certificates...
-                            </Text>
+                            <Text type="secondary">Đang tải chứng chỉ...</Text>
                         </div>
                     </div>
                 </Card>
@@ -78,7 +75,7 @@ const StudentCertificates: React.FC = () => {
                         <Card>
                             <Empty
                                 image={Empty.PRESENTED_IMAGE_SIMPLE}
-                                description="No certificates found"
+                                description="Không có chứng chỉ nào"
                                 style={{ padding: '40px' }}
                             />
                         </Card>
@@ -115,7 +112,7 @@ const StudentCertificates: React.FC = () => {
                                     showSizeChanger={false}
                                     showQuickJumper
                                     showTotal={(total, range) =>
-                                        `${range[0]}-${range[1]} of ${total} certificates`
+                                        `${range[0]}-${range[1]} trên tổng ${total} chứng chỉ`
                                     }
                                     style={{
                                         display: 'flex',

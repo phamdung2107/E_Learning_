@@ -45,7 +45,7 @@ const CreateCourseModal = ({
             const isImage = file.type.startsWith('image/')
             if (!isImage) {
                 notification.error({
-                    message: 'You can only upload image files!',
+                    message: 'Chỉ được phép tải lên tệp hình ảnh!',
                 })
             }
             return isImage
@@ -55,7 +55,7 @@ const CreateCourseModal = ({
 
     return (
         <Modal
-            title="Create New Course"
+            title="Tạo khóa học"
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -65,61 +65,61 @@ const CreateCourseModal = ({
         >
             <Form form={form} layout="vertical" onFinish={handleSubmit}>
                 <Form.Item
-                    label="Title"
+                    label="Tiêu đề"
                     name="title"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the course title',
+                            message: 'Vui lòng nhập tiêu đề khóa học',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter course title" />
+                    <Input allowClear placeholder="Nhập tiêu đề khóa học" />
                 </Form.Item>
                 <Form.Item
-                    label="Description"
+                    label="Mô tả"
                     name="description"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter a description',
+                            message: 'Vui lòng nhập mô tả khóa học',
                         },
                     ]}
                 >
                     <TextArea
                         rows={4}
                         allowClear
-                        placeholder="Enter course description"
+                        placeholder="Nhập mô tả khóa học"
                     />
                 </Form.Item>
                 <Form.Item
-                    label="Price"
+                    label="Giá"
                     name="price"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the course price',
+                            message: 'Vui lòng nhập giá khóa học',
                         },
                         {
                             pattern: /^\d+(\.\d{1,2})?$/,
                             message:
-                                'Please enter a valid price (e.g., 199000.00)',
+                                'Vui lòng nhập giá hợp lệ (ví dụ: 199000.00)',
                         },
                     ]}
                 >
                     <Input
                         allowClear
-                        placeholder="Enter price (e.g., 199000.00)"
+                        placeholder="Nhập giá (ví dụ: 199000.00)"
                     />
                 </Form.Item>
                 <Form.Item
-                    label="Category"
+                    label="Danh mục"
                     name="category_id"
                     rules={[
-                        { required: true, message: 'Please select a category' },
+                        { required: true, message: 'Vui lòng chọn danh mục' },
                     ]}
                 >
-                    <Select placeholder="Select a category">
+                    <Select placeholder="Chọn danh mục">
                         {categories.map((category: any) => (
                             <Option key={category.id} value={category.id}>
                                 {category.name}
@@ -128,7 +128,7 @@ const CreateCourseModal = ({
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    label="Thumbnail"
+                    label="Ảnh đại diện"
                     name="thumbnail"
                     valuePropName="fileList"
                     getValueFromEvent={(e) => {
@@ -144,10 +144,10 @@ const CreateCourseModal = ({
                         maxCount={1}
                         fileList={fileList}
                         onChange={handleUploadChange}
-                        beforeUpload={() => false} // Ngăn upload tự động
+                        beforeUpload={() => false}
                     >
                         <Button icon={<UploadOutlined />}>
-                            Upload Thumbnail
+                            Tải lên ảnh minh họa
                         </Button>
                     </Upload>
                 </Form.Item>
@@ -158,7 +158,7 @@ const CreateCourseModal = ({
                             type="default"
                             onClick={handleReset}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -166,7 +166,7 @@ const CreateCourseModal = ({
                             type="default"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -175,7 +175,7 @@ const CreateCourseModal = ({
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Create
+                            Tạo
                         </Button>
                     </div>
                 </Form.Item>

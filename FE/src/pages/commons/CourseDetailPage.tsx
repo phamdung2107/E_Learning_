@@ -61,18 +61,18 @@ const CourseDetailPage: React.FC = () => {
     const [loading, setLoading] = useState(true)
 
     const requirements = [
-        'No experience needed',
-        'A computer with internet connection',
-        'Willingness to learn and practice',
+        'Không yêu cầu kinh nghiệm',
+        'Máy tính có kết nối internet',
+        'Tinh thần ham học hỏi và thực hành',
     ]
 
     const features = [
-        'Learn through video',
-        'Downloadable resources',
-        'Full lifetime access',
-        'Access on mobile and TV',
-        'Certificate of completion',
-        '30-day money-back guarantee',
+        'Học qua video',
+        'Tài liệu có thể tải về',
+        'Truy cập trọn đời',
+        'Học trên điện thoại và TV',
+        'Chứng chỉ hoàn thành',
+        'Hoàn tiền trong 30 ngày',
     ]
 
     const relatedCourses: any[] = []
@@ -136,13 +136,14 @@ const CourseDetailPage: React.FC = () => {
             })
             if (res.status === 200) {
                 notification.success({
-                    message: 'Enroll successfully. Please check your cart.',
+                    message:
+                        'Đăng ký thành công. Vui lòng kiểm tra giỏ hàng của bạn.',
                 })
             }
         } catch (error) {
             console.log(error)
             notification.error({
-                message: 'Enroll failed. Please try again.',
+                message: 'Đăng ký thất bại. Vui lòng thử lại.',
             })
         } finally {
             setEnrollLoading(false)
@@ -152,7 +153,7 @@ const CourseDetailPage: React.FC = () => {
     if (loading || !course) {
         return (
             <div style={{ padding: '100px 20px', textAlign: 'center' }}>
-                <Title level={3}>Loading course details...</Title>
+                <Title level={3}>Đang tải chi tiết khóa học...</Title>
             </div>
         )
     }
@@ -182,20 +183,20 @@ const CourseDetailPage: React.FC = () => {
                                     />
                                     <span>
                                         {averageRating} ({totalStudentsOfCourse}{' '}
-                                        students)
+                                        học viên)
                                     </span>
                                 </div>
                                 <div className="course-detail-hero-meta-item">
                                     <UserOutlined />
                                     <span>
-                                        Created by{' '}
+                                        Tạo bởi{' '}
                                         {course.instructor.user.full_name}
                                     </span>
                                 </div>
                                 <div className="course-detail-hero-meta-item">
                                     <ClockCircleOutlined />
                                     <span>
-                                        Last updated{' '}
+                                        Cập nhật lần cuối{' '}
                                         {formatDateTime(
                                             course.updated_at,
                                             DATE_TIME_FORMAT
@@ -219,7 +220,7 @@ const CourseDetailPage: React.FC = () => {
                                             onClick={handleEnroll}
                                             loading={enrollLoading}
                                         >
-                                            Enroll Now
+                                            Đăng ký ngay
                                         </Button>
                                     </Space>
                                 </div>
@@ -256,7 +257,7 @@ const CourseDetailPage: React.FC = () => {
                                         color: 'white',
                                     }}
                                 >
-                                    Preview Course
+                                    Xem trước khóa học
                                 </Button>
                             </div>
                         </Col>
@@ -276,7 +277,7 @@ const CourseDetailPage: React.FC = () => {
                                         level={2}
                                         style={{ color: 'white', margin: 0 }}
                                     >
-                                        Course Overview
+                                        Tổng quan khóa học
                                     </Title>
                                 </div>
                                 <div className="course-detail-info-body">
@@ -287,7 +288,7 @@ const CourseDetailPage: React.FC = () => {
                                                 {lessons.length}
                                             </div>
                                             <div className="course-detail-stat-label">
-                                                Lessons
+                                                Bài học
                                             </div>
                                         </div>
                                         <div className="course-detail-stat-item">
@@ -296,7 +297,7 @@ const CourseDetailPage: React.FC = () => {
                                                 {/*{course.duration}*/}
                                             </div>
                                             <div className="course-detail-stat-label">
-                                                Total Duration
+                                                Tổng thời lượng
                                             </div>
                                         </div>
                                         <div className="course-detail-stat-item">
@@ -305,16 +306,16 @@ const CourseDetailPage: React.FC = () => {
                                                 {totalStudentsOfCourse}
                                             </div>
                                             <div className="course-detail-stat-label">
-                                                Students
+                                                Học viên
                                             </div>
                                         </div>
                                         <div className="course-detail-stat-item">
                                             <TrophyOutlined className="course-detail-stat-icon" />
                                             <div className="course-detail-stat-number">
-                                                intermediate
+                                                Trung cấp
                                             </div>
                                             <div className="course-detail-stat-label">
-                                                Level
+                                                Trình độ
                                             </div>
                                         </div>
                                     </div>
@@ -323,7 +324,7 @@ const CourseDetailPage: React.FC = () => {
                                         level={3}
                                         style={{ marginBottom: '20px' }}
                                     >
-                                        Requirements
+                                        Yêu cầu
                                     </Title>
                                     <ul style={{ paddingLeft: '20px' }}>
                                         {requirements.map(
@@ -362,21 +363,22 @@ const CourseDetailPage: React.FC = () => {
                                             onClick={handleEnroll}
                                             loading={enrollLoading}
                                         >
-                                            Enroll Now
+                                            Đăng ký ngay
                                         </Button>
                                         <Button
                                             size="large"
                                             block
                                             style={{ marginBottom: '20px' }}
                                         >
-                                            <ShareAltOutlined /> Share Course
+                                            <ShareAltOutlined /> Chia sẻ khóa
+                                            học
                                         </Button>
 
                                         <Title
                                             level={4}
                                             style={{ marginBottom: '16px' }}
                                         >
-                                            This course includes:
+                                            Khóa học bao gồm:
                                         </Title>
                                         <ul className="course-detail-enrollment-features">
                                             {features.map(
@@ -412,7 +414,7 @@ const CourseDetailPage: React.FC = () => {
                                 level={2}
                                 style={{ color: 'white', margin: 0 }}
                             >
-                                Lessons of Course
+                                Danh sách bài học
                             </Title>
                             <Paragraph
                                 style={{
@@ -420,7 +422,7 @@ const CourseDetailPage: React.FC = () => {
                                     margin: '10px 0 0 0',
                                 }}
                             >
-                                {lessons.length} lessons
+                                {lessons.length} bài học
                             </Paragraph>
                         </div>
                         <div className="course-detail-curriculum-body">
@@ -439,7 +441,7 @@ const CourseDetailPage: React.FC = () => {
                                                         {lesson?.title}
                                                     </div>
                                                     <div className="course-detail-module-meta">
-                                                        1 lesson
+                                                        1 bài học
                                                     </div>
                                                 </div>
                                             </div>
@@ -512,7 +514,7 @@ const CourseDetailPage: React.FC = () => {
                                             {totalStudentsOfInstructor}
                                         </div>
                                         <div className="course-detail-instructor-stat-label">
-                                            Students
+                                            Học viên
                                         </div>
                                     </div>
                                     <div className="course-detail-instructor-stat">
@@ -520,7 +522,7 @@ const CourseDetailPage: React.FC = () => {
                                             {totalCoursesOfInstructor}
                                         </div>
                                         <div className="course-detail-instructor-stat-label">
-                                            Courses
+                                            Khóa học
                                         </div>
                                     </div>
                                 </div>
@@ -530,7 +532,7 @@ const CourseDetailPage: React.FC = () => {
                                     level={3}
                                     style={{ marginBottom: '20px' }}
                                 >
-                                    About the Instructor
+                                    Về giảng viên
                                 </Title>
                                 <Paragraph
                                     style={{
@@ -543,11 +545,11 @@ const CourseDetailPage: React.FC = () => {
                                 </Paragraph>
                                 <Space wrap>
                                     <Tag color="blue">
-                                        Experience:{' '}
+                                        Kinh nghiệm:{' '}
                                         {course.instructor.experience_years}
                                     </Tag>
                                     <Tag color="orange">
-                                        Students: {totalStudentsOfInstructor}
+                                        Học viên: {totalStudentsOfInstructor}
                                     </Tag>
                                 </Space>
                             </Col>
@@ -562,10 +564,10 @@ const CourseDetailPage: React.FC = () => {
                 <div className="course-detail-reviews-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Student Reviews
+                            Đánh giá của học viên
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            See what our students are saying about this course
+                            Xem nhận xét của học viên về khóa học này
                         </Paragraph>
                     </div>
 
@@ -577,7 +579,8 @@ const CourseDetailPage: React.FC = () => {
                             <Rate disabled allowHalf value={averageRating} />
                         </div>
                         <div className="course-detail-reviews-count">
-                            Based on {totalStudentsOfCourse} student reviews
+                            Dựa trên {totalStudentsOfCourse} đánh giá của học
+                            viên
                         </div>
                     </div>
 
@@ -635,10 +638,10 @@ const CourseDetailPage: React.FC = () => {
                 <div className="course-detail-related-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Related Courses
+                            Khóa học liên quan
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            Students who viewed this course also viewed
+                            Học viên xem khóa học này cũng quan tâm
                         </Paragraph>
                     </div>
 

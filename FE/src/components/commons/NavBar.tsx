@@ -21,10 +21,10 @@ const NavBar: React.FC<NavBarProps> = ({ collapsed }) => {
             icon: <AppstoreOutlined />,
             label: collapsed ? (
                 <Tooltip>
-                    <span>Home</span>
+                    <span>Trang chủ</span>
                 </Tooltip>
             ) : (
-                'Home'
+                'Trang chủ'
             ),
         },
     ]

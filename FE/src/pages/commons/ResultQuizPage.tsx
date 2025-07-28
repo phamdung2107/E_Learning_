@@ -113,7 +113,7 @@ const ResultQuizPage = () => {
                     <Col>
                         <Link to={`/courses/${courseId}`}>
                             <Button icon={<ArrowLeftOutlined />} type="text">
-                                Back to Course
+                                Quay lại khóa học
                             </Button>
                         </Link>
                     </Col>
@@ -127,7 +127,7 @@ const ResultQuizPage = () => {
                     </Col>
                     <Col>
                         <Text type="secondary">
-                            Progress: {progress}/{lessons.length} lessons
+                            Tiến độ: {progress}/{lessons.length} bài học
                         </Text>
                     </Col>
                 </Row>
@@ -144,9 +144,9 @@ const ResultQuizPage = () => {
                 <Col xs={24} lg={6} className="lesson-sidebar">
                     <div className="lesson-sidebar-content">
                         <div className="lesson-sidebar-header">
-                            <Title level={5}>Course Content</Title>
+                            <Title level={5}>Nội dung khóa học</Title>
                             <Text type="secondary">
-                                {lessons.length} lessons
+                                {lessons.length} bài học
                             </Text>
                         </div>
 
@@ -245,9 +245,9 @@ const ResultQuizPage = () => {
                                     <ArrowLeftOutlined
                                         style={{ marginRight: 8 }}
                                     />
-                                    Back to Quiz
+                                    Quay lại bài kiểm tra
                                 </Link>
-                                <Title level={4}>{quiz?.title} - Result</Title>
+                                <Title level={4}>{quiz?.title} - Kết quả</Title>
                             </div>
                             <br />
                             <Table

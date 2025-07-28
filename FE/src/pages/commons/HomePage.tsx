@@ -36,32 +36,34 @@ const HomePage: React.FC = () => {
 
     const activities = [
         {
-            title: 'Weekly Webinars',
-            description: 'Join live sessions with industry experts every week',
+            title: 'Hội thảo trực tuyến hàng tuần',
+            description:
+                'Tham gia các buổi giao lưu trực tiếp với chuyên gia mỗi tuần',
             icon: <PlayCircleOutlined />,
             color: '#20B2AA',
-            participants: '500+ weekly',
+            participants: '500+ mỗi tuần',
         },
         {
-            title: 'Coding Bootcamps',
-            description: 'Intensive hands-on coding sessions and workshops',
+            title: 'Bootcamp lập trình',
+            description: 'Các buổi thực hành lập trình chuyên sâu và workshop',
             icon: <BookOutlined />,
             color: '#667eea',
-            participants: '200+ monthly',
+            participants: '200+ mỗi tháng',
         },
         {
-            title: 'Career Workshops',
-            description: 'Resume building, interview prep, and career guidance',
+            title: 'Workshop nghề nghiệp',
+            description:
+                'Hướng dẫn viết CV, luyện phỏng vấn và định hướng nghề nghiệp',
             icon: <TrophyOutlined />,
             color: '#764ba2',
-            participants: '300+ monthly',
+            participants: '300+ mỗi tháng',
         },
         {
-            title: 'Student Competitions',
-            description: 'Showcase your skills in friendly competitions',
+            title: 'Cuộc thi sinh viên',
+            description: 'Thể hiện kỹ năng của bạn qua các cuộc thi hấp dẫn',
             icon: <RocketOutlined />,
             color: '#ff6b6b',
-            participants: '150+ participants',
+            participants: '150+ thí sinh',
         },
     ]
 
@@ -122,16 +124,16 @@ const HomePage: React.FC = () => {
 
                 <div className="hero-content">
                     <Title level={1} className="hero-title">
-                        Learn Without Limits
+                        Học không giới hạn
                     </Title>
                     <Paragraph className="hero-description">
-                        Start, switch, or advance your career with more than
-                        5,000 courses, Professional Certificates, and degrees
-                        from world-class universities and companies.
+                        Bắt đầu, chuyển hướng hoặc phát triển sự nghiệp của bạn
+                        với hơn 5.000 khóa học, chứng chỉ chuyên môn và bằng cấp
+                        từ các trường đại học, doanh nghiệp hàng đầu thế giới.
                     </Paragraph>
                     <div className="hero-search">
                         <Search
-                            placeholder="What do you want to learn?"
+                            placeholder="Bạn muốn học gì?"
                             allowClear
                             enterButton={
                                 <Button
@@ -157,14 +159,14 @@ const HomePage: React.FC = () => {
                             icon={<PlayCircleOutlined />}
                             className="hero-primary-btn"
                         >
-                            Start Learning Today
+                            Bắt đầu học ngay
                         </Button>
                         <Button
                             href={PATHS.COURSES}
                             size="large"
                             className="hero-secondary-btn"
                         >
-                            Browse Courses
+                            Xem tất cả khóa học
                         </Button>
                     </Space>
                 </div>
@@ -178,7 +180,7 @@ const HomePage: React.FC = () => {
                         <Col xs={12} md={6}>
                             <div className="stats-item">
                                 <Statistic
-                                    title="Active Students"
+                                    title="Học viên đang học"
                                     value={50000}
                                     suffix="+"
                                     valueStyle={{
@@ -192,7 +194,7 @@ const HomePage: React.FC = () => {
                         <Col xs={12} md={6}>
                             <div className="stats-item">
                                 <Statistic
-                                    title="Expert Instructors"
+                                    title="Giảng viên chuyên gia"
                                     value={1200}
                                     suffix="+"
                                     valueStyle={{
@@ -206,7 +208,7 @@ const HomePage: React.FC = () => {
                         <Col xs={12} md={6}>
                             <div className="stats-item">
                                 <Statistic
-                                    title="Online Courses"
+                                    title="Khóa học trực tuyến"
                                     value={5000}
                                     suffix="+"
                                     valueStyle={{
@@ -220,7 +222,7 @@ const HomePage: React.FC = () => {
                         <Col xs={12} md={6}>
                             <div className="stats-item">
                                 <Statistic
-                                    title="Success Rate"
+                                    title="Tỷ lệ thành công"
                                     value={98}
                                     suffix="%"
                                     valueStyle={{
@@ -251,7 +253,7 @@ const HomePage: React.FC = () => {
                         </Col>
                         <Col xs={24} lg={12}>
                             <Title level={2} style={{ marginBottom: '24px' }}>
-                                About Mona Course Pro
+                                Về Mona Course Pro
                             </Title>
                             <Paragraph
                                 style={{
@@ -260,11 +262,11 @@ const HomePage: React.FC = () => {
                                     marginBottom: '20px',
                                 }}
                             >
-                                We are a leading online education platform
-                                dedicated to providing high-quality courses and
-                                modern learning experiences. Our mission is to
-                                make education accessible to everyone, anywhere,
-                                anytime.
+                                Chúng tôi là nền tảng giáo dục trực tuyến hàng
+                                đầu, cung cấp các khóa học chất lượng cao và
+                                trải nghiệm học tập hiện đại. Sứ mệnh của chúng
+                                tôi là mang giáo dục đến với mọi người, mọi nơi,
+                                mọi lúc.
                             </Paragraph>
                             <Paragraph
                                 style={{
@@ -273,10 +275,10 @@ const HomePage: React.FC = () => {
                                     marginBottom: '20px',
                                 }}
                             >
-                                With over 5,000 courses taught by industry
-                                experts, we help students and professionals
-                                advance their careers and achieve their learning
-                                goals.
+                                Với hơn 5.000 khóa học do các chuyên gia giảng
+                                dạy, chúng tôi giúp học viên và người đi làm
+                                phát triển sự nghiệp và đạt được mục tiêu học
+                                tập.
                             </Paragraph>
                             <ul
                                 style={{
@@ -287,18 +289,17 @@ const HomePage: React.FC = () => {
                                 }}
                             >
                                 <li>
-                                    Expert-led courses from industry
-                                    professionals
+                                    Khóa học do chuyên gia trong ngành giảng dạy
                                 </li>
                                 <li>
-                                    Flexible learning schedules that fit your
-                                    lifestyle
+                                    Lịch học linh hoạt phù hợp với mọi đối tượng
                                 </li>
                                 <li>
-                                    Certificates and credentials recognized by
-                                    employers
+                                    Chứng chỉ được công nhận bởi nhà tuyển dụng
                                 </li>
-                                <li>24/7 support and community engagement</li>
+                                <li>
+                                    Hỗ trợ 24/7 và cộng đồng học tập sôi động
+                                </li>
                             </ul>
                             <Button
                                 type="primary"
@@ -306,7 +307,7 @@ const HomePage: React.FC = () => {
                                 href="/about"
                                 className="about-btn"
                             >
-                                Learn More About Us
+                                Tìm hiểu thêm về chúng tôi
                             </Button>
                         </Col>
                     </Row>
@@ -320,11 +321,11 @@ const HomePage: React.FC = () => {
                 <div className="featured-courses-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Featured Courses
+                            Khóa học nổi bật
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            Discover our most popular courses taught by industry
-                            experts
+                            Khám phá các khóa học được yêu thích nhất do chuyên
+                            gia giảng dạy
                         </Paragraph>
                     </div>
                     <Row gutter={[24, 24]}>
@@ -378,7 +379,7 @@ const HomePage: React.FC = () => {
                                             fontSize: '32px',
                                         }}
                                     >
-                                        Get Online Courses
+                                        Đăng ký khóa học online
                                     </Title>
                                 </div>
                             </div>
@@ -390,9 +391,9 @@ const HomePage: React.FC = () => {
                                     maxWidth: '600px',
                                 }}
                             >
-                                Want to learn something new today and grow your
-                                career? Want to get organized and start your
-                                online learning journey today!
+                                Bạn muốn học điều mới hôm nay và phát triển sự
+                                nghiệp? Hãy bắt đầu hành trình học tập trực
+                                tuyến ngay!
                             </Paragraph>
                         </Col>
                         <Col xs={24} lg={8} style={{ textAlign: 'right' }}>
@@ -402,7 +403,7 @@ const HomePage: React.FC = () => {
                                 href={PATHS.COURSES}
                                 className="banner-btn"
                             >
-                                JOIN NOW
+                                THAM GIA NGAY
                             </Button>
                         </Col>
                     </Row>
@@ -416,11 +417,10 @@ const HomePage: React.FC = () => {
                 <div className="instructors-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Meet Our Expert Instructors
+                            Đội ngũ giảng viên chuyên gia
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            Learn from industry leaders and experienced
-                            professionals
+                            Học cùng các chuyên gia hàng đầu và giàu kinh nghiệm
                         </Paragraph>
                     </div>
                     <Row gutter={[24, 24]}>
@@ -440,11 +440,11 @@ const HomePage: React.FC = () => {
                 <div className="activities-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Learning Activities & Events
+                            Hoạt động & Sự kiện học tập
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            Join our community events and interactive learning
-                            activities
+                            Tham gia các sự kiện cộng đồng và hoạt động học tập
+                            tương tác
                         </Paragraph>
                     </div>
                     <Row gutter={[24, 24]}>
@@ -464,10 +464,10 @@ const HomePage: React.FC = () => {
                 <div className="reviews-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            What Our Students Say
+                            Học viên nói gì về chúng tôi
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            Real feedback from our learning community
+                            Phản hồi thực tế từ cộng đồng học viên
                         </Paragraph>
                     </div>
                     <Row gutter={[24, 24]}>
@@ -479,7 +479,7 @@ const HomePage: React.FC = () => {
                     </Row>
                     <div style={{ textAlign: 'center', marginTop: '40px' }}>
                         <Button size="large" className="reviews-btn">
-                            Read More Reviews
+                            Xem thêm đánh giá
                         </Button>
                     </div>
                 </div>
@@ -492,10 +492,10 @@ const HomePage: React.FC = () => {
                 <div className="categories-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Popular Categories
+                            Danh mục phổ biến
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            Choose from hundreds of courses in trending topics
+                            Lựa chọn từ hàng trăm khóa học theo chủ đề hot nhất
                         </Paragraph>
                     </div>
                     <Row gutter={[24, 24]}>
@@ -518,7 +518,7 @@ const HomePage: React.FC = () => {
                         level={2}
                         style={{ color: 'white', marginBottom: '24px' }}
                     >
-                        Ready to Start Your Learning Journey?
+                        Sẵn sàng bắt đầu hành trình học tập?
                     </Title>
                     <Paragraph
                         style={{
@@ -527,9 +527,9 @@ const HomePage: React.FC = () => {
                             marginBottom: '40px',
                         }}
                     >
-                        Join thousands of students who are already learning with
-                        Mona Course Pro. Start your journey today and unlock
-                        your potential.
+                        Tham gia cùng hàng ngàn học viên đang học tại Mona
+                        Course Pro. Bắt đầu ngay hôm nay để khai phá tiềm năng
+                        của bạn!
                     </Paragraph>
                     <Space size="large">
                         <Button
@@ -538,14 +538,14 @@ const HomePage: React.FC = () => {
                             size="large"
                             className="cta-primary-btn"
                         >
-                            Get Started Free
+                            Học miễn phí ngay
                         </Button>
                         <Button
                             href={PATHS.COURSES}
                             size="large"
                             className="cta-secondary-btn"
                         >
-                            View All Courses
+                            Xem tất cả khóa học
                         </Button>
                     </Space>
                 </div>

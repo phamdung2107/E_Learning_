@@ -36,7 +36,7 @@ const CategoryCard = ({ category }: any) => {
             <Title level={4} style={{ marginBottom: '8px' }}>
                 {category.name}
             </Title>
-            <Text type="secondary">{total} courses</Text>
+            <Text type="secondary">{total} khóa học</Text>
         </Card>
     )
 }

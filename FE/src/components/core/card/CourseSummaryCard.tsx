@@ -51,7 +51,7 @@ const CourseSummaryCard = ({ course }: any) => {
                     block
                     className="course-enroll-btn"
                 >
-                    Enroll Now - {formatPrice(course.course.price)}
+                    Đăng ký ngay - {formatPrice(course.course.price)}
                 </Button>,
             ]}
         >
@@ -73,7 +73,7 @@ const CourseSummaryCard = ({ course }: any) => {
                 </Title>
             </Link>
             <Text type="secondary">
-                by {course?.course.instructor?.user?.full_name}
+                bởi {course?.course.instructor?.user?.full_name}
             </Text>
             <div
                 style={{
@@ -92,7 +92,7 @@ const CourseSummaryCard = ({ course }: any) => {
                 </Space>
                 <Space>
                     <UserOutlined />
-                    <Text>{course.total}</Text>
+                    <Text>{course.total} học viên</Text>
                 </Space>
             </div>
         </Card>

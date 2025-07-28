@@ -165,9 +165,9 @@ const StudentCourses: React.FC = () => {
     return (
         <div>
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>My Courses</Title>
+                <Title level={2}>Khóa học của tôi</Title>
                 <Text type="secondary">
-                    Manage and continue your enrolled courses
+                    Quản lý và tiếp tục các khóa học bạn đã đăng ký
                 </Text>
             </Card>
 
@@ -176,8 +176,8 @@ const StudentCourses: React.FC = () => {
                 <Row gutter={[16, 16]} align="middle">
                     <Col xs={24} sm={8} md={6}>
                         <Text type="secondary">
-                            Showing {paginatedCourses.length} of{' '}
-                            {allEnrolledCourses.length} courses
+                            Hiển thị {paginatedCourses.length} /{' '}
+                            {allEnrolledCourses.length} khóa học
                         </Text>
                     </Col>
 
@@ -185,7 +185,7 @@ const StudentCourses: React.FC = () => {
                         <Row gutter={[12, 12]} align="middle" justify="end">
                             <Col xs={24} sm={8} md={6}>
                                 <Select
-                                    placeholder="Choose a category..."
+                                    placeholder="Chọn danh mục..."
                                     showSearch
                                     allowClear
                                     value={selectedCategory}
@@ -199,7 +199,7 @@ const StudentCourses: React.FC = () => {
 
                             <Col xs={24} sm={8} md={6}>
                                 <Select
-                                    placeholder="Choose an instructor..."
+                                    placeholder="Chọn giảng viên..."
                                     showSearch
                                     allowClear
                                     optionFilterProp="label"
@@ -221,7 +221,7 @@ const StudentCourses: React.FC = () => {
                                 }}
                             >
                                 <Search
-                                    placeholder="Search courses..."
+                                    placeholder="Tìm kiếm khóa học..."
                                     allowClear
                                     enterButton={
                                         <SearchOutlined
@@ -240,7 +240,7 @@ const StudentCourses: React.FC = () => {
                                     color="primary"
                                     onClick={handleClearFilters}
                                 >
-                                    Clear All
+                                    Xóa bộ lọc
                                 </Button>
                             </Col>
                         </Row>
@@ -254,7 +254,7 @@ const StudentCourses: React.FC = () => {
                     <div style={{ textAlign: 'center', padding: '40px' }}>
                         <Spin size="large" />
                         <div style={{ marginTop: '16px' }}>
-                            <Text type="secondary">Loading courses...</Text>
+                            <Text type="secondary">Đang tải khóa học...</Text>
                         </div>
                     </div>
                 </Card>
@@ -267,7 +267,7 @@ const StudentCourses: React.FC = () => {
                         <Card>
                             <Empty
                                 image={Empty.PRESENTED_IMAGE_SIMPLE}
-                                description="No courses found"
+                                description="Không có khóa học nào"
                                 style={{ padding: '40px' }}
                             />
                         </Card>
@@ -306,7 +306,7 @@ const StudentCourses: React.FC = () => {
                                         showSizeChanger={false}
                                         showQuickJumper
                                         showTotal={(total, range) =>
-                                            `${range[0]}-${range[1]} of ${total} courses`
+                                            `${range[0]}-${range[1]} trên tổng ${total} khóa học`
                                         }
                                         style={{
                                             display: 'flex',

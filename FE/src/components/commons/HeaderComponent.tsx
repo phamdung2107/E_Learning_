@@ -45,7 +45,7 @@ const HeaderComponent: React.FC = () => {
             key: 'management',
             label: (
                 <Link to={`/${user?.role ? user?.role : user?.user?.role}`}>
-                    Management
+                    Quản lý
                 </Link>
             ),
             icon: <UserOutlined />,
@@ -60,7 +60,7 @@ const HeaderComponent: React.FC = () => {
                         dispatch(setNotification())
                     }}
                 >
-                    Logout
+                    Đăng xuất
                 </div>
             ),
             icon: <LogoutOutlined />,
@@ -115,7 +115,7 @@ const HeaderComponent: React.FC = () => {
                                         <ClockCircleOutlined
                                             style={{ marginRight: '8px' }}
                                         />
-                                        Mon - Fri: 9:00 AM - 6:00 PM
+                                        T2 - T6: 9:00 AM - 6:00 PM
                                     </Text>
                                 </Col>
                             </Row>
@@ -129,7 +129,7 @@ const HeaderComponent: React.FC = () => {
                                             fontSize: '14px',
                                         }}
                                     >
-                                        Follow Us:
+                                        Theo dõi chúng tôi:
                                     </Text>
                                 </Col>
                                 <Col>
@@ -377,14 +377,14 @@ const HeaderComponent: React.FC = () => {
                                                 icon={<UserOutlined />}
                                                 style={{ color: '#1976d2' }}
                                             >
-                                                Account
+                                                Tài khoản
                                             </Button>
                                         </Dropdown>
                                     </Col>
                                 ) : (
                                     <Col>
                                         <Link className="auth-btn" to="/auth">
-                                            Sign In / Sign Up
+                                            Đăng nhập / Đăng ký
                                         </Link>
                                     </Col>
                                 )}

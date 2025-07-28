@@ -47,7 +47,7 @@ const UpdateLessonModal = ({
 
     return (
         <Modal
-            title={`Edit Lesson: ${record?.title || 'Lesson'}`}
+            title={`Chỉnh sửa bài học: ${record?.title || 'Bài học'}`}
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -62,60 +62,66 @@ const UpdateLessonModal = ({
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    label="Title"
+                    label="Tiêu đề"
                     name="title"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the lesson title',
+                            message: 'Vui lòng nhập tiêu đề bài học',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter lesson title" />
+                    <Input allowClear placeholder="Nhập tiêu đề bài học" />
                 </Form.Item>
                 <Form.Item
-                    label="Video url"
+                    label="Đường dẫn video"
                     name="video_url"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the lesson video url',
+                            message: 'Vui lòng nhập đường dẫn video bài học',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter lesson video url" />
+                    <Input
+                        allowClear
+                        placeholder="Nhập đường dẫn video bài học"
+                    />
                 </Form.Item>
                 <Form.Item
-                    label="Content"
+                    label="Nội dung"
                     name="content"
                     rules={[
-                        { required: true, message: 'Please enter a content' },
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập nội dung bài học',
+                        },
                     ]}
                 >
                     <TextArea
                         rows={4}
                         allowClear
-                        placeholder="Enter lesson content"
+                        placeholder="Nhập nội dung bài học"
                     />
                 </Form.Item>
                 <Form.Item
-                    label="Order number"
+                    label="Thứ tự"
                     name="order_number"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the lesson order number',
+                            message: 'Vui lòng nhập số thứ tự bài học',
                         },
                         {
                             pattern: /^\d+(\.\d{1,2})?$/,
-                            message: 'Please enter a valid (e.g., 1)',
+                            message: 'Vui lòng nhập số hợp lệ (ví dụ: 1)',
                         },
                     ]}
                 >
                     <Input
                         type="number"
                         allowClear
-                        placeholder="Enter order number (e.g., 1)"
+                        placeholder="Nhập số thứ tự (ví dụ: 1)"
                     />
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
@@ -125,7 +131,7 @@ const UpdateLessonModal = ({
                             type="default"
                             onClick={handleReset}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -133,7 +139,7 @@ const UpdateLessonModal = ({
                             type="default"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -142,7 +148,7 @@ const UpdateLessonModal = ({
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Edit
+                            Lưu thay đổi
                         </Button>
                     </div>
                 </Form.Item>

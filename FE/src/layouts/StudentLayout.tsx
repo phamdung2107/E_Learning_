@@ -41,33 +41,43 @@ const StudentLayout: React.FC = () => {
         {
             key: STUDENT_PATHS.STUDENT_DASHBOARD,
             icon: <DashboardOutlined />,
-            label: <Link to={STUDENT_PATHS.STUDENT_DASHBOARD}>Dashboard</Link>,
+            label: (
+                <Link to={STUDENT_PATHS.STUDENT_DASHBOARD}>
+                    Bảng điều khiển
+                </Link>
+            ),
         },
         {
             key: STUDENT_PATHS.STUDENT_MY_COURSES,
             icon: <BookOutlined />,
             label: (
-                <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>My Courses</Link>
+                <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>
+                    Khóa học của tôi
+                </Link>
             ),
         },
         {
             key: STUDENT_PATHS.STUDENT_CERTIFICATE,
             icon: <TrophyOutlined />,
             label: (
-                <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>Certificates</Link>
+                <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>Chứng chỉ</Link>
             ),
         },
         {
             key: STUDENT_PATHS.STUDENT_CART,
             icon: <ShoppingCartOutlined />,
-            label: <Link to={STUDENT_PATHS.STUDENT_CART}>My Cart</Link>,
+            label: <Link to={STUDENT_PATHS.STUDENT_CART}>Giỏ hàng</Link>,
         },
     ]
     const userMenuItems = [
         {
             key: STUDENT_PATHS.STUDENT_PROFILE,
             icon: <UserOutlined />,
-            label: <Link to={STUDENT_PATHS.STUDENT_PROFILE}>My Profile</Link>,
+            label: (
+                <Link to={STUDENT_PATHS.STUDENT_PROFILE}>
+                    Thông tin cá nhân
+                </Link>
+            ),
         },
         {
             key: 'logout',
@@ -81,7 +91,7 @@ const StudentLayout: React.FC = () => {
                         navigate(PATHS.AUTH)
                     }}
                 >
-                    Logout
+                    Đăng xuất
                 </div>
             ),
         },
@@ -113,7 +123,7 @@ const StudentLayout: React.FC = () => {
                             fontSize: '20px',
                         }}
                     >
-                        {collapsed ? 'S' : 'Student'}
+                        {collapsed ? 'S' : 'Học viên'}
                     </Title>
                 </div>
                 <Menu

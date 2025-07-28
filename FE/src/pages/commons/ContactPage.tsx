@@ -50,11 +50,11 @@ const ContactPage: React.FC = () => {
             await new Promise((resolve) => setTimeout(resolve, 2000))
             console.log('Form values:', values)
             message.success(
-                "Thank you for your message! We'll get back to you soon."
+                'Cảm ơn bạn đã gửi liên hệ! Chúng tôi sẽ phản hồi sớm nhất.'
             )
             form.resetFields()
         } catch (error) {
-            message.error('Something went wrong. Please try again.')
+            message.error('Đã xảy ra lỗi. Vui lòng thử lại.')
         } finally {
             setLoading(false)
         }
@@ -62,65 +62,65 @@ const ContactPage: React.FC = () => {
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo)
-        message.error('Please fill in all required fields.')
+        message.error('Vui lòng điền đầy đủ các trường bắt buộc.')
     }
 
     const faqData = [
         {
             key: '1',
-            label: 'How do I enroll in a course?',
+            label: 'Làm thế nào để đăng ký một khóa học?',
             children: (
                 <p>
-                    You can enroll in any course by clicking the "Enroll Now"
-                    button on the course page. You'll need to create an account
-                    and complete the payment process. Once enrolled, you'll have
-                    immediate access to all course materials.
+                    Bạn có thể đăng ký bất kỳ khóa học nào bằng cách nhấn nút
+                    "Đăng ký ngay" trên trang khóa học. Bạn cần tạo tài khoản và
+                    hoàn tất thanh toán. Sau khi đăng ký, bạn sẽ được truy cập
+                    ngay vào toàn bộ tài liệu khóa học.
                 </p>
             ),
         },
         {
             key: '2',
-            label: 'What payment methods do you accept?',
+            label: 'Những phương thức thanh toán nào được chấp nhận?',
             children: (
                 <p>
-                    We accept all major credit cards (Visa, MasterCard, American
-                    Express), PayPal, and bank transfers. All payments are
-                    processed securely through our encrypted payment gateway.
+                    Chúng tôi chấp nhận tất cả các loại thẻ tín dụng phổ biến
+                    (Visa, MasterCard, American Express), PayPal và chuyển khoản
+                    ngân hàng. Tất cả thanh toán đều được xử lý an toàn qua cổng
+                    thanh toán bảo mật.
                 </p>
             ),
         },
         {
             key: '3',
-            label: "Can I get a refund if I'm not satisfied?",
+            label: 'Tôi có được hoàn tiền nếu không hài lòng?',
             children: (
                 <p>
-                    Yes, we offer a 30-day money-back guarantee for all our
-                    courses. If you're not satisfied with your purchase, you can
-                    request a full refund within 30 days of enrollment, no
-                    questions asked.
+                    Có, chúng tôi áp dụng chính sách hoàn tiền trong 30 ngày cho
+                    tất cả các khóa học. Nếu bạn không hài lòng với khóa học,
+                    bạn có thể yêu cầu hoàn tiền trong vòng 30 ngày kể từ ngày
+                    đăng ký mà không cần lý do.
                 </p>
             ),
         },
         {
             key: '4',
-            label: 'Do you provide certificates upon completion?',
+            label: 'Tôi có nhận được chứng chỉ sau khi hoàn thành khóa học không?',
             children: (
                 <p>
-                    Upon successful completion of any course, you'll receive a
-                    certificate of completion that you can download and share on
-                    your LinkedIn profile or include in your resume.
+                    Sau khi hoàn thành bất kỳ khóa học nào, bạn sẽ nhận được
+                    chứng chỉ hoàn thành có thể tải về và chia sẻ lên LinkedIn
+                    hoặc đính kèm vào CV.
                 </p>
             ),
         },
         {
             key: '5',
-            label: 'How long do I have access to the course materials?',
+            label: 'Tôi có thể truy cập tài liệu khóa học trong bao lâu?',
             children: (
                 <p>
-                    Once you enroll in a course, you have lifetime access to all
-                    course materials, including any future updates. You can
-                    learn at your own pace and revisit the content whenever you
-                    need to.
+                    Sau khi đăng ký, bạn sẽ được truy cập trọn đời vào toàn bộ
+                    tài liệu khóa học, bao gồm cả các cập nhật trong tương lai.
+                    Bạn có thể học bất cứ lúc nào và xem lại nội dung khi cần.
                 </p>
             ),
         },
@@ -135,13 +135,13 @@ const ContactPage: React.FC = () => {
 
                 <div className="contact-hero-content">
                     <Title level={1} className="contact-hero-title">
-                        Get In Touch
+                        Liên hệ với chúng tôi
                     </Title>
                     <Paragraph className="contact-hero-description">
-                        Have questions about our courses or need support? We're
-                        here to help! Reach out to us through any of the
-                        channels below, and our team will get back to you as
-                        soon as possible.
+                        Bạn có thắc mắc về các khóa học hoặc cần hỗ trợ? Chúng
+                        tôi luôn sẵn sàng giúp đỡ! Hãy liên hệ với chúng tôi qua
+                        các kênh bên dưới, đội ngũ của chúng tôi sẽ phản hồi bạn
+                        sớm nhất có thể.
                     </Paragraph>
                 </div>
             </section>
@@ -153,7 +153,7 @@ const ContactPage: React.FC = () => {
                 <div className="contact-info-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Contact Information
+                            Thông tin liên hệ
                         </Title>
                         <Paragraph
                             style={{
@@ -163,7 +163,8 @@ const ContactPage: React.FC = () => {
                                 margin: '0 auto',
                             }}
                         >
-                            Multiple ways to reach us for your convenience
+                            Nhiều cách để liên hệ với chúng tôi thuận tiện cho
+                            bạn
                         </Paragraph>
                     </div>
 
@@ -177,7 +178,7 @@ const ContactPage: React.FC = () => {
                                     level={4}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Phone
+                                    Điện thoại
                                 </Title>
                                 <Text
                                     style={{
@@ -223,7 +224,7 @@ const ContactPage: React.FC = () => {
                                     level={4}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Address
+                                    Địa chỉ
                                 </Title>
                                 <Text
                                     style={{
@@ -232,7 +233,7 @@ const ContactPage: React.FC = () => {
                                         display: 'block',
                                     }}
                                 >
-                                    123 Education Street
+                                    123 Đường Giáo Dục
                                 </Text>
                                 <Text
                                     style={{ color: '#666', fontSize: '16px' }}
@@ -251,7 +252,7 @@ const ContactPage: React.FC = () => {
                                     level={4}
                                     style={{ marginBottom: '16px' }}
                                 >
-                                    Business Hours
+                                    Giờ làm việc
                                 </Title>
                                 <Text
                                     style={{
@@ -261,12 +262,12 @@ const ContactPage: React.FC = () => {
                                         marginBottom: '8px',
                                     }}
                                 >
-                                    Mon - Fri: 9:00 AM - 6:00 PM
+                                    Thứ 2 - Thứ 6: 9:00 - 18:00
                                 </Text>
                                 <Text
                                     style={{ color: '#666', fontSize: '16px' }}
                                 >
-                                    Sat - Sun: 10:00 AM - 4:00 PM
+                                    Thứ 7 - Chủ nhật: 10:00 - 16:00
                                 </Text>
                             </Card>
                         </Col>
@@ -290,7 +291,7 @@ const ContactPage: React.FC = () => {
                                             marginBottom: '16px',
                                         }}
                                     >
-                                        Send us a Message
+                                        Gửi tin nhắn cho chúng tôi
                                     </Title>
                                     <Paragraph
                                         style={{
@@ -299,8 +300,8 @@ const ContactPage: React.FC = () => {
                                             margin: 0,
                                         }}
                                     >
-                                        Fill out the form below and we'll get
-                                        back to you within 24 hours
+                                        Điền vào form bên dưới, chúng tôi sẽ
+                                        phản hồi bạn trong vòng 24 giờ
                                     </Paragraph>
                                 </div>
                                 <div className="contact-form-body">
@@ -316,12 +317,12 @@ const ContactPage: React.FC = () => {
                                             <Col xs={24} md={12}>
                                                 <Form.Item
                                                     name="firstName"
-                                                    label="First Name"
+                                                    label="Họ"
                                                     rules={[
                                                         {
                                                             required: true,
                                                             message:
-                                                                'Please enter your first name!',
+                                                                'Vui lòng nhập họ của bạn!',
                                                         },
                                                     ]}
                                                 >
@@ -333,7 +334,7 @@ const ContactPage: React.FC = () => {
                                                                 }}
                                                             />
                                                         }
-                                                        placeholder="Enter your first name"
+                                                        placeholder="Nhập họ của bạn"
                                                         className="contact-form-input"
                                                     />
                                                 </Form.Item>
@@ -341,12 +342,12 @@ const ContactPage: React.FC = () => {
                                             <Col xs={24} md={12}>
                                                 <Form.Item
                                                     name="lastName"
-                                                    label="Last Name"
+                                                    label="Tên"
                                                     rules={[
                                                         {
                                                             required: true,
                                                             message:
-                                                                'Please enter your last name!',
+                                                                'Vui lòng nhập tên của bạn!',
                                                         },
                                                     ]}
                                                 >
@@ -358,7 +359,7 @@ const ContactPage: React.FC = () => {
                                                                 }}
                                                             />
                                                         }
-                                                        placeholder="Enter your last name"
+                                                        placeholder="Nhập tên của bạn"
                                                         className="contact-form-input"
                                                     />
                                                 </Form.Item>
@@ -367,17 +368,17 @@ const ContactPage: React.FC = () => {
 
                                         <Form.Item
                                             name="email"
-                                            label="Email Address"
+                                            label="Email"
                                             rules={[
                                                 {
                                                     required: true,
                                                     message:
-                                                        'Please enter your email!',
+                                                        'Vui lòng nhập email!',
                                                 },
                                                 {
                                                     type: 'email',
                                                     message:
-                                                        'Please enter a valid email!',
+                                                        'Vui lòng nhập đúng định dạng email!',
                                                 },
                                             ]}
                                         >
@@ -389,14 +390,14 @@ const ContactPage: React.FC = () => {
                                                         }}
                                                     />
                                                 }
-                                                placeholder="Enter your email address"
+                                                placeholder="Nhập địa chỉ email"
                                                 className="contact-form-input"
                                             />
                                         </Form.Item>
 
                                         <Form.Item
                                             name="phone"
-                                            label="Phone Number"
+                                            label="Số điện thoại"
                                         >
                                             <Input
                                                 prefix={
@@ -406,42 +407,42 @@ const ContactPage: React.FC = () => {
                                                         }}
                                                     />
                                                 }
-                                                placeholder="Enter your phone number"
+                                                placeholder="Nhập số điện thoại"
                                                 className="contact-form-input"
                                             />
                                         </Form.Item>
 
                                         <Form.Item
                                             name="subject"
-                                            label="Subject"
+                                            label="Chủ đề"
                                             rules={[
                                                 {
                                                     required: true,
                                                     message:
-                                                        'Please enter a subject!',
+                                                        'Vui lòng nhập chủ đề!',
                                                 },
                                             ]}
                                         >
                                             <Input
-                                                placeholder="Enter the subject of your message"
+                                                placeholder="Nhập chủ đề liên hệ"
                                                 className="contact-form-input"
                                             />
                                         </Form.Item>
 
                                         <Form.Item
                                             name="message"
-                                            label="Message"
+                                            label="Nội dung"
                                             rules={[
                                                 {
                                                     required: true,
                                                     message:
-                                                        'Please enter your message!',
+                                                        'Vui lòng nhập nội dung tin nhắn!',
                                                 },
                                             ]}
                                         >
                                             <TextArea
                                                 rows={4}
-                                                placeholder="Enter your message here..."
+                                                placeholder="Nhập nội dung liên hệ..."
                                                 className="contact-form-textarea"
                                             />
                                         </Form.Item>
@@ -456,8 +457,8 @@ const ContactPage: React.FC = () => {
                                                 block
                                             >
                                                 {loading
-                                                    ? 'Sending...'
-                                                    : 'Send Message'}
+                                                    ? 'Đang gửi...'
+                                                    : 'Gửi tin nhắn'}
                                             </Button>
                                         </Form.Item>
                                     </Form>
@@ -471,7 +472,7 @@ const ContactPage: React.FC = () => {
                                     level={2}
                                     style={{ marginBottom: '24px' }}
                                 >
-                                    Why Choose Us?
+                                    Vì sao chọn chúng tôi?
                                 </Title>
                                 <div style={{ marginBottom: '30px' }}>
                                     <Title
@@ -481,7 +482,7 @@ const ContactPage: React.FC = () => {
                                             marginBottom: '12px',
                                         }}
                                     >
-                                        Expert Instructors
+                                        Giảng viên chuyên gia
                                     </Title>
                                     <Paragraph
                                         style={{
@@ -489,9 +490,8 @@ const ContactPage: React.FC = () => {
                                             fontSize: '16px',
                                         }}
                                     >
-                                        Learn from industry professionals with
-                                        years of real-world experience in their
-                                        respective fields.
+                                        Học cùng các chuyên gia trong ngành với
+                                        nhiều năm kinh nghiệm thực tế.
                                     </Paragraph>
                                 </div>
                                 <div style={{ marginBottom: '30px' }}>
@@ -502,7 +502,7 @@ const ContactPage: React.FC = () => {
                                             marginBottom: '12px',
                                         }}
                                     >
-                                        Flexible Learning
+                                        Học tập linh hoạt
                                     </Title>
                                     <Paragraph
                                         style={{
@@ -510,9 +510,9 @@ const ContactPage: React.FC = () => {
                                             fontSize: '16px',
                                         }}
                                     >
-                                        Study at your own pace with lifetime
-                                        access to course materials and 24/7
-                                        online support.
+                                        Chủ động học theo tốc độ của bạn với
+                                        quyền truy cập trọn đời vào tài liệu và
+                                        hỗ trợ trực tuyến 24/7.
                                     </Paragraph>
                                 </div>
                                 <div style={{ marginBottom: '30px' }}>
@@ -523,7 +523,7 @@ const ContactPage: React.FC = () => {
                                             marginBottom: '12px',
                                         }}
                                     >
-                                        Practical Projects
+                                        Dự án thực tiễn
                                     </Title>
                                     <Paragraph
                                         style={{
@@ -531,9 +531,9 @@ const ContactPage: React.FC = () => {
                                             fontSize: '16px',
                                         }}
                                     >
-                                        Build real-world projects that you can
-                                        add to your portfolio and showcase to
-                                        potential employers.
+                                        Thực hành xây dựng các dự án thực tế để
+                                        bổ sung vào portfolio và gây ấn tượng
+                                        với nhà tuyển dụng.
                                     </Paragraph>
                                 </div>
                                 <div>
@@ -544,7 +544,7 @@ const ContactPage: React.FC = () => {
                                             marginBottom: '12px',
                                         }}
                                     >
-                                        Career Support
+                                        Hỗ trợ nghề nghiệp
                                     </Title>
                                     <Paragraph
                                         style={{
@@ -552,9 +552,9 @@ const ContactPage: React.FC = () => {
                                             fontSize: '16px',
                                         }}
                                     >
-                                        Get career guidance, resume reviews, and
-                                        job placement assistance from our
-                                        dedicated career team.
+                                        Nhận tư vấn nghề nghiệp, chỉnh sửa CV và
+                                        hỗ trợ kết nối việc làm từ đội ngũ
+                                        chuyên trách.
                                     </Paragraph>
                                 </div>
                             </div>
@@ -568,10 +568,11 @@ const ContactPage: React.FC = () => {
                 <div className="contact-map-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Find Us Here
+                            Tìm chúng tôi tại đây
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            Visit our main office or any of our branch locations
+                            Ghé thăm văn phòng chính hoặc các chi nhánh của
+                            chúng tôi
                         </Paragraph>
                     </div>
 
@@ -588,10 +589,10 @@ const ContactPage: React.FC = () => {
                 <div className="contact-offices-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
                         <Title level={2} style={{ marginBottom: '16px' }}>
-                            Our Office Locations
+                            Hệ thống văn phòng
                         </Title>
                         <Paragraph style={{ fontSize: '18px', color: '#666' }}>
-                            Multiple locations to serve you better
+                            Nhiều địa điểm để phục vụ bạn tốt hơn
                         </Paragraph>
                     </div>
 
@@ -603,14 +604,14 @@ const ContactPage: React.FC = () => {
                                         level={4}
                                         style={{ color: 'white', margin: 0 }}
                                     >
-                                        New York Office
+                                        Văn phòng New York
                                     </Title>
                                 </div>
                                 <div className="contact-office-body">
                                     <div className="contact-office-item">
                                         <EnvironmentOutlined className="contact-office-icon" />
                                         <span>
-                                            123 Education Street, New York, NY
+                                            123 Đường Giáo Dục, New York, NY
                                             10001
                                         </span>
                                     </div>
@@ -624,9 +625,7 @@ const ContactPage: React.FC = () => {
                                     </div>
                                     <div className="contact-office-item">
                                         <ClockCircleOutlined className="contact-office-icon" />
-                                        <span>
-                                            Mon - Fri: 9:00 AM - 6:00 PM
-                                        </span>
+                                        <span>Thứ 2 - Thứ 6: 9:00 - 18:00</span>
                                     </div>
                                 </div>
                             </Card>
@@ -639,7 +638,7 @@ const ContactPage: React.FC = () => {
                                         level={4}
                                         style={{ color: 'white', margin: 0 }}
                                     >
-                                        Los Angeles Office
+                                        Văn phòng Los Angeles
                                     </Title>
                                 </div>
                                 <div className="contact-office-body">
@@ -660,9 +659,7 @@ const ContactPage: React.FC = () => {
                                     </div>
                                     <div className="contact-office-item">
                                         <ClockCircleOutlined className="contact-office-icon" />
-                                        <span>
-                                            Mon - Fri: 8:00 AM - 5:00 PM
-                                        </span>
+                                        <span>Thứ 2 - Thứ 6: 8:00 - 17:00</span>
                                     </div>
                                 </div>
                             </Card>
@@ -675,7 +672,7 @@ const ContactPage: React.FC = () => {
                                         level={4}
                                         style={{ color: 'white', margin: 0 }}
                                     >
-                                        Chicago Office
+                                        Văn phòng Chicago
                                     </Title>
                                 </div>
                                 <div className="contact-office-body">
@@ -696,9 +693,7 @@ const ContactPage: React.FC = () => {
                                     </div>
                                     <div className="contact-office-item">
                                         <ClockCircleOutlined className="contact-office-icon" />
-                                        <span>
-                                            Mon - Fri: 9:00 AM - 6:00 PM
-                                        </span>
+                                        <span>Thứ 2 - Thứ 6: 9:00 - 18:00</span>
                                     </div>
                                 </div>
                             </Card>
@@ -721,7 +716,7 @@ const ContactPage: React.FC = () => {
                                             marginBottom: '16px',
                                         }}
                                     >
-                                        Frequently Asked Questions
+                                        Câu hỏi thường gặp
                                     </Title>
                                     <Paragraph
                                         style={{
@@ -730,8 +725,8 @@ const ContactPage: React.FC = () => {
                                             margin: 0,
                                         }}
                                     >
-                                        Find answers to common questions about
-                                        our courses and services
+                                        Tìm câu trả lời cho các thắc mắc về khóa
+                                        học và dịch vụ của chúng tôi
                                     </Paragraph>
                                 </div>
                                 <div className="contact-faq-body">
@@ -759,7 +754,7 @@ const ContactPage: React.FC = () => {
                                     level={2}
                                     style={{ marginBottom: '24px' }}
                                 >
-                                    Still Have Questions?
+                                    Vẫn còn thắc mắc?
                                 </Title>
                                 <Paragraph
                                     style={{
@@ -768,10 +763,10 @@ const ContactPage: React.FC = () => {
                                         marginBottom: '30px',
                                     }}
                                 >
-                                    Can't find the answer you're looking for?
-                                    Don't hesitate to reach out to our support
-                                    team. We're here to help you succeed in your
-                                    learning journey.
+                                    Nếu bạn không tìm thấy câu trả lời, đừng
+                                    ngần ngại liên hệ đội ngũ hỗ trợ của chúng
+                                    tôi. Chúng tôi luôn sẵn sàng đồng hành cùng
+                                    bạn trên hành trình học tập.
                                 </Paragraph>
 
                                 <div style={{ marginBottom: '30px' }}>
@@ -785,7 +780,7 @@ const ContactPage: React.FC = () => {
                                         <MessageOutlined
                                             style={{ marginRight: '8px' }}
                                         />
-                                        Live Chat Support
+                                        Hỗ trợ chat trực tuyến
                                     </Title>
                                     <Paragraph
                                         style={{
@@ -793,9 +788,8 @@ const ContactPage: React.FC = () => {
                                             fontSize: '16px',
                                         }}
                                     >
-                                        Get instant help from our support team
-                                        through our live chat feature available
-                                        24/7.
+                                        Nhận hỗ trợ ngay lập tức từ đội ngũ tư
+                                        vấn qua tính năng chat trực tuyến 24/7.
                                     </Paragraph>
                                 </div>
 
@@ -810,7 +804,7 @@ const ContactPage: React.FC = () => {
                                         <PhoneOutlined
                                             style={{ marginRight: '8px' }}
                                         />
-                                        Phone Support
+                                        Hỗ trợ qua điện thoại
                                     </Title>
                                     <Paragraph
                                         style={{
@@ -818,9 +812,8 @@ const ContactPage: React.FC = () => {
                                             fontSize: '16px',
                                         }}
                                     >
-                                        Call us directly during business hours
-                                        for immediate assistance with any
-                                        questions or concerns.
+                                        Gọi trực tiếp cho chúng tôi trong giờ
+                                        làm việc để được hỗ trợ nhanh chóng.
                                     </Paragraph>
                                 </div>
 
@@ -835,7 +828,7 @@ const ContactPage: React.FC = () => {
                                         <MailOutlined
                                             style={{ marginRight: '8px' }}
                                         />
-                                        Email Support
+                                        Hỗ trợ qua email
                                     </Title>
                                     <Paragraph
                                         style={{
@@ -843,9 +836,8 @@ const ContactPage: React.FC = () => {
                                             fontSize: '16px',
                                         }}
                                     >
-                                        Send us an email and we'll respond
-                                        within 24 hours with detailed answers to
-                                        your questions.
+                                        Gửi email cho chúng tôi và sẽ nhận được
+                                        phản hồi chi tiết trong vòng 24 giờ.
                                     </Paragraph>
                                 </div>
                             </div>
@@ -864,7 +856,7 @@ const ContactPage: React.FC = () => {
                         level={2}
                         style={{ color: 'white', marginBottom: '24px' }}
                     >
-                        Connect With Us
+                        Kết nối với chúng tôi
                     </Title>
                     <Paragraph
                         style={{
@@ -873,9 +865,9 @@ const ContactPage: React.FC = () => {
                             marginBottom: '40px',
                         }}
                     >
-                        Follow us on social media for the latest updates, tips,
-                        and educational content. Join our community of learners
-                        and stay connected!
+                        Theo dõi chúng tôi trên mạng xã hội để cập nhật tin tức,
+                        mẹo học tập và nội dung giáo dục mới nhất. Tham gia cộng
+                        đồng học viên và luôn giữ liên lạc!
                     </Paragraph>
 
                     <div className="contact-social-icons">

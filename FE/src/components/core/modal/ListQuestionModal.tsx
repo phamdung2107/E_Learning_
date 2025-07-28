@@ -54,7 +54,6 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
         setLoading(true)
         try {
             const response = await QuestionService.getByQuiz(record.id)
-            console.log(response)
             setQuestions(response.data)
         } catch (error) {
             console.log(error)
@@ -75,13 +74,13 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                 await fetchData()
                 setIsModalCreateQuestionOpen(false)
                 notification.success({
-                    message: 'Create question successfully',
+                    message: 'Tạo câu hỏi thành công',
                 })
             }
         } catch (e) {
             console.log(e)
             notification.error({
-                message: 'Create question failed',
+                message: 'Tạo câu hỏi thất bại',
             })
         }
     }
@@ -97,13 +96,13 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                 await fetchData()
                 setIsModalUpdateQuestionOpen(false)
                 notification.success({
-                    message: 'Update question successfully',
+                    message: 'Cập nhật câu hỏi thành công',
                 })
             }
         } catch (e) {
             console.log(e)
             notification.error({
-                message: 'Update question failed',
+                message: 'Cập nhật câu hỏi thất bại',
             })
         }
     }
@@ -114,13 +113,13 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
             if (response.status === 200) {
                 await fetchData()
                 notification.success({
-                    message: 'Delete question successfully',
+                    message: 'Xóa câu hỏi thành công',
                 })
             }
         } catch (e) {
             console.log(e)
             notification.error({
-                message: 'Delete question failed',
+                message: 'Xóa câu hỏi thất bại',
             })
         }
     }
@@ -136,13 +135,13 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                 await fetchData()
                 setIsModalCreateQuestionOpen(false)
                 notification.success({
-                    message: 'Create answer successfully',
+                    message: 'Tạo đáp án thành công',
                 })
             }
         } catch (e) {
             console.log(e)
             notification.error({
-                message: 'Create answer failed',
+                message: 'Tạo đáp án thất bại',
             })
         }
     }
@@ -157,13 +156,13 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                 await fetchData()
                 setIsModalUpdateQuestionOpen(false)
                 notification.success({
-                    message: 'Update answer successfully',
+                    message: 'Cập nhật đáp án thành công',
                 })
             }
         } catch (e) {
             console.log(e)
             notification.error({
-                message: 'Update answer failed',
+                message: 'Cập nhật đáp án thất bại',
             })
         }
     }
@@ -174,13 +173,13 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
             if (response.status === 200) {
                 await fetchData()
                 notification.success({
-                    message: 'Delete answer successfully',
+                    message: 'Xóa đáp án thành công',
                 })
             }
         } catch (e) {
             console.log(e)
             notification.error({
-                message: 'Delete answer failed',
+                message: 'Xóa đáp án thất bại',
             })
         }
     }
@@ -204,7 +203,7 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
         <Modal
             title={
                 <div>
-                    {`List Question: ${record?.title}`}
+                    {`Danh sách câu hỏi: ${record?.title}`}
                     <Button
                         style={{ marginLeft: 10 }}
                         onClick={() => setIsModalCreateQuestionOpen(true)}
@@ -238,12 +237,12 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                                     fixed: 'left',
                                 },
                                 {
-                                    title: 'Answer',
+                                    title: 'Đáp án',
                                     dataIndex: 'answer_text',
                                     key: 'answer_text',
                                 },
                                 {
-                                    title: 'Is Correct',
+                                    title: 'Đúng/ Sai',
                                     dataIndex: 'is_correct',
                                     key: 'is_correct',
                                     render: (val) => (val ? '✔️' : '❌'),
@@ -251,7 +250,7 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                                     width: 150,
                                 },
                                 {
-                                    title: 'Action',
+                                    title: 'Hành động',
                                     key: 'action',
                                     align: 'center',
                                     width: 120,
@@ -270,8 +269,8 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                                                 }}
                                             />
                                             <Popconfirm
-                                                title="Delete the answer"
-                                                description={`Are you sure to delete this answer`}
+                                                title="Xóa đáp án"
+                                                description={`Bạn có chắc chắn muốn xóa đáp án này?`}
                                                 onConfirm={(e) => {
                                                     // @ts-ignore
                                                     e.stopPropagation()
@@ -283,8 +282,8 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                                                         style={{ color: 'red' }}
                                                     />
                                                 }
-                                                okText="Delete"
-                                                cancelText="Cancel"
+                                                okText="Xóa"
+                                                cancelText="Hủy"
                                             >
                                                 <Button
                                                     danger

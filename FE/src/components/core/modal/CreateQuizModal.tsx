@@ -23,7 +23,7 @@ const CreateQuizModal = ({ visible, onClose, onSubmit, loading }: any) => {
 
     return (
         <Modal
-            title="Create New Quiz"
+            title="Tạo bài kiểm tra mới"
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -33,31 +33,31 @@ const CreateQuizModal = ({ visible, onClose, onSubmit, loading }: any) => {
         >
             <Form form={form} layout="vertical" onFinish={handleSubmit}>
                 <Form.Item
-                    label="Title"
+                    label="Tiêu đề"
                     name="title"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the quiz title',
+                            message: 'Vui lòng nhập tiêu đề bài kiểm tra',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter quiz title" />
+                    <Input allowClear placeholder="Nhập tiêu đề bài kiểm tra" />
                 </Form.Item>
                 <Form.Item
-                    label="Description"
+                    label="Mô tả"
                     name="description"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter a description',
+                            message: 'Vui lòng nhập mô tả',
                         },
                     ]}
                 >
                     <TextArea
                         rows={4}
                         allowClear
-                        placeholder="Enter quiz description"
+                        placeholder="Nhập mô tả bài kiểm tra"
                     />
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
@@ -67,7 +67,7 @@ const CreateQuizModal = ({ visible, onClose, onSubmit, loading }: any) => {
                             type="default"
                             onClick={handleReset}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -75,7 +75,7 @@ const CreateQuizModal = ({ visible, onClose, onSubmit, loading }: any) => {
                             type="default"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -84,7 +84,7 @@ const CreateQuizModal = ({ visible, onClose, onSubmit, loading }: any) => {
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Create
+                            Tạo mới
                         </Button>
                     </div>
                 </Form.Item>

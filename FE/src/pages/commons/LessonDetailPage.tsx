@@ -58,7 +58,7 @@ const LessonDetailPage: React.FC = () => {
             setCourse(response.data)
         } catch (error) {
             console.error('Error fetching course:', error)
-            message.error('Failed to load course details')
+            message.error('Không thể tải thông tin khóa học')
         }
     }
 
@@ -91,7 +91,7 @@ const LessonDetailPage: React.FC = () => {
             setLessons(lessonsWithQuizzes)
         } catch (error) {
             console.error('Error fetching lessons:', error)
-            message.error('Failed to load lessons')
+            message.error('Không thể tải danh sách bài học')
         }
     }
 
@@ -102,7 +102,7 @@ const LessonDetailPage: React.FC = () => {
             setCurrentLesson(response.data)
         } catch (error) {
             console.error('Error fetching lesson details:', error)
-            message.error('Failed to load lesson details')
+            message.error('Không thể tải chi tiết bài học')
         } finally {
             setVideoLoading(false)
         }
@@ -146,7 +146,7 @@ const LessonDetailPage: React.FC = () => {
     const handleMarkComplete = async () => {
         // try {
         //     await ProgressService.markLessonComplete(lessonId)
-        //     message.success("Lesson marked as complete!")
+        //     message.success("Đã đánh dấu hoàn thành bài học!")
         //
         //     // Refresh progress and lesson data
         //     await Promise.all([fetchProgress(), fetchLessons()])
@@ -155,7 +155,7 @@ const LessonDetailPage: React.FC = () => {
         //     setCurrentLesson((prev: any) => ({ ...prev, is_completed: true }))
         // } catch (error) {
         //     console.error("Error marking lesson complete:", error)
-        //     message.error("Failed to mark lesson as complete")
+        //     message.error("Không thể đánh dấu hoàn thành bài học")
         // }
     }
 
@@ -199,7 +199,7 @@ const LessonDetailPage: React.FC = () => {
     if (!course || !currentLesson) {
         return (
             <div className="lesson-error">
-                <Text type="danger">Failed to load lesson details</Text>
+                <Text type="danger">Không thể tải chi tiết bài học</Text>
             </div>
         )
     }
@@ -212,7 +212,7 @@ const LessonDetailPage: React.FC = () => {
                     <Col>
                         <Link to={`/courses/${courseId}`}>
                             <Button icon={<ArrowLeftOutlined />} type="text">
-                                Back to Course
+                                Quay lại khóa học
                             </Button>
                         </Link>
                     </Col>
@@ -226,7 +226,7 @@ const LessonDetailPage: React.FC = () => {
                     </Col>
                     <Col>
                         <Text type="secondary">
-                            Progress: {progress || 0}/{lessons.length} lessons
+                            Tiến độ: {progress || 0}/{lessons.length} bài học
                         </Text>
                     </Col>
                 </Row>
@@ -243,9 +243,9 @@ const LessonDetailPage: React.FC = () => {
                 <Col xs={24} lg={6} className="lesson-sidebar">
                     <div className="lesson-sidebar-content">
                         <div className="lesson-sidebar-header">
-                            <Title level={5}>Course Content</Title>
+                            <Title level={5}>Nội dung khóa học</Title>
                             <Text type="secondary">
-                                {lessons.length} lessons
+                                {lessons.length} bài học
                             </Text>
                         </div>
 
@@ -370,13 +370,12 @@ const LessonDetailPage: React.FC = () => {
                                             src={currentLesson.video_url}
                                             type="video/mp4"
                                         />
-                                        Your browser does not support the video
-                                        tag.
+                                        Trình duyệt của bạn không hỗ trợ video.
                                     </video>
                                 ) : (
                                     <div className="video-placeholder">
                                         <PlayCircleOutlined className="video-placeholder-icon" />
-                                        <Text>Video not available</Text>
+                                        <Text>Không có video</Text>
                                     </div>
                                 )}
                             </div>
@@ -394,9 +393,7 @@ const LessonDetailPage: React.FC = () => {
                                     />
                                 ) : (
                                     <div className="lesson-description">
-                                        <Title level={4}>
-                                            Lesson Description
-                                        </Title>
+                                        <Title level={4}>Mô tả bài học</Title>
                                         <Paragraph>
                                             {currentLesson.content}
                                         </Paragraph>
@@ -422,7 +419,7 @@ const LessonDetailPage: React.FC = () => {
                                         icon={<LeftOutlined />}
                                         size="large"
                                     >
-                                        Previous Lesson
+                                        Bài học trước
                                     </Button>
                                 </Col>
 
@@ -435,7 +432,7 @@ const LessonDetailPage: React.FC = () => {
                                             size="large"
                                             className="complete-lesson-btn"
                                         >
-                                            Mark as Complete
+                                            Đánh dấu hoàn thành
                                         </Button>
                                     )}
                                     {currentLesson.is_completed && (
@@ -446,7 +443,7 @@ const LessonDetailPage: React.FC = () => {
                                             size="large"
                                             className="completed-lesson-btn"
                                         >
-                                            Completed
+                                            Đã hoàn thành
                                         </Button>
                                     )}
                                 </Col>
@@ -462,7 +459,7 @@ const LessonDetailPage: React.FC = () => {
                                         icon={<RightOutlined />}
                                         size="large"
                                     >
-                                        Next Lesson
+                                        Bài học tiếp theo
                                     </Button>
                                 </Col>
                             </Row>

@@ -16,7 +16,7 @@ export const CheckoutOrderModal = ({
 
     return (
         <Modal
-            title="Checkout Orders"
+            title="Thanh toán đơn hàng"
             open={visible}
             onCancel={onClose}
             width={'30%'}
@@ -31,7 +31,7 @@ export const CheckoutOrderModal = ({
                     <div style={{ display: 'flex' }}>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button key="cancel" type="default" onClick={onClose}>
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -41,7 +41,7 @@ export const CheckoutOrderModal = ({
                             loading={loading}
                             onClick={handleSubmit}
                         >
-                            OK
+                            Thanh toán
                         </Button>
                     </div>
                 </Form.Item>

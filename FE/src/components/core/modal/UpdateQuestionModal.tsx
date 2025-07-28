@@ -43,7 +43,7 @@ const UpdateQuizModal = ({
 
     return (
         <Modal
-            title={`Edit Question: ${record?.question_text || 'Quiz'}`}
+            title={`Chỉnh sửa câu hỏi: ${record?.question_text || 'Quiz'}`}
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -58,54 +58,52 @@ const UpdateQuizModal = ({
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    label="Question text"
+                    label="Nội dung câu hỏi"
                     name="question_text"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the quiz question text',
+                            message: 'Vui lòng nhập nội dung câu hỏi',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter quiz question text" />
+                    <Input allowClear placeholder="Nhập nội dung câu hỏi" />
                 </Form.Item>
                 <Form.Item
-                    label="Question type"
+                    label="Loại câu hỏi"
                     name="question_type"
                     rules={[
                         {
                             required: true,
-                            message: 'Please select a question type',
+                            message: 'Vui lòng chọn loại câu hỏi',
                         },
                     ]}
                 >
-                    <Select allowClear placeholder="Select question type">
-                        <Select.Option value="single">
-                            Single choice
-                        </Select.Option>
+                    <Select allowClear placeholder="Chọn loại câu hỏi">
+                        <Select.Option value="single">Một đáp án</Select.Option>
                         <Select.Option value="multiple">
-                            Multiple choice
+                            Nhiều đáp án
                         </Select.Option>
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    label="Order number"
+                    label="Thứ tự"
                     name="order_number"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the lesson order number',
+                            message: 'Vui lòng nhập số thứ tự câu hỏi',
                         },
                         {
                             pattern: /^\d+(\.\d{1,2})?$/,
-                            message: 'Please enter a valid (e.g., 1)',
+                            message: 'Vui lòng nhập số hợp lệ (ví dụ: 1)',
                         },
                     ]}
                 >
                     <Input
                         type="number"
                         allowClear
-                        placeholder="Enter order number (e.g., 1)"
+                        placeholder="Nhập số thứ tự (ví dụ: 1)"
                     />
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
@@ -115,7 +113,7 @@ const UpdateQuizModal = ({
                             type="default"
                             onClick={handleReset}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -123,7 +121,7 @@ const UpdateQuizModal = ({
                             type="default"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -132,7 +130,7 @@ const UpdateQuizModal = ({
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Edit
+                            Lưu thay đổi
                         </Button>
                     </div>
                 </Form.Item>

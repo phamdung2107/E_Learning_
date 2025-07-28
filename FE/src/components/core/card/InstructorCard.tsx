@@ -42,7 +42,7 @@ const InstructorCard = ({ instructor }: any) => {
         >
             <div className="instructor-card-header">
                 <div className="instructor-experience-badge">
-                    {instructor.experience_years}+ years
+                    {instructor.experience_years}+ năm kinh nghiệm
                 </div>
 
                 <div className="instructor-avatar">
@@ -64,8 +64,8 @@ const InstructorCard = ({ instructor }: any) => {
 
                 <Text className="instructor-role">
                     {instructor.user.role === 'instructor'
-                        ? 'Instructor'
-                        : 'Expert'}
+                        ? 'Giảng viên'
+                        : 'Chuyên gia'}
                 </Text>
             </div>
 
@@ -77,7 +77,7 @@ const InstructorCard = ({ instructor }: any) => {
                 {/*<div className="instructor-stats">*/}
                 {/*    <div className="instructor-stat-item">*/}
                 {/*        <span className="instructor-stat-number experience">{instructor.experience_years}</span>*/}
-                {/*        <span className="instructor-stat-label">Years Exp</span>*/}
+                {/*        <span className="instructor-stat-label">Năm kinh nghiệm</span>*/}
                 {/*    </div>*/}
                 {/*</div>*/}
 
@@ -98,7 +98,7 @@ const InstructorCard = ({ instructor }: any) => {
                             icon={<PhoneOutlined />}
                             title={instructor.user.phone}
                         >
-                            Call
+                            Gọi điện
                         </Button>
                     )}
 
@@ -107,7 +107,7 @@ const InstructorCard = ({ instructor }: any) => {
                             className="instructor-contact-btn secondary"
                             onClick={handleLinkedInClick}
                             icon={<LinkedinOutlined />}
-                            title="LinkedIn Profile"
+                            title="Hồ sơ LinkedIn"
                         >
                             LinkedIn
                         </Button>

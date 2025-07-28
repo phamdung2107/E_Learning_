@@ -103,9 +103,9 @@ const EventCard: React.FC<EventCardProps> = ({ event, onJoin }) => {
         >
             <div className="event-card-cover">
                 <div className={`event-card-status ${status}`}>
-                    {status === 'active' && 'Active'}
-                    {status === 'upcoming' && 'Upcoming'}
-                    {status === 'ended' && 'Ended'}
+                    {status === 'active' && 'Đang diễn ra'}
+                    {status === 'upcoming' && 'Sắp diễn ra'}
+                    {status === 'ended' && 'Đã kết thúc'}
                 </div>
 
                 {event.bonus_percent > 0 && (
@@ -139,8 +139,8 @@ const EventCard: React.FC<EventCardProps> = ({ event, onJoin }) => {
                     <div className="event-card-countdown">
                         <div className="event-card-countdown-title">
                             {timeLeft.status === 'upcoming'
-                                ? 'Starts in'
-                                : 'Ends in'}
+                                ? 'Bắt đầu sau'
+                                : 'Kết thúc sau'}
                         </div>
                         <div className="event-card-countdown-time">
                             {timeLeft.days > 0 && (
@@ -149,7 +149,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onJoin }) => {
                                         {timeLeft.days}
                                     </span>
                                     <span className="event-card-countdown-label">
-                                        Days
+                                        Ngày
                                     </span>
                                 </div>
                             )}
@@ -158,7 +158,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onJoin }) => {
                                     {timeLeft.hours || 0}
                                 </span>
                                 <span className="event-card-countdown-label">
-                                    Hours
+                                    Giờ
                                 </span>
                             </div>
                             <div className="event-card-countdown-unit">
@@ -166,7 +166,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onJoin }) => {
                                     {timeLeft.minutes || 0}
                                 </span>
                                 <span className="event-card-countdown-label">
-                                    Minutes
+                                    Phút
                                 </span>
                             </div>
                             <div className="event-card-countdown-unit">
@@ -174,7 +174,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onJoin }) => {
                                     {timeLeft.seconds || 0}
                                 </span>
                                 <span className="event-card-countdown-label">
-                                    Seconds
+                                    Giây
                                 </span>
                             </div>
                         </div>
@@ -197,7 +197,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onJoin }) => {
                                     fontSize: '14px',
                                 }}
                             >
-                                <FireOutlined /> Bonus +{event.bonus_percent}%
+                                <FireOutlined /> Thưởng +{event.bonus_percent}%
                             </span>
                         )}
                     </div>
@@ -207,9 +207,9 @@ const EventCard: React.FC<EventCardProps> = ({ event, onJoin }) => {
                         onClick={handleJoin}
                         disabled={status === 'ended'}
                     >
-                        {status === 'active' && 'Join Now'}
-                        {status === 'upcoming' && 'Register'}
-                        {status === 'ended' && 'Ended'}
+                        {status === 'active' && 'Tham gia ngay'}
+                        {status === 'upcoming' && 'Đăng ký'}
+                        {status === 'ended' && 'Đã kết thúc'}
                     </Button>
                 </div>
             </div>

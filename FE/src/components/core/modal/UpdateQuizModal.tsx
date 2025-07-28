@@ -43,7 +43,7 @@ const UpdateQuizModal = ({
 
     return (
         <Modal
-            title={`Edit Quiz: ${record?.title || 'Quiz'}`}
+            title={`Chỉnh sửa bài kiểm tra: ${record?.title || 'Quiz'}`}
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -58,31 +58,31 @@ const UpdateQuizModal = ({
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    label="Title"
+                    label="Tiêu đề"
                     name="title"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the quiz title',
+                            message: 'Vui lòng nhập tiêu đề bài kiểm tra',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter quiz title" />
+                    <Input allowClear placeholder="Nhập tiêu đề bài kiểm tra" />
                 </Form.Item>
                 <Form.Item
-                    label="Description"
+                    label="Mô tả"
                     name="description"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter a description',
+                            message: 'Vui lòng nhập mô tả',
                         },
                     ]}
                 >
                     <TextArea
                         rows={4}
                         allowClear
-                        placeholder="Enter quiz description"
+                        placeholder="Nhập mô tả bài kiểm tra"
                     />
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
@@ -92,7 +92,7 @@ const UpdateQuizModal = ({
                             type="default"
                             onClick={handleReset}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -100,7 +100,7 @@ const UpdateQuizModal = ({
                             type="default"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -109,7 +109,7 @@ const UpdateQuizModal = ({
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Edit
+                            Lưu thay đổi
                         </Button>
                     </div>
                 </Form.Item>

@@ -86,15 +86,15 @@ const EventsPage: React.FC = () => {
 
                 <div className="events-hero-content">
                     <Title level={1} className="events-hero-title">
-                        Events & Activities
+                        Sự kiện & Hoạt động
                     </Title>
                     <Paragraph className="events-hero-description">
-                        Discover workshops, activities, and events to boost your
-                        learning and earn exciting rewards.
+                        Khám phá các hội thảo, hoạt động và sự kiện để nâng cao
+                        việc học và nhận nhiều phần thưởng hấp dẫn.
                     </Paragraph>
                     <div className="events-hero-search">
                         <Search
-                            placeholder="Search by keyword..."
+                            placeholder="Tìm kiếm theo từ khóa..."
                             allowClear
                             enterButton={
                                 <Button
@@ -132,15 +132,15 @@ const EventsPage: React.FC = () => {
                                 level={3}
                                 style={{ marginTop: '20px', color: '#666' }}
                             >
-                                Loading events...
+                                Đang tải sự kiện...
                             </Title>
                         </div>
                     ) : (
                         <>
                             <div className="events-header">
                                 <div className="events-results-info">
-                                    Showing {paginatedEvents.length} of{' '}
-                                    {allEvents.length} events
+                                    Hiển thị {paginatedEvents.length} /{' '}
+                                    {allEvents.length} sự kiện
                                     {searchKeyword && (
                                         <span
                                             style={{
@@ -148,7 +148,7 @@ const EventsPage: React.FC = () => {
                                                 marginLeft: '8px',
                                             }}
                                         >
-                                            for "{searchTerm}"
+                                            cho "{searchTerm}"
                                         </span>
                                     )}
                                 </div>
@@ -158,7 +158,7 @@ const EventsPage: React.FC = () => {
                                         onClick={handleClearFilters}
                                         style={{ color: '#ff6b6b' }}
                                     >
-                                        Clear Search
+                                        Xóa tìm kiếm
                                     </Button>
                                 )}
                             </div>
@@ -170,12 +170,12 @@ const EventsPage: React.FC = () => {
                                         level={3}
                                         className="events-empty-title"
                                     >
-                                        No events found
+                                        Không tìm thấy sự kiện nào
                                     </Title>
                                     <Paragraph className="events-empty-description">
                                         {searchTerm
-                                            ? `No events found for "${searchTerm}". Try a different keyword.`
-                                            : 'No events are currently available. Please check back later.'}
+                                            ? `Không tìm thấy sự kiện nào cho "${searchTerm}". Vui lòng thử từ khóa khác.`
+                                            : 'Hiện chưa có sự kiện nào. Vui lòng quay lại sau.'}
                                     </Paragraph>
                                     {searchTerm && (
                                         <Button
@@ -183,7 +183,7 @@ const EventsPage: React.FC = () => {
                                             className="events-empty-btn"
                                             onClick={handleClearFilters}
                                         >
-                                            Clear Search
+                                            Xóa tìm kiếm
                                         </Button>
                                     )}
                                 </div>
@@ -219,7 +219,7 @@ const EventsPage: React.FC = () => {
                                                 showSizeChanger={false}
                                                 showQuickJumper
                                                 showTotal={(total, range) =>
-                                                    `${range[0]}-${range[1]} of ${total} events`
+                                                    `${range[0]}-${range[1]} trong tổng ${total} sự kiện`
                                                 }
                                                 style={{
                                                     textAlign: 'center',

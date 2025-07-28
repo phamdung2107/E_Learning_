@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
+import { Button, Checkbox, Form, Input, Modal } from 'antd'
 
 const { TextArea } = Input
 
@@ -23,7 +23,7 @@ const CreateAnswerModal = ({ visible, onClose, onSubmit, loading }: any) => {
 
     return (
         <Modal
-            title="Create Answer"
+            title="Tạo câu trả lời"
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -33,27 +33,27 @@ const CreateAnswerModal = ({ visible, onClose, onSubmit, loading }: any) => {
         >
             <Form form={form} layout="vertical" onFinish={handleSubmit}>
                 <Form.Item
-                    label="Answer text"
+                    label="Nội dung câu trả lời"
                     name="answer_text"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter a answer text',
+                            message: 'Vui lòng nhập nội dung câu trả lời',
                         },
                     ]}
                 >
                     <TextArea
                         rows={4}
                         allowClear
-                        placeholder="Enter lesson answer text"
+                        placeholder="Nhập nội dung câu trả lời"
                     />
                 </Form.Item>
                 <Form.Item
-                    label="Is correct"
+                    label="Đáp án đúng"
                     name="is_correct"
                     valuePropName="checked"
                 >
-                    <Checkbox>Correct</Checkbox>
+                    <Checkbox>Đúng</Checkbox>
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
                     <div style={{ display: 'flex' }}>
@@ -62,7 +62,7 @@ const CreateAnswerModal = ({ visible, onClose, onSubmit, loading }: any) => {
                             type="default"
                             onClick={handleReset}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -70,7 +70,7 @@ const CreateAnswerModal = ({ visible, onClose, onSubmit, loading }: any) => {
                             type="default"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -79,7 +79,7 @@ const CreateAnswerModal = ({ visible, onClose, onSubmit, loading }: any) => {
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Create
+                            Tạo
                         </Button>
                     </div>
                 </Form.Item>

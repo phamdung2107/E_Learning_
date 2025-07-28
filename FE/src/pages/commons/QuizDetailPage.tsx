@@ -188,9 +188,11 @@ const QuizDetailPage: React.FC = () => {
 
     const handleSubmitQuiz = () => {
         Modal.confirm({
-            title: 'Submit Quiz',
+            title: 'Nộp bài kiểm tra',
             content:
-                'Are you sure you want to submit your quiz? You cannot change your answers after submission.',
+                'Bạn có chắc chắn muốn nộp bài? Sau khi nộp bạn sẽ không thể thay đổi đáp án.',
+            okText: 'Nộp bài',
+            cancelText: 'Hủy',
             onOk: async () => {
                 try {
                     setIsSubmitting(true)
@@ -213,8 +215,8 @@ const QuizDetailPage: React.FC = () => {
                     const response = await ResultQuizService.create(payload)
                     if (response.status === 200) {
                         notification.success({
-                            message: 'Quiz submitted successfully!',
-                            description: `Your quiz has been submitted. Redirecting to results...`,
+                            message: 'Nộp bài thành công!',
+                            description: `Bài kiểm tra của bạn đã được nộp. Đang chuyển đến trang kết quả...`,
                         })
                         // Redirect to results page
                         router(`/courses/${courseId}/quizzes/${quizId}/results`)
@@ -222,8 +224,8 @@ const QuizDetailPage: React.FC = () => {
                 } catch (error) {
                     console.error('Error submitting quiz:', error)
                     notification.error({
-                        message: 'Submission Failed',
-                        description: 'Failed to submit quiz. Please try again.',
+                        message: 'Nộp bài thất bại',
+                        description: 'Không thể nộp bài. Vui lòng thử lại.',
                     })
                 } finally {
                     setIsSubmitting(false)
@@ -251,7 +253,7 @@ const QuizDetailPage: React.FC = () => {
                     <Col>
                         <Link to={`/courses/${courseId}`}>
                             <Button icon={<ArrowLeftOutlined />} type="text">
-                                Back to Course
+                                Quay lại khóa học
                             </Button>
                         </Link>
                     </Col>
@@ -265,7 +267,7 @@ const QuizDetailPage: React.FC = () => {
                     </Col>
                     <Col>
                         <Text type="secondary">
-                            Progress: {progress}/{lessons.length} lessons
+                            Tiến độ: {progress}/{lessons.length} bài học
                         </Text>
                     </Col>
                 </Row>
@@ -282,9 +284,9 @@ const QuizDetailPage: React.FC = () => {
                 <Col xs={24} lg={6} className="lesson-sidebar">
                     <div className="lesson-sidebar-content">
                         <div className="lesson-sidebar-header">
-                            <Title level={5}>Course Content</Title>
+                            <Title level={5}>Nội dung khóa học</Title>
                             <Text type="secondary">
-                                {lessons.length} lessons
+                                {lessons.length} bài học
                             </Text>
                         </div>
 
@@ -400,7 +402,7 @@ const QuizDetailPage: React.FC = () => {
                                             marginBottom: '32px',
                                         }}
                                     >
-                                        Ready to test your knowledge?
+                                        Sẵn sàng kiểm tra kiến thức của bạn?
                                     </Text>
 
                                     <div className="quiz-info-section">
@@ -408,33 +410,35 @@ const QuizDetailPage: React.FC = () => {
                                             level={4}
                                             style={{ marginBottom: '16px' }}
                                         >
-                                            Quiz Information
+                                            Thông tin bài kiểm tra
                                         </Title>
 
                                         <div className="quiz-info-grid">
                                             <div className="quiz-info-item">
-                                                <Text strong>Questions:</Text>
+                                                <Text strong>Số câu hỏi:</Text>
                                                 <Text>
-                                                    {questions?.length || 0}{' '}
-                                                    questions
+                                                    {questions?.length || 0} câu
+                                                    hỏi
                                                 </Text>
                                             </div>
 
                                             <div className="quiz-info-item">
-                                                <Text strong>Duration:</Text>
-                                                <Text>No time limit</Text>
+                                                <Text strong>Thời gian:</Text>
+                                                <Text>
+                                                    {quiz?.duration
+                                                        ? `${quiz.duration} phút`
+                                                        : 'Không giới hạn'}
+                                                </Text>
                                             </div>
 
                                             <div className="quiz-info-item">
-                                                <Text strong>
-                                                    Passing Score:
-                                                </Text>
+                                                <Text strong>Điểm đạt:</Text>
                                                 <Text>100%</Text>
                                             </div>
 
                                             <div className="quiz-info-item">
-                                                <Text strong>Attempts:</Text>
-                                                <Text>Unlimited</Text>
+                                                <Text strong>Số lần làm:</Text>
+                                                <Text>Không giới hạn</Text>
                                             </div>
                                         </div>
                                     </div>
@@ -446,36 +450,35 @@ const QuizDetailPage: React.FC = () => {
                                                 textAlign: 'left',
                                             }}
                                         >
-                                            <Title level={4}>Description</Title>
+                                            <Title level={4}>Mô tả</Title>
                                             <Text>{quiz?.description}</Text>
                                         </div>
                                     )}
 
                                     <div className="quiz-instructions">
-                                        <Title level={4}>Instructions</Title>
+                                        <Title level={4}>Hướng dẫn</Title>
                                         <ul>
                                             <li>
-                                                Read each question carefully
-                                                before selecting your answer
+                                                Đọc kỹ từng câu hỏi trước khi
+                                                chọn đáp án
                                             </li>
                                             <li>
-                                                You can navigate between
-                                                questions using the
-                                                Previous/Next buttons
+                                                Bạn có thể chuyển giữa các câu
+                                                hỏi bằng nút Trước/Sau
                                             </li>
                                             <li>
-                                                Your progress is saved
-                                                automatically
+                                                Tiến độ của bạn sẽ được lưu tự
+                                                động
                                             </li>
                                             {quiz?.duration && (
                                                 <li>
-                                                    Complete the quiz within the
-                                                    time limit
+                                                    Hoàn thành bài kiểm tra
+                                                    trong thời gian quy định
                                                 </li>
                                             )}
                                             <li>
-                                                Click "Submit Quiz" when you're
-                                                ready to finish
+                                                Nhấn "Nộp bài" khi bạn đã hoàn
+                                                thành
                                             </li>
                                         </ul>
                                     </div>
@@ -489,7 +492,7 @@ const QuizDetailPage: React.FC = () => {
                                         }
                                         className="quiz-result-button"
                                     >
-                                        View Result
+                                        Xem kết quả
                                     </Button>
                                     <Button
                                         type="primary"
@@ -497,7 +500,7 @@ const QuizDetailPage: React.FC = () => {
                                         onClick={handleStartQuiz}
                                         className="quiz-start-button"
                                     >
-                                        Start Quiz
+                                        Bắt đầu làm bài
                                     </Button>
                                 </div>
                             </div>
@@ -532,12 +535,12 @@ const QuizDetailPage: React.FC = () => {
                                                     color: '#20B2AA',
                                                 }}
                                             />
-                                            Question {currentQuestion + 1} of{' '}
-                                            {questions.length} (Choose{' '}
+                                            Câu hỏi {currentQuestion + 1} /{' '}
+                                            {questions.length} (
                                             {questions[currentQuestion]
                                                 ?.question_type === 'single'
-                                                ? 'one answer'
-                                                : 'many answers'}
+                                                ? 'Chọn 1 đáp án'
+                                                : 'Chọn nhiều đáp án'}
                                             )
                                         </Title>
                                         <Title
@@ -586,13 +589,13 @@ const QuizDetailPage: React.FC = () => {
                                             icon={<LeftOutlined />}
                                             className="quiz-nav-button"
                                         >
-                                            Previous
+                                            Trước
                                         </Button>
 
                                         <div className="quiz-progress-info">
                                             <Text type="secondary">
-                                                {Object.keys(answers).length} of{' '}
-                                                {questions.length} answered
+                                                {Object.keys(answers).length} /{' '}
+                                                {questions.length} đã trả lời
                                             </Text>
                                         </div>
 
@@ -605,7 +608,7 @@ const QuizDetailPage: React.FC = () => {
                                                 icon={<CheckCircleOutlined />}
                                                 className="quiz-submit-button"
                                             >
-                                                Submit Quiz
+                                                Nộp bài
                                             </Button>
                                         ) : (
                                             <Button
@@ -614,7 +617,7 @@ const QuizDetailPage: React.FC = () => {
                                                 icon={<RightOutlined />}
                                                 className="quiz-submit-button"
                                             >
-                                                Next
+                                                Tiếp theo
                                             </Button>
                                         )}
                                     </div>
@@ -623,7 +626,7 @@ const QuizDetailPage: React.FC = () => {
                                 {/* Question Navigator */}
                                 <Card
                                     className="quiz-navigator-card"
-                                    title="Question Navigator"
+                                    title="Danh sách câu hỏi"
                                     size="small"
                                 >
                                     <div className="quiz-navigator-buttons">
@@ -680,17 +683,17 @@ const QuizDetailPage: React.FC = () => {
                                             <span style={{ color: '#52c41a' }}>
                                                 ●
                                             </span>{' '}
-                                            Answered
+                                            Đã trả lời
                                             <span style={{ color: '#d9d9d9' }}>
                                                 {' '}
                                                 ●
                                             </span>{' '}
-                                            Not Answered
+                                            Chưa trả lời
                                             <span style={{ color: '#20B2AA' }}>
                                                 {' '}
                                                 ●
                                             </span>{' '}
-                                            Current
+                                            Đang làm
                                         </Text>
                                     </div>
                                 </Card>

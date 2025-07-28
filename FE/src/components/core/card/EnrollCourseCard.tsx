@@ -62,7 +62,7 @@ const EnrollCourseCard = ({ course }: any) => {
                         key={`certificate-${course.id}`}
                     >
                         <Button type="link" icon={<CheckCircleOutlined />}>
-                            Certificate
+                            Nhận chứng chỉ
                         </Button>
                     </Link>
                 ) : (
@@ -76,8 +76,8 @@ const EnrollCourseCard = ({ course }: any) => {
                             style={{ color: '#20B2AA' }}
                         >
                             {course.status === 'not_started'
-                                ? 'Start'
-                                : 'Continue'}
+                                ? 'Bắt đầu học'
+                                : 'Tiếp tục học'}
                         </Button>
                     </Link>
                 ),
@@ -95,7 +95,7 @@ const EnrollCourseCard = ({ course }: any) => {
                 type="secondary"
                 style={{ display: 'block', marginBottom: '12px' }}
             >
-                by {course.instructor.user.full_name}
+                bởi {course.instructor.user.full_name}
             </Text>
 
             <div style={{ marginBottom: '12px' }}>
@@ -114,13 +114,13 @@ const EnrollCourseCard = ({ course }: any) => {
                     }}
                 >
                     <Text type="secondary" style={{ fontSize: '12px' }}>
-                        {completedLessons}/{lessons} lessons
+                        {completedLessons}/{lessons} bài học
                     </Text>
                 </div>
             </div>
 
             <Text type="secondary" style={{ fontSize: '12px' }}>
-                Enrolled: {formatDateTime(course.created_at, DATE_FORMAT)}
+                Ngày đăng ký: {formatDateTime(course.created_at, DATE_FORMAT)}
             </Text>
         </Card>
     )

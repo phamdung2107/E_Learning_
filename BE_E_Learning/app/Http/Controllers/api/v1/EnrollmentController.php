@@ -140,7 +140,7 @@ class EnrollmentController extends Controller
      */
     public function topCourses()
     {
-        $result = Enrollment::with(['course.category', 'course.instructor'])
+        $result = Enrollment::with(['course.category', 'course.instructor.user'])
             ->select('course_id')
             ->groupBy('course_id')
             ->selectRaw('course_id, COUNT(*) as total')

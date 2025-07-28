@@ -31,7 +31,6 @@ const FooterComponent: React.FC = () => {
                 }}
             >
                 <Row gutter={[32, 32]} justify="space-between">
-                    {/* Company Info */}
                     <Col xs={24} sm={12} md={6}>
                         <div style={{ marginBottom: '20px' }}>
                             <div
@@ -74,47 +73,45 @@ const FooterComponent: React.FC = () => {
                                 </div>
                             </div>
                             <Text style={{ color: '#ccc' }}>
-                                Leading online education platform with
-                                high-quality courses and modern learning
-                                methods.
+                                Nền tảng giáo dục trực tuyến hàng đầu với các
+                                khóa học chất lượng cao và phương pháp học hiện
+                                đại.
                             </Text>
                         </div>
                     </Col>
 
-                    {/* Quick Links */}
                     <Col xs={24} sm={12} md={6}>
                         <Title
                             level={5}
                             style={{ color: 'white', marginBottom: '16px' }}
                         >
-                            Quick Links
+                            Liên kết nhanh
                         </Title>
                         <Space direction="vertical" size="small">
                             <Link to="/" style={{ color: '#ccc' }}>
-                                Home
+                                Trang chủ
                             </Link>
                             <Link to="/about" style={{ color: '#ccc' }}>
-                                About Us
+                                Giới thiệu
                             </Link>
                             <Link to="/courses" style={{ color: '#ccc' }}>
-                                Courses
+                                Khóa học
                             </Link>
                             <Link to="/activities" style={{ color: '#ccc' }}>
-                                Activities
+                                Hoạt động
                             </Link>
                             <Link to="/contact" style={{ color: '#ccc' }}>
-                                Contact
+                                Liên hệ
                             </Link>
                         </Space>
                     </Col>
 
-                    {/* Contact Info */}
                     <Col xs={24} sm={12} md={6}>
                         <Title
                             level={5}
                             style={{ color: 'white', marginBottom: '16px' }}
                         >
-                            Contact Information
+                            Thông tin liên hệ
                         </Title>
                         <Space direction="vertical" size="small">
                             <Text style={{ color: '#ccc' }}>
@@ -129,18 +126,17 @@ const FooterComponent: React.FC = () => {
                                 <EnvironmentOutlined
                                     style={{ marginRight: '8px' }}
                                 />
-                                Mon - Fri: 9:00 AM - 6:00 PM
+                                Thứ 2 - Thứ 6: 9:00 - 18:00
                             </Text>
                         </Space>
                     </Col>
 
-                    {/* Social Media */}
                     <Col xs={24} sm={12} md={6}>
                         <Title
                             level={5}
                             style={{ color: 'white', marginBottom: '16px' }}
                         >
-                            Follow Us
+                            Kết nối với chúng tôi
                         </Title>
                         <Space size="large">
                             <Button
@@ -191,7 +187,6 @@ const FooterComponent: React.FC = () => {
                     </Col>
                 </Row>
 
-                {/* Copyright */}
                 <div
                     style={{
                         borderTop: '1px solid #333',
@@ -201,8 +196,8 @@ const FooterComponent: React.FC = () => {
                     }}
                 >
                     <Text style={{ color: '#ccc' }}>
-                        © 2024 Education Platform by Mona Media. All rights
-                        reserved.
+                        © 2025 Nền tảng giáo dục bởi Mona Media. Đã đăng ký bản
+                        quyền.
                     </Text>
                 </div>
             </div>

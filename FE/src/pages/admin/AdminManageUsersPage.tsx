@@ -233,6 +233,7 @@ const AdminManageUsersPage = () => {
                     loading={refreshLoading}
                     rowKey="id"
                     pagination={{ pageSize: 10 }}
+                    scroll={{ x: 'max-content' }}
                 />
             </Card>
             <AdminUpdateUserModal

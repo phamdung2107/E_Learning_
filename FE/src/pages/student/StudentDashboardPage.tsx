@@ -116,8 +116,12 @@ const StudentDashboard: React.FC = () => {
         <div className="student-dashboard">
             {/* Header */}
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>Welcome back, {user?.full_name}! 👋</Title>
-                <Text type="secondary">Continue your learning journey</Text>
+                <Title level={2}>
+                    Chào mừng trở lại, {user?.full_name}! 👋
+                </Title>
+                <Text type="secondary">
+                    Tiếp tục hành trình học tập của bạn
+                </Text>
             </Card>
 
             {/* Stats Cards */}
@@ -125,7 +129,7 @@ const StudentDashboard: React.FC = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Courses"
+                            title="Khóa học"
                             value={enrolledCourses.length}
                             prefix={<BookOutlined />}
                             valueStyle={{ color: '#20B2AA' }}
@@ -135,7 +139,7 @@ const StudentDashboard: React.FC = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Lessons Completed"
+                            title="Bài học đã hoàn thành"
                             value={progressSummary.completed_lessons || 0}
                             prefix={<CheckCircleOutlined />}
                             valueStyle={{ color: '#52c41a' }}
@@ -145,7 +149,7 @@ const StudentDashboard: React.FC = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Courses Completed"
+                            title="Khóa học đã hoàn thành"
                             value={progressSummary.completed_courses || 0}
                             prefix={<CheckCircleOutlined />}
                             valueStyle={{ color: '#52c41a' }}
@@ -155,7 +159,7 @@ const StudentDashboard: React.FC = () => {
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Certificates"
+                            title="Chứng chỉ"
                             value={totalCertificate}
                             prefix={<TrophyOutlined />}
                             valueStyle={{ color: '#1890ff' }}
@@ -177,10 +181,10 @@ const StudentDashboard: React.FC = () => {
                                     alignItems: 'center',
                                 }}
                             >
-                                <span>My Courses</span>
+                                <span>Khóa học của tôi</span>
                                 <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>
                                     <Button type="link" size="small">
-                                        View All
+                                        Xem tất cả
                                     </Button>
                                 </Link>
                             </div>
@@ -205,7 +209,7 @@ const StudentDashboard: React.FC = () => {
                     <div className="student-sidebar">
                         <Card
                             className="student-activity-card"
-                            title="Notifications"
+                            title="Thông báo"
                         >
                             <List
                                 className="student-activity-list"
@@ -229,7 +233,7 @@ const StudentDashboard: React.FC = () => {
                                                               )
                                                           }
                                                       >
-                                                          Mark as read
+                                                          Đánh dấu đã đọc
                                                       </Button>,
                                                   ]
                                                 : []
@@ -256,7 +260,7 @@ const StudentDashboard: React.FC = () => {
                         {/* Quick Actions */}
                         <Card
                             className="student-actions-card"
-                            title="Quick Actions"
+                            title="Truy cập nhanh"
                         >
                             <Space
                                 direction="vertical"
@@ -265,12 +269,12 @@ const StudentDashboard: React.FC = () => {
                             >
                                 <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>
                                     <Button block icon={<BookOutlined />}>
-                                        My Courses
+                                        Khóa học của tôi
                                     </Button>
                                 </Link>
                                 <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>
                                     <Button block icon={<TrophyOutlined />}>
-                                        Certificates
+                                        Chứng chỉ
                                     </Button>
                                 </Link>
                                 <Link to={STUDENT_PATHS.STUDENT_CART}>
@@ -278,7 +282,7 @@ const StudentDashboard: React.FC = () => {
                                         block
                                         icon={<ShoppingCartOutlined />}
                                     >
-                                        My Cart
+                                        Giỏ hàng
                                     </Button>
                                 </Link>
                             </Space>

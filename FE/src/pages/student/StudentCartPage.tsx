@@ -67,13 +67,13 @@ const StudentCartPage = () => {
         try {
             await OrderService.delete(values.id)
             notification.success({
-                message: 'Delete order successfully',
+                message: 'Xóa đơn hàng thành công',
             })
             await fetchOrders()
         } catch (e) {
             console.error(e)
-            notification.success({
-                message: 'Delete order failed. Please try again later.',
+            notification.error({
+                message: 'Xóa đơn hàng thất bại. Vui lòng thử lại sau.',
             })
         } finally {
             setDeleteLoading(false)
@@ -82,22 +82,21 @@ const StudentCartPage = () => {
     }
 
     const handleCheckout = async (values: any) => {
-        console.log('values:', values)
         setCheckoutLoading(true)
         try {
             for (const order of values) {
                 await OrderService.confirm(order.id)
             }
             notification.success({
-                message: 'Order confirmed successfully',
+                message: 'Xác nhận đơn hàng thành công',
             })
             dispatch(getCurrentUserAction())
             dispatch(getCurrentCartAction())
             await fetchOrders()
         } catch (e) {
             console.error(e)
-            notification.success({
-                message: 'Order confirmed failed. Please try again later.',
+            notification.error({
+                message: 'Xác nhận đơn hàng thất bại. Vui lòng thử lại sau.',
             })
         } finally {
             setCheckoutLoading(false)
@@ -107,7 +106,7 @@ const StudentCartPage = () => {
 
     const columns: any = [
         {
-            title: 'Image',
+            title: 'Ảnh',
             dataIndex: 'courseImage',
             key: 'courseImage',
             render: (text: any) => (
@@ -119,20 +118,20 @@ const StudentCartPage = () => {
             ),
         },
         {
-            title: 'Course Name',
+            title: 'Tên khóa học',
             dataIndex: 'courseName',
             key: 'courseName',
             align: 'left' as const,
         },
         {
-            title: 'Price',
+            title: 'Giá',
             dataIndex: 'original_price',
             key: 'original_price',
             align: 'center' as const,
             render: (text: any) => `${formatPrice(text)}`,
         },
         {
-            title: 'Action',
+            title: 'Hành động',
             key: 'action',
             align: 'center',
             width: 120,
@@ -156,13 +155,15 @@ const StudentCartPage = () => {
     return (
         <div>
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>My Cart</Title>
-                <Text type="secondary">View or payment order courses</Text>
+                <Title level={2}>Giỏ hàng của tôi</Title>
+                <Text type="secondary">
+                    Xem hoặc thanh toán các khóa học đã đặt
+                </Text>
             </Card>
             <Row gutter={[16, 16]}>
                 <Col span={24}>
                     <Card
-                        title="Your Cart"
+                        title="Giỏ hàng"
                         bordered={false}
                         style={{ borderRadius: '8px' }}
                     >
@@ -176,21 +177,21 @@ const StudentCartPage = () => {
                     </Card>
                 </Col>
                 <Col span={24} style={{ textAlign: 'right' }}>
-                    <Button type="primary">Continue Shopping</Button>
+                    <Button type="primary">Tiếp tục mua sắm</Button>
                 </Col>
                 <Col span={24}>
                     <Card
-                        title="Cart Total"
+                        title="Tổng giỏ hàng"
                         bordered={false}
                         style={{ borderRadius: '8px' }}
                     >
                         <Row gutter={[16, 16]}>
-                            <Col span={12}>Subtotal</Col>
+                            <Col span={12}>Tạm tính</Col>
                             <Col span={12} style={{ textAlign: 'right' }}>
                                 {formatPrice(total)}
                             </Col>
                             <Col span={12}>
-                                <Tag color="blue">Total</Tag>
+                                <Tag color="blue">Tổng cộng</Tag>
                             </Col>
                             <Col
                                 span={12}
@@ -209,7 +210,7 @@ const StudentCartPage = () => {
                             onClick={() => setIsModalCheckoutOpen(true)}
                             disabled={orders.length === 0}
                         >
-                            Checkout
+                            Thanh toán
                         </Button>
                     </Card>
                 </Col>

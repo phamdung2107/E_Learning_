@@ -190,17 +190,17 @@ const CoursesPage: React.FC = () => {
                 <div className="courses-hero-floating-2" />
                 <div className="courses-hero-content">
                     <Title level={1} className="courses-hero-title">
-                        Explore Our Courses
+                        Khám phá các khóa học
                     </Title>
                     <Paragraph className="courses-hero-description">
-                        Discover thousands of courses taught by industry
-                        experts. Learn new skills, advance your career, and
-                        achieve your goals with our comprehensive learning
-                        platform.
+                        Khám phá hàng ngàn khóa học được giảng dạy bởi các
+                        chuyên gia trong ngành. Học kỹ năng mới, phát triển sự
+                        nghiệp và chinh phục mục tiêu của bạn với nền tảng học
+                        tập toàn diện.
                     </Paragraph>
                     <div className="courses-hero-search">
                         <Search
-                            placeholder="Search for courses, instructors, or topics..."
+                            placeholder="Tìm kiếm khóa học, giảng viên hoặc chủ đề..."
                             allowClear
                             enterButton={
                                 <Button
@@ -227,16 +227,16 @@ const CoursesPage: React.FC = () => {
                     <Card className="courses-filter-card">
                         <Title level={4} className="courses-filter-title">
                             <FilterOutlined style={{ marginRight: '8px' }} />
-                            Filter Courses
+                            Lọc khóa học
                         </Title>
                         <Row gutter={[24, 16]}>
                             <Col xs={24} sm={12} md={6}>
                                 <div className="courses-filter-group">
                                     <label className="courses-filter-label">
-                                        Category
+                                        Danh mục
                                     </label>
                                     <Select
-                                        placeholder="Choose a category..."
+                                        placeholder="Chọn danh mục..."
                                         showSearch
                                         allowClear
                                         value={selectedCategory}
@@ -251,10 +251,10 @@ const CoursesPage: React.FC = () => {
                             <Col xs={24} sm={12} md={6}>
                                 <div className="courses-filter-group">
                                     <label className="courses-filter-label">
-                                        Instructor
+                                        Giảng viên
                                     </label>
                                     <Select
-                                        placeholder="Choose an instructor..."
+                                        placeholder="Chọn giảng viên..."
                                         showSearch
                                         allowClear
                                         optionFilterProp="label"
@@ -269,13 +269,13 @@ const CoursesPage: React.FC = () => {
                             <Col xs={24} sm={12} md={6}>
                                 <div className="courses-filter-group">
                                     <label className="courses-filter-label">
-                                        Keyword
+                                        Từ khóa
                                     </label>
                                     <Input
                                         value={searchKeyword}
                                         onChange={handleKeywordChange}
                                         size="large"
-                                        placeholder="Search by keyword"
+                                        placeholder="Tìm kiếm theo từ khóa"
                                         onPressEnter={handleKeywordEnter}
                                     />
                                 </div>
@@ -283,7 +283,7 @@ const CoursesPage: React.FC = () => {
                             <Col xs={24} sm={12} md={6}>
                                 <div className="courses-filter-group">
                                     <label className="courses-filter-label">
-                                        Actions
+                                        Thao tác
                                     </label>
                                     <Row
                                         gutter={[16, 16]}
@@ -297,7 +297,7 @@ const CoursesPage: React.FC = () => {
                                                 onClick={handleSearchClick}
                                                 loading={loading}
                                             >
-                                                Search
+                                                Tìm kiếm
                                             </Button>
                                         </Col>
                                         <Col span={12}>
@@ -308,7 +308,7 @@ const CoursesPage: React.FC = () => {
                                                 onClick={handleClearFilters}
                                                 disabled={loading}
                                             >
-                                                Clear Filters
+                                                Xóa bộ lọc
                                             </Button>
                                         </Col>
                                     </Row>
@@ -326,8 +326,8 @@ const CoursesPage: React.FC = () => {
                     {!loading && totalCourses > 0 && (
                         <div className="courses-header">
                             <div className="courses-results-info">
-                                Showing {displayStart}-{displayEnd} of{' '}
-                                {totalCourses} courses
+                                Hiển thị {displayStart}-{displayEnd} trên tổng
+                                số {totalCourses} khóa học
                             </div>
                         </div>
                     )}
@@ -346,25 +346,25 @@ const CoursesPage: React.FC = () => {
                                     textAlign: 'center',
                                 }}
                             >
-                                Loading courses...
+                                Đang tải khóa học...
                             </Title>
                         </div>
                     ) : totalCourses === 0 ? (
                         <div className="courses-empty">
                             <BookOutlined className="courses-empty-icon" />
                             <Title level={3} className="courses-empty-title">
-                                No courses found
+                                Không tìm thấy khóa học nào
                             </Title>
                             <Paragraph className="courses-empty-description">
-                                Try adjusting your search criteria or browse our
-                                featured courses.
+                                Hãy thử thay đổi tiêu chí tìm kiếm hoặc xem các
+                                khóa học nổi bật của chúng tôi.
                             </Paragraph>
                             <Button
                                 type="primary"
                                 className="courses-empty-btn"
                                 onClick={handleClearFilters}
                             >
-                                Clear Filters
+                                Xóa bộ lọc
                             </Button>
                         </div>
                     ) : (
@@ -397,7 +397,7 @@ const CoursesPage: React.FC = () => {
                                         showSizeChanger={false}
                                         showQuickJumper
                                         showTotal={(total, range) =>
-                                            `${range[0]}-${range[1]} of ${total} courses`
+                                            `${range[0]}-${range[1]} trên tổng ${total} khóa học`
                                         }
                                         style={{
                                             textAlign: 'center',

@@ -24,10 +24,10 @@ const NotFound: React.FC = () => {
         <Result
             status="404"
             title="404"
-            subTitle={'Sorry, the page you visited does not exist.\n'}
+            subTitle={'Xin lỗi, trang bạn truy cập không tồn tại.'}
             extra={
                 <Button type="primary" onClick={() => navigate(navigateRoute)}>
-                    {'Turn Back Home'}
+                    {'Quay về trang chủ'}
                 </Button>
             }
         ></Result>

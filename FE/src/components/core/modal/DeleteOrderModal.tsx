@@ -16,7 +16,7 @@ export const DeleteOrderModal = ({
 
     return (
         <Modal
-            title="Delete Order"
+            title="Xóa đơn hàng"
             open={visible}
             onCancel={onClose}
             width={'30%'}
@@ -24,7 +24,7 @@ export const DeleteOrderModal = ({
             footer={null}
         >
             <div style={{ marginBottom: 24, fontSize: 18 }}>
-                Are you sure to delete order{' '}
+                Bạn có chắc chắn muốn xóa đơn hàng{' '}
                 <Typography.Text style={{ fontSize: 18 }} type="danger">
                     {record?.id}
                 </Typography.Text>
@@ -35,7 +35,7 @@ export const DeleteOrderModal = ({
                     <div style={{ display: 'flex' }}>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button key="cancel" type="default" onClick={onClose}>
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -45,7 +45,7 @@ export const DeleteOrderModal = ({
                             loading={loading}
                             onClick={handleSubmit}
                         >
-                            Delete
+                            Xóa
                         </Button>
                     </div>
                 </Form.Item>

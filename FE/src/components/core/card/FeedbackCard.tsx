@@ -43,7 +43,7 @@ const FeedbackCard = ({ review }: any) => {
                         type="secondary"
                         style={{ fontSize: '12px', display: 'block' }}
                     >
-                        Course: {review?.course?.title}
+                        Khóa học: {review?.course?.title}
                     </Text>
                 </div>
             </div>

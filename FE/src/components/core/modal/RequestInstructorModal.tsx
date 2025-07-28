@@ -28,7 +28,7 @@ const RequestInstructorModal = ({
 
     return (
         <Modal
-            title="Request Instructor"
+            title="Yêu cầu trở thành giảng viên"
             open={visible}
             onCancel={handleCancel}
             width={'30%'}
@@ -37,51 +37,51 @@ const RequestInstructorModal = ({
         >
             <Form form={form} layout="vertical" onFinish={handleSubmit}>
                 <Form.Item
-                    label="Bio"
+                    label="Giới thiệu bản thân"
                     name="bio"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter your bio',
+                            message: 'Vui lòng nhập giới thiệu bản thân',
                         },
                     ]}
                 >
                     <TextArea
                         rows={4}
                         allowClear
-                        placeholder="Enter your bio"
+                        placeholder="Nhập giới thiệu bản thân"
                     />
                 </Form.Item>
                 <Form.Item
-                    label="Experience years"
+                    label="Số năm kinh nghiệm"
                     name="experience_years"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter experience years',
+                            message: 'Vui lòng nhập số năm kinh nghiệm',
                         },
                     ]}
                 >
                     <Input
                         type="number"
                         allowClear
-                        placeholder="Enter experience years"
+                        placeholder="Nhập số năm kinh nghiệm"
                     />
                 </Form.Item>
                 <Form.Item
-                    label="LinkedIn Url"
+                    label="Đường dẫn LinkedIn"
                     name="linkedin_url"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter linkedin url',
+                            message: 'Vui lòng nhập đường dẫn LinkedIn',
                         },
                     ]}
                 >
                     <Input
                         type="link"
                         allowClear
-                        placeholder="Enter linkedin url"
+                        placeholder="Nhập đường dẫn LinkedIn"
                     />
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
@@ -91,7 +91,7 @@ const RequestInstructorModal = ({
                             type="default"
                             onClick={handleReset}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -99,7 +99,7 @@ const RequestInstructorModal = ({
                             type="default"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -108,7 +108,7 @@ const RequestInstructorModal = ({
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Request
+                            Gửi yêu cầu
                         </Button>
                     </div>
                 </Form.Item>

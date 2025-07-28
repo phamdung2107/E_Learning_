@@ -62,9 +62,9 @@ const CourseCard = ({ course, onEnroll }: any) => {
                                     value={averageRating}
                                 />
                             </ConfigProvider>
-                            {/*<Text type="secondary">*/}
-                            {/*    ({course.students.toLocaleString()})*/}
-                            {/*</Text>*/}
+                            <Text type="secondary">
+                                ({course?.enrollments_count})
+                            </Text>
                         </div>
                     </div>
                     <div className="course-card-footer">
@@ -76,7 +76,7 @@ const CourseCard = ({ course, onEnroll }: any) => {
                             className="course-card-btn"
                             onClick={handleEnroll}
                         >
-                            Buy
+                            Đăng ký
                         </Button>
                     </div>
                 </div>,
@@ -108,7 +108,7 @@ const CourseCard = ({ course, onEnroll }: any) => {
 
                 <div className="course-card-instructor">
                     <UserOutlined />
-                    <Text>by {course?.instructor?.user?.full_name}</Text>
+                    <Text>bởi {course?.instructor?.user?.full_name}</Text>
                 </div>
                 <Paragraph className="course-card-description">
                     {course?.description}

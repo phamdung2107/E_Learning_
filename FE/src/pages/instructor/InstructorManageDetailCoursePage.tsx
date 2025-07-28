@@ -360,7 +360,7 @@ const InstructorManageDetailCoursePage = () => {
             />
             {refreshLoading && (
                 <div className="full-page-loading">
-                    <Spin fullscreen={true} size="large" tip="Loading..." />
+                    <Spin fullscreen={true} size="large" tip="Đang tải..." />
                 </div>
             )}
         </div>

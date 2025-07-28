@@ -18,7 +18,7 @@ const CertificateCard = ({ certificate }: { certificate: any }) => {
     return (
         <Card hoverable>
             <Title level={4}>{certificate.course.title}</Title>
-            <Text type="secondary">Issued on: {certificate.issue_date}</Text>
+            <Text type="secondary">Đã cấp ngày: {certificate.issue_date}</Text>
 
             <div style={{ marginTop: '12px' }}>
                 <Space>
@@ -27,14 +27,14 @@ const CertificateCard = ({ certificate }: { certificate: any }) => {
                         icon={<EyeOutlined />}
                         onClick={handleView}
                     >
-                        View
+                        Xem
                     </Button>
 
                     <Button
                         icon={<DownloadOutlined />}
                         onClick={handleDownload}
                     >
-                        Download
+                        Tải xuống
                     </Button>
                 </Space>
             </div>

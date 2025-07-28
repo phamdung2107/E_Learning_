@@ -68,21 +68,22 @@ const AuthPage: React.FC = () => {
                         dispatch(setInstructor(instructorRes.payload))
                     }
                     notification.success({
-                        message: 'Login success!',
-                        description: 'Welcome back',
+                        message: 'Đăng nhập thành công!',
+                        description: 'Chào mừng bạn quay trở lại',
                     })
                     navigate(PATHS.HOME)
                 }
             } else {
                 notification.error({
-                    message: 'Login failed!',
+                    message: 'Đăng nhập thất bại!',
                     description:
-                        loginResponse.payload?.message || 'Invalid credentials',
+                        loginResponse.payload?.message ||
+                        'Tài khoản hoặc mật khẩu không đúng',
                 })
             }
         } catch (e: any) {
             notification.error({
-                message: 'Login failed!',
+                message: 'Đăng nhập thất bại!',
                 description: e.message,
             })
         } finally {
@@ -102,15 +103,15 @@ const AuthPage: React.FC = () => {
             })
             if (response.status === 200) {
                 notification.success({
-                    message: 'Register success!',
-                    description: 'Please input your account to login',
+                    message: 'Đăng ký thành công!',
+                    description: 'Vui lòng đăng nhập để tiếp tục',
                 })
                 registerForm.resetFields()
                 setActiveTab('login')
             }
         } catch (e: any) {
             notification.error({
-                message: 'Register failed!',
+                message: 'Đăng ký thất bại!',
                 description: e.message,
             })
         } finally {
@@ -157,7 +158,7 @@ const AuthPage: React.FC = () => {
                                         padding: '8px 24px',
                                     }}
                                 >
-                                    Sign In
+                                    Đăng nhập
                                 </span>
                             ),
                         },
@@ -174,7 +175,7 @@ const AuthPage: React.FC = () => {
                                         padding: '8px 24px',
                                     }}
                                 >
-                                    Sign Up
+                                    Đăng ký
                                 </span>
                             ),
                         },
@@ -194,11 +195,11 @@ const AuthPage: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your email!',
+                                    message: 'Vui lòng nhập email!',
                                 },
                                 {
                                     type: 'email',
-                                    message: 'Invalid email address!',
+                                    message: 'Email không hợp lệ!',
                                 },
                             ]}
                         >
@@ -223,7 +224,7 @@ const AuthPage: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your password!',
+                                    message: 'Vui lòng nhập mật khẩu!',
                                 },
                             ]}
                         >
@@ -233,7 +234,7 @@ const AuthPage: React.FC = () => {
                                         style={{ color: '#bfbfbf' }}
                                     />
                                 }
-                                placeholder="Password"
+                                placeholder="Mật khẩu"
                                 style={{
                                     borderRadius: '8px',
                                     padding: '12px 16px',
@@ -261,7 +262,7 @@ const AuthPage: React.FC = () => {
                                                 fontSize: '14px',
                                             }}
                                         >
-                                            Remember
+                                            Ghi nhớ đăng nhập
                                         </Text>
                                     </Checkbox>
                                 </Form.Item>
@@ -276,11 +277,11 @@ const AuthPage: React.FC = () => {
                                     onClick={(e) => {
                                         e.preventDefault()
                                         message.info(
-                                            'Forget password is not supported!'
+                                            'Chức năng quên mật khẩu chưa hỗ trợ!'
                                         )
                                     }}
                                 >
-                                    Forgot password?
+                                    Quên mật khẩu?
                                 </Link>
                             </Col>
                         </Row>
@@ -303,7 +304,7 @@ const AuthPage: React.FC = () => {
                                         '0 4px 12px rgba(25, 118, 210, 0.3)',
                                 }}
                             >
-                                SIGN IN
+                                ĐĂNG NHẬP
                             </Button>
                         </Form.Item>
                     </Form>
@@ -320,7 +321,7 @@ const AuthPage: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your full name!',
+                                    message: 'Vui lòng nhập họ và tên!',
                                 },
                             ]}
                         >
@@ -330,7 +331,7 @@ const AuthPage: React.FC = () => {
                                         style={{ color: '#bfbfbf' }}
                                     />
                                 }
-                                placeholder="Full name"
+                                placeholder="Họ và tên"
                                 style={{
                                     borderRadius: '8px',
                                     padding: '12px 16px',
@@ -345,11 +346,11 @@ const AuthPage: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your email!',
+                                    message: 'Vui lòng nhập email!',
                                 },
                                 {
                                     type: 'email',
-                                    message: 'Invalid email address!',
+                                    message: 'Email không hợp lệ!',
                                 },
                             ]}
                         >
@@ -374,12 +375,12 @@ const AuthPage: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your password!',
+                                    message: 'Vui lòng nhập mật khẩu!',
                                 },
                                 {
                                     min: 6,
                                     message:
-                                        'Password must be at least 6 characters long!',
+                                        'Mật khẩu phải có ít nhất 6 ký tự!',
                                 },
                             ]}
                         >
@@ -389,7 +390,7 @@ const AuthPage: React.FC = () => {
                                         style={{ color: '#bfbfbf' }}
                                     />
                                 }
-                                placeholder="Password"
+                                placeholder="Mật khẩu"
                                 style={{
                                     borderRadius: '8px',
                                     padding: '12px 16px',
@@ -405,7 +406,7 @@ const AuthPage: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please confirm your password!',
+                                    message: 'Vui lòng xác nhận mật khẩu!',
                                 },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
@@ -417,7 +418,7 @@ const AuthPage: React.FC = () => {
                                         }
                                         return Promise.reject(
                                             new Error(
-                                                'Confirm password is not the same as password!'
+                                                'Mật khẩu xác nhận không khớp!'
                                             )
                                         )
                                     },
@@ -430,7 +431,7 @@ const AuthPage: React.FC = () => {
                                         style={{ color: '#bfbfbf' }}
                                     />
                                 }
-                                placeholder="Confirm password"
+                                placeholder="Xác nhận mật khẩu"
                                 style={{
                                     borderRadius: '8px',
                                     padding: '12px 16px',
@@ -446,7 +447,7 @@ const AuthPage: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please agree to the terms!',
+                                    message: 'Vui lòng đồng ý với điều khoản!',
                                 },
                             ]}
                             style={{ marginBottom: '24px' }}
@@ -455,13 +456,13 @@ const AuthPage: React.FC = () => {
                                 <Text
                                     style={{ color: '#666', fontSize: '14px' }}
                                 >
-                                    I agree to the{' '}
+                                    Tôi đồng ý với{' '}
                                     <Link href="#" style={{ color: '#1976d2' }}>
-                                        Terms of Use
+                                        Điều khoản sử dụng
                                     </Link>{' '}
-                                    and{' '}
+                                    và{' '}
                                     <Link href="#" style={{ color: '#1976d2' }}>
-                                        Privacy Policy
+                                        Chính sách bảo mật
                                     </Link>
                                 </Text>
                             </Checkbox>
@@ -485,7 +486,7 @@ const AuthPage: React.FC = () => {
                                         '0 4px 12px rgba(25, 118, 210, 0.3)',
                                 }}
                             >
-                                SIGN UP
+                                ĐĂNG KÝ
                             </Button>
                         </Form.Item>
                     </Form>
@@ -494,8 +495,8 @@ const AuthPage: React.FC = () => {
                 <div style={{ textAlign: 'center', marginTop: '24px' }}>
                     <Text style={{ color: '#666', fontSize: '14px' }}>
                         {activeTab === 'login'
-                            ? 'No account? '
-                            : 'Already have an account? '}
+                            ? 'Chưa có tài khoản? '
+                            : 'Đã có tài khoản? '}
                         <Link
                             onClick={() =>
                                 setActiveTab(
@@ -505,8 +506,8 @@ const AuthPage: React.FC = () => {
                             style={{ color: '#1976d2', fontWeight: '500' }}
                         >
                             {activeTab === 'login'
-                                ? 'Sign up now'
-                                : 'Sign in now'}
+                                ? 'Đăng ký ngay'
+                                : 'Đăng nhập ngay'}
                         </Link>
                     </Text>
                 </div>

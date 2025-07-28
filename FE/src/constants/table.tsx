@@ -10,7 +10,6 @@ import {
     InteractionOutlined,
     PlusOutlined,
     QuestionCircleOutlined,
-    ReloadOutlined,
     UploadOutlined,
 } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
@@ -22,7 +21,7 @@ import { getRoleName, getStatusNameAndColor } from '@/utils/get'
 
 export const RESULT_QUIZ_COLUMNS: any = [
     {
-        title: 'Date Time',
+        title: 'Thời gian nộp',
         dataIndex: 'submitted_at',
         key: 'submitted_at',
         align: 'left' as const,
@@ -31,26 +30,26 @@ export const RESULT_QUIZ_COLUMNS: any = [
         },
     },
     {
-        title: 'Total Question',
+        title: 'Tổng số câu hỏi',
         dataIndex: 'total_questions',
         key: 'total_questions',
         align: 'center' as const,
     },
     {
-        title: 'Correct Answer',
+        title: 'Số câu đúng',
         dataIndex: 'correct_answers',
         key: 'correct_answers',
         align: 'center' as const,
     },
     {
-        title: 'Result',
+        title: 'Kết quả',
         dataIndex: 'is_pass',
         key: 'is_pass',
         align: 'center' as const,
         render: (text: any) => {
             return (
                 <Tag color={text ? 'green' : 'error'}>
-                    {text ? 'Pass' : 'Fail'}
+                    {text ? 'Đạt' : 'Không đạt'}
                 </Tag>
             )
         },
@@ -65,7 +64,7 @@ export const getManageCourseColumns = (
     categoryOptions: any[] = []
 ) => [
     {
-        title: 'ID',
+        title: 'Mã',
         dataIndex: 'id',
         key: 'id',
         align: 'center',
@@ -79,13 +78,13 @@ export const getManageCourseColumns = (
         },
     },
     {
-        title: 'Title',
+        title: 'Tên khóa học',
         dataIndex: 'title',
         key: 'title',
         align: 'left',
     },
     {
-        title: 'Thumbnail',
+        title: 'Ảnh đại diện',
         dataIndex: 'thumbnail',
         key: 'thumbnail',
         align: 'center',
@@ -100,7 +99,7 @@ export const getManageCourseColumns = (
         },
     },
     {
-        title: 'Category',
+        title: 'Danh mục',
         dataIndex: 'category_id',
         key: 'category_id',
         align: 'center',
@@ -112,18 +111,18 @@ export const getManageCourseColumns = (
         },
     },
     {
-        title: 'Students',
+        title: 'Số học viên',
         dataIndex: 'enrollments_count',
         key: 'enrollments_count',
         align: 'center',
     },
     {
-        title: 'Description',
+        title: 'Mô tả',
         dataIndex: 'description',
         key: 'description',
     },
     {
-        title: 'Price',
+        title: 'Giá',
         dataIndex: 'price',
         key: 'price',
         align: 'center',
@@ -132,7 +131,7 @@ export const getManageCourseColumns = (
         },
     },
     {
-        title: 'Status',
+        title: 'Trạng thái',
         dataIndex: 'status',
         key: 'status',
         align: 'center',
@@ -140,18 +139,18 @@ export const getManageCourseColumns = (
             return (
                 <div>
                     {text === 'published' ? (
-                        <Tag color="green">Published</Tag>
+                        <Tag color="green">Đã xuất bản</Tag>
                     ) : text === 'archived' ? (
-                        <Tag color="orange">Archived</Tag>
+                        <Tag color="orange">Đã lưu trữ</Tag>
                     ) : (
-                        <Tag color="default">Draft</Tag>
+                        <Tag color="default">Bản nháp</Tag>
                     )}
                 </div>
             )
         },
     },
     {
-        title: 'Action',
+        title: 'Hành động',
         key: 'action',
         align: 'center',
         width: 200,
@@ -168,8 +167,8 @@ export const getManageCourseColumns = (
                     }}
                 />
                 <Popconfirm
-                    title="Delete the course"
-                    description={`Are you sure to delete this course`}
+                    title="Xóa khóa học"
+                    description={`Bạn có chắc chắn muốn xóa khóa học này?`}
                     onConfirm={(e) => {
                         // @ts-ignore
                         e.stopPropagation()
@@ -177,14 +176,14 @@ export const getManageCourseColumns = (
                     }}
                     onCancel={() => {}}
                     icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                    okText="Delete"
-                    cancelText="Cancel"
+                    okText="Xóa"
+                    cancelText="Hủy"
                 >
                     <Button danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
                 <Popconfirm
-                    title="Publish the course"
-                    description={`Are you sure to publish this course`}
+                    title="Xuất bản khóa học"
+                    description={`Bạn có chắc chắn muốn xuất bản khóa học này?`}
                     onConfirm={(e) => {
                         // @ts-ignore
                         e.stopPropagation()
@@ -192,8 +191,8 @@ export const getManageCourseColumns = (
                     }}
                     onCancel={() => {}}
                     icon={<QuestionCircleOutlined style={{ color: 'green' }} />}
-                    okText="Publish"
-                    cancelText="Cancel"
+                    okText="Xuất bản"
+                    cancelText="Hủy"
                 >
                     <Button
                         variant="solid"
@@ -204,8 +203,8 @@ export const getManageCourseColumns = (
                     />
                 </Popconfirm>
                 <Popconfirm
-                    title="Archive the course"
-                    description={`Are you sure to archive this course`}
+                    title="Lưu trữ khóa học"
+                    description={`Bạn có chắc chắn muốn lưu trữ khóa học này?`}
                     onConfirm={(e) => {
                         // @ts-ignore
                         e.stopPropagation()
@@ -215,8 +214,8 @@ export const getManageCourseColumns = (
                     icon={
                         <QuestionCircleOutlined style={{ color: 'orange' }} />
                     }
-                    okText="Archive"
-                    cancelText="Cancel"
+                    okText="Lưu trữ"
+                    cancelText="Hủy"
                 >
                     <Button
                         variant="solid"
@@ -237,7 +236,7 @@ export const getAdminManageCourseColumns = (
     archiveCourse: (record: any) => void
 ) => [
     {
-        title: 'ID',
+        title: 'Mã',
         dataIndex: 'id',
         key: 'id',
         align: 'center',
@@ -251,13 +250,13 @@ export const getAdminManageCourseColumns = (
         },
     },
     {
-        title: 'Title',
+        title: 'Tên khóa học',
         dataIndex: 'title',
         key: 'title',
         align: 'left',
     },
     {
-        title: 'Thumbnail',
+        title: 'Ảnh đại diện',
         dataIndex: 'thumbnail',
         key: 'thumbnail',
         align: 'center',
@@ -272,30 +271,30 @@ export const getAdminManageCourseColumns = (
         },
     },
     {
-        title: 'Category',
+        title: 'Danh mục',
         dataIndex: 'category_name',
         key: 'category_name',
         align: 'center',
     },
     {
-        title: 'Instructor',
+        title: 'Giảng viên',
         dataIndex: 'instructor_full_name',
         key: 'instructor_full_name',
         align: 'center',
     },
     {
-        title: 'Students',
+        title: 'Số học viên',
         dataIndex: 'enrollments_count',
         key: 'enrollments_count',
         align: 'center',
     },
     {
-        title: 'Description',
+        title: 'Mô tả',
         dataIndex: 'description',
         key: 'description',
     },
     {
-        title: 'Price',
+        title: 'Giá',
         dataIndex: 'price',
         key: 'price',
         align: 'center',
@@ -304,7 +303,7 @@ export const getAdminManageCourseColumns = (
         },
     },
     {
-        title: 'Status',
+        title: 'Trạng thái',
         dataIndex: 'status',
         key: 'status',
         align: 'center',
@@ -312,18 +311,18 @@ export const getAdminManageCourseColumns = (
             return (
                 <div>
                     {text === 'published' ? (
-                        <Tag color="green">Published</Tag>
+                        <Tag color="green">Đã xuất bản</Tag>
                     ) : text === 'archived' ? (
-                        <Tag color="orange">Archived</Tag>
+                        <Tag color="orange">Đã lưu trữ</Tag>
                     ) : (
-                        <Tag color="default">Draft</Tag>
+                        <Tag color="default">Bản nháp</Tag>
                     )}
                 </div>
             )
         },
     },
     {
-        title: 'Action',
+        title: 'Hành động',
         key: 'action',
         align: 'center',
         width: 200,
@@ -331,8 +330,8 @@ export const getAdminManageCourseColumns = (
         render: (record: any) => (
             <Space>
                 <Popconfirm
-                    title="Delete the course"
-                    description={`Are you sure to delete this course`}
+                    title="Xóa khóa học"
+                    description={`Bạn có chắc chắn muốn xóa khóa học này?`}
                     onConfirm={(e) => {
                         // @ts-ignore
                         e.stopPropagation()
@@ -340,14 +339,14 @@ export const getAdminManageCourseColumns = (
                     }}
                     onCancel={() => {}}
                     icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                    okText="Delete"
-                    cancelText="Cancel"
+                    okText="Xóa"
+                    cancelText="Hủy"
                 >
                     <Button danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
                 <Popconfirm
-                    title="Publish the course"
-                    description={`Are you sure to publish this course`}
+                    title="Xuất bản khóa học"
+                    description={`Bạn có chắc chắn muốn xuất bản khóa học này?`}
                     onConfirm={(e) => {
                         // @ts-ignore
                         e.stopPropagation()
@@ -355,8 +354,8 @@ export const getAdminManageCourseColumns = (
                     }}
                     onCancel={() => {}}
                     icon={<QuestionCircleOutlined style={{ color: 'green' }} />}
-                    okText="Publish"
-                    cancelText="Cancel"
+                    okText="Xuất bản"
+                    cancelText="Hủy"
                 >
                     <Button
                         variant="solid"
@@ -367,8 +366,8 @@ export const getAdminManageCourseColumns = (
                     />
                 </Popconfirm>
                 <Popconfirm
-                    title="Archive the course"
-                    description={`Are you sure to archive this course`}
+                    title="Lưu trữ khóa học"
+                    description={`Bạn có chắc chắn muốn lưu trữ khóa học này?`}
                     onConfirm={(e) => {
                         // @ts-ignore
                         e.stopPropagation()
@@ -378,8 +377,8 @@ export const getAdminManageCourseColumns = (
                     icon={
                         <QuestionCircleOutlined style={{ color: 'orange' }} />
                     }
-                    okText="Archive"
-                    cancelText="Cancel"
+                    okText="Lưu trữ"
+                    cancelText="Hủy"
                 >
                     <Button
                         variant="solid"
@@ -400,7 +399,7 @@ export const getManageLessonColumns = (
     openModalCreate: (record: any) => void
 ) => [
     {
-        title: 'ID',
+        title: 'Mã',
         dataIndex: 'id',
         key: 'id',
         align: 'center',
@@ -415,31 +414,31 @@ export const getManageLessonColumns = (
         },
     },
     {
-        title: 'Title',
+        title: 'Tên bài học',
         dataIndex: 'title',
         key: 'title',
         align: 'left',
     },
     {
-        title: 'Video url',
+        title: 'Đường dẫn video',
         dataIndex: 'video_url',
         key: 'video_url',
         align: 'center',
     },
     {
-        title: 'Content',
+        title: 'Nội dung',
         dataIndex: 'content',
         key: 'content',
         align: 'left',
     },
     {
-        title: 'Order number',
+        title: 'Thứ tự',
         dataIndex: 'order_number',
         key: 'order_number',
         align: 'center',
     },
     {
-        title: 'Action',
+        title: 'Hành động',
         key: 'action',
         align: 'center',
         width: 120,
@@ -456,8 +455,8 @@ export const getManageLessonColumns = (
                     }}
                 />
                 <Popconfirm
-                    title="Delete the lesson"
-                    description={`Are you sure to delete this lesson`}
+                    title="Xóa bài học"
+                    description={`Bạn có chắc chắn muốn xóa bài học này?`}
                     onConfirm={(e) => {
                         // @ts-ignore
                         e.stopPropagation()
@@ -465,8 +464,8 @@ export const getManageLessonColumns = (
                     }}
                     onCancel={() => {}}
                     icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                    okText="Delete"
-                    cancelText="Cancel"
+                    okText="Xóa"
+                    cancelText="Hủy"
                 >
                     <Button danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
@@ -491,7 +490,7 @@ export const getManageQuizColumns = (
     openModalCreate: (record: any) => void
 ) => [
     {
-        title: 'ID',
+        title: 'Mã',
         dataIndex: 'id',
         key: 'id',
         align: 'center',
@@ -499,19 +498,19 @@ export const getManageQuizColumns = (
         width: 70,
     },
     {
-        title: 'Title',
+        title: 'Tên quiz',
         dataIndex: 'title',
         key: 'title',
         align: 'left',
     },
     {
-        title: 'Description',
+        title: 'Mô tả',
         dataIndex: 'description',
         key: 'description',
         align: 'left',
     },
     {
-        title: 'Action',
+        title: 'Hành động',
         key: 'action',
         align: 'center',
         width: 120,
@@ -528,8 +527,8 @@ export const getManageQuizColumns = (
                     }}
                 />
                 <Popconfirm
-                    title="Delete the quiz"
-                    description={`Are you sure to delete this quiz`}
+                    title="Xóa quiz"
+                    description={`Bạn có chắc chắn muốn xóa quiz này?`}
                     onConfirm={(e) => {
                         // @ts-ignore
                         e.stopPropagation()
@@ -537,8 +536,8 @@ export const getManageQuizColumns = (
                     }}
                     onCancel={() => {}}
                     icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                    okText="Delete"
-                    cancelText="Cancel"
+                    okText="Xóa"
+                    cancelText="Hủy"
                 >
                     <Button danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
@@ -563,7 +562,7 @@ export const getManageQuestionColumns = (
     openModalCreate: (record: any) => void
 ) => [
     {
-        title: 'ID',
+        title: 'Mã',
         dataIndex: 'id',
         key: 'id',
         align: 'center',
@@ -571,20 +570,20 @@ export const getManageQuestionColumns = (
         width: 70,
     },
     {
-        title: 'Question Text',
+        title: 'Nội dung câu hỏi',
         dataIndex: 'question_text',
         key: 'question_text',
         align: 'left',
     },
     {
-        title: 'Question Type',
+        title: 'Loại câu hỏi',
         dataIndex: 'question_type',
         key: 'question_type',
         align: 'center',
         width: 150,
     },
     {
-        title: 'Action',
+        title: 'Hành động',
         key: 'action',
         align: 'center',
         width: 120,
@@ -601,8 +600,8 @@ export const getManageQuestionColumns = (
                     }}
                 />
                 <Popconfirm
-                    title="Delete the question and its answers"
-                    description={`Are you sure to delete this question`}
+                    title="Xóa câu hỏi và đáp án"
+                    description={`Bạn có chắc chắn muốn xóa câu hỏi này?`}
                     onConfirm={(e) => {
                         // @ts-ignore
                         e.stopPropagation()
@@ -610,8 +609,8 @@ export const getManageQuestionColumns = (
                     }}
                     onCancel={() => {}}
                     icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                    okText="Delete"
-                    cancelText="Cancel"
+                    okText="Xóa"
+                    cancelText="Hủy"
                 >
                     <Button danger size="small" icon={<DeleteOutlined />} />
                 </Popconfirm>
@@ -632,7 +631,7 @@ export const getManageQuestionColumns = (
 
 export const MANAGE_STUDENT_COLUMNS: any = [
     {
-        title: 'ID',
+        title: 'Mã',
         dataIndex: 'id',
         key: 'id',
         align: 'center',
@@ -640,7 +639,7 @@ export const MANAGE_STUDENT_COLUMNS: any = [
         width: 70,
     },
     {
-        title: 'Full name',
+        title: 'Họ và tên',
         dataIndex: 'full_name',
         key: 'full_name',
         align: 'left',
@@ -652,19 +651,19 @@ export const MANAGE_STUDENT_COLUMNS: any = [
         align: 'left',
     },
     {
-        title: 'Phone number',
+        title: 'Số điện thoại',
         dataIndex: 'phone',
         key: 'phone',
         align: 'center',
     },
     {
-        title: 'Gender',
+        title: 'Giới tính',
         dataIndex: 'gender',
         key: 'gender',
         align: 'center',
     },
     {
-        title: 'Date of birth',
+        title: 'Ngày sinh',
         dataIndex: 'date_of_birth',
         key: 'date_of_birth',
         align: 'center',
@@ -673,7 +672,7 @@ export const MANAGE_STUDENT_COLUMNS: any = [
         },
     },
     {
-        title: 'Status',
+        title: 'Trạng thái',
         dataIndex: 'status',
         key: 'status',
         align: 'center' as const,
@@ -693,7 +692,7 @@ export const getManageUserColumns: any = (
     onResetPassword: (record: any) => void
 ) => [
     {
-        title: 'ID',
+        title: 'Mã',
         dataIndex: 'id',
         key: 'id',
         align: 'center',
@@ -819,7 +818,7 @@ export const getManageUserColumns: any = (
 
 export const MANAGE_TRANSACTION_COLUMNS: any = [
     {
-        title: 'ID',
+        title: 'Mã',
         dataIndex: 'id',
         key: 'id',
         align: 'center',

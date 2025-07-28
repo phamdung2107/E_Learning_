@@ -17,7 +17,7 @@ const RequiredAuth: React.FC<{ children: React.ReactNode }> = ({
 
     if (!isAuthenticated) {
         notification.error({
-            message: 'You are not authenticated or not authorized',
+            message: 'Bạn chưa đăng nhập hoặc không có đủ quyền truy cập',
         })
         return <Navigate to={PATHS.AUTH} state={{ from: location }} replace />
     }

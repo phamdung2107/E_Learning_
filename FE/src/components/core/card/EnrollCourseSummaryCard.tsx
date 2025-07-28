@@ -98,7 +98,7 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
                                     border: 'none',
                                 }}
                             >
-                                Continue
+                                Tiếp tục học
                             </Button>
                         </Link>
                     )}

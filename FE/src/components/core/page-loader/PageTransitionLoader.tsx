@@ -35,7 +35,7 @@ const PageTransitionLoader = () => {
                 zIndex: 9999,
             }}
         >
-            <Spin size="large" fullscreen={true} tip="Loading..." />
+            <Spin size="large" fullscreen={true} tip="Đang tải..." />
         </div>
     )
 }

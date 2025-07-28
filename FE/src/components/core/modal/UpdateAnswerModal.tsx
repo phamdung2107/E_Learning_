@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { Button, Checkbox, Form, Input, Modal, Select } from 'antd'
+import { Button, Checkbox, Form, Input, Modal } from 'antd'
 
 const UpdateQuizModal = ({
     visible,
@@ -41,7 +41,7 @@ const UpdateQuizModal = ({
 
     return (
         <Modal
-            title={`Edit Answer: ${record?.answer_text || 'Quiz'}`}
+            title={`Chỉnh sửa đáp án: ${record?.answer_text || 'Quiz'}`}
             open={visible}
             onCancel={handleCancel}
             width="30%"
@@ -56,23 +56,23 @@ const UpdateQuizModal = ({
                 onFinish={handleSubmit}
             >
                 <Form.Item
-                    label="Answer text"
+                    label="Nội dung đáp án"
                     name="answer_text"
                     rules={[
                         {
                             required: true,
-                            message: 'Please enter the quiz answer text',
+                            message: 'Vui lòng nhập nội dung đáp án',
                         },
                     ]}
                 >
-                    <Input allowClear placeholder="Enter quiz answer text" />
+                    <Input allowClear placeholder="Nhập nội dung đáp án" />
                 </Form.Item>
                 <Form.Item
-                    label="Is correct"
+                    label="Đáp án đúng"
                     name="is_correct"
                     valuePropName="checked"
                 >
-                    <Checkbox>Correct</Checkbox>
+                    <Checkbox>Đúng</Checkbox>
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 0 }}>
                     <div style={{ display: 'flex' }}>
@@ -81,7 +81,7 @@ const UpdateQuizModal = ({
                             type="default"
                             onClick={handleReset}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                         <div style={{ flexGrow: 1 }}></div>
                         <Button
@@ -89,7 +89,7 @@ const UpdateQuizModal = ({
                             type="default"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            Hủy
                         </Button>
                         <Button
                             style={{ marginLeft: 10 }}
@@ -98,7 +98,7 @@ const UpdateQuizModal = ({
                             loading={loading}
                             onClick={() => form.submit()}
                         >
-                            Edit
+                            Lưu thay đổi
                         </Button>
                     </div>
                 </Form.Item>
