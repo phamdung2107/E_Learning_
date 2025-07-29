@@ -373,3 +373,8 @@ export const NOTIFICATION_API = {
     MARK_AS_READ: (id: any) => `/notifications/${id}/read`,
     LIST_UNREAD: `/notifications/unread`,
 }
+
+export const AI_RECOMMENDATION_API = {
+    LIST: '/ai-recommendation',
+    STORE: '/ai-recommendation',
+}

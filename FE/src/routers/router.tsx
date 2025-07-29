@@ -35,6 +35,7 @@ import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
 import StudentWalletReturnPage from '@/pages/student/StudentWalletReturnPage'
 
 import { ADMIN_PATHS, INSTRUCTOR_PATHS, PATHS, STUDENT_PATHS } from './path'
+import AIRecommendPage from '@/pages/commons/AIRecommendPage'
 
 const AppRouter = [
     <Route
@@ -57,6 +58,7 @@ const AppRouter = [
         <Route path={PATHS.EVENT} element={<EventPage />} />
         <Route path={PATHS.CONTACT} element={<ContactPage />} />
         <Route path={PATHS.COURSE_DETAIL} element={<CourseDetailPage />} />
+        <Route path={PATHS.RECOMMENDATION} element={<AIRecommendPage />} />
     </Route>,
     <Route
         element={

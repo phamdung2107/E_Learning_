@@ -8,6 +8,7 @@ export const PUBLIC_PATHS = {
     LESSON_DETAIL: '/courses/:courseId/lessons/:lessonId',
     QUIZ_DETAIL: '/courses/:courseId/quizzes/:quizId',
     RESULT_QUIZ_DETAIL: '/courses/:courseId/quizzes/:quizId/results',
+    RECOMMENDATION: '/recommendation',
 }
 
 export const AUTH_PATHS = {

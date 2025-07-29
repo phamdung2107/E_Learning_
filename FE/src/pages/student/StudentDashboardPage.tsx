@@ -23,7 +23,7 @@ import {
     ShoppingCartOutlined,
     TrophyOutlined,
 } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import EnrollCourseSummaryCard from '@/components/core/card/EnrollCourseSummaryCard'
@@ -34,10 +34,12 @@ import NotificationService from '@/services/notification'
 import ProgressService from '@/services/progress'
 
 import '../styles/StudentDashboard.css'
+import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
 
 const { Title, Text } = Typography
 
 const StudentDashboard: React.FC = () => {
+    const dispatch = useDispatch()
     const user = useSelector((store: any) => store.auth.user)
     const [enrolledCourses, setEnrolledCourses] = useState<any[]>([])
     const [progressSummary, setProgressSummary] = useState<any>({})
@@ -100,6 +102,7 @@ const StudentDashboard: React.FC = () => {
         try {
             await NotificationService.maskAsRead(id)
             await fetchNotifications()
+            dispatch(getCurrentNotificationAction())
         } catch (e) {
             console.error('Failed to mark as read:', e)
         }

@@ -6,56 +6,49 @@ export const getPageInfo = (pathname: string) => {
         { title: string; breadcrumb: Array<{ title: string; href?: string }> }
     > = {
         [PATHS.HOME]: {
-            title: 'Home',
-            breadcrumb: [{ title: 'Home' }],
+            title: 'Trang chủ',
+            breadcrumb: [{ title: 'Trang chủ' }],
         },
         [PATHS.ABOUT]: {
-            title: 'About',
+            title: 'Giới thiệu',
             breadcrumb: [
-                { title: 'Home', href: PATHS.HOME },
-                { title: 'About' },
+                { title: 'Trang chủ', href: PATHS.HOME },
+                { title: 'Giới thiệu' },
             ],
         },
         [PATHS.COURSES]: {
-            title: 'Courses',
+            title: 'Khóa học',
             breadcrumb: [
-                { title: 'Home', href: PATHS.HOME },
-                { title: 'Courses' },
+                { title: 'Trang chủ', href: PATHS.HOME },
+                { title: 'Khóa học' },
             ],
         },
         [PATHS.EVENT]: {
-            title: 'Event',
+            title: 'Hoạt động',
             breadcrumb: [
-                { title: 'Home', href: PATHS.HOME },
-                { title: 'Event' },
+                { title: 'Trang chủ', href: PATHS.HOME },
+                { title: 'Hoạt động' },
             ],
         },
         [PATHS.CONTACT]: {
-            title: 'Contact',
+            title: 'Liên hệ',
             breadcrumb: [
-                { title: 'Home', href: PATHS.HOME },
-                { title: 'Contact' },
-            ],
-        },
-        [PATHS.SIGN_IN]: {
-            title: 'Sign In',
-            breadcrumb: [
-                { title: 'Home', href: PATHS.HOME },
-                { title: 'Sign In' },
-            ],
-        },
-        [PATHS.SIGN_UP]: {
-            title: 'Sign Up',
-            breadcrumb: [
-                { title: 'Home', href: PATHS.HOME },
-                { title: 'Sign Up' },
+                { title: 'Trang chủ', href: PATHS.HOME },
+                { title: 'Liên hệ' },
             ],
         },
         [PATHS.AUTH]: {
-            title: 'Auth',
+            title: 'Tài khoản',
             breadcrumb: [
-                { title: 'Home', href: PATHS.HOME },
-                { title: 'Auth' },
+                { title: 'Trang chủ', href: PATHS.HOME },
+                { title: 'Tài khoản' },
+            ],
+        },
+        [PATHS.RECOMMENDATION]: {
+            title: 'Gợi ý',
+            breadcrumb: [
+                { title: 'Trang chủ', href: PATHS.HOME },
+                { title: 'Gợi ý' },
             ],
         },
     }

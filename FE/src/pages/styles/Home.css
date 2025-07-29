@@ -144,6 +144,21 @@
     box-shadow: 0 8px 25px rgba(32, 178, 170, 0.4) !important;
 }
 
+.ai-secondary-btn {
+    margin-left: 10px;
+    border-radius: 25px !important;
+    padding: 0 30px !important;
+    height: 50px !important;
+    border-color: #20B2AA !important;
+    transition: all 0.3s ease !important;
+}
+
+.ai-secondary-btn:hover {
+    background: white !important;
+    color: #20B2AA !important;
+    transform: translateY(-2px) !important;
+}
+
 .hero-secondary-btn {
     border-radius: 25px !important;
     padding: 0 30px !important;

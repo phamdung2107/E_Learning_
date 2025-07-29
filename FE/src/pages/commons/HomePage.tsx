@@ -304,10 +304,18 @@ const HomePage: React.FC = () => {
                             <Button
                                 type="primary"
                                 size="large"
-                                href="/about"
+                                href={PATHS.ABOUT}
                                 className="about-btn"
                             >
                                 Tìm hiểu thêm về chúng tôi
+                            </Button>
+                            <Button
+                                size="large"
+                                href={PATHS.RECOMMENDATION}
+                                className="ai-secondary-btn"
+                                style={{ border: '1px solid #20B2AA !important' }}
+                            >
+                                Gợi ý về khóa học
                             </Button>
                         </Col>
                     </Row>
