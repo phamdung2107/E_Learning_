@@ -161,7 +161,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Get(
      *     path="/api/logout",
      *     summary="Đăng xuất",
      *     tags={"Auth"},
@@ -258,7 +258,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      *     path="/api/forgot-password/update-password",
      *     summary="Đổi mật khẩu sau khi xác thực",
      *     tags={"Auth"},
@@ -304,7 +304,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Get(
      *     path="/api/refresh",
      *     summary="Làm mới token JWT",
      *     tags={"Auth"},

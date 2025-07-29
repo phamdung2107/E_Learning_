@@ -6,6 +6,7 @@ export const AUTH_API = {
     UPDATE_PASSWORD: '/forgot-password/update-password',
     ME: '/me',
     REFRESH: '/refresh',
+    VERIFY: '/verify',
 }
 
 export const USER_API = {
