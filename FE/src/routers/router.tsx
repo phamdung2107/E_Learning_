@@ -1,6 +1,7 @@
 import { Route } from 'react-router-dom'
 
 import AdminLayout from '@/layouts/AdminLayout'
+import DefaultLayout from '@/layouts/DefaultLayout'
 import InstructorLayout from '@/layouts/InstructorLayout'
 import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import PublicLayout from '@/layouts/PublicLayout'
@@ -31,6 +32,7 @@ import StudentCertificatePage from '@/pages/student/StudentCertificatePage'
 import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
 import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
+import StudentWalletReturnPage from '@/pages/student/StudentWalletReturnPage'
 
 import { ADMIN_PATHS, INSTRUCTOR_PATHS, PATHS, STUDENT_PATHS } from './path'
 
@@ -55,6 +57,19 @@ const AppRouter = [
         <Route path={PATHS.EVENT} element={<EventPage />} />
         <Route path={PATHS.CONTACT} element={<ContactPage />} />
         <Route path={PATHS.COURSE_DETAIL} element={<CourseDetailPage />} />
+    </Route>,
+    <Route
+        element={
+            <RequiredAuth>
+                <DefaultLayout />
+            </RequiredAuth>
+        }
+        key="student-wallet-return"
+    >
+        <Route
+            path={STUDENT_PATHS.STUDENT_WALLET_RETURN}
+            element={<StudentWalletReturnPage />}
+        />
     </Route>,
     <Route
         element={

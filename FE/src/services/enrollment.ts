@@ -23,7 +23,11 @@ class EnrollmentService {
     }
 
     async getTopCourses(): Promise<any> {
-        return await http.get(ENROLLMENT_API.TOP_COURSES())
+        return await http.get(ENROLLMENT_API.TOP_COURSES)
+    }
+
+    async checkEnrollment(userId: any, courseId: any): Promise<any> {
+        return await http.get(ENROLLMENT_API.CHECK_ENROLLMENT(userId, courseId))
     }
 }
 

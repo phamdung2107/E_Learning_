@@ -23,8 +23,8 @@ export const CheckoutOrderModal = ({
             centered
             footer={null}
         >
-            <div style={{ marginBottom: 24, fontSize: 18 }}>
-                Are you sure to checkout orders?
+            <div style={{ marginBottom: 24 }}>
+                Bạn có muốn thanh toán đơn hàng này?
             </div>
             <Form layout="vertical" onFinish={handleSubmit}>
                 <Form.Item style={{ marginBottom: 0 }}>

@@ -1,7 +1,6 @@
 'use client'
 
-import type React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
     Button,
@@ -28,7 +27,8 @@ import {
     TrophyOutlined,
     UserOutlined,
 } from '@ant-design/icons'
-import { Link, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import CourseCard from '@/components/core/card/CourseCard'
 import { DATE_TIME_FORMAT } from '@/constants/date'
@@ -39,6 +39,7 @@ import LessonService from '@/services/lesson'
 import OrderService from '@/services/order'
 import QuizService from '@/services/quiz'
 import ReviewService from '@/services/review'
+import { getCurrentCartAction } from '@/stores/cart/cartAction'
 import { formatDateTime, formatPrice } from '@/utils/format'
 
 import '../styles/CourseDetail.css'
@@ -47,9 +48,13 @@ const { Title, Paragraph, Text } = Typography
 const { Panel } = Collapse
 
 const CourseDetailPage: React.FC = () => {
+    const user = useSelector((store: any) => store.auth.user)
+    const dispatch = useDispatch()
     const params = useParams()
+    const navigate = useNavigate()
     const courseId = params.id as string
     const [course, setCourse] = useState<any>(null)
+    const [isEnrolled, setIsEnrolled] = useState(false)
     const [enrollLoading, setEnrollLoading] = useState(false)
     const [totalStudentsOfCourse, setTotalStudentsOfCourse] = useState(0)
     const [totalCoursesOfInstructor, setTotalCoursesOfInstructor] = useState(0)
@@ -128,9 +133,44 @@ const CourseDetailPage: React.FC = () => {
         fetchCourseDetail()
     }, [courseId])
 
+    useEffect(() => {
+        if (user) {
+            EnrollmentService.checkEnrollment(user.id, courseId).then((res) => {
+                setIsEnrolled(!!res.data)
+            })
+        } else {
+            setIsEnrolled(false)
+        }
+    }, [user, courseId])
+
+    const handleNavigateToLesson = async () => {
+        if (lessons.length === 0) {
+            notification.warning({
+                message: 'Khóa học này chưa có bài học nào!',
+            })
+            return
+        }
+        navigate(`/courses/${courseId}/lessons/${lessons[0].id}`)
+    }
+
     const handleEnroll = async () => {
         setEnrollLoading(true)
         try {
+            if (!user) {
+                notification.open({
+                    type: 'error',
+                    message: 'Bạn cần đăng nhập để thực hiện tác vụ này',
+                    btn: (
+                        <Button
+                            variant="outlined"
+                            onClick={() => navigate('/auth')}
+                        >
+                            Đăng nhập ngay
+                        </Button>
+                    ),
+                })
+                return
+            }
             const res = await OrderService.create({
                 course_id: Number(courseId),
             })
@@ -139,9 +179,9 @@ const CourseDetailPage: React.FC = () => {
                     message:
                         'Đăng ký thành công. Vui lòng kiểm tra giỏ hàng của bạn.',
                 })
+                dispatch(getCurrentCartAction())
             }
         } catch (error) {
-            console.log(error)
             notification.error({
                 message: 'Đăng ký thất bại. Vui lòng thử lại.',
             })
@@ -213,15 +253,26 @@ const CourseDetailPage: React.FC = () => {
                                 <div className="course-detail-hero-price">
                                     {formatPrice(course.price)}
                                     <Space style={{ marginLeft: '20px' }}>
-                                        <Button
-                                            type="primary"
-                                            size="large"
-                                            className="course-detail-hero-btn"
-                                            onClick={handleEnroll}
-                                            loading={enrollLoading}
-                                        >
-                                            Đăng ký ngay
-                                        </Button>
+                                        {isEnrolled ? (
+                                            <Button
+                                                type="primary"
+                                                size="large"
+                                                className="course-detail-hero-btn"
+                                                onClick={handleNavigateToLesson}
+                                            >
+                                                Bắt đầu học
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                type="primary"
+                                                size="large"
+                                                className="course-detail-hero-btn"
+                                                onClick={handleEnroll}
+                                                loading={enrollLoading}
+                                            >
+                                                Đăng ký ngay
+                                            </Button>
+                                        )}
                                     </Space>
                                 </div>
                             </div>
@@ -355,16 +406,28 @@ const CourseDetailPage: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="course-detail-enrollment-body">
-                                        <Button
-                                            type="primary"
-                                            size="large"
-                                            block
-                                            className="course-detail-enrollment-btn"
-                                            onClick={handleEnroll}
-                                            loading={enrollLoading}
-                                        >
-                                            Đăng ký ngay
-                                        </Button>
+                                        {isEnrolled ? (
+                                            <Button
+                                                type="primary"
+                                                size="large"
+                                                block
+                                                className="course-detail-enrollment-btn"
+                                                onClick={handleNavigateToLesson}
+                                            >
+                                                Bắt đầu học
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                type="primary"
+                                                size="large"
+                                                block
+                                                className="course-detail-enrollment-btn"
+                                                onClick={handleEnroll}
+                                                loading={enrollLoading}
+                                            >
+                                                Đăng ký ngay
+                                            </Button>
+                                        )}
                                         <Button
                                             size="large"
                                             block

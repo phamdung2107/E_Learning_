@@ -15,9 +15,11 @@ import {
 
 import { DeleteOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import { CheckoutOrderModal } from '@/components/core/modal/CheckoutOrderModal'
 import { DeleteOrderModal } from '@/components/core/modal/DeleteOrderModal'
+import { PATHS, STUDENT_PATHS } from '@/routers/path'
 import OrderService from '@/services/order'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
 import { getCurrentCartAction } from '@/stores/cart/cartAction'
@@ -27,6 +29,7 @@ const { Title, Text } = Typography
 
 const StudentCartPage = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [orders, setOrders] = useState<any[]>([])
     const [record, setRecord] = useState()
     const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false)
@@ -93,11 +96,28 @@ const StudentCartPage = () => {
             dispatch(getCurrentUserAction())
             dispatch(getCurrentCartAction())
             await fetchOrders()
-        } catch (e) {
-            console.error(e)
-            notification.error({
-                message: 'Xác nhận đơn hàng thất bại. Vui lòng thử lại sau.',
-            })
+        } catch (e: any) {
+            if (e.response.data.message === 'Số dư không đủ để thanh toán') {
+                notification.open({
+                    type: 'warning',
+                    message: e.response.data.message,
+                    btn: (
+                        <Button
+                            variant="outlined"
+                            onClick={() =>
+                                navigate(STUDENT_PATHS.STUDENT_PROFILE)
+                            }
+                        >
+                            Nạp tiền ngay
+                        </Button>
+                    ),
+                })
+            } else {
+                notification.error({
+                    message:
+                        'Xác nhận đơn hàng thất bại. Vui lòng thử lại sau.',
+                })
+            }
         } finally {
             setCheckoutLoading(false)
             setIsModalCheckoutOpen(false)
@@ -177,7 +197,12 @@ const StudentCartPage = () => {
                     </Card>
                 </Col>
                 <Col span={24} style={{ textAlign: 'right' }}>
-                    <Button type="primary">Tiếp tục mua sắm</Button>
+                    <Button
+                        type="primary"
+                        onClick={() => navigate(PATHS.COURSES)}
+                    >
+                        Tiếp tục mua sắm
+                    </Button>
                 </Col>
                 <Col span={24}>
                     <Card

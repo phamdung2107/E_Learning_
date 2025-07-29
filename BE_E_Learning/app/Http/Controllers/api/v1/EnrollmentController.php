@@ -151,4 +151,33 @@ class EnrollmentController extends Controller
 
         return Response::data($result);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/enrollments/check/{userId}/{courseId}",
+     *     summary="Kiểm tra người dùng đã đăng ký khóa học chưa",
+     *     tags={"Enrollment"},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="courseId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Trả về true nếu đã đăng ký, false nếu chưa")
+     * )
+     */
+    public function checkEnrollment($userId, $courseId)
+    {
+        $exists = Enrollment::where('user_id', $userId)
+            ->where('course_id', $courseId)
+            ->exists();
+
+        return Response::data($exists);
+    }
 }

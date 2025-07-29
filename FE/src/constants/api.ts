@@ -173,7 +173,9 @@ export const ENROLLMENT_API = {
     USERS_BY_COURSE: (courseId: number | string) =>
         `/enrollments/course/${courseId}`,
     COURSES_BY_USER: (userId: number | string) => `/enrollments/user/${userId}`,
-    TOP_COURSES: () => `/enrollments/top/courses`,
+    TOP_COURSES: `/enrollments/top/courses`,
+    CHECK_ENROLLMENT: (userId: any, courseId: any) =>
+        `/enrollments/check/${userId}/${courseId}`,
 }
 
 export const LESSON_API = {
@@ -345,7 +347,22 @@ export const PAYMENT_API = {
     REJECT: (id: any) => `/wallet/withdraw/${id}/reject`,
     WITHDRAW: `/wallet/withdraw`,
     MY_PAYMENT: '/wallet/my',
-    PROCESS_PAYMENT: '/wallet/return',
+    PROCESS_PAYMENT: (params: any) => {
+        const query = Object.keys(params)
+            .filter(
+                (key) =>
+                    params[key] !== undefined &&
+                    params[key] !== null &&
+                    params[key] !== 0 &&
+                    params[key] !== ''
+            )
+            .map(
+                (key) =>
+                    `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+            )
+            .join('&')
+        return `/wallet/return${query ? '?' + query : ''}`
+    },
     CREATE_PAYMENT: '/wallet/create-topup',
 }
 

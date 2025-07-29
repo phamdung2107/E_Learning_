@@ -148,6 +148,7 @@ Route::prefix('enrollments')->group(function () {
     Route::get('/course/{courseId}', [EnrollmentController::class, 'getUsersByCourse']);       // instructor
     Route::get('/count/{courseId}', [EnrollmentController::class, 'countEnrollments']);
     Route::get('/top/courses', [EnrollmentController::class, 'topCourses']);
+    Route::get('/check/{userId}/{courseId}', [EnrollmentController::class, 'checkEnrollment']);
 });
 
 

@@ -23,6 +23,7 @@ export const STUDENT_PATHS = {
     STUDENT_CERTIFICATE: '/student/certificate',
     STUDENT_PROFILE: '/student/profile',
     STUDENT_CART: '/student/cart',
+    STUDENT_WALLET_RETURN: '/student/wallet/return',
 }
 
 export const INSTRUCTOR_PATHS = {

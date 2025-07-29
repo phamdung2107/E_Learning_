@@ -22,8 +22,8 @@ class PaymentService {
         return await http.get(PAYMENT_API.MY_PAYMENT)
     }
 
-    async process(): Promise<any> {
-        return await http.get(PAYMENT_API.PROCESS_PAYMENT)
+    async process(params: any): Promise<any> {
+        return await http.get(PAYMENT_API.PROCESS_PAYMENT(params))
     }
 
     async create(payload: any): Promise<any> {
