@@ -87,7 +87,11 @@ const EnrollCourseCard = ({ course }: any) => {
                 <Tag>{course.category.name}</Tag>
             </div>
 
-            <Title ellipsis={{ rows: 1 }} level={5} style={{ marginBottom: '8px' }}>
+            <Title
+                ellipsis={{ rows: 1 }}
+                level={5}
+                style={{ marginBottom: '8px' }}
+            >
                 {course.title}
             </Title>
 

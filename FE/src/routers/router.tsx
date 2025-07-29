@@ -12,6 +12,7 @@ import AdminManageCoursesPage from '@/pages/admin/AdminManageCoursesPage'
 import AdminManageTransactionsPage from '@/pages/admin/AdminManageTransactionsPage'
 import AdminManageUsersPage from '@/pages/admin/AdminManageUsersPage'
 import AdminProfilePage from '@/pages/admin/AdminProfilePage'
+import AIRecommendPage from '@/pages/commons/AIRecommendPage'
 import AboutPage from '@/pages/commons/AboutPage'
 import AuthPage from '@/pages/commons/AuthPage'
 import ContactPage from '@/pages/commons/ContactPage'
@@ -35,7 +36,6 @@ import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
 import StudentWalletReturnPage from '@/pages/student/StudentWalletReturnPage'
 
 import { ADMIN_PATHS, INSTRUCTOR_PATHS, PATHS, STUDENT_PATHS } from './path'
-import AIRecommendPage from '@/pages/commons/AIRecommendPage'
 
 const AppRouter = [
     <Route

@@ -32,9 +32,9 @@ import CertificateService from '@/services/certificate'
 import CourseService from '@/services/course'
 import NotificationService from '@/services/notification'
 import ProgressService from '@/services/progress'
+import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
 
 import '../styles/StudentDashboard.css'
-import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
 
 const { Title, Text } = Typography
 

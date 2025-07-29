@@ -1,14 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import { Card, Form, Input, Button, List, Typography, message, Spin, Space, Divider, Row, Col } from 'antd'
-import { SendOutlined, RobotOutlined, HistoryOutlined, SearchOutlined, BulbOutlined } from '@ant-design/icons'
-import RecommendationService from '@/services/recommendation'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+
+import {
+    Button,
+    Card,
+    Col,
+    Divider,
+    Form,
+    Input,
+    List,
+    Row,
+    Space,
+    Spin,
+    Typography,
+    message,
+} from 'antd'
+
+import {
+    BulbOutlined,
+    HistoryOutlined,
+    RobotOutlined,
+    SearchOutlined,
+    SendOutlined,
+} from '@ant-design/icons'
 import Search from 'antd/es/input/Search'
+import { useSelector } from 'react-redux'
+
+import RecommendationService from '@/services/recommendation'
 
 const { Text, Title, Paragraph } = Typography
 
 const AIRecommendPage: React.FC = () => {
-    const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
+    const isAuthenticated = useSelector(
+        (state: any) => state.auth.isAuthenticated
+    )
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState<any>(null)
@@ -38,12 +62,16 @@ const AIRecommendPage: React.FC = () => {
         setLoading(true)
         setResult(null)
         try {
-            const res = await RecommendationService.store({ title: values.title })
+            const res = await RecommendationService.store({
+                title: values.title,
+            })
             setResult(res.data)
             message.success('Đã nhận được gợi ý từ AI!')
-            if (isLoggedIn) setHistory(prev => [res.data, ...prev])
+            if (isLoggedIn) setHistory((prev) => [res.data, ...prev])
         } catch (err: any) {
-            message.error(err?.response?.data?.message || err.message || 'Có lỗi xảy ra!')
+            message.error(
+                err?.response?.data?.message || err.message || 'Có lỗi xảy ra!'
+            )
         } finally {
             setLoading(false)
         }
@@ -51,15 +79,46 @@ const AIRecommendPage: React.FC = () => {
 
     return (
         <div>
-            <section className="courses-hero-section" style={{ background: 'linear-gradient(90deg, #20B2AA 0%, #43e97b 100%)', padding: '48px 0 32px 0', position: 'relative' }}>
+            <section
+                className="courses-hero-section"
+                style={{
+                    background:
+                        'linear-gradient(90deg, #20B2AA 0%, #43e97b 100%)',
+                    padding: '48px 0 32px 0',
+                    position: 'relative',
+                }}
+            >
                 <div className="courses-hero-floating-1" />
                 <div className="courses-hero-floating-2" />
-                <div className="courses-hero-content" style={{ maxWidth: 900, margin: '0 auto', padding: '0 16px' }}>
-                    <Title level={1} className="courses-hero-title" style={{ color: '#fff', fontWeight: 800, marginBottom: 12 }}>
+                <div
+                    className="courses-hero-content"
+                    style={{
+                        maxWidth: 900,
+                        margin: '0 auto',
+                        padding: '0 16px',
+                    }}
+                >
+                    <Title
+                        level={1}
+                        className="courses-hero-title"
+                        style={{
+                            color: '#fff',
+                            fontWeight: 800,
+                            marginBottom: 12,
+                        }}
+                    >
                         Khám phá các khóa học cùng AI
                     </Title>
-                    <Paragraph className="courses-hero-description" style={{ color: '#f0f0f0', fontSize: 18, marginBottom: 32 }}>
-                        Học kỹ năng mới, phát triển sự nghiệp và chinh phục mục tiêu của bạn với nền tảng học tập toàn diện. <br />
+                    <Paragraph
+                        className="courses-hero-description"
+                        style={{
+                            color: '#f0f0f0',
+                            fontSize: 18,
+                            marginBottom: 32,
+                        }}
+                    >
+                        Học kỹ năng mới, phát triển sự nghiệp và chinh phục mục
+                        tiêu của bạn với nền tảng học tập toàn diện. <br />
                         <span style={{ color: '#ffe066', fontWeight: 600 }}>
                             Để AI giúp bạn chọn khóa học phù hợp nhất!
                         </span>
@@ -89,7 +148,8 @@ const AIRecommendPage: React.FC = () => {
                                 style={{
                                     background: '#fff',
                                     borderRadius: 12,
-                                    boxShadow: '0 4px 24px rgba(32,178,170,0.08)',
+                                    boxShadow:
+                                        '0 4px 24px rgba(32,178,170,0.08)',
                                     border: 'none',
                                     marginBottom: 0,
                                 }}
@@ -103,12 +163,24 @@ const AIRecommendPage: React.FC = () => {
                                 >
                                     <Form.Item
                                         label={
-                                            <span style={{ fontWeight: 600, color: '#20B2AA' }}>
-                                                <BulbOutlined /> Bạn muốn AI gợi ý điều gì?
+                                            <span
+                                                style={{
+                                                    fontWeight: 600,
+                                                    color: '#20B2AA',
+                                                }}
+                                            >
+                                                <BulbOutlined /> Bạn muốn AI gợi
+                                                ý điều gì?
                                             </span>
                                         }
                                         name="title"
-                                        rules={[{ required: true, message: 'Vui lòng nhập nội dung!' }]}
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message:
+                                                    'Vui lòng nhập nội dung!',
+                                            },
+                                        ]}
                                     >
                                         <Input
                                             placeholder="Ví dụ: Tôi muốn học lập trình Python"
@@ -135,7 +207,12 @@ const AIRecommendPage: React.FC = () => {
                                     </Form.Item>
                                 </Form>
                                 {loading && (
-                                    <div style={{ textAlign: 'center', margin: '16px 0' }}>
+                                    <div
+                                        style={{
+                                            textAlign: 'center',
+                                            margin: '16px 0',
+                                        }}
+                                    >
                                         <Spin tip="AI đang suy nghĩ..." />
                                     </div>
                                 )}
@@ -143,7 +220,12 @@ const AIRecommendPage: React.FC = () => {
                                     <Card
                                         type="inner"
                                         title={
-                                            <span style={{ color: '#20B2AA', fontWeight: 600 }}>
+                                            <span
+                                                style={{
+                                                    color: '#20B2AA',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
                                                 <RobotOutlined /> Gợi ý của AI
                                             </span>
                                         }
@@ -155,7 +237,12 @@ const AIRecommendPage: React.FC = () => {
                                         }}
                                         bodyStyle={{ padding: 14 }}
                                     >
-                                        <Title level={5} style={{ color: '#20B2AA' }}>{result.title}</Title>
+                                        <Title
+                                            level={5}
+                                            style={{ color: '#20B2AA' }}
+                                        >
+                                            {result.title}
+                                        </Title>
                                         <Text>{result.reason}</Text>
                                     </Card>
                                 )}
@@ -166,10 +253,18 @@ const AIRecommendPage: React.FC = () => {
             </section>
 
             {isLoggedIn && (
-                <div style={{ maxWidth: 900, margin: '32px auto', padding: '0 16px' }}>
+                <div
+                    style={{
+                        maxWidth: 900,
+                        margin: '32px auto',
+                        padding: '0 16px',
+                    }}
+                >
                     <Divider>
                         <HistoryOutlined style={{ color: '#20B2AA' }} />{' '}
-                        <span style={{ color: '#20B2AA', fontWeight: 600 }}>Lịch sử gợi ý của bạn</span>
+                        <span style={{ color: '#20B2AA', fontWeight: 600 }}>
+                            Lịch sử gợi ý của bạn
+                        </span>
                     </Divider>
                     <Card>
                         {historyLoading ? (
@@ -178,17 +273,26 @@ const AIRecommendPage: React.FC = () => {
                             <List
                                 dataSource={history}
                                 locale={{ emptyText: 'Chưa có gợi ý nào.' }}
-                                renderItem={item => (
+                                renderItem={(item) => (
                                     <List.Item>
                                         <List.Item.Meta
                                             title={<b>{item.title}</b>}
                                             description={
                                                 <>
-                                                    <Text type="secondary">{item.reason}</Text>
+                                                    <Text type="secondary">
+                                                        {item.reason}
+                                                    </Text>
                                                     {item.created_at && (
                                                         <div>
-                                                            <Text type="secondary" style={{ fontSize: 12 }}>
-                                                                {new Date(item.created_at).toLocaleString()}
+                                                            <Text
+                                                                type="secondary"
+                                                                style={{
+                                                                    fontSize: 12,
+                                                                }}
+                                                            >
+                                                                {new Date(
+                                                                    item.created_at
+                                                                ).toLocaleString()}
                                                             </Text>
                                                         </div>
                                                     )}

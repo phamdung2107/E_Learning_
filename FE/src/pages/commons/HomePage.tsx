@@ -313,7 +313,9 @@ const HomePage: React.FC = () => {
                                 size="large"
                                 href={PATHS.RECOMMENDATION}
                                 className="ai-secondary-btn"
-                                style={{ border: '1px solid #20B2AA !important' }}
+                                style={{
+                                    border: '1px solid #20B2AA !important',
+                                }}
                             >
                                 Gợi ý về khóa học
                             </Button>
