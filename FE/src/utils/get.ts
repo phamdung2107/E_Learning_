@@ -1,4 +1,15 @@
+import type React from 'react'
+
+import {
+    BellOutlined,
+    BookOutlined,
+    DollarCircleOutlined,
+    InfoCircleOutlined,
+} from '@ant-design/icons'
+
 import { PATHS } from '@/routers/path'
+import NotificationService from '@/services/notification'
+import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
 
 export const getPageInfo = (pathname: string) => {
     const routes: Record<

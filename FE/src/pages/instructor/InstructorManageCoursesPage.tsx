@@ -11,6 +11,7 @@ import { getManageCourseColumns } from '@/constants/table'
 import CategoryService from '@/services/category'
 import CourseService from '@/services/course'
 import InstructorService from '@/services/instructor'
+import { convertCategoriesToTreeData } from '@/utils/convert'
 
 const { Title, Text } = Typography
 
@@ -30,10 +31,10 @@ const InstructorManageCoursesPage = () => {
         setRefreshLoading(true)
         try {
             const [resCategories, resCourses] = await Promise.all([
-                CategoryService.getAll({}),
+                CategoryService.getTree(),
                 InstructorService.getCourses(user?.id),
             ])
-            setCategories(resCategories.data)
+            setCategories(convertCategoriesToTreeData(resCategories.data))
             setCourses(resCourses.data)
         } catch (e) {
             console.error(e)
@@ -219,6 +220,7 @@ const InstructorManageCoursesPage = () => {
                     loading={refreshLoading}
                     rowKey="id"
                     pagination={{ pageSize: 10 }}
+                    scroll={{ x: 'max-content' }}
                 />
             </Card>
             <UpdateCourseModal

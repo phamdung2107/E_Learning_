@@ -64,24 +64,18 @@ export const getManageCourseColumns = (
     categoryOptions: any[] = []
 ) => [
     {
-        title: 'Mã',
-        dataIndex: 'id',
-        key: 'id',
-        align: 'center',
-        fixed: 'left',
-        render: (text: any) => {
-            return (
-                <Link to={`/instructor/courses/${text}`} target="_blank">
-                    {text}
-                </Link>
-            )
-        },
-    },
-    {
         title: 'Tên khóa học',
         dataIndex: 'title',
         key: 'title',
         align: 'left',
+        render: (_: any, record: any) => {
+            return (
+                <Link to={`/instructor/courses/${record.id}`} target="_blank">
+                    {record.title}
+                </Link>
+            )
+        },
+        fixed: 'left',
     },
     {
         title: 'Ảnh đại diện',
@@ -153,7 +147,7 @@ export const getManageCourseColumns = (
         title: 'Hành động',
         key: 'action',
         align: 'center',
-        width: 200,
+        width: 150,
         fixed: 'right',
         render: (record: any) => (
             <Space>
@@ -235,20 +229,6 @@ export const getAdminManageCourseColumns = (
     publishCourse: (record: any) => void,
     archiveCourse: (record: any) => void
 ) => [
-    {
-        title: 'Mã',
-        dataIndex: 'id',
-        key: 'id',
-        align: 'center',
-        fixed: 'left',
-        render: (text: any) => {
-            return (
-                <Link to={`/instructor/courses/${text}`} target="_blank">
-                    {text}
-                </Link>
-            )
-        },
-    },
     {
         title: 'Tên khóa học',
         dataIndex: 'title',
@@ -399,21 +379,6 @@ export const getManageLessonColumns = (
     openModalCreate: (record: any) => void
 ) => [
     {
-        title: 'Mã',
-        dataIndex: 'id',
-        key: 'id',
-        align: 'center',
-        fixed: 'left',
-        width: 70,
-        render: (text: any) => {
-            return (
-                <Link to={`/instructor/courses/${text}`} target="_blank">
-                    {text}
-                </Link>
-            )
-        },
-    },
-    {
         title: 'Tên bài học',
         dataIndex: 'title',
         key: 'title',
@@ -490,14 +455,6 @@ export const getManageQuizColumns = (
     openModalCreate: (record: any) => void
 ) => [
     {
-        title: 'Mã',
-        dataIndex: 'id',
-        key: 'id',
-        align: 'center',
-        fixed: 'left',
-        width: 70,
-    },
-    {
         title: 'Tên quiz',
         dataIndex: 'title',
         key: 'title',
@@ -562,14 +519,6 @@ export const getManageQuestionColumns = (
     openModalCreate: (record: any) => void
 ) => [
     {
-        title: 'Mã',
-        dataIndex: 'id',
-        key: 'id',
-        align: 'center',
-        fixed: 'left',
-        width: 70,
-    },
-    {
         title: 'Nội dung câu hỏi',
         dataIndex: 'question_text',
         key: 'question_text',
@@ -631,18 +580,11 @@ export const getManageQuestionColumns = (
 
 export const MANAGE_STUDENT_COLUMNS: any = [
     {
-        title: 'Mã',
-        dataIndex: 'id',
-        key: 'id',
-        align: 'center',
-        fixed: 'left',
-        width: 70,
-    },
-    {
         title: 'Họ và tên',
         dataIndex: 'full_name',
         key: 'full_name',
         align: 'left',
+        fixed: 'left',
     },
     {
         title: 'Email',
@@ -691,14 +633,6 @@ export const getManageUserColumns: any = (
     onDelete: (record: any) => void,
     onResetPassword: (record: any) => void
 ) => [
-    {
-        title: 'Mã',
-        dataIndex: 'id',
-        key: 'id',
-        align: 'center',
-        fixed: 'left',
-        width: 70,
-    },
     {
         title: 'Họ và tên',
         dataIndex: 'full_name',
@@ -817,14 +751,6 @@ export const getManageUserColumns: any = (
 ]
 
 export const MANAGE_TRANSACTION_COLUMNS: any = [
-    {
-        title: 'Mã',
-        dataIndex: 'id',
-        key: 'id',
-        align: 'center',
-        fixed: 'left',
-        width: 70,
-    },
     {
         title: 'Người đăng ký',
         dataIndex: 'user',

@@ -349,38 +349,43 @@ const HeaderComponent: React.FC = () => {
                         {/* Right Actions */}
                         <Col>
                             <Row gutter={20} align="middle">
-                                <Col>
-                                    <Badge count={Number(countCart)}>
-                                        <Button
-                                            href={`/${user?.role}/cart`}
-                                            size="middle"
-                                            shape="circle"
-                                            icon={
-                                                <ShoppingCartOutlined
-                                                    style={{
-                                                        color: '#1976d2',
-                                                        cursor: 'pointer',
-                                                    }}
-                                                />
-                                            }
-                                        ></Button>
-                                    </Badge>
-                                </Col>
+                                {isAuthenticated &&
+                                    user?.role === 'student' && (
+                                        <Col>
+                                            <Badge count={Number(countCart)}>
+                                                <Button
+                                                    href={`/${user?.role}/cart`}
+                                                    size="middle"
+                                                    shape="circle"
+                                                    icon={
+                                                        <ShoppingCartOutlined
+                                                            style={{
+                                                                color: '#1976d2',
+                                                                cursor: 'pointer',
+                                                            }}
+                                                        />
+                                                    }
+                                                ></Button>
+                                            </Badge>
+                                        </Col>
+                                    )}
                                 {isAuthenticated ? (
-                                    <Col>
-                                        <Dropdown
-                                            menu={{ items: userMenuItems }}
-                                            placement="bottomRight"
-                                        >
-                                            <Button
-                                                type="text"
-                                                icon={<UserOutlined />}
-                                                style={{ color: '#1976d2' }}
+                                    <>
+                                        <Col>
+                                            <Dropdown
+                                                menu={{ items: userMenuItems }}
+                                                placement="bottomRight"
                                             >
-                                                Tài khoản
-                                            </Button>
-                                        </Dropdown>
-                                    </Col>
+                                                <Button
+                                                    type="text"
+                                                    icon={<UserOutlined />}
+                                                    style={{ color: '#1976d2' }}
+                                                >
+                                                    Tài khoản
+                                                </Button>
+                                            </Dropdown>
+                                        </Col>
+                                    </>
                                 ) : (
                                     <Col>
                                         <Link className="auth-btn" to="/auth">

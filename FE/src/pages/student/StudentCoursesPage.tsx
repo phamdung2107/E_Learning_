@@ -13,6 +13,7 @@ import {
     Row,
     Select,
     Spin,
+    TreeSelect,
     Typography,
 } from 'antd'
 
@@ -22,6 +23,7 @@ import EnrollCourseCard from '@/components/core/card/EnrollCourseCard'
 import CategoryService from '@/services/category'
 import CourseService from '@/services/course'
 import InstructorService from '@/services/instructor'
+import { convertCategoriesToTreeData } from '@/utils/convert'
 
 const { Title, Text } = Typography
 const { Search } = Input
@@ -41,7 +43,6 @@ const StudentCourses: React.FC = () => {
         try {
             setLoading(true)
 
-            // Build API parameters
             const apiParams: any = {}
 
             if (params.search && params.search.trim()) {
@@ -59,7 +60,6 @@ const StudentCourses: React.FC = () => {
             const response = await CourseService.getMyEnrolledCourses(apiParams)
             setAllEnrolledCourses(response.data)
 
-            // Reset to page 1 when filters change
             if (params.resetPage !== false) {
                 setCurrentPage(1)
             }
@@ -73,13 +73,8 @@ const StudentCourses: React.FC = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await CategoryService.getAll({})
-            setCategories(
-                response.data.map((category: any) => ({
-                    value: category.id,
-                    label: category.name,
-                }))
-            )
+            const response = await CategoryService.getTree()
+            setCategories(convertCategoriesToTreeData(response.data))
         } catch (e) {
             console.error(e)
         }
@@ -105,7 +100,6 @@ const StudentCourses: React.FC = () => {
         fetchInstructors()
     }, [])
 
-    // Handle category change - immediate API call
     const handleCategoryChange = (value: any) => {
         setSelectedCategory(value)
         fetchEnrollCourses({
@@ -115,7 +109,6 @@ const StudentCourses: React.FC = () => {
         })
     }
 
-    // Handle instructor change - immediate API call
     const handleInstructorChange = (value: any) => {
         setSelectedInstructor(value)
         fetchEnrollCourses({
@@ -125,7 +118,6 @@ const StudentCourses: React.FC = () => {
         })
     }
 
-    // Handle search - only when button clicked or Enter pressed
     const handleSearch = (value: string) => {
         setSearchKeyword(value)
         fetchEnrollCourses({
@@ -135,7 +127,6 @@ const StudentCourses: React.FC = () => {
         })
     }
 
-    // Handle clear filters
     const handleClearFilters = () => {
         setSelectedCategory(null)
         setSelectedInstructor(null)
@@ -143,10 +134,8 @@ const StudentCourses: React.FC = () => {
         fetchEnrollCourses({})
     }
 
-    // Handle page change
     const handlePageChange = (page: number) => {
         setCurrentPage(page)
-        // Scroll to top of courses section
         const coursesSection = document.querySelector('.courses-section')
         if (coursesSection) {
             coursesSection.scrollIntoView({
@@ -156,7 +145,6 @@ const StudentCourses: React.FC = () => {
         }
     }
 
-    // Calculate paginated courses
     const paginatedCourses = allEnrolledCourses.slice(
         (currentPage - 1) * pageSize,
         currentPage * pageSize
@@ -184,15 +172,15 @@ const StudentCourses: React.FC = () => {
                     <Col xs={24} sm={16} md={18}>
                         <Row gutter={[12, 12]} align="middle" justify="end">
                             <Col xs={24} sm={8} md={6}>
-                                <Select
+                                <TreeSelect
                                     placeholder="Chọn danh mục..."
-                                    showSearch
                                     allowClear
+                                    showSearch
+                                    treeDefaultExpandAll
                                     value={selectedCategory}
                                     onChange={handleCategoryChange}
-                                    optionFilterProp="label"
-                                    options={categories}
                                     style={{ width: '100%' }}
+                                    treeData={categories}
                                     disabled={loading}
                                 />
                             </Col>

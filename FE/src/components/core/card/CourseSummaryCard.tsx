@@ -46,6 +46,7 @@ const CourseSummaryCard = ({ course }: any) => {
             }
             actions={[
                 <Button
+                    href={`/courses/${course.course_id}`}
                     key="enroll"
                     type="primary"
                     block

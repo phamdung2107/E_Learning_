@@ -32,9 +32,7 @@ const CourseCard = ({ course, onEnroll }: any) => {
     }, [course])
 
     const handleEnroll = () => {
-        if (onEnroll) {
-            onEnroll(course.id)
-        }
+        onEnroll(course.id)
     }
 
     return (

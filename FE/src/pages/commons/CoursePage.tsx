@@ -12,15 +12,18 @@ import {
     Row,
     Select,
     Spin,
+    TreeSelect,
     Typography,
 } from 'antd'
 
 import { BookOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 
 import CourseCard from '@/components/core/card/CourseCard'
 import CategoryService from '@/services/category'
 import CourseService from '@/services/course'
 import InstructorService from '@/services/instructor'
+import { convertCategoriesToTreeData } from '@/utils/convert'
 
 import '../styles/Course.css'
 
@@ -28,6 +31,7 @@ const { Title, Paragraph } = Typography
 const { Search } = Input
 
 const CoursesPage: React.FC = () => {
+    const navigate = useNavigate()
     const [allCourses, setAllCourses] = useState<any[]>([])
     const [categories, setCategories] = useState<any[]>([])
     const [instructors, setInstructors] = useState<any[]>([])
@@ -40,13 +44,8 @@ const CoursesPage: React.FC = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await CategoryService.getAll({})
-            setCategories(
-                response.data.map((category: any) => ({
-                    value: category.id,
-                    label: category.name,
-                }))
-            )
+            const response = await CategoryService.getTree()
+            setCategories(convertCategoriesToTreeData(response.data))
         } catch (e) {
             console.error(e)
         }
@@ -99,21 +98,19 @@ const CoursesPage: React.FC = () => {
         }
     }
 
-    // Initial load
     useEffect(() => {
         fetchCategories()
         fetchInstructors()
         fetchCourses()
     }, [])
 
-    // Fetch courses when filters change (not page)
     useEffect(() => {
         fetchCourses({
             search: searchKeyword,
             category_id: selectedCategory,
             instructor_id: selectedInstructor,
         })
-        setCurrentPage(1) // Reset to first page when filters change
+        setCurrentPage(1)
     }, [searchKeyword, selectedCategory, selectedInstructor])
 
     const handleSearch = (value: string) => {
@@ -128,7 +125,6 @@ const CoursesPage: React.FC = () => {
     }
 
     const handleSearchClick = () => {
-        // Trigger search with current filters
         fetchCourses({
             search: searchKeyword,
             category_id: selectedCategory,
@@ -138,13 +134,11 @@ const CoursesPage: React.FC = () => {
     }
 
     const handleEnroll = (courseId: number) => {
-        console.log('Enrolling in course:', courseId)
-        // Handle enrollment logic here
+        navigate(`/courses/${courseId}`)
     }
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page)
-        // Scroll to top of courses section
         document.querySelector('.courses-main-section')?.scrollIntoView({
             behavior: 'smooth',
         })
@@ -235,16 +229,16 @@ const CoursesPage: React.FC = () => {
                                     <label className="courses-filter-label">
                                         Danh mục
                                     </label>
-                                    <Select
+                                    <TreeSelect
                                         placeholder="Chọn danh mục..."
-                                        showSearch
                                         allowClear
+                                        showSearch
+                                        treeDefaultExpandAll
                                         value={selectedCategory}
                                         onChange={handleCategoryChange}
                                         style={{ width: '100%' }}
                                         size="large"
-                                        optionFilterProp="label"
-                                        options={categories}
+                                        treeData={categories}
                                     />
                                 </div>
                             </Col>

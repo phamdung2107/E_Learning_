@@ -169,7 +169,7 @@ class CategoryController extends Controller
     // [6] Lấy danh mục dạng cây
     /**
      * @OA\Get(
-     *     path="/api/v1/categories/tree",
+     *     path="/api/categories/tree/all",
      *     summary="Lấy danh mục dạng cây",
      *     tags={"Category"},
      *     @OA\Response(

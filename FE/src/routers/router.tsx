@@ -19,10 +19,13 @@ import ContactPage from '@/pages/commons/ContactPage'
 import CourseDetailPage from '@/pages/commons/CourseDetailPage'
 import CoursePage from '@/pages/commons/CoursePage'
 import EventPage from '@/pages/commons/EventPage'
+import ForgotPasswordPage from '@/pages/commons/ForgotPasswordPage'
 import HomePage from '@/pages/commons/HomePage'
 import LessonDetailPage from '@/pages/commons/LessonDetailPage'
 import QuizDetailPage from '@/pages/commons/QuizDetailPage'
+import ResetPasswordPage from '@/pages/commons/ResetPasswordPage'
 import ResultQuizPage from '@/pages/commons/ResultQuizPage'
+import VerifyEmailPage from '@/pages/commons/VerifyEmailPage'
 import InstructorDashboardPage from '@/pages/instructor/InstructorDashboardPage'
 import InstructorCoursePage from '@/pages/instructor/InstructorManageCoursesPage'
 import InstructorManageDetailCoursePage from '@/pages/instructor/InstructorManageDetailCoursePage'
@@ -35,7 +38,13 @@ import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
 import StudentWalletReturnPage from '@/pages/student/StudentWalletReturnPage'
 
-import { ADMIN_PATHS, INSTRUCTOR_PATHS, PATHS, STUDENT_PATHS } from './path'
+import {
+    ADMIN_PATHS,
+    AUTH_PATHS,
+    INSTRUCTOR_PATHS,
+    PATHS,
+    STUDENT_PATHS,
+} from './path'
 
 const AppRouter = [
     <Route
@@ -59,6 +68,14 @@ const AppRouter = [
         <Route path={PATHS.CONTACT} element={<ContactPage />} />
         <Route path={PATHS.COURSE_DETAIL} element={<CourseDetailPage />} />
         <Route path={PATHS.RECOMMENDATION} element={<AIRecommendPage />} />
+        <Route
+            path={AUTH_PATHS.FORGOT_PASSWORD}
+            element={<ForgotPasswordPage />}
+        />
+        <Route
+            path={AUTH_PATHS.RESET_PASSWORD}
+            element={<ResetPasswordPage />}
+        />
     </Route>,
     <Route
         element={
@@ -72,6 +89,9 @@ const AppRouter = [
             path={STUDENT_PATHS.STUDENT_WALLET_RETURN}
             element={<StudentWalletReturnPage />}
         />
+    </Route>,
+    <Route element={<DefaultLayout />} key="auth-verify">
+        <Route path={AUTH_PATHS.VERIFY_EMAIL} element={<VerifyEmailPage />} />
     </Route>,
     <Route
         element={

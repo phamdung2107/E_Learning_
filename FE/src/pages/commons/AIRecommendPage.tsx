@@ -125,128 +125,128 @@ const AIRecommendPage: React.FC = () => {
                     </Paragraph>
                     <Row gutter={[32, 32]} align="middle">
                         <Col xs={24} md={14}>
-                            <Search
-                                placeholder="Tìm kiếm khóa học, giảng viên hoặc chủ đề..."
-                                allowClear
-                                enterButton={
-                                    <Button
-                                        type="primary"
-                                        style={{
-                                            background: '#20B2AA',
-                                        }}
-                                    >
-                                        <SearchOutlined />
-                                    </Button>
-                                }
-                                size="large"
-                                onSearch={() => {}}
-                                style={{ width: '100%' }}
-                            />
+                            {/*<Search*/}
+                            {/*    placeholder="Tìm kiếm khóa học, giảng viên hoặc chủ đề..."*/}
+                            {/*    allowClear*/}
+                            {/*    enterButton={*/}
+                            {/*        <Button*/}
+                            {/*            type="primary"*/}
+                            {/*            style={{*/}
+                            {/*                background: '#20B2AA',*/}
+                            {/*            }}*/}
+                            {/*        >*/}
+                            {/*            <SearchOutlined />*/}
+                            {/*        </Button>*/}
+                            {/*    }*/}
+                            {/*    size="large"*/}
+                            {/*    onSearch={() => {}}*/}
+                            {/*    style={{ width: '100%' }}*/}
+                            {/*/>*/}
                         </Col>
                         <Col xs={24} md={10}>
-                            <Card
-                                style={{
-                                    background: '#fff',
-                                    borderRadius: 12,
-                                    boxShadow:
-                                        '0 4px 24px rgba(32,178,170,0.08)',
-                                    border: 'none',
-                                    marginBottom: 0,
-                                }}
-                                bodyStyle={{ padding: 18 }}
-                            >
-                                <Form
-                                    form={form}
-                                    layout="vertical"
-                                    onFinish={onFinish}
-                                    autoComplete="off"
-                                >
-                                    <Form.Item
-                                        label={
-                                            <span
-                                                style={{
-                                                    fontWeight: 600,
-                                                    color: '#20B2AA',
-                                                }}
-                                            >
-                                                <BulbOutlined /> Bạn muốn AI gợi
-                                                ý điều gì?
-                                            </span>
-                                        }
-                                        name="title"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Vui lòng nhập nội dung!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input
-                                            placeholder="Ví dụ: Tôi muốn học lập trình Python"
-                                            size="large"
-                                            allowClear
-                                        />
-                                    </Form.Item>
-                                    <Form.Item style={{ marginBottom: 0 }}>
-                                        <Button
-                                            type="primary"
-                                            htmlType="submit"
-                                            icon={<SendOutlined />}
-                                            loading={loading}
-                                            size="large"
-                                            style={{
-                                                background: '#20B2AA',
-                                                border: 'none',
-                                                fontWeight: 700,
-                                                width: '100%',
-                                            }}
-                                        >
-                                            Gửi cho AI
-                                        </Button>
-                                    </Form.Item>
-                                </Form>
-                                {loading && (
-                                    <div
-                                        style={{
-                                            textAlign: 'center',
-                                            margin: '16px 0',
-                                        }}
-                                    >
-                                        <Spin tip="AI đang suy nghĩ..." />
-                                    </div>
-                                )}
-                                {result && (
-                                    <Card
-                                        type="inner"
-                                        title={
-                                            <span
-                                                style={{
-                                                    color: '#20B2AA',
-                                                    fontWeight: 600,
-                                                }}
-                                            >
-                                                <RobotOutlined /> Gợi ý của AI
-                                            </span>
-                                        }
-                                        style={{
-                                            marginTop: 16,
-                                            background: '#f6ffed',
-                                            borderColor: '#b7eb8f',
-                                            borderRadius: 8,
-                                        }}
-                                        bodyStyle={{ padding: 14 }}
-                                    >
-                                        <Title
-                                            level={5}
-                                            style={{ color: '#20B2AA' }}
-                                        >
-                                            {result.title}
-                                        </Title>
-                                        <Text>{result.reason}</Text>
-                                    </Card>
-                                )}
-                            </Card>
+                            {/*<Card*/}
+                            {/*    style={{*/}
+                            {/*        background: '#fff',*/}
+                            {/*        borderRadius: 12,*/}
+                            {/*        boxShadow:*/}
+                            {/*            '0 4px 24px rgba(32,178,170,0.08)',*/}
+                            {/*        border: 'none',*/}
+                            {/*        marginBottom: 0,*/}
+                            {/*    }}*/}
+                            {/*    bodyStyle={{ padding: 18 }}*/}
+                            {/*>*/}
+                            {/*    <Form*/}
+                            {/*        form={form}*/}
+                            {/*        layout="vertical"*/}
+                            {/*        onFinish={onFinish}*/}
+                            {/*        autoComplete="off"*/}
+                            {/*    >*/}
+                            {/*        <Form.Item*/}
+                            {/*            label={*/}
+                            {/*                <span*/}
+                            {/*                    style={{*/}
+                            {/*                        fontWeight: 600,*/}
+                            {/*                        color: '#20B2AA',*/}
+                            {/*                    }}*/}
+                            {/*                >*/}
+                            {/*                    <BulbOutlined /> Bạn muốn AI gợi*/}
+                            {/*                    ý điều gì?*/}
+                            {/*                </span>*/}
+                            {/*            }*/}
+                            {/*            name="title"*/}
+                            {/*            rules={[*/}
+                            {/*                {*/}
+                            {/*                    required: true,*/}
+                            {/*                    message:*/}
+                            {/*                        'Vui lòng nhập nội dung!',*/}
+                            {/*                },*/}
+                            {/*            ]}*/}
+                            {/*        >*/}
+                            {/*            <Input*/}
+                            {/*                placeholder="Ví dụ: Tôi muốn học lập trình Python"*/}
+                            {/*                size="large"*/}
+                            {/*                allowClear*/}
+                            {/*            />*/}
+                            {/*        </Form.Item>*/}
+                            {/*        <Form.Item style={{ marginBottom: 0 }}>*/}
+                            {/*            <Button*/}
+                            {/*                type="primary"*/}
+                            {/*                htmlType="submit"*/}
+                            {/*                icon={<SendOutlined />}*/}
+                            {/*                loading={loading}*/}
+                            {/*                size="large"*/}
+                            {/*                style={{*/}
+                            {/*                    background: '#20B2AA',*/}
+                            {/*                    border: 'none',*/}
+                            {/*                    fontWeight: 700,*/}
+                            {/*                    width: '100%',*/}
+                            {/*                }}*/}
+                            {/*            >*/}
+                            {/*                Gửi cho AI*/}
+                            {/*            </Button>*/}
+                            {/*        </Form.Item>*/}
+                            {/*    </Form>*/}
+                            {/*    {loading && (*/}
+                            {/*        <div*/}
+                            {/*            style={{*/}
+                            {/*                textAlign: 'center',*/}
+                            {/*                margin: '16px 0',*/}
+                            {/*            }}*/}
+                            {/*        >*/}
+                            {/*            <Spin tip="AI đang suy nghĩ..." />*/}
+                            {/*        </div>*/}
+                            {/*    )}*/}
+                            {/*    {result && (*/}
+                            {/*        <Card*/}
+                            {/*            type="inner"*/}
+                            {/*            title={*/}
+                            {/*                <span*/}
+                            {/*                    style={{*/}
+                            {/*                        color: '#20B2AA',*/}
+                            {/*                        fontWeight: 600,*/}
+                            {/*                    }}*/}
+                            {/*                >*/}
+                            {/*                    <RobotOutlined /> Gợi ý của AI*/}
+                            {/*                </span>*/}
+                            {/*            }*/}
+                            {/*            style={{*/}
+                            {/*                marginTop: 16,*/}
+                            {/*                background: '#f6ffed',*/}
+                            {/*                borderColor: '#b7eb8f',*/}
+                            {/*                borderRadius: 8,*/}
+                            {/*            }}*/}
+                            {/*            bodyStyle={{ padding: 14 }}*/}
+                            {/*        >*/}
+                            {/*            <Title*/}
+                            {/*                level={5}*/}
+                            {/*                style={{ color: '#20B2AA' }}*/}
+                            {/*            >*/}
+                            {/*                {result.title}*/}
+                            {/*            </Title>*/}
+                            {/*            <Text>{result.reason}</Text>*/}
+                            {/*        </Card>*/}
+                            {/*    )}*/}
+                            {/*</Card>*/}
                         </Col>
                     </Row>
                 </div>

@@ -15,6 +15,9 @@ export const AUTH_PATHS = {
     SIGN_IN: '/sign-in',
     SIGN_UP: '/sign-up',
     AUTH: '/auth',
+    VERIFY_EMAIL: '/verify-email',
+    FORGOT_PASSWORD: '/forgot-password',
+    RESET_PASSWORD: '/reset-password',
 }
 
 export const STUDENT_PATHS = {

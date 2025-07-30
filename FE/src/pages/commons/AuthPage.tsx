@@ -20,7 +20,13 @@ import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { PATHS } from '@/routers/path'
+import {
+    ADMIN_PATHS,
+    AUTH_PATHS,
+    INSTRUCTOR_PATHS,
+    PATHS,
+    STUDENT_PATHS,
+} from '@/routers/path'
 import AuthService from '@/services/auth'
 import {
     getCurrentInstructorAction,
@@ -71,7 +77,15 @@ const AuthPage: React.FC = () => {
                         message: 'Đăng nhập thành công!',
                         description: 'Chào mừng bạn quay trở lại',
                     })
-                    navigate(PATHS.HOME)
+                    if (user.role === 'admin') {
+                        navigate(ADMIN_PATHS.ADMIN_DASHBOARD)
+                    } else if (user.role === 'instructor') {
+                        navigate(INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD)
+                    } else if (user.role === 'student') {
+                        navigate(STUDENT_PATHS.STUDENT_DASHBOARD)
+                    } else {
+                        navigate(PATHS.HOME)
+                    }
                 }
             } else {
                 notification.error({
@@ -104,7 +118,7 @@ const AuthPage: React.FC = () => {
             if (response.status === 200) {
                 notification.success({
                     message: 'Đăng ký thành công!',
-                    description: 'Vui lòng đăng nhập để tiếp tục',
+                    description: 'Vui lòng kiểm tra hộp thư để xác thực',
                 })
                 registerForm.resetFields()
                 setActiveTab('login')
@@ -269,16 +283,10 @@ const AuthPage: React.FC = () => {
                             </Col>
                             <Col>
                                 <Link
-                                    href="#"
+                                    href={AUTH_PATHS.FORGOT_PASSWORD}
                                     style={{
                                         color: '#1976d2',
                                         fontSize: '14px',
-                                    }}
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        message.info(
-                                            'Chức năng quên mật khẩu chưa hỗ trợ!'
-                                        )
                                     }}
                                 >
                                     Quên mật khẩu?

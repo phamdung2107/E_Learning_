@@ -92,10 +92,13 @@ const StudentCartPage = () => {
             }
             notification.success({
                 message: 'Xác nhận đơn hàng thành công',
+                description: 'Đang điều hướng về trang khóa học của bạn',
             })
             dispatch(getCurrentUserAction())
             dispatch(getCurrentCartAction())
-            await fetchOrders()
+            setTimeout(() => {
+                navigate(STUDENT_PATHS.STUDENT_MY_COURSES)
+            }, 1000)
         } catch (e: any) {
             if (e.response.data.message === 'Số dư không đủ để thanh toán') {
                 notification.open({

@@ -296,6 +296,7 @@ const InstructorManageDetailCoursePage = () => {
                     loading={refreshLoading}
                     rowKey="id"
                     pagination={{ pageSize: 10 }}
+                    scroll={{ x: 'max-content' }}
                     expandable={{
                         expandedRowRender: (record) => (
                             <Table
@@ -306,6 +307,7 @@ const InstructorManageDetailCoursePage = () => {
                                 size="small"
                                 loading={loadingKeys.includes(record.id)}
                                 rowKey={(r) => r.pin || r.key}
+                                scroll={{ x: 'max-content' }}
                             />
                         ),
                         onExpand: (expanded, record) => {

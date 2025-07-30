@@ -2,7 +2,16 @@
 
 import React, { useEffect, useState } from 'react'
 
-import { Button, Col, Input, Row, Space, Statistic, Typography } from 'antd'
+import {
+    Button,
+    Col,
+    Input,
+    Row,
+    Space,
+    Statistic,
+    Typography,
+    message,
+} from 'antd'
 
 import {
     BookOutlined,
@@ -11,6 +20,8 @@ import {
     SearchOutlined,
     TrophyOutlined,
 } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import ActivityCard from '@/components/core/card/ActivityCard'
 import CategoryCard from '@/components/core/card/CategoryCard'
@@ -21,6 +32,7 @@ import { PATHS } from '@/routers/path'
 import CategoryService from '@/services/category'
 import EnrollmentService from '@/services/enrollment'
 import InstructorService from '@/services/instructor'
+import RecommendationService from '@/services/recommendation'
 import ReviewService from '@/services/review'
 
 import '../styles/Home.css'
@@ -33,6 +45,11 @@ const HomePage: React.FC = () => {
     const [reviews, setReviews] = useState<any[]>([])
     const [categories, setCategories] = useState<any[]>([])
     const [instructors, setInstructors] = useState<any[]>([])
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
+    const isAuthenticated = useSelector(
+        (state: any) => state.auth.isAuthenticated
+    )
 
     const activities = [
         {
@@ -67,8 +84,23 @@ const HomePage: React.FC = () => {
         },
     ]
 
-    const onSearch = (value: string) => {
-        console.log('Search:', value)
+    const onSearch = async (value: any) => {
+        setLoading(true)
+        try {
+            const res = await RecommendationService.store({
+                title: value,
+            })
+            if (res.status === 200) {
+                message.success('Đã nhận được gợi ý từ AI!')
+                navigate(PATHS.RECOMMENDATION)
+            }
+        } catch (err: any) {
+            message.error(
+                err?.response?.data?.message || err.message || 'Có lỗi xảy ra!'
+            )
+        } finally {
+            setLoading(false)
+        }
     }
 
     const fetchCourses = async () => {
@@ -142,6 +174,7 @@ const HomePage: React.FC = () => {
                                         background: '#20B2AA',
                                         border: 'none',
                                     }}
+                                    loading={loading}
                                 >
                                     <SearchOutlined />
                                 </Button>

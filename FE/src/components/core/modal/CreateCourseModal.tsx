@@ -1,6 +1,15 @@
 import React, { useState } from 'react'
 
-import { Button, Form, Input, Modal, Select, Upload, notification } from 'antd'
+import {
+    Button,
+    Form,
+    Input,
+    Modal,
+    Select,
+    TreeSelect,
+    Upload,
+    notification,
+} from 'antd'
 
 import { UploadOutlined } from '@ant-design/icons'
 
@@ -119,13 +128,14 @@ const CreateCourseModal = ({
                         { required: true, message: 'Vui lòng chọn danh mục' },
                     ]}
                 >
-                    <Select placeholder="Chọn danh mục">
-                        {categories.map((category: any) => (
-                            <Option key={category.id} value={category.id}>
-                                {category.name}
-                            </Option>
-                        ))}
-                    </Select>
+                    <TreeSelect
+                        placeholder="Chọn danh mục"
+                        allowClear
+                        showSearch
+                        treeDefaultExpandAll
+                        treeData={categories}
+                        style={{ width: '100%' }}
+                    />
                 </Form.Item>
                 <Form.Item
                     label="Ảnh đại diện"
