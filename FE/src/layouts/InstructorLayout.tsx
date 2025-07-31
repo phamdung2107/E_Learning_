@@ -9,6 +9,7 @@ import {
     BellOutlined,
     BookOutlined,
     DashboardOutlined,
+    DollarCircleOutlined,
     LogoutOutlined,
     MenuOutlined,
     UserOutlined,
@@ -59,6 +60,15 @@ const InstructorLayout: React.FC = () => {
             label: (
                 <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}>
                     Học sinh của tôi
+                </Link>
+            ),
+        },
+        {
+            key: INSTRUCTOR_PATHS.INSTRUCTOR_TRANSACTIONS,
+            icon: <DollarCircleOutlined />,
+            label: (
+                <Link to={INSTRUCTOR_PATHS.INSTRUCTOR_TRANSACTIONS}>
+                    Quản lý giao dịch
                 </Link>
             ),
         },

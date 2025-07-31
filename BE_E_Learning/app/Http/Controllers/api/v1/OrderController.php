@@ -129,7 +129,7 @@ class OrderController extends Controller
             return response()->json(['message' => 'Không thể hủy đơn hàng đã xử lý.'], 400);
         }
 
-        $order->payment_status = 'canceled';
+        $order->payment_status = 'cancelled';
         $order->save();
 
         return Response::data(['message' => 'Đã hủy đơn hàng']);

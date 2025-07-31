@@ -58,6 +58,7 @@ const AdminManageTransactionsPage = () => {
                     loading={refreshLoading}
                     rowKey="id"
                     pagination={{ pageSize: 10 }}
+                    scroll={{ x: 'max-content' }}
                 />
             </Card>
             {refreshLoading && (

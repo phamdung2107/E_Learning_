@@ -48,7 +48,7 @@ const StudentWalletReturnPage = () => {
     }, [location.search])
 
     const handleBack = () => {
-        navigate(STUDENT_PATHS.STUDENT_PROFILE)
+        navigate(STUDENT_PATHS.STUDENT_TRANSACTIONS)
     }
 
     if (status === 'pending') {

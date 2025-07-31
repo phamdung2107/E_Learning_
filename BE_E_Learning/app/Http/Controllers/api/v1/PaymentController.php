@@ -179,7 +179,7 @@ class PaymentController extends Controller
         $user = $request->user();
 
         if ($user->money < $request->amount) {
-            return Response::data(['message' => 'Số dư không đủ'], 400);
+            return Response::data(['message' => 'Số dư không đủ'], 0, 'Warning', 400);
         }
 
         $withdraw = Payment::create([

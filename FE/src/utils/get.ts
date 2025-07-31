@@ -139,3 +139,37 @@ export const getStatusNameAndColor = (status: string) => {
         }
     }
 }
+
+export const getPaymentStatusName = (status: any) => {
+    if (status === 'pending') {
+        return 'Đang xử lý'
+    } else if (status === 'completed') {
+        return 'Thành công'
+    } else if (status === 'failed') {
+        return 'Thất bại'
+    } else {
+        return ''
+    }
+}
+
+export const getPaymentMethodName = (method: any) => {
+    if (method === 'wallet') {
+        return 'Ví điện tử'
+    } else if (method === 'paypal') {
+        return 'PayPal'
+    } else if (method === 'stripe') {
+        return 'Stripe'
+    } else {
+        return ''
+    }
+}
+
+export const getTypeTransaction = (type: any) => {
+    if (type === 'topup') {
+        return 'Nạp tiền'
+    } else if (type === 'withdraw') {
+        return 'Rút tiền'
+    } else {
+        return ''
+    }
+}

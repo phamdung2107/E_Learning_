@@ -32,11 +32,13 @@ import InstructorCoursePage from '@/pages/instructor/InstructorManageCoursesPage
 import InstructorManageDetailCoursePage from '@/pages/instructor/InstructorManageDetailCoursePage'
 import { InstructorProfilePage } from '@/pages/instructor/InstructorProfilePage'
 import InstructorStudentPage from '@/pages/instructor/InstructorStudentPage'
+import InstructorTransactionPage from '@/pages/instructor/InstructorTransactionPage'
 import StudentOrderCoursePage from '@/pages/student/StudentCartPage'
 import StudentCertificatePage from '@/pages/student/StudentCertificatePage'
 import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
 import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
+import StudentTransactionPage from '@/pages/student/StudentTransactionPage'
 import StudentWalletReturnPage from '@/pages/student/StudentWalletReturnPage'
 
 import {
@@ -122,6 +124,10 @@ const AppRouter = [
             path={STUDENT_PATHS.STUDENT_CART}
             element={<StudentOrderCoursePage />}
         />
+        <Route
+            path={STUDENT_PATHS.STUDENT_TRANSACTIONS}
+            element={<StudentTransactionPage />}
+        />
     </Route>,
     <Route
         element={
@@ -150,6 +156,10 @@ const AppRouter = [
         <Route
             path={INSTRUCTOR_PATHS.INSTRUCTOR_DETAIL_COURSE}
             element={<InstructorManageDetailCoursePage />}
+        />
+        <Route
+            path={INSTRUCTOR_PATHS.INSTRUCTOR_TRANSACTIONS}
+            element={<InstructorTransactionPage />}
         />
     </Route>,
     <Route

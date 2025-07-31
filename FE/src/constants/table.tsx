@@ -17,7 +17,13 @@ import { Link } from 'react-router-dom'
 import { DATE_TIME_FORMAT } from '@/constants/date'
 import { BASE_IMAGE_URL } from '@/constants/image'
 import { formatDateTime, formatPrice } from '@/utils/format'
-import { getRoleName, getStatusNameAndColor } from '@/utils/get'
+import {
+    getPaymentMethodName,
+    getPaymentStatusName,
+    getRoleName,
+    getStatusNameAndColor,
+    getTypeTransaction,
+} from '@/utils/get'
 
 export const RESULT_QUIZ_COLUMNS: any = [
     {
@@ -755,9 +761,9 @@ export const MANAGE_TRANSACTION_COLUMNS: any = [
     },
     {
         title: 'Khóa học',
-        dataIndex: 'course',
-        key: 'course',
-        align: 'center',
+        dataIndex: 'course_title',
+        key: 'course_title',
+        align: 'left',
     },
     {
         title: 'Giá',
@@ -773,12 +779,18 @@ export const MANAGE_TRANSACTION_COLUMNS: any = [
         dataIndex: 'payment_method',
         key: 'payment_method',
         align: 'center',
+        render: (text: any) => {
+            return <div>{text ? getPaymentMethodName(text) : ''}</div>
+        },
     },
     {
         title: 'Trạng thái thanh toán',
         dataIndex: 'payment_status',
         key: 'payment_status',
         align: 'center',
+        render: (text: any) => {
+            return <div>{text && getPaymentStatusName(text)}</div>
+        },
     },
     {
         title: 'Ngày tạo',
@@ -789,6 +801,58 @@ export const MANAGE_TRANSACTION_COLUMNS: any = [
             return (
                 <div>{text ? formatDateTime(text, DATE_TIME_FORMAT) : ''}</div>
             )
+        },
+    },
+]
+
+export const STUDENT_MANAGE_TRANSACTION_COLUMNS: any = [
+    {
+        title: 'Mã giao dịch',
+        dataIndex: 'transaction_id',
+        key: 'transaction_id',
+        align: 'left',
+        fixed: 'left',
+    },
+    {
+        title: 'Tài khoản ngân hàng',
+        dataIndex: 'bank_account',
+        key: 'bank_account',
+        align: 'center',
+    },
+    {
+        title: 'Loại giao dịch',
+        dataIndex: 'type',
+        key: 'type',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? getTypeTransaction(text) : ''}</div>
+        },
+    },
+    {
+        title: 'Số tiền',
+        dataIndex: 'amount',
+        key: 'amount',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? formatPrice(text) : ''}</div>
+        },
+    },
+    {
+        title: 'Trạng thái giao dịch',
+        dataIndex: 'status',
+        key: 'status',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text && getPaymentStatusName(text)}</div>
+        },
+    },
+    {
+        title: 'Ngày tạo',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? text.replace("'\'", '') : ''}</div>
         },
     },
 ]

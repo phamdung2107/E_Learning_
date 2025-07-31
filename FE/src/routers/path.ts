@@ -37,6 +37,7 @@ export const STUDENT_PATHS = {
     STUDENT_PROFILE: '/student/profile',
     STUDENT_CART: '/student/cart',
     STUDENT_WALLET_RETURN: '/student/wallet/return',
+    STUDENT_TRANSACTIONS: '/student/transactions',
 }
 
 export const INSTRUCTOR_PATHS = {
@@ -45,6 +46,7 @@ export const INSTRUCTOR_PATHS = {
     INSTRUCTOR_DETAIL_COURSE: '/instructor/courses/:courseId',
     INSTRUCTOR_PROFILE: '/instructor/profile',
     INSTRUCTOR_MY_STUDENTS: '/instructor/students',
+    INSTRUCTOR_TRANSACTIONS: '/instructor/transactions',
 }
 
 export const ADMIN_PATHS = {

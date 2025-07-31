@@ -126,9 +126,12 @@ export const InstructorProfilePage = () => {
                 notification.success({
                     message: 'Gửi yêu cầu rút tiền thành công',
                 })
+            } else if (response.status === 400) {
+                notification.warning({
+                    message: response.data.message,
+                })
             }
         } catch (error) {
-            console.error('Error withDrawing:', error)
             notification.error({
                 message: 'Gửi yêu cầu rút tiền thất bại',
             })

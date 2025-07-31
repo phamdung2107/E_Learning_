@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Empty, Table, Typography, notification } from 'antd'
 
-import { LoginOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
+import { LogoutOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 
+import InstructorWithDrawModal from '@/components/core/modal/InstructorWithDrawModal'
 import { StudentDepositModal } from '@/components/core/modal/StudentDepositModal'
 import { STUDENT_MANAGE_TRANSACTION_COLUMNS } from '@/constants/table'
-import OrderService from '@/services/order'
 import PaymentService from '@/services/payment'
 
 const { Title, Text } = Typography
 
-const StudentTransactionPage = () => {
+const InstructorTransactionPage = () => {
     const [transactions, setTransactions] = useState<any[]>([])
-    const [isModalDepositOpen, setIsModalDepositOpen] = useState(false)
     const [refreshLoading, setRefreshLoading] = useState(false)
-    const [depositLoading, setDepositLoading] = useState(false)
+    const [withDrawLoading, setWithDrawLoading] = useState(false)
+    const [isModalWithDrawOpen, setIsModalWithDrawOpen] = useState(false)
 
     const fetchData = async () => {
         setRefreshLoading(true)
@@ -29,29 +29,30 @@ const StudentTransactionPage = () => {
         }
     }
 
-    const handleDeposit = async (values: any) => {
-        setDepositLoading(true)
+    const handleWithDraw = async (values: any) => {
+        setWithDrawLoading(true)
         try {
-            const response = await PaymentService.create({
+            const response = await PaymentService.withdraw({
                 amount: values.amount,
+                bank_account: values.bank_account,
+                note: values.note,
             })
             if (response.status === 200) {
                 notification.success({
-                    message: 'Nạp tiền thành công',
+                    message: 'Gửi yêu cầu rút tiền thành công',
                 })
-                window.open(
-                    response.data.payment_url.original.payment_url,
-                    '_blank'
-                )
+            } else if (response.status === 400) {
+                notification.warning({
+                    message: response.data.message,
+                })
             }
         } catch (error) {
-            console.error('Error depositing:', error)
             notification.error({
-                message: 'Nạp tiền thất bại',
+                message: 'Gửi yêu cầu rút tiền thất bại',
             })
         } finally {
-            setDepositLoading(false)
-            setIsModalDepositOpen(false)
+            setWithDrawLoading(false)
+            setIsModalWithDrawOpen(false)
         }
     }
 
@@ -66,7 +67,7 @@ const StudentTransactionPage = () => {
                     <div>
                         <Title level={2}>Quản lý giao dịch</Title>
                         <Text type="secondary">
-                            Xem lịch sử giao dịch và nạp tiền vào hệ thống
+                            Xem lịch sử giao dịch và rút tiền khỏi hệ thống
                         </Text>
                     </div>
                     <div style={{ flexGrow: 1 }}></div>
@@ -74,11 +75,11 @@ const StudentTransactionPage = () => {
                         <Button
                             type="primary"
                             size="middle"
-                            icon={<LoginOutlined />}
-                            onClick={() => setIsModalDepositOpen(true)}
+                            icon={<LogoutOutlined />}
+                            onClick={() => setIsModalWithDrawOpen(true)}
                             style={{ marginBottom: '16px' }}
                         >
-                            Nạp tiền
+                            Rút tiền
                         </Button>
                     </div>
                 </div>
@@ -127,17 +128,17 @@ const StudentTransactionPage = () => {
                     </Card>
                 )}
             </div>
-            <StudentDepositModal
-                visible={isModalDepositOpen}
+            <InstructorWithDrawModal
+                visible={isModalWithDrawOpen}
                 onClose={() => {
                     // @ts-ignore
-                    setIsModalDepositOpen(false)
+                    setIsModalWithDrawOpen(false)
                 }}
-                onSubmit={(values: any) => handleDeposit(values)}
-                loading={depositLoading}
+                onSubmit={(values: any) => handleWithDraw(values)}
+                loading={withDrawLoading}
             />
         </div>
     )
 }
 
-export default StudentTransactionPage
+export default InstructorTransactionPage

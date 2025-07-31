@@ -9,6 +9,7 @@ import {
     BellOutlined,
     BookOutlined,
     DashboardOutlined,
+    DollarCircleOutlined,
     LogoutOutlined,
     MenuOutlined,
     ShoppingCartOutlined,
@@ -67,6 +68,15 @@ const StudentLayout: React.FC = () => {
             key: STUDENT_PATHS.STUDENT_CART,
             icon: <ShoppingCartOutlined />,
             label: <Link to={STUDENT_PATHS.STUDENT_CART}>Giỏ hàng</Link>,
+        },
+        {
+            key: STUDENT_PATHS.STUDENT_TRANSACTIONS,
+            icon: <DollarCircleOutlined />,
+            label: (
+                <Link to={STUDENT_PATHS.STUDENT_TRANSACTIONS}>
+                    Quản lý giao dịch
+                </Link>
+            ),
         },
     ]
     const userMenuItems = [
