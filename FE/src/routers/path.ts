@@ -11,6 +11,15 @@ export const PUBLIC_PATHS = {
     RECOMMENDATION: '/recommendation',
 }
 
+export const VIETNAMESE_LABELS: any = {
+    HOME: 'Trang chủ',
+    ABOUT: 'Giới thiệu',
+    COURSES: 'Khóa học',
+    EVENT: 'Sự kiện',
+    CONTACT: 'Liên hệ',
+    RECOMMENDATION: 'Gợi ý',
+}
+
 export const AUTH_PATHS = {
     SIGN_IN: '/sign-in',
     SIGN_UP: '/sign-up',
@@ -45,6 +54,7 @@ export const ADMIN_PATHS = {
     ADMIN_MANAGE_USERS: '/admin/users',
     ADMIN_MANAGE_TRANSACTIONS: '/admin/transactions',
     ADMIN_MANAGE_INSTRUCTORS: '/admin/instructors',
+    ADMIN_MANAGE_EVENTS: '/admin/events',
 }
 
 export const PRIVATE_PATHS = {}

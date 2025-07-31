@@ -10,6 +10,7 @@ import {
     DollarCircleOutlined,
     LogoutOutlined,
     MenuOutlined,
+    PicRightOutlined,
     UserOutlined,
 } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
@@ -65,6 +66,15 @@ const AdminLayout = () => {
             label: (
                 <Link to={ADMIN_PATHS.ADMIN_MANAGE_TRANSACTIONS}>
                     Quản lý giao dịch
+                </Link>
+            ),
+        },
+        {
+            key: ADMIN_PATHS.ADMIN_MANAGE_EVENTS,
+            icon: <PicRightOutlined />,
+            label: (
+                <Link to={ADMIN_PATHS.ADMIN_MANAGE_EVENTS}>
+                    Quản lý hoạt động
                 </Link>
             ),
         },

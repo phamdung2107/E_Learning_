@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 
 import { COMMON_INFORMATION } from '@/constants/information'
-import { PUBLIC_PATHS } from '@/routers/path'
+import { PUBLIC_PATHS, VIETNAMESE_LABELS } from '@/routers/path'
 import { logout } from '@/stores/auth/authSlice'
 import { getCurrentCartAction } from '@/stores/cart/cartAction'
 import { setCart } from '@/stores/cart/cartSlice'
@@ -303,7 +303,10 @@ const HeaderComponent: React.FC = () => {
                                         const isActive =
                                             location.pathname === value
 
-                                        if (!value.startsWith('/courses/')) {
+                                        if (
+                                            !value.startsWith('/courses/') &&
+                                            VIETNAMESE_LABELS[key]
+                                        ) {
                                             return (
                                                 <Link
                                                     key={key}
@@ -337,7 +340,7 @@ const HeaderComponent: React.FC = () => {
                                                         }
                                                     }}
                                                 >
-                                                    {key}
+                                                    {VIETNAMESE_LABELS[key]}
                                                 </Link>
                                             )
                                         }

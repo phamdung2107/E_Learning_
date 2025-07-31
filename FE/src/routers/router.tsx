@@ -9,6 +9,7 @@ import RequiredAuth from '@/layouts/RequiredAuth'
 import StudentLayout from '@/layouts/StudentLayout'
 import AdminDashboardPage from '@/pages/admin/AdminDashboardPage'
 import AdminManageCoursesPage from '@/pages/admin/AdminManageCoursesPage'
+import AdminManageEventsPage from '@/pages/admin/AdminManageEventsPage'
 import AdminManageTransactionsPage from '@/pages/admin/AdminManageTransactionsPage'
 import AdminManageUsersPage from '@/pages/admin/AdminManageUsersPage'
 import AdminProfilePage from '@/pages/admin/AdminProfilePage'
@@ -178,6 +179,10 @@ const AppRouter = [
         <Route
             path={ADMIN_PATHS.ADMIN_MANAGE_TRANSACTIONS}
             element={<AdminManageTransactionsPage />}
+        />
+        <Route
+            path={ADMIN_PATHS.ADMIN_MANAGE_EVENTS}
+            element={<AdminManageEventsPage />}
         />
     </Route>,
 ]

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Button, Card, Spin, Table, Typography } from 'antd'
 
@@ -24,6 +24,10 @@ const AdminManageTransactionsPage = () => {
             setRefreshLoading(false)
         }
     }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     return (
         <div className="instructor-manage-courses" style={{ padding: '24px' }}>

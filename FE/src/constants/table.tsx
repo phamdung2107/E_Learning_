@@ -704,11 +704,7 @@ export const getManageUserColumns: any = (
         width: 150,
         fixed: 'right',
         render: (record: any) => (
-            <Space
-                style={{
-                    visibility: record.machineId !== '-' ? 'visible' : 'hidden',
-                }}
-            >
+            <Space>
                 <Button
                     type="primary"
                     size="small"
@@ -794,5 +790,89 @@ export const MANAGE_TRANSACTION_COLUMNS: any = [
                 <div>{text ? formatDateTime(text, DATE_TIME_FORMAT) : ''}</div>
             )
         },
+    },
+]
+
+export const getManageEventColumns: any = (
+    onEdit: (record: any) => void,
+    onDelete: (record: any) => void
+) => [
+    {
+        title: 'Tên',
+        dataIndex: 'name',
+        key: 'name',
+        align: 'left',
+    },
+    {
+        title: 'Nội dung',
+        dataIndex: 'content',
+        key: 'content',
+        align: 'left',
+    },
+    {
+        title: 'Phần trăm giảm giá',
+        dataIndex: 'bonus_percent',
+        key: 'bonus_percent',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? `${text}%` : ''}</div>
+        },
+    },
+    {
+        title: 'Ngày bắt đầu',
+        dataIndex: 'start_time',
+        key: 'start_time',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{formatDateTime(text, DATE_TIME_FORMAT)}</div>
+        },
+    },
+    {
+        title: 'Ngày kết thúc',
+        dataIndex: 'end_time',
+        key: 'end_time',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{formatDateTime(text, DATE_TIME_FORMAT)}</div>
+        },
+    },
+    {
+        title: 'Trạng thái',
+        dataIndex: 'status',
+        key: 'status',
+        align: 'center',
+    },
+    {
+        title: 'Hành động',
+        key: 'action',
+        align: 'center',
+        width: 150,
+        fixed: 'right',
+        render: (record: any) => (
+            <Space>
+                <Button
+                    type="primary"
+                    size="small"
+                    icon={<FormOutlined />}
+                    style={{ borderRadius: 8 }}
+                    onClick={() => onEdit(record)}
+                />
+                <Popconfirm
+                    title="Xóa hoạt động"
+                    description={`Bạn có chắc chắn muốn xóa hoạt động này?`}
+                    onConfirm={(e) => {
+                        // @ts-ignore
+                        e.stopPropagation()
+                        onDelete(record)
+                    }}
+                    onCancel={() => {}}
+                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                    okText="Xóa"
+                    cancelText="Hủy"
+                >
+                    <Button danger size="small" icon={<DeleteOutlined />} />
+                </Popconfirm>
+            </Space>
+        ),
     },
 ]
