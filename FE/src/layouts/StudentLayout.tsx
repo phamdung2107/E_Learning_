@@ -173,6 +173,7 @@ const StudentLayout: React.FC = () => {
                             <Button
                                 size="middle"
                                 shape="circle"
+                                href={STUDENT_PATHS.STUDENT_NOTIFICATIONS}
                                 icon={
                                     <BellOutlined
                                         style={{

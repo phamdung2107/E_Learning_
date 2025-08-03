@@ -7,6 +7,7 @@ export const getCurrentNotificationAction: any = createAsyncThunk(
     NOTIFICATION_API.LIST_UNREAD,
     async (credentials: any, { rejectWithValue }) => {
         const res = await NotificationService.getAllUnread()
+        console.log(res)
         return res.total
     }
 )

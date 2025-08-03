@@ -40,11 +40,11 @@ const AdminProfilePage = () => {
     const tabListNoTitle = [
         {
             key: 'profile',
-            label: 'Profile',
+            label: 'Thông tin cá nhân',
         },
         {
             key: 'password',
-            label: 'Password',
+            label: 'Mật khẩu',
         },
     ]
 
@@ -64,14 +64,14 @@ const AdminProfilePage = () => {
             const res = await UserService.update(currentUser.id, values)
             if (res.status === 200) {
                 notification.success({
-                    message: 'Update profile success',
+                    message: 'Cập nhật thông tin thành công',
                 })
                 dispatch(getCurrentUserAction())
             }
         } catch (error) {
             console.error('Error updating profile:', error)
             notification.error({
-                message: 'Error updating profile',
+                message: 'Cập nhật thông tin thất bại',
             })
         }
     }
@@ -85,16 +85,16 @@ const AdminProfilePage = () => {
     }
 
     const handleChangePassword = async (values: any) => {
-        if (values.new_password !== values.confirm_password) {
+        if (values.newPassword !== values.confirmPassword) {
             return notification.error({
-                message: 'Passwords do not match',
+                message: 'Mật khẩu xác nhận không khớp',
             })
         }
         try {
             const res = await UserService.changePassword(values)
             if (res.status === 200) {
                 notification.success({
-                    message: 'Change password success',
+                    message: 'Đổi mật khẩu thành công',
                 })
             } else {
                 notification.error(res.data)
@@ -103,7 +103,7 @@ const AdminProfilePage = () => {
         } catch (error) {
             console.error('Error changing password:', error)
             notification.error({
-                message: 'Error changing password',
+                message: 'Đổi mật khẩu thất bại',
             })
         }
     }
@@ -116,7 +116,7 @@ const AdminProfilePage = () => {
             })
             if (response.status === 200) {
                 notification.success({
-                    message: 'Deposit success',
+                    message: 'Nạp tiền thành công',
                 })
                 window.open(
                     response.data.payment_url.original.payment_url,
@@ -126,7 +126,7 @@ const AdminProfilePage = () => {
         } catch (error) {
             console.error('Error depositing:', error)
             notification.error({
-                message: 'Error depositing',
+                message: 'Nạp tiền thất bại',
             })
         } finally {
             setDepositLoading(false)
@@ -141,13 +141,13 @@ const AdminProfilePage = () => {
                 await InstructorService.requestBecomeInstructor(values)
             if (response.status === 200) {
                 notification.success({
-                    message: 'Request instructor success',
+                    message: 'Gửi yêu cầu trở thành giảng viên thành công',
                 })
             }
         } catch (e) {
             console.error('Error: ', e)
             notification.error({
-                message: 'Error request instructor',
+                message: 'Gửi yêu cầu thất bại',
             })
         } finally {
             setRequestLoading(false)
@@ -191,28 +191,26 @@ const AdminProfilePage = () => {
                             onChange={handleFileChange}
                             accept="image/*"
                         >
-                            <Button icon={<UploadOutlined />}>
-                                Choose image
-                            </Button>
+                            <Button icon={<UploadOutlined />}>Chọn ảnh</Button>
                         </Upload>
                     </div>
                     <br />
                     <Form.Item
                         name="full_name"
-                        label="Full name"
+                        label="Họ và tên"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your full name',
+                                message: 'Vui lòng nhập họ và tên',
                             },
                         ]}
                     >
-                        <Input placeholder="Enter full name" />
+                        <Input placeholder="Nhập họ và tên" />
                     </Form.Item>
                     <Form.Item name="email" label="Email">
                         <Input disabled />
                     </Form.Item>
-                    <Form.Item label="Money">
+                    <Form.Item label="Số dư">
                         <Input.Group compact>
                             <Form.Item
                                 name="money"
@@ -230,26 +228,26 @@ const AdminProfilePage = () => {
                                 type="primary"
                                 onClick={() => setIsModalDepositOpen(true)}
                             >
-                                Deposit
+                                Nạp tiền
                             </Button>
                         </Input.Group>
                     </Form.Item>
-                    <Form.Item name="date_of_birth" label="Birthday">
+                    <Form.Item name="date_of_birth" label="Ngày sinh">
                         <Input type="date" />
                     </Form.Item>
                     <Form.Item
                         name="gender"
-                        label="Gender"
+                        label="Giới tính"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please select your gender',
+                                message: 'Vui lòng chọn giới tính',
                             },
                         ]}
                     >
-                        <Select allowClear placeholder="Select your gender">
-                            <Select.Option value="male">Male</Select.Option>
-                            <Select.Option value="female">Female</Select.Option>
+                        <Select allowClear placeholder="Chọn giới tính">
+                            <Select.Option value="male">Nam</Select.Option>
+                            <Select.Option value="female">Nữ</Select.Option>
                         </Select>
                     </Form.Item>
                     <Form.Item hidden name="avatar">
@@ -257,14 +255,14 @@ const AdminProfilePage = () => {
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            Save changes
+                            Lưu thay đổi
                         </Button>
                         <Button
                             type="default"
                             style={{ marginLeft: 8 }}
                             onClick={() => form.resetFields()}
                         >
-                            Reset
+                            Đặt lại
                         </Button>
                     </Form.Item>
                 </Form>
@@ -280,43 +278,43 @@ const AdminProfilePage = () => {
                 >
                     <Form.Item
                         name="oldPassword"
-                        label="Current password"
+                        label="Mật khẩu hiện tại"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your current password',
+                                message: 'Vui lòng nhập mật khẩu hiện tại',
                             },
                         ]}
                     >
-                        <Input.Password placeholder="Enter current password" />
+                        <Input.Password placeholder="Nhập mật khẩu hiện tại" />
                     </Form.Item>
                     <Form.Item
                         name="newPassword"
-                        label="New password"
+                        label="Mật khẩu mới"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input new password',
+                                message: 'Vui lòng nhập mật khẩu mới',
                             },
                         ]}
                     >
-                        <Input.Password placeholder="Enter new password" />
+                        <Input.Password placeholder="Nhập mật khẩu mới" />
                     </Form.Item>
                     <Form.Item
                         name="confirmPassword"
-                        label="Confirm password"
+                        label="Xác nhận mật khẩu"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please confirm new password',
+                                message: 'Vui lòng xác nhận mật khẩu mới',
                             },
                         ]}
                     >
-                        <Input.Password placeholder="Enter confirm password" />
+                        <Input.Password placeholder="Nhập lại mật khẩu mới" />
                     </Form.Item>
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            Change password
+                            Đổi mật khẩu
                         </Button>
                     </Form.Item>
                 </Form>
@@ -336,7 +334,7 @@ const AdminProfilePage = () => {
                         onClick={() => dispatch(getCurrentUserAction())}
                         type="link"
                     >
-                        Refresh
+                        Làm mới
                     </Button>
                 }
                 onTabChange={onTabChange}

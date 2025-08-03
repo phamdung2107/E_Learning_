@@ -133,9 +133,7 @@ const AdminManageEventsPage = () => {
                     <Search
                         placeholder="Tìm kiếm hoạt động..."
                         allowClear
-                        enterButton={
-                            <SearchOutlined style={{ color: '#20B2AA' }} />
-                        }
+                        enterButton={<SearchOutlined />}
                         onSearch={handleSearch}
                         style={{
                             width: '200px',
@@ -152,7 +150,7 @@ const AdminManageEventsPage = () => {
                         loading={refreshLoading}
                         style={{ marginBottom: '16px', marginRight: '16px' }}
                     >
-                        Tải lại
+                        Làm mới
                     </Button>
                     <Button
                         type="primary"
@@ -160,7 +158,9 @@ const AdminManageEventsPage = () => {
                         icon={<PlusOutlined />}
                         onClick={() => setIsModalCreateOpen(true)}
                         style={{ marginBottom: '16px' }}
-                    ></Button>
+                    >
+                        Thêm mới
+                    </Button>
                 </div>
                 <Table
                     bordered

@@ -4,6 +4,7 @@ import {
     Button,
     Card,
     Col,
+    Empty,
     List,
     Row,
     Space,
@@ -17,6 +18,8 @@ import {
     DollarCircleOutlined,
     DollarOutlined,
     InfoCircleOutlined,
+    PicRightOutlined,
+    ReloadOutlined,
     StarOutlined,
     TrophyOutlined,
     UserOutlined,
@@ -26,11 +29,12 @@ import { Link } from 'react-router-dom'
 
 import { MonthlyRevenueChart } from '@/components/charts/MonthlyRevenueChart'
 import StudentActivityChart from '@/components/charts/StudentActivityChart'
-import { INSTRUCTOR_PATHS } from '@/routers/path'
+import { ADMIN_PATHS, INSTRUCTOR_PATHS } from '@/routers/path'
 import EnrollmentService from '@/services/enrollment'
 import InstructorService from '@/services/instructor'
 import NotificationService from '@/services/notification'
 import UserService from '@/services/user'
+import { getCurrentUserAction } from '@/stores/auth/authAction'
 import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
 
 const { Title, Text } = Typography
@@ -104,9 +108,12 @@ const AdminDashboardPage = () => {
         <div className="student-dashboard">
             {/* Header */}
             <Card style={{ marginBottom: '24px' }}>
-                <Title level={2}>Welcome back, {user?.full_name}! 👋</Title>
+                <Title level={2}>
+                    Chào mừng trở lại, {user?.full_name}! 👋
+                </Title>
                 <Text type="secondary">
-                    Manage your courses and track your teaching progress
+                    Quản lý các khóa học và theo dõi tiến trình giảng dạy của
+                    bạn
                 </Text>
             </Card>
 
@@ -119,7 +126,7 @@ const AdminDashboardPage = () => {
                 <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Total Users"
+                            title="Tổng số người dùng"
                             value={countUsers?.total}
                             prefix={<UserOutlined />}
                             valueStyle={{ color: '#20B2AA' }}
@@ -129,7 +136,7 @@ const AdminDashboardPage = () => {
                 <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Active Users"
+                            title="Người dùng đang hoạt động"
                             value={countUsers?.active}
                             prefix={<UserOutlined />}
                             valueStyle={{ color: '#52c41a' }}
@@ -139,7 +146,7 @@ const AdminDashboardPage = () => {
                 <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Total Instructors"
+                            title="Tổng số giảng viên"
                             value={countUsers?.instructors}
                             prefix={<UserOutlined />}
                             valueStyle={{ color: 'blue' }}
@@ -149,7 +156,7 @@ const AdminDashboardPage = () => {
                 <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Banned Users"
+                            title="Người dùng bị khóa"
                             value={countUsers?.banned}
                             prefix={<UserOutlined />}
                             valueStyle={{ color: 'red' }}
@@ -159,7 +166,7 @@ const AdminDashboardPage = () => {
                 <Col xs={12} sm={4}>
                     <Card className="student-stats-card">
                         <Statistic
-                            title="Revenue"
+                            title="Doanh thu"
                             value={revenue}
                             prefix={<DollarOutlined />}
                             valueStyle={{ color: '#1890ff' }}
@@ -181,7 +188,7 @@ const AdminDashboardPage = () => {
                                     alignItems: 'center',
                                 }}
                             >
-                                <span>Monthly Revenue</span>
+                                <span>Doanh thu theo tháng</span>
                             </div>
                         }
                     >
@@ -192,91 +199,136 @@ const AdminDashboardPage = () => {
                 {/* Sidebar */}
                 <Col xs={24} lg={10}>
                     <div className="student-sidebar">
-                        <Card
-                            className="student-activity-card"
-                            title="Thông báo"
-                        >
-                            <List
-                                className="student-activity-list"
-                                size="small"
-                                dataSource={notifications}
-                                renderItem={(item) => (
-                                    <List.Item
+                        {notifications.length === 0 ? (
+                            <Card
+                                className="student-activity-card"
+                                title={
+                                    <div
                                         style={{
-                                            opacity: item.is_read ? 0.5 : 1,
-                                            transition: 'opacity 0.3s ease',
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
                                         }}
-                                        actions={
-                                            !item.is_read
-                                                ? [
-                                                      <Button
-                                                          size="small"
-                                                          type="link"
-                                                          onClick={() =>
-                                                              markAsRead(
-                                                                  item.id
-                                                              )
-                                                          }
-                                                      >
-                                                          Đánh dấu đã đọc
-                                                      </Button>,
-                                                  ]
-                                                : []
-                                        }
                                     >
-                                        <List.Item.Meta
-                                            avatar={getNotificationIcon(
-                                                item.type
-                                            )}
-                                            title={<Text>{item.title}</Text>}
-                                            description={
-                                                <Text type="secondary">
-                                                    {new Date(
-                                                        item.created_at
-                                                    ).toLocaleString()}
-                                                </Text>
+                                        <span>Thông báo</span>
+                                        <Button
+                                            size="small"
+                                            href="/admin/notifications"
+                                            onClick={fetchNotifications}
+                                            type="link"
+                                        >
+                                            Xem tất cả
+                                        </Button>
+                                    </div>
+                                }
+                            >
+                                <Empty
+                                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                                    description="Không có thông báo nào"
+                                    style={{ padding: '40px' }}
+                                />
+                            </Card>
+                        ) : (
+                            <Card
+                                className="student-activity-card"
+                                title={
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <span>Thông báo</span>
+                                        <Button
+                                            size="small"
+                                            href="/admin/notifications"
+                                            onClick={fetchNotifications}
+                                            type="link"
+                                        >
+                                            Xem tất cả
+                                        </Button>
+                                    </div>
+                                }
+                            >
+                                <List
+                                    className="student-activity-list"
+                                    size="small"
+                                    dataSource={notifications}
+                                    renderItem={(item) => (
+                                        <List.Item
+                                            style={{
+                                                opacity: item.is_read ? 0.5 : 1,
+                                                transition: 'opacity 0.3s ease',
+                                            }}
+                                            actions={
+                                                !item.is_read
+                                                    ? [
+                                                          <Button
+                                                              size="small"
+                                                              type="link"
+                                                              onClick={() =>
+                                                                  markAsRead(
+                                                                      item.id
+                                                                  )
+                                                              }
+                                                          >
+                                                              Đánh dấu đã đọc
+                                                          </Button>,
+                                                      ]
+                                                    : []
                                             }
-                                        />
-                                    </List.Item>
-                                )}
-                            />
-                        </Card>
+                                        >
+                                            <List.Item.Meta
+                                                avatar={getNotificationIcon(
+                                                    item.type
+                                                )}
+                                                title={
+                                                    <Text>{item.title}</Text>
+                                                }
+                                                description={
+                                                    <Text type="secondary">
+                                                        {new Date(
+                                                            item.created_at
+                                                        ).toLocaleString()}
+                                                    </Text>
+                                                }
+                                            />
+                                        </List.Item>
+                                    )}
+                                />
+                            </Card>
+                        )}
 
                         {/* Quick Actions */}
                         <Card
                             className="student-actions-card"
-                            title="Quick Actions"
+                            title="Chức năng nhanh"
                         >
                             <Space
                                 direction="vertical"
                                 className="student-actions-list"
                                 size="small"
                             >
-                                <Link
-                                    to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_STUDENTS}
-                                >
+                                <Link to={ADMIN_PATHS.ADMIN_MANAGE_USERS}>
                                     <Button block icon={<UserOutlined />}>
                                         Quản lý người dùng
                                     </Button>
                                 </Link>
-                                <Link
-                                    to={INSTRUCTOR_PATHS.INSTRUCTOR_MY_COURSES}
-                                >
+                                <Link to={ADMIN_PATHS.ADMIN_MANAGE_COURSES}>
                                     <Button block icon={<BookOutlined />}>
                                         Quản lý khóa học
                                     </Button>
                                 </Link>
                                 <Link
-                                    to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}
+                                    to={ADMIN_PATHS.ADMIN_MANAGE_TRANSACTIONS}
                                 >
                                     <Button block icon={<DollarOutlined />}>
                                         Quản lý giao dịch
                                     </Button>
                                 </Link>
-                                <Link
-                                    to={INSTRUCTOR_PATHS.INSTRUCTOR_DASHBOARD}
-                                >
-                                    <Button block icon={<DollarOutlined />}>
+                                <Link to={ADMIN_PATHS.ADMIN_MANAGE_EVENTS}>
+                                    <Button block icon={<PicRightOutlined />}>
                                         Quản lý hoạt động
                                     </Button>
                                 </Link>

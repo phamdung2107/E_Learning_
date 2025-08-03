@@ -37,6 +37,7 @@ import StudentOrderCoursePage from '@/pages/student/StudentCartPage'
 import StudentCertificatePage from '@/pages/student/StudentCertificatePage'
 import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
 import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
+import StudentNotificationPage from '@/pages/student/StudentNotificationPage'
 import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
 import StudentTransactionPage from '@/pages/student/StudentTransactionPage'
 import StudentWalletReturnPage from '@/pages/student/StudentWalletReturnPage'
@@ -127,6 +128,10 @@ const AppRouter = [
         <Route
             path={STUDENT_PATHS.STUDENT_TRANSACTIONS}
             element={<StudentTransactionPage />}
+        />
+        <Route
+            path={STUDENT_PATHS.STUDENT_NOTIFICATIONS}
+            element={<StudentNotificationPage />}
         />
     </Route>,
     <Route

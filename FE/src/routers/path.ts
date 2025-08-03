@@ -38,6 +38,7 @@ export const STUDENT_PATHS = {
     STUDENT_CART: '/student/cart',
     STUDENT_WALLET_RETURN: '/student/wallet/return',
     STUDENT_TRANSACTIONS: '/student/transactions',
+    STUDENT_NOTIFICATIONS: '/student/notifications',
 }
 
 export const INSTRUCTOR_PATHS = {

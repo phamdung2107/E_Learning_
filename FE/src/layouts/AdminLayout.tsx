@@ -83,7 +83,9 @@ const AdminLayout = () => {
         {
             key: ADMIN_PATHS.ADMIN_PROFILE,
             icon: <UserOutlined />,
-            label: <Link to={ADMIN_PATHS.ADMIN_PROFILE}>My Profile</Link>,
+            label: (
+                <Link to={ADMIN_PATHS.ADMIN_PROFILE}>Thông tin cá nhân</Link>
+            ),
         },
         {
             key: 'logout',
@@ -97,7 +99,7 @@ const AdminLayout = () => {
                         navigate(PATHS.AUTH)
                     }}
                 >
-                    Logout
+                    Đăng xuất
                 </div>
             ),
         },

@@ -5,7 +5,7 @@ import { Button, Card, Spin, Table, Typography } from 'antd'
 import { ReloadOutlined } from '@ant-design/icons'
 
 import { MANAGE_TRANSACTION_COLUMNS } from '@/constants/table'
-import OrderService from '@/services/order'
+import PaymentService from '@/services/payment'
 
 const { Title, Text } = Typography
 
@@ -16,8 +16,13 @@ const AdminManageTransactionsPage = () => {
     const fetchData = async () => {
         setRefreshLoading(true)
         try {
-            const response = await OrderService.getMyOrders()
-            setTransactions(response.data)
+            const response = await PaymentService.getAll()
+            setTransactions(
+                response.data.map((res: any) => ({
+                    ...res,
+                    user_email: res?.user?.email,
+                }))
+            )
         } catch (e) {
             console.error(e)
         } finally {
@@ -48,7 +53,7 @@ const AdminManageTransactionsPage = () => {
                         loading={refreshLoading}
                         style={{ marginBottom: '16px', marginRight: '16px' }}
                     >
-                        Refresh
+                        Làm mới
                     </Button>
                 </div>
                 <Table

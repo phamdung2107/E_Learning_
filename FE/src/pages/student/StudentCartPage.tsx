@@ -9,6 +9,7 @@ import {
     Space,
     Table,
     Tag,
+    Tooltip,
     Typography,
     notification,
 } from 'antd'
@@ -160,16 +161,18 @@ const StudentCartPage = () => {
             width: 120,
             render: (record: any) => (
                 <Space>
-                    <Button
-                        danger
-                        size="small"
-                        icon={<DeleteOutlined />}
-                        onClick={(e) => {
-                            e.stopPropagation()
-                            setRecord(record)
-                            setIsModalDeleteOpen(true)
-                        }}
-                    />
+                    <Tooltip title="Gỡ khỏi giỏ hàng" placement="bottom">
+                        <Button
+                            danger
+                            size="small"
+                            icon={<DeleteOutlined />}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                setRecord(record)
+                                setIsModalDeleteOpen(true)
+                            }}
+                        />
+                    </Tooltip>
                 </Space>
             ),
         },

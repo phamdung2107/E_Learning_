@@ -207,7 +207,7 @@ const AdminManageUsersPage = () => {
                         loading={refreshLoading}
                         style={{ marginBottom: '16px', marginRight: '16px' }}
                     >
-                        Refresh
+                        Làm mới
                     </Button>
                     <Button
                         type="primary"
@@ -215,7 +215,9 @@ const AdminManageUsersPage = () => {
                         icon={<PlusOutlined />}
                         onClick={() => setIsModalCreateUserOpen(true)}
                         style={{ marginBottom: '16px', marginRight: '16px' }}
-                    ></Button>
+                    >
+                        Thêm mới
+                    </Button>
                     <Button
                         type="primary"
                         variant="outlined"
@@ -224,7 +226,9 @@ const AdminManageUsersPage = () => {
                         icon={<FilterOutlined />}
                         onClick={() => setIsDrawerFilterUserOpen(true)}
                         style={{ marginBottom: '16px' }}
-                    ></Button>
+                    >
+                        Lọc
+                    </Button>
                 </div>
                 <Table
                     bordered

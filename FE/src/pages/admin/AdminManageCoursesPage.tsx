@@ -162,7 +162,7 @@ const AdminManageCoursesPage = () => {
                         loading={refreshLoading}
                         style={{ marginBottom: '16px', marginRight: '16px' }}
                     >
-                        Refresh
+                        Làm mới
                     </Button>
                     <Button
                         type="primary"
@@ -172,7 +172,9 @@ const AdminManageCoursesPage = () => {
                         icon={<FilterOutlined />}
                         onClick={() => setIsDrawerFilterCourseOpen(true)}
                         style={{ marginBottom: '16px' }}
-                    ></Button>
+                    >
+                        Lọc
+                    </Button>
                 </div>
                 <Table
                     bordered
