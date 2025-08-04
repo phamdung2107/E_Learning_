@@ -1,33 +1,29 @@
-'use client'
-
-import type React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
     Button,
     Card,
-    Col,
-    Collapse,
     Modal,
     Progress,
     Radio,
-    Row,
     Typography,
+    message,
     notification,
 } from 'antd'
 
 import {
-    ArrowLeftOutlined,
     CheckCircleOutlined,
-    FileTextOutlined,
     LeftOutlined,
-    PlayCircleOutlined,
     QuestionCircleOutlined,
     RightOutlined,
 } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
+import LessonQuizHeader from '@/components/commons/LessonQuizHeader'
+import QuizActionsFooter from '@/components/commons/QuizActionsFooter'
+import QuizSidebar from '@/components/commons/QuizSidebar'
+import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import AnswerService from '@/services/answer'
 import CourseService from '@/services/course'
 import LessonService from '@/services/lesson'
@@ -36,21 +32,19 @@ import QuestionService from '@/services/question'
 import QuizService from '@/services/quiz'
 import ResultQuizService from '@/services/resultQuiz'
 
-import '../styles/QuizDetail.css'
-
-const { Title, Text } = Typography
-const { Panel } = Collapse
+const { Title, Paragraph, Text } = Typography
 
 const QuizDetailPage: React.FC = () => {
-    const user = useSelector((state: any) => state.auth.user)
+    const user = useSelector((store: any) => store.auth.user)
     const params = useParams()
-    const router = useNavigate()
+    const navigate = useNavigate()
     const courseId = params.courseId as string
     const quizId = params.quizId as string
 
     const [progress, setProgress] = useState<any>(null)
-    const [quiz, setQuiz] = useState<any>(null)
     const [course, setCourse] = useState<any>(null)
+    const [currentQuiz, setCurrentQuiz] = useState<any>(null)
+    const [quizzes, setQuizzes] = useState<any[]>([])
     const [lessons, setLessons] = useState<any[]>([])
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [answers, setAnswers] = useState<{ [key: number]: string }>({})
@@ -59,13 +53,6 @@ const QuizDetailPage: React.FC = () => {
     const [quizStarted, setQuizStarted] = useState(false)
     const [questions, setQuestions] = useState<any[]>([])
 
-    useEffect(() => {
-        setQuizStarted(false)
-        setAnswers({})
-        setCurrentQuestion(0)
-        fetchData()
-    }, [quizId, courseId])
-
     const fetchData = async () => {
         try {
             const progressResponse = await ProgressService.getByUserCourse(
@@ -73,13 +60,11 @@ const QuizDetailPage: React.FC = () => {
                 courseId
             )
             setProgress(progressResponse.total)
-            // Fetch quiz details
             const quizResponse = await QuizService.getDetail(quizId)
-            setQuiz(quizResponse.data)
+            setCurrentQuiz(quizResponse.data)
             const questionResponse = await QuestionService.getByQuiz(quizId)
             const questionsData = questionResponse.data
 
-            // Fetch answers for each question
             const questionsWithAnswers = await Promise.all(
                 questionsData.map(async (question: any) => {
                     try {
@@ -104,11 +89,9 @@ const QuizDetailPage: React.FC = () => {
             )
             setQuestions(questionsWithAnswers)
 
-            // Fetch course details
             const courseResponse = await CourseService.getDetail(courseId)
             setCourse(courseResponse.data)
 
-            // Fetch lessons with quizzes
             const lessonsResponse = await LessonService.getByCourse(courseId)
             const lessonsWithQuizzes = await Promise.all(
                 lessonsResponse.data.map(async (lesson: any) => {
@@ -129,17 +112,88 @@ const QuizDetailPage: React.FC = () => {
                 })
             )
             setLessons(lessonsWithQuizzes)
-
-            // Set timer if quiz has duration
             if (quizResponse.data.duration) {
-                setTimeLeft(quizResponse.data.duration * 60) // Convert minutes to seconds
+                setTimeLeft(quizResponse.data.duration * 60)
             }
         } catch (error) {
             console.error('Error fetching data:', error)
         }
     }
 
-    // Function to fetch selected answer for a specific question
+    useEffect(() => {
+        if (courseId && quizId) fetchData()
+    }, [courseId, quizId, user.id])
+
+    const handleQuizSelect = (quiz: any) => {
+        if (quiz.id !== currentQuiz?.id) {
+            navigate(`/courses/${courseId}/quizzes/${quiz.id}`)
+        }
+    }
+
+    const getCurrentQuizIndex = () =>
+        quizzes.findIndex((q: any) => q.id === Number(quizId))
+
+    const getNextQuiz = () => {
+        const idx = getCurrentQuizIndex()
+        return idx !== -1 && idx < quizzes.length - 1 ? quizzes[idx + 1] : null
+    }
+
+    const getPrevQuiz = () => {
+        const idx = getCurrentQuizIndex()
+        return idx > 0 ? quizzes[idx - 1] : null
+    }
+
+    const getProgressPercentage = () => {
+        if (!progress) return 0
+        return Math.round((progress / lessons.length) * 100)
+    }
+
+    const handleSubmitQuiz = () => {
+        Modal.confirm({
+            title: 'Nộp bài kiểm tra',
+            content:
+                'Bạn có chắc chắn muốn nộp bài? Sau khi nộp bạn sẽ không thể thay đổi đáp án.',
+            okText: 'Nộp bài',
+            cancelText: 'Hủy',
+            onOk: async () => {
+                setIsSubmitting(true)
+                try {
+                    const formattedAnswers = Object.keys(answers).map(
+                        (questionIndex) => ({
+                            question_id:
+                                questions[Number.parseInt(questionIndex)].id,
+                            answer_id: Number.parseInt(
+                                answers[Number.parseInt(questionIndex)]
+                            ),
+                        })
+                    )
+                    const payload = {
+                        quiz_id: Number.parseInt(quizId),
+                        answers: formattedAnswers,
+                    }
+                    const response = await ResultQuizService.create(payload)
+                    if (response.status === 200) {
+                        notification.success({
+                            message: 'Nộp bài thành công!',
+                            description: `Bài kiểm tra của bạn đã được nộp. Đang chuyển đến trang kết quả...`,
+                        })
+                        navigate(
+                            `/courses/${courseId}/quizzes/${quizId}/results`
+                        )
+                    }
+                } catch (error) {
+                    console.error('Error submitting quiz:', error)
+                    notification.error({
+                        message: 'Nộp bài thất bại',
+                        description: 'Không thể nộp bài. Vui lòng thử lại.',
+                    })
+                } finally {
+                    setIsSubmitting(false)
+                }
+            },
+        })
+    }
+
     const fetchAnswer = async (questionId: number, questionIndex: number) => {
         try {
             // Use ResultQuizService to fetch the user's selected answer
@@ -163,7 +217,6 @@ const QuizDetailPage: React.FC = () => {
         })
     }
 
-    // Fetch answer when changing questions
     useEffect(() => {
         if (quizStarted && questions[currentQuestion]?.id) {
             fetchAnswer(questions[currentQuestion].id, currentQuestion)
@@ -186,198 +239,56 @@ const QuizDetailPage: React.FC = () => {
         }
     }
 
-    const handleSubmitQuiz = () => {
-        Modal.confirm({
-            title: 'Nộp bài kiểm tra',
-            content:
-                'Bạn có chắc chắn muốn nộp bài? Sau khi nộp bạn sẽ không thể thay đổi đáp án.',
-            okText: 'Nộp bài',
-            cancelText: 'Hủy',
-            onOk: async () => {
-                try {
-                    setIsSubmitting(true)
-
-                    // Prepare answers for final submission
-                    const formattedAnswers = Object.keys(answers).map(
-                        (questionIndex) => ({
-                            question_id:
-                                questions[Number.parseInt(questionIndex)].id,
-                            answer_id: Number.parseInt(
-                                answers[Number.parseInt(questionIndex)]
-                            ),
-                        })
-                    )
-                    const payload = {
-                        quiz_id: Number.parseInt(quizId),
-                        answers: formattedAnswers,
-                    }
-                    // Submit quiz to API
-                    const response = await ResultQuizService.create(payload)
-                    if (response.status === 200) {
-                        notification.success({
-                            message: 'Nộp bài thành công!',
-                            description: `Bài kiểm tra của bạn đã được nộp. Đang chuyển đến trang kết quả...`,
-                        })
-                        // Redirect to results page
-                        router(`/courses/${courseId}/quizzes/${quizId}/results`)
-                    }
-                } catch (error) {
-                    console.error('Error submitting quiz:', error)
-                    notification.error({
-                        message: 'Nộp bài thất bại',
-                        description: 'Không thể nộp bài. Vui lòng thử lại.',
-                    })
-                } finally {
-                    setIsSubmitting(false)
-                }
-            },
-        })
-    }
-
-    const getCurrentLessonPanel = () => {
-        const lesson = lessons.find((l: any) =>
-            l.quizzes.some((q: any) => q.id === Number.parseInt(quizId))
+    if (!course || !currentQuiz) {
+        return (
+            <div style={{ padding: 48, textAlign: 'center' }}>
+                <Title level={4} type="danger">
+                    Không thể tải chi tiết quiz
+                </Title>
+            </div>
         )
-        return lesson ? lesson.id.toString() : null
-    }
-
-    const handleLessonSelect = (lesson: any) => {
-        router(`/courses/${courseId}/lessons/${lesson.id}`)
     }
 
     return (
-        <div className="quiz-detail-container">
-            {/* Header */}
-            <Card className="quiz-header" size="small">
-                <Row justify="space-between" align="middle">
-                    <Col>
-                        <Link to={`/courses/${courseId}`}>
-                            <Button icon={<ArrowLeftOutlined />} type="text">
-                                Quay lại khóa học
-                            </Button>
-                        </Link>
-                    </Col>
-                    <Col flex="1" style={{ textAlign: 'center' }}>
-                        <Title
-                            level={4}
-                            style={{ margin: 0, color: '#20B2AA' }}
-                        >
-                            {course?.title}
-                        </Title>
-                    </Col>
-                    <Col>
-                        <Text type="secondary">
-                            Tiến độ: {progress}/{lessons.length} bài học
-                        </Text>
-                    </Col>
-                </Row>
-                <Progress
-                    percent={(progress / lessons.length) * 100}
-                    style={{ marginTop: '12px' }}
-                    strokeColor="#20B2AA"
-                    size="small"
+        <LessonQuizDetailLayout
+            header={
+                <LessonQuizHeader
+                    courseId={courseId}
+                    courseTitle={course.title}
+                    progress={progress}
+                    totalLessons={lessons.length}
+                    getProgressPercentage={getProgressPercentage}
                 />
-            </Card>
-
-            {/* Main Content */}
-            <div className="quiz-content">
-                <Col xs={24} lg={6} className="lesson-sidebar">
-                    <div className="lesson-sidebar-content">
-                        <div className="lesson-sidebar-header">
-                            <Title level={5}>Nội dung khóa học</Title>
-                            <Text type="secondary">
-                                {lessons.length} bài học
-                            </Text>
-                        </div>
-
-                        <div className="lesson-list-container">
-                            <Collapse
-                                defaultActiveKey={getCurrentLessonPanel()}
-                                expandIcon={({ isActive }) => (
-                                    <RightOutlined rotate={isActive ? 90 : 0} />
-                                )}
-                                className="lesson-collapse"
-                            >
-                                {lessons.map((lesson: any, index: number) => (
-                                    <Panel
-                                        header={
-                                            <div className="lesson-module-header">
-                                                <div className="lesson-module-info">
-                                                    <div className="lesson-module-title">
-                                                        {index + 1}.{' '}
-                                                        {lesson.title}
-                                                    </div>
-                                                </div>
-                                                {lesson.is_completed && (
-                                                    <CheckCircleOutlined className="quiz-completed-icon" />
-                                                )}
-                                            </div>
-                                        }
-                                        key={lesson.id}
-                                        className={`lesson-panel ${lesson.quizzes.some((q: any) => q.id === Number.parseInt(quizId)) ? 'active-panel' : ''}`}
-                                    >
-                                        {/* Main Lesson Content */}
-                                        <div
-                                            className={`lesson-content-item`}
-                                            onClick={() =>
-                                                handleLessonSelect(lesson)
-                                            }
-                                        >
-                                            <div className="lesson-content-info">
-                                                <span className="lesson-content-icon">
-                                                    <PlayCircleOutlined />
-                                                </span>
-                                                <span className="lesson-content-title">
-                                                    {lesson.content ||
-                                                        lesson.title}
-                                                </span>
-                                                {lesson.is_completed && (
-                                                    <CheckCircleOutlined className="quiz-completed-icon" />
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        {/* Quizzes for this lesson */}
-                                        {lesson.quizzes &&
-                                            lesson.quizzes.length > 0 && (
-                                                <>
-                                                    {lesson.quizzes.map(
-                                                        (quiz: any) => (
-                                                            <Link
-                                                                key={quiz.id}
-                                                                to={`/courses/${courseId}/quizzes/${quiz.id}`}
-                                                                className={`lesson-content-item quiz-item ${quiz.id === Number.parseInt(quizId) ? 'active-lesson' : ''}`}
-                                                            >
-                                                                <div className="lesson-content-info">
-                                                                    <span className="lesson-content-icon quiz-icon">
-                                                                        <FileTextOutlined />
-                                                                    </span>
-                                                                    <span className="lesson-content-title">
-                                                                        {
-                                                                            quiz.title
-                                                                        }
-                                                                    </span>
-                                                                    {quiz.is_completed && (
-                                                                        <CheckCircleOutlined className="quiz-completed-icon" />
-                                                                    )}
-                                                                </div>
-                                                            </Link>
-                                                        )
-                                                    )}
-                                                </>
-                                            )}
-                                    </Panel>
-                                ))}
-                            </Collapse>
-                        </div>
-                    </div>
-                </Col>
-
-                {/* Main Quiz Content */}
+            }
+            sidebar={
+                <QuizSidebar
+                    lessons={lessons}
+                    currentLessonId={currentQuiz.lesson_id}
+                    currentQuizId={currentQuiz.id}
+                    courseId={courseId}
+                />
+            }
+            footer={
+                <QuizActionsFooter
+                    getPrevQuiz={getPrevQuiz}
+                    getNextQuiz={getNextQuiz}
+                    handleQuizSelect={handleQuizSelect}
+                    currentQuiz={currentQuiz}
+                    handleSubmitQuiz={handleSubmitQuiz}
+                    isSubmitted={isSubmitting}
+                />
+            }
+        >
+            <div
+                style={{
+                    maxWidth: 900,
+                    margin: '0 auto',
+                    padding: '32px 0 80px 0',
+                }}
+            >
                 <div className="quiz-main">
                     <div className="quiz-main-content">
                         {!quizStarted ? (
-                            // Quiz Introduction
                             <div className="quiz-intro-section">
                                 <div
                                     style={{
@@ -391,7 +302,7 @@ const QuizDetailPage: React.FC = () => {
                                         level={2}
                                         style={{ marginBottom: '8px' }}
                                     >
-                                        {quiz?.title}
+                                        {currentQuiz?.title}
                                     </Title>
 
                                     <Text
@@ -425,8 +336,8 @@ const QuizDetailPage: React.FC = () => {
                                             <div className="quiz-info-item">
                                                 <Text strong>Thời gian:</Text>
                                                 <Text>
-                                                    {quiz?.duration
-                                                        ? `${quiz.duration} phút`
+                                                    {currentQuiz?.duration
+                                                        ? `${currentQuiz.duration} phút`
                                                         : 'Không giới hạn'}
                                                 </Text>
                                             </div>
@@ -443,7 +354,7 @@ const QuizDetailPage: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    {quiz?.description && (
+                                    {currentQuiz?.description && (
                                         <div
                                             style={{
                                                 marginBottom: '32px',
@@ -451,7 +362,9 @@ const QuizDetailPage: React.FC = () => {
                                             }}
                                         >
                                             <Title level={4}>Mô tả</Title>
-                                            <Text>{quiz?.description}</Text>
+                                            <Text>
+                                                {currentQuiz?.description}
+                                            </Text>
                                         </div>
                                     )}
 
@@ -470,7 +383,7 @@ const QuizDetailPage: React.FC = () => {
                                                 Tiến độ của bạn sẽ được lưu tự
                                                 động
                                             </li>
-                                            {quiz?.duration && (
+                                            {currentQuiz?.duration && (
                                                 <li>
                                                     Hoàn thành bài kiểm tra
                                                     trong thời gian quy định
@@ -486,7 +399,7 @@ const QuizDetailPage: React.FC = () => {
                                         type="default"
                                         size="large"
                                         onClick={() =>
-                                            router(
+                                            navigate(
                                                 `/courses/${courseId}/quizzes/${quizId}/results`
                                             )
                                         }
@@ -505,9 +418,7 @@ const QuizDetailPage: React.FC = () => {
                                 </div>
                             </div>
                         ) : (
-                            // Quiz Taking Interface
                             <div className="quiz-taking-section">
-                                {/* Progress */}
                                 <Card
                                     size="small"
                                     style={{ marginBottom: '24px' }}
@@ -702,7 +613,7 @@ const QuizDetailPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </LessonQuizDetailLayout>
     )
 }
 

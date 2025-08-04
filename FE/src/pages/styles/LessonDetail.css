@@ -85,7 +85,7 @@
 }
 
 .lesson-collapse .ant-collapse-content-box {
-    padding: 0;
+    padding: 0 !important;
 }
 
 .lesson-panel.active-panel .ant-collapse-header {

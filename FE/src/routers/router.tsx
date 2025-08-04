@@ -55,11 +55,11 @@ import {
 
 const AppRouter = [
     <Route
-        element={
-            <RequiredAuth>
-                <LessonQuizDetailLayout />
-            </RequiredAuth>
-        }
+        // element={
+        //     <RequiredAuth>
+        //         <DefaultLayout />
+        //     </RequiredAuth>
+        // }
         key="lesson-quiz-detail"
     >
         <Route path={PATHS.LESSON_DETAIL} element={<LessonDetailPage />} />
