@@ -39,6 +39,7 @@ export const STUDENT_PATHS = {
     STUDENT_WALLET_RETURN: '/student/wallet/return',
     STUDENT_TRANSACTIONS: '/student/transactions',
     STUDENT_NOTIFICATIONS: '/student/notifications',
+    STUDENT_REQUEST_INSTRUCTOR: '/student/become-instructor',
 }
 
 export const INSTRUCTOR_PATHS = {
@@ -48,6 +49,7 @@ export const INSTRUCTOR_PATHS = {
     INSTRUCTOR_PROFILE: '/instructor/profile',
     INSTRUCTOR_MY_STUDENTS: '/instructor/students',
     INSTRUCTOR_TRANSACTIONS: '/instructor/transactions',
+    INSTRUCTOR_NOTIFICATIONS: '/instructor/notifications',
 }
 
 export const ADMIN_PATHS = {
@@ -56,8 +58,8 @@ export const ADMIN_PATHS = {
     ADMIN_PROFILE: '/admin/profile',
     ADMIN_MANAGE_USERS: '/admin/users',
     ADMIN_MANAGE_TRANSACTIONS: '/admin/transactions',
-    ADMIN_MANAGE_INSTRUCTORS: '/admin/instructors',
     ADMIN_MANAGE_EVENTS: '/admin/events',
+    ADMIN_NOTIFICATIONS: '/admin/notifications',
 }
 
 export const PRIVATE_PATHS = {}

@@ -120,6 +120,16 @@ export const getManageCourseColumns = (
         title: 'Mô tả',
         dataIndex: 'description',
         key: 'description',
+        render: (text: any) => (
+            <div
+                style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                }}
+                dangerouslySetInnerHTML={{ __html: text }}
+            />
+        ),
     },
     {
         title: 'Giá',
@@ -431,6 +441,16 @@ export const getManageLessonColumns = (
         dataIndex: 'content',
         key: 'content',
         align: 'left',
+        render: (text: any) => (
+            <div
+                style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                }}
+                dangerouslySetInnerHTML={{ __html: text }}
+            />
+        ),
     },
     {
         title: 'Thứ tự',

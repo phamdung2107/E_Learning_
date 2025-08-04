@@ -20,6 +20,7 @@ const InstructorManageCoursesPage = () => {
 
     const [courses, setCourses] = useState<any[]>([])
     const [categories, setCategories] = useState<any[]>([])
+    const [allCategories, setAllCategories] = useState<any[]>([])
     const [record, setRecord] = useState<any>(null)
     const [isModalCreateOpen, setIsModalCreateOpen] = useState(false)
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false)
@@ -30,11 +31,14 @@ const InstructorManageCoursesPage = () => {
     const fetchData = async () => {
         setRefreshLoading(true)
         try {
-            const [resCategories, resCourses] = await Promise.all([
-                CategoryService.getTree(),
-                InstructorService.getCourses(user?.id),
-            ])
-            setCategories(convertCategoriesToTreeData(resCategories.data))
+            const [resTreeCategories, resAllCategories, resCourses] =
+                await Promise.all([
+                    CategoryService.getTree(),
+                    CategoryService.getAll({}),
+                    InstructorService.getCourses(user?.id),
+                ])
+            setCategories(convertCategoriesToTreeData(resTreeCategories.data))
+            setAllCategories(resAllCategories.data)
             setCourses(resCourses.data)
         } catch (e) {
             console.error(e)
@@ -174,9 +178,9 @@ const InstructorManageCoursesPage = () => {
             openModalDelete,
             handlePublishCourse,
             handleArchiveCourse,
-            categories
+            allCategories
         )
-    }, [categories])
+    }, [allCategories])
 
     useEffect(() => {
         fetchData()

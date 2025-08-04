@@ -131,7 +131,7 @@ const AdminLayout = () => {
                             fontSize: '20px',
                         }}
                     >
-                        {collapsed ? 'A' : 'Admin'}
+                        {collapsed ? 'A' : 'Quản trị viên'}
                     </Title>
                 </div>
                 <Menu
@@ -171,6 +171,7 @@ const AdminLayout = () => {
                             <Button
                                 size="middle"
                                 shape="circle"
+                                href={ADMIN_PATHS.ADMIN_NOTIFICATIONS}
                                 icon={
                                     <BellOutlined
                                         style={{

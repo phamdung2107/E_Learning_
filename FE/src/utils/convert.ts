@@ -1,4 +1,8 @@
-export const convertCategoriesToTreeData = (categories: any) => {
+export const convertCategoriesToTreeData: any = (categoriesObj: any) => {
+    const categories = Array.isArray(categoriesObj)
+        ? categoriesObj
+        : Object.values(categoriesObj)
+
     return categories.map((cat: any) => ({
         title: cat.name,
         value: cat.id,

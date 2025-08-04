@@ -1,32 +1,49 @@
 import React, { useEffect, useState } from 'react'
 
-import { Button, Card, Col, Row, Space, Statistic, Typography } from 'antd'
+import {
+    Button,
+    Card,
+    Col,
+    Empty,
+    List,
+    Row,
+    Space,
+    Statistic,
+    Typography,
+} from 'antd'
 
 import {
+    BellOutlined,
     BookOutlined,
+    DollarCircleOutlined,
     DollarOutlined,
+    InfoCircleOutlined,
     StarOutlined,
     TrophyOutlined,
     UserOutlined,
 } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { MonthlyRevenueChart } from '@/components/charts/MonthlyRevenueChart'
 import StudentActivityChart from '@/components/charts/StudentActivityChart'
-import { INSTRUCTOR_PATHS } from '@/routers/path'
+import { ADMIN_PATHS, INSTRUCTOR_PATHS } from '@/routers/path'
 import InstructorService from '@/services/instructor'
+import NotificationService from '@/services/notification'
+import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
 
 import '../styles/InstructorDashboard.css'
 
 const { Title, Text } = Typography
 
 const InstructorDashboardPage = () => {
+    const dispatch = useDispatch()
     const user = useSelector((store: any) => store.auth.user)
     const [courseCount, setCourseCount] = useState(0)
     const [studentCount, setStudentCount] = useState(0)
     const [revenue, setRevenue] = useState(0)
     const averageRating = 4.7
+    const [notifications, setNotifications] = useState<any[]>([])
 
     const fetchData = async () => {
         try {
@@ -44,8 +61,42 @@ const InstructorDashboardPage = () => {
         }
     }
 
+    const getNotificationIcon = (type: string) => {
+        switch (type) {
+            case 'system':
+                return <InfoCircleOutlined style={{ color: '#1890ff' }} />
+            case 'course':
+                return <BookOutlined style={{ color: '#20B2AA' }} />
+            case 'payment':
+                return <DollarCircleOutlined style={{ color: '#faad14' }} />
+            case 'other':
+            default:
+                return <BellOutlined style={{ color: '#999' }} />
+        }
+    }
+
+    const fetchNotifications = async () => {
+        try {
+            const response = await NotificationService.getAllUnread()
+            setNotifications(response.data)
+        } catch (e) {
+            console.error('Failed to fetch notifications:', e)
+        }
+    }
+
+    const markAsRead = async (id: number) => {
+        try {
+            await NotificationService.maskAsRead(id)
+            await fetchNotifications()
+            dispatch(getCurrentNotificationAction())
+        } catch (e) {
+            console.error('Failed to mark as read:', e)
+        }
+    }
+
     useEffect(() => {
         fetchData()
+        fetchNotifications()
     }, [])
 
     return (
@@ -129,12 +180,110 @@ const InstructorDashboardPage = () => {
                 {/* Sidebar */}
                 <Col xs={24} lg={10}>
                     <div className="student-sidebar">
-                        <Card
-                            className="student-activity-card"
-                            title="Phân tích"
-                        >
-                            <StudentActivityChart instructorId={user.id} />
-                        </Card>
+                        {notifications.length === 0 ? (
+                            <Card
+                                className="student-activity-card"
+                                title={
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <span>Thông báo</span>
+                                        <Button
+                                            size="small"
+                                            href={
+                                                INSTRUCTOR_PATHS.INSTRUCTOR_NOTIFICATIONS
+                                            }
+                                            onClick={fetchNotifications}
+                                            type="link"
+                                        >
+                                            Xem tất cả
+                                        </Button>
+                                    </div>
+                                }
+                            >
+                                <Empty
+                                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                                    description="Không có thông báo nào"
+                                    style={{ padding: '40px' }}
+                                />
+                            </Card>
+                        ) : (
+                            <Card
+                                className="student-activity-card"
+                                title={
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                    >
+                                        <span>Thông báo</span>
+                                        <Button
+                                            size="small"
+                                            href={
+                                                INSTRUCTOR_PATHS.INSTRUCTOR_NOTIFICATIONS
+                                            }
+                                            onClick={fetchNotifications}
+                                            type="link"
+                                        >
+                                            Xem tất cả
+                                        </Button>
+                                    </div>
+                                }
+                            >
+                                <List
+                                    className="student-activity-list"
+                                    size="small"
+                                    dataSource={notifications}
+                                    renderItem={(item) => (
+                                        <List.Item
+                                            style={{
+                                                opacity: item.is_read ? 0.5 : 1,
+                                                transition: 'opacity 0.3s ease',
+                                            }}
+                                            actions={
+                                                !item.is_read
+                                                    ? [
+                                                          <Button
+                                                              size="small"
+                                                              type="link"
+                                                              onClick={() =>
+                                                                  markAsRead(
+                                                                      item.id
+                                                                  )
+                                                              }
+                                                          >
+                                                              Đánh dấu đã đọc
+                                                          </Button>,
+                                                      ]
+                                                    : []
+                                            }
+                                        >
+                                            <List.Item.Meta
+                                                avatar={getNotificationIcon(
+                                                    item.type
+                                                )}
+                                                title={
+                                                    <Text>{item.title}</Text>
+                                                }
+                                                description={
+                                                    <Text type="secondary">
+                                                        {new Date(
+                                                            item.created_at
+                                                        ).toLocaleString()}
+                                                    </Text>
+                                                }
+                                            />
+                                        </List.Item>
+                                    )}
+                                />
+                            </Card>
+                        )}
 
                         {/* Quick Actions */}
                         <Card

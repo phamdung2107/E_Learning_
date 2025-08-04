@@ -66,7 +66,7 @@ const AdminDashboardPage = () => {
 
     const fetchNotifications = async () => {
         try {
-            const response = await NotificationService.getAll()
+            const response = await NotificationService.getAllUnread()
             setNotifications(response.data)
         } catch (e) {
             console.error('Failed to fetch notifications:', e)
@@ -213,7 +213,9 @@ const AdminDashboardPage = () => {
                                         <span>Thông báo</span>
                                         <Button
                                             size="small"
-                                            href="/admin/notifications"
+                                            href={
+                                                ADMIN_PATHS.ADMIN_NOTIFICATIONS
+                                            }
                                             onClick={fetchNotifications}
                                             type="link"
                                         >
@@ -242,7 +244,9 @@ const AdminDashboardPage = () => {
                                         <span>Thông báo</span>
                                         <Button
                                             size="small"
-                                            href="/admin/notifications"
+                                            href={
+                                                ADMIN_PATHS.ADMIN_NOTIFICATIONS
+                                            }
                                             onClick={fetchNotifications}
                                             type="link"
                                         >

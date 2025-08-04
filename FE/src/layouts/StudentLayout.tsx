@@ -14,6 +14,7 @@ import {
     MenuOutlined,
     ShoppingCartOutlined,
     TrophyOutlined,
+    UserAddOutlined,
     UserOutlined,
 } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
@@ -75,6 +76,15 @@ const StudentLayout: React.FC = () => {
             label: (
                 <Link to={STUDENT_PATHS.STUDENT_TRANSACTIONS}>
                     Quản lý giao dịch
+                </Link>
+            ),
+        },
+        {
+            key: STUDENT_PATHS.STUDENT_REQUEST_INSTRUCTOR,
+            icon: <UserAddOutlined />,
+            label: (
+                <Link to={STUDENT_PATHS.STUDENT_REQUEST_INSTRUCTOR}>
+                    Gửi yêu cầu
                 </Link>
             ),
         },

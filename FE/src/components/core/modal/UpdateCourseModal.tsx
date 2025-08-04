@@ -12,6 +12,7 @@ import {
 } from 'antd'
 
 import { UploadOutlined } from '@ant-design/icons'
+import { Editor } from '@tinymce/tinymce-react'
 
 const { Option } = Select
 const { TextArea } = Input
@@ -129,6 +130,7 @@ const UpdateCourseModal = ({
 
     return (
         <Modal
+            destroyOnHidden
             title={`Chỉnh sửa khóa học: ${record?.title || 'Khóa học'}`}
             open={visible}
             onCancel={handleCancel}
@@ -161,14 +163,31 @@ const UpdateCourseModal = ({
                     rules={[
                         {
                             required: true,
-                            message: 'Vui lòng nhập mô tả',
+                            message: 'Vui lòng nhập mô tả khóa học',
                         },
                     ]}
                 >
-                    <TextArea
-                        rows={4}
-                        allowClear
-                        placeholder="Nhập mô tả khóa học"
+                    <Editor
+                        // @ts-ignore
+                        apiKey={import.meta.env.VITE_TINY_API_KEY}
+                        value={form.getFieldValue('description') || ''}
+                        init={{
+                            height: 300,
+                            menubar: false,
+                            plugins: [
+                                'advlist autolink lists link image charmap print preview anchor',
+                                'searchreplace visualblocks code fullscreen',
+                                'insertdatetime media table paste code help wordcount',
+                            ],
+                            toolbar:
+                                'undo redo | formatselect | bold italic backcolor | \
+                                alignleft aligncenter alignright alignjustify | \
+                                bullist numlist outdent indent | removeformat | help',
+                            placeholder: 'Nhập mô tả khóa học',
+                        }}
+                        onEditorChange={(content) => {
+                            form.setFieldsValue({ description: content })
+                        }}
                     />
                 </Form.Item>
                 <Form.Item

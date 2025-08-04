@@ -13,11 +13,9 @@ import {
 
 import { ReloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 
-import RequestInstructorModal from '@/components/core/modal/RequestInstructorModal'
 import { StudentDepositModal } from '@/components/core/modal/StudentDepositModal'
-import InstructorService from '@/services/instructor'
+import { STUDENT_PATHS } from '@/routers/path'
 import PaymentService from '@/services/payment'
 import UserService from '@/services/user'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
@@ -25,15 +23,12 @@ import { formatPrice } from '@/utils/format'
 
 export const StudentProfilePage = () => {
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const [activeTabKey, setActiveTabKey] = useState<string>('profile')
     const [form] = Form.useForm()
     const [passwordForm] = Form.useForm()
     const currentUser = useSelector((state: any) => state.auth.user)
     const [previewImage, setPreviewImage] = useState(currentUser?.avatar || '')
     const [selectedFile, setSelectedFile] = useState(null)
-    const [isRequestModalOpen, setIsRequestModalOpen] = useState(false)
-    const [requestLoading, setRequestLoading] = useState(false)
     const [isModalDepositOpen, setIsModalDepositOpen] = useState(false)
     const [depositLoading, setDepositLoading] = useState(false)
     const tabListNoTitle = [
@@ -130,27 +125,6 @@ export const StudentProfilePage = () => {
         } finally {
             setDepositLoading(false)
             setIsModalDepositOpen(false)
-        }
-    }
-
-    const handleRequestInstructor = async (values: any) => {
-        setRequestLoading(true)
-        try {
-            const response =
-                await InstructorService.requestBecomeInstructor(values)
-            if (response.status === 200) {
-                notification.success({
-                    message: 'Gửi yêu cầu trở thành giảng viên thành công',
-                })
-            }
-        } catch (e) {
-            console.error('Error: ', e)
-            notification.error({
-                message: 'Gửi yêu cầu thất bại',
-            })
-        } finally {
-            setRequestLoading(false)
-            setIsRequestModalOpen(false)
         }
     }
 
@@ -252,7 +226,7 @@ export const StudentProfilePage = () => {
                     <Button
                         style={{ padding: 0, marginBottom: 24 }}
                         type="link"
-                        onClick={() => setIsRequestModalOpen(true)}
+                        href={STUDENT_PATHS.STUDENT_REQUEST_INSTRUCTOR}
                     >
                         Bạn muốn trở thành giảng viên?
                     </Button>
@@ -359,15 +333,6 @@ export const StudentProfilePage = () => {
                 }}
                 onSubmit={(values: any) => handleDeposit(values)}
                 loading={depositLoading}
-            />
-            <RequestInstructorModal
-                visible={isRequestModalOpen}
-                onClose={() => {
-                    // @ts-ignore
-                    setIsRequestModalOpen(false)
-                }}
-                onSubmit={(values: any) => handleRequestInstructor(values)}
-                loading={requestLoading}
             />
         </div>
     )

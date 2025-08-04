@@ -13,7 +13,6 @@ import {
 
 import { ReloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 
 import InstructorWithDrawModal from '@/components/core/modal/InstructorWithDrawModal'
 import PaymentService from '@/services/payment'
@@ -23,7 +22,6 @@ import { formatPrice } from '@/utils/format'
 
 export const InstructorProfilePage = () => {
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const [activeTabKey, setActiveTabKey] = useState<string>('profile')
     const [form] = Form.useForm()
     const [passwordForm] = Form.useForm()

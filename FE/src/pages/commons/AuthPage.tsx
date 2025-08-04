@@ -55,6 +55,7 @@ const AuthPage: React.FC = () => {
 
     const onLoginFinish = async (values: any) => {
         setLoginLoading(true)
+        setRegisterLoading(false)
         try {
             const loginResponse = await dispatch(
                 loginAction({ email: values.email, password: values.password })
@@ -107,7 +108,8 @@ const AuthPage: React.FC = () => {
     }
 
     const onRegisterFinish = async (values: any) => {
-        setLoginLoading(true)
+        setRegisterLoading(true)
+        setLoginLoading(false)
         try {
             const response = await AuthService.register({
                 full_name: values.fullName,
@@ -122,6 +124,15 @@ const AuthPage: React.FC = () => {
                 })
                 registerForm.resetFields()
                 setActiveTab('login')
+            } else if (response.status === 422) {
+                notification.warning({
+                    message: 'Tài khoản đã tồn tại',
+                })
+                registerForm.resetFields()
+            } else {
+                notification.error({
+                    message: response.message,
+                })
             }
         } catch (e: any) {
             notification.error({

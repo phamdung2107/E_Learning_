@@ -12,6 +12,7 @@ import AdminManageCoursesPage from '@/pages/admin/AdminManageCoursesPage'
 import AdminManageEventsPage from '@/pages/admin/AdminManageEventsPage'
 import AdminManageTransactionsPage from '@/pages/admin/AdminManageTransactionsPage'
 import AdminManageUsersPage from '@/pages/admin/AdminManageUsersPage'
+import AdminNotificationPage from '@/pages/admin/AdminNotificationPage'
 import AdminProfilePage from '@/pages/admin/AdminProfilePage'
 import AIRecommendPage from '@/pages/commons/AIRecommendPage'
 import AboutPage from '@/pages/commons/AboutPage'
@@ -30,9 +31,11 @@ import VerifyEmailPage from '@/pages/commons/VerifyEmailPage'
 import InstructorDashboardPage from '@/pages/instructor/InstructorDashboardPage'
 import InstructorCoursePage from '@/pages/instructor/InstructorManageCoursesPage'
 import InstructorManageDetailCoursePage from '@/pages/instructor/InstructorManageDetailCoursePage'
+import InstructorNotificationPage from '@/pages/instructor/InstructorNotificationPage'
 import { InstructorProfilePage } from '@/pages/instructor/InstructorProfilePage'
 import InstructorStudentPage from '@/pages/instructor/InstructorStudentPage'
 import InstructorTransactionPage from '@/pages/instructor/InstructorTransactionPage'
+import StudentBecomeInstructorPage from '@/pages/student/StudentBecomeInstructorPage'
 import StudentOrderCoursePage from '@/pages/student/StudentCartPage'
 import StudentCertificatePage from '@/pages/student/StudentCertificatePage'
 import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
@@ -133,6 +136,10 @@ const AppRouter = [
             path={STUDENT_PATHS.STUDENT_NOTIFICATIONS}
             element={<StudentNotificationPage />}
         />
+        <Route
+            path={STUDENT_PATHS.STUDENT_REQUEST_INSTRUCTOR}
+            element={<StudentBecomeInstructorPage />}
+        />
     </Route>,
     <Route
         element={
@@ -166,6 +173,10 @@ const AppRouter = [
             path={INSTRUCTOR_PATHS.INSTRUCTOR_TRANSACTIONS}
             element={<InstructorTransactionPage />}
         />
+        <Route
+            path={INSTRUCTOR_PATHS.INSTRUCTOR_NOTIFICATIONS}
+            element={<InstructorNotificationPage />}
+        />
     </Route>,
     <Route
         element={
@@ -198,6 +209,10 @@ const AppRouter = [
         <Route
             path={ADMIN_PATHS.ADMIN_MANAGE_EVENTS}
             element={<AdminManageEventsPage />}
+        />
+        <Route
+            path={ADMIN_PATHS.ADMIN_NOTIFICATIONS}
+            element={<AdminNotificationPage />}
         />
     </Route>,
 ]

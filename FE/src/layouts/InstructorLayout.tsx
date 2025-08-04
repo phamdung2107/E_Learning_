@@ -127,7 +127,7 @@ const InstructorLayout: React.FC = () => {
                             fontSize: '20px',
                         }}
                     >
-                        {collapsed ? 'I' : 'Instructor'}
+                        {collapsed ? 'I' : 'Giảng viên'}
                     </Title>
                 </div>
                 <Menu
@@ -167,6 +167,7 @@ const InstructorLayout: React.FC = () => {
                             <Button
                                 size="middle"
                                 shape="circle"
+                                href={INSTRUCTOR_PATHS.INSTRUCTOR_NOTIFICATIONS}
                                 icon={
                                     <BellOutlined
                                         style={{

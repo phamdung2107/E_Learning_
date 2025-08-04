@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 
 import { Button, Form, Input, Modal } from 'antd'
 
+import { Editor } from '@tinymce/tinymce-react'
+
 const { TextArea } = Input
 
 const UpdateLessonModal = ({
@@ -47,6 +49,7 @@ const UpdateLessonModal = ({
 
     return (
         <Modal
+            destroyOnHidden
             title={`Chỉnh sửa bài học: ${record?.title || 'Bài học'}`}
             open={visible}
             onCancel={handleCancel}
@@ -98,10 +101,27 @@ const UpdateLessonModal = ({
                         },
                     ]}
                 >
-                    <TextArea
-                        rows={4}
-                        allowClear
-                        placeholder="Nhập nội dung bài học"
+                    <Editor
+                        // @ts-ignore
+                        apiKey={import.meta.env.VITE_TINY_API_KEY}
+                        value={form.getFieldValue('content') || ''}
+                        init={{
+                            height: 300,
+                            menubar: false,
+                            plugins: [
+                                'advlist autolink lists link image charmap print preview anchor',
+                                'searchreplace visualblocks code fullscreen',
+                                'insertdatetime media table paste code help wordcount',
+                            ],
+                            toolbar:
+                                'undo redo | formatselect | bold italic backcolor | \
+                                alignleft aligncenter alignright alignjustify | \
+                                bullist numlist outdent indent | removeformat | help',
+                            placeholder: 'Nhập nội dung bài học',
+                        }}
+                        onEditorChange={(content) => {
+                            form.setFieldsValue({ content: content })
+                        }}
                     />
                 </Form.Item>
                 <Form.Item
