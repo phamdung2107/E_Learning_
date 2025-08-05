@@ -874,7 +874,7 @@ export const getManageTransactionColumns = (
                                 onConfirm={(e) => {
                                     // @ts-ignore
                                     e.stopPropagation()
-                                    onReject(record)
+                                    onAccept(record)
                                 }}
                                 onCancel={() => {}}
                                 icon={
@@ -909,11 +909,11 @@ export const getManageTransactionColumns = (
                                         style={{ color: 'red' }}
                                     />
                                 }
-                                disabled={record.status !== 'pending'}
                                 okText="OK"
                                 cancelText="Hủy"
                             >
                                 <Button
+                                    disabled={record.status !== 'pending'}
                                     danger
                                     size="small"
                                     icon={<CloseCircleOutlined />}

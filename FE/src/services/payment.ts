@@ -7,11 +7,11 @@ class PaymentService {
     }
 
     async approve(id: any): Promise<any> {
-        return await http.post(PAYMENT_API.APPROVE(id))
+        return await http.put(PAYMENT_API.APPROVE(id))
     }
 
     async reject(id: any): Promise<any> {
-        return await http.post(PAYMENT_API.REJECT(id))
+        return await http.put(PAYMENT_API.REJECT(id))
     }
 
     async withdraw(payload: any): Promise<any> {

@@ -41,6 +41,7 @@ const AdminManageTransactionsPage = () => {
                 notification.success({
                     message: 'Đã cho chép giảng viên rút tiền',
                 })
+                await fetchData()
             }
         } catch (e) {
             notification.error({
@@ -56,6 +57,7 @@ const AdminManageTransactionsPage = () => {
                 notification.success({
                     message: 'Từ chối giảng viên rút tiền thành công',
                 })
+                await fetchData()
             }
         } catch (e) {
             notification.error({
