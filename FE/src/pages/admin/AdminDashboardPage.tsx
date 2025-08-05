@@ -19,22 +19,16 @@ import {
     DollarOutlined,
     InfoCircleOutlined,
     PicRightOutlined,
-    ReloadOutlined,
-    StarOutlined,
-    TrophyOutlined,
     UserOutlined,
 } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { MonthlyRevenueChart } from '@/components/charts/MonthlyRevenueChart'
-import StudentActivityChart from '@/components/charts/StudentActivityChart'
-import { ADMIN_PATHS, INSTRUCTOR_PATHS } from '@/routers/path'
+import { ADMIN_PATHS } from '@/routers/path'
 import EnrollmentService from '@/services/enrollment'
-import InstructorService from '@/services/instructor'
 import NotificationService from '@/services/notification'
 import UserService from '@/services/user'
-import { getCurrentUserAction } from '@/stores/auth/authAction'
 import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
 
 const { Title, Text } = Typography

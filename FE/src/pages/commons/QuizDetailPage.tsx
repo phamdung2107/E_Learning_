@@ -196,7 +196,6 @@ const QuizDetailPage: React.FC = () => {
 
     const fetchAnswer = async (questionId: number, questionIndex: number) => {
         try {
-            // Use ResultQuizService to fetch the user's selected answer
             const response = await ResultQuizService.getMyQuiz(quizId)
             if (response.data && response.data.answer_id !== undefined) {
                 setAnswers((prev) => ({
@@ -209,7 +208,6 @@ const QuizDetailPage: React.FC = () => {
         }
     }
 
-    // Modified handleAnswerChange to only update local state
     const handleAnswerChange = (value: string) => {
         setAnswers({
             ...answers,
@@ -242,9 +240,7 @@ const QuizDetailPage: React.FC = () => {
     if (!course || !currentQuiz) {
         return (
             <div style={{ padding: 48, textAlign: 'center' }}>
-                <Title level={4} type="danger">
-                    Không thể tải chi tiết quiz
-                </Title>
+                <Text type="danger">Đang tải bài kiểm tra...</Text>
             </div>
         )
     }
@@ -395,26 +391,34 @@ const QuizDetailPage: React.FC = () => {
                                             </li>
                                         </ul>
                                     </div>
-                                    <Button
-                                        type="default"
-                                        size="large"
-                                        onClick={() =>
-                                            navigate(
-                                                `/courses/${courseId}/quizzes/${quizId}/results`
-                                            )
-                                        }
-                                        className="quiz-result-button"
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}
                                     >
-                                        Xem kết quả
-                                    </Button>
-                                    <Button
-                                        type="primary"
-                                        size="large"
-                                        onClick={handleStartQuiz}
-                                        className="quiz-start-button"
-                                    >
-                                        Bắt đầu làm bài
-                                    </Button>
+                                        <Button
+                                            type="default"
+                                            size="large"
+                                            onClick={() =>
+                                                navigate(
+                                                    `/courses/${courseId}/quizzes/${quizId}/results`
+                                                )
+                                            }
+                                            className="quiz-result-button"
+                                        >
+                                            Xem kết quả
+                                        </Button>
+                                        <div style={{ flexGrow: 1 }}></div>
+                                        <Button
+                                            type="primary"
+                                            size="large"
+                                            onClick={handleStartQuiz}
+                                            className="quiz-start-button"
+                                        >
+                                            Bắt đầu làm
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         ) : (

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ResultQuiz;
 use App\Models\ResultAnswer;
+use App\Models\Lesson;
+use App\Http\Resources\ResultQuizResource;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Helper\Response;
@@ -128,5 +130,60 @@ class ResultQuizController extends Controller
     {
         $results = ResultQuiz::where('quiz_id', $quizId)->get();
         return Response::data($results, $results->count());
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/result-quizzes/by-lesson/{lessonId}",
+     *     summary="Lấy danh sách kết quả quiz của user hiện tại theo lesson",
+     *     tags={"ResultQuiz"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="lessonId",
+     *         in="path",
+     *         required=true,
+     *         description="ID của lesson",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách kết quả quiz của user hiện tại trong lesson",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Lesson not found"
+     *     )
+     * )
+     */
+    public function getMyResultByLesson($lessonId)
+    {
+        $userId = Auth::id();
+        $lesson = Lesson::with('quizzes')->findOrFail($lessonId);
+        $quizIds = $lesson->quizzes->pluck('id');
+        $results = ResultQuiz::whereIn('quiz_id', $quizIds)
+            ->where('user_id', $userId)
+            ->get()
+            ->keyBy('quiz_id');
+
+        $data = [];
+        foreach ($quizIds as $quizId) {
+            if ($results->has($quizId)) {
+                $result = $results->get($quizId);
+                $data[] = [
+                    'quiz_id' => $quizId,
+                    'is_pass' => $result->is_pass,
+                    'user_id' => $userId,
+                ];
+            } else {
+                $data[] = [
+                    'quiz_id' => $quizId,
+                    'is_pass' => 0,
+                    'user_id' => $userId,
+                ];
+            }
+        }
+
+        return Response::data($data, count($data));
     }
 }

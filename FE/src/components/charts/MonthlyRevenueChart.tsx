@@ -14,8 +14,7 @@ export const MonthlyRevenueChart = ({ instructorId }: any) => {
 
     const fetchData = async () => {
         try {
-            console.log(instructorId)
-            const res = await InstructorService.getMonthlyRevenue(14)
+            const res = await InstructorService.getMonthlyRevenue(instructorId)
             if (res.status === 200) {
                 setData(res.data)
             }
@@ -61,7 +60,7 @@ export const MonthlyRevenueChart = ({ instructorId }: any) => {
             shared: true,
             showMarkers: true,
             formatter: (datum: any) => ({
-                name: 'Revenue',
+                name: 'Doanh thu',
                 value: `${datum.revenue.toLocaleString()} VND`,
             }),
         },

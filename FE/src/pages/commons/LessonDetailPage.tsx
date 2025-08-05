@@ -95,7 +95,7 @@ const LessonDetailPage: React.FC = () => {
     if (!course || !currentLesson) {
         return (
             <div style={{ padding: 48, textAlign: 'center' }}>
-                <Text type="danger">Không thể tải chi tiết bài học</Text>
+                <Text type="danger">Đang tải chi tiết bài học...</Text>
             </div>
         )
     }

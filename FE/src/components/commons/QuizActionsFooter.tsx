@@ -44,28 +44,6 @@ const QuizActionsFooter = ({
                     </Button>
                 </Col>
                 <Col>
-                    {!isSubmitted && (
-                        <Button
-                            type="primary"
-                            icon={<CheckCircleOutlined />}
-                            onClick={handleSubmitQuiz}
-                            size="large"
-                        >
-                            Nộp bài
-                        </Button>
-                    )}
-                    {isSubmitted && (
-                        <Button
-                            type="default"
-                            icon={<CheckCircleOutlined />}
-                            disabled
-                            size="large"
-                        >
-                            Đã nộp bài
-                        </Button>
-                    )}
-                </Col>
-                <Col>
                     <Button
                         type="primary"
                         disabled={!getNextQuiz()}

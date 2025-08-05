@@ -331,6 +331,8 @@ export const RESULT_QUIZ_API = {
     },
     CREATE: `/result-quizzes/submit`,
     MY_RESULT_QUIZ: (quizId: any) => `/result-quizzes/my/${quizId}`,
+    MY_RESULT_QUIZ_BY_LESSON: (lessonId: any) =>
+        `/result-quizzes/by-lesson/${lessonId}`,
 }
 
 export const ORDER_API = {

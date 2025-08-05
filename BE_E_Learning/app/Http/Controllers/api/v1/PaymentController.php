@@ -191,7 +191,7 @@ class PaymentController extends Controller
             'status' => 'pending'
         ]);
 
-        return Response::data();
+        return Response::data($withdraw);
     }
 
     /**

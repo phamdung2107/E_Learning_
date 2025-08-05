@@ -211,5 +211,6 @@ Route::prefix('result-quizzes')->group(function () {
     Route::post('/submit', [ResultQuizController::class, 'submit']);
     Route::get('/quiz/{quizId}', [ResultQuizController::class, 'getByQuiz']);    // instructor
     Route::get('/my/{quizId}', [ResultQuizController::class, 'getMyByQuiz']);
+    Route::get('/by-lesson/{lessonId}', [ResultQuizController::class, 'getMyResultByLesson']);  // instructor
 });
 

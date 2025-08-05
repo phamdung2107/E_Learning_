@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
-import { Button, Card, Spin, Table, Typography } from 'antd'
+import { Button, Card, Spin, Table, Typography, notification } from 'antd'
 
 import { ReloadOutlined } from '@ant-design/icons'
 
-import { MANAGE_TRANSACTION_COLUMNS } from '@/constants/table'
+import {
+    MANAGE_TRANSACTION_COLUMNS,
+    getManageCourseColumns,
+    getManageTransactionColumns,
+} from '@/constants/table'
 import PaymentService from '@/services/payment'
 
 const { Title, Text } = Typography
@@ -29,6 +33,40 @@ const AdminManageTransactionsPage = () => {
             setRefreshLoading(false)
         }
     }
+
+    const handleAccept = async (values: any) => {
+        try {
+            const response = await PaymentService.approve(values.id)
+            if (response.status === 200) {
+                notification.success({
+                    message: 'Đã cho chép giảng viên rút tiền',
+                })
+            }
+        } catch (e) {
+            notification.error({
+                message: 'Cho phép giảng viên rút tiền bị lỗi',
+            })
+        }
+    }
+
+    const handleReject = async (values: any) => {
+        try {
+            const response = await PaymentService.reject(values.id)
+            if (response.status === 200) {
+                notification.success({
+                    message: 'Từ chối giảng viên rút tiền thành công',
+                })
+            }
+        } catch (e) {
+            notification.error({
+                message: 'Từ chối giảng viên rút tiền thất bại',
+            })
+        }
+    }
+
+    const columns: any = useMemo(() => {
+        return getManageTransactionColumns(handleAccept, handleReject)
+    }, [])
 
     useEffect(() => {
         fetchData()
@@ -58,7 +96,7 @@ const AdminManageTransactionsPage = () => {
                 </div>
                 <Table
                     bordered
-                    columns={MANAGE_TRANSACTION_COLUMNS}
+                    columns={columns}
                     dataSource={transactions}
                     loading={refreshLoading}
                     rowKey="id"

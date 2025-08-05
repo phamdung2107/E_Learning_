@@ -792,6 +792,141 @@ export const getManageUserColumns: any = (
     },
 ]
 
+export const getManageTransactionColumns = (
+    onAccept: (record: any) => void,
+    onReject: (record: any) => void
+): any => [
+    {
+        title: 'Người giao dịch',
+        dataIndex: 'user_email',
+        key: 'user_email',
+        align: 'left',
+    },
+    {
+        title: 'Mã giao dịch',
+        dataIndex: 'transaction_id',
+        key: 'transaction_id',
+        align: 'center',
+        fixed: 'left',
+    },
+    {
+        title: 'Tài khoản ngân hàng',
+        dataIndex: 'bank_account',
+        key: 'bank_account',
+        align: 'center',
+    },
+    {
+        title: 'Loại giao dịch',
+        dataIndex: 'type',
+        key: 'type',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? getTypeTransaction(text) : ''}</div>
+        },
+    },
+    {
+        title: 'Số tiền',
+        dataIndex: 'amount',
+        key: 'amount',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? formatPrice(text) : ''}</div>
+        },
+    },
+    {
+        title: 'Trạng thái giao dịch',
+        dataIndex: 'status',
+        key: 'status',
+        align: 'center',
+        render: (text: any) => {
+            if (text === 'pending') {
+                return <Tag color="orange">{getPaymentStatusName(text)}</Tag>
+            } else if (text === 'completed') {
+                return <Tag color="green">{getPaymentStatusName(text)}</Tag>
+            } else if (text === 'failed') {
+                return <Tag color="red">{getPaymentStatusName(text)}</Tag>
+            }
+        },
+    },
+    {
+        title: 'Ngày tạo',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? text.replace("'\'", '') : ''}</div>
+        },
+    },
+    {
+        title: 'Hành động',
+        key: 'action',
+        align: 'center',
+        width: 150,
+        fixed: 'right',
+        render: (record: any) => {
+            if (record.type === 'withdraw') {
+                return (
+                    <Space>
+                        <Tooltip title="Chấp nhận rút tiền" placement="bottom">
+                            <Popconfirm
+                                title="Chấp nhận rút tiền"
+                                description={`Bạn cho phép giảng viên này rút tiền?`}
+                                onConfirm={(e) => {
+                                    // @ts-ignore
+                                    e.stopPropagation()
+                                    onReject(record)
+                                }}
+                                onCancel={() => {}}
+                                icon={
+                                    <CheckCircleOutlined
+                                        style={{ color: 'green' }}
+                                    />
+                                }
+                                okText="OK"
+                                cancelText="Hủy"
+                            >
+                                <Button
+                                    disabled={record.status !== 'pending'}
+                                    variant="outlined"
+                                    color="green"
+                                    size="small"
+                                    icon={<CheckCircleOutlined />}
+                                />
+                            </Popconfirm>
+                        </Tooltip>
+                        <Tooltip title="Từ chối rút tiền" placement="bottom">
+                            <Popconfirm
+                                title="Từ chối rút tiền"
+                                description={`Bạn không muốn cho giảng viên này rút tiền?`}
+                                onConfirm={(e) => {
+                                    // @ts-ignore
+                                    e.stopPropagation()
+                                    onReject(record)
+                                }}
+                                onCancel={() => {}}
+                                icon={
+                                    <CloseCircleOutlined
+                                        style={{ color: 'red' }}
+                                    />
+                                }
+                                disabled={record.status !== 'pending'}
+                                okText="OK"
+                                cancelText="Hủy"
+                            >
+                                <Button
+                                    danger
+                                    size="small"
+                                    icon={<CloseCircleOutlined />}
+                                />
+                            </Popconfirm>
+                        </Tooltip>
+                    </Space>
+                )
+            }
+        },
+    },
+]
+
 export const MANAGE_TRANSACTION_COLUMNS: any = [
     {
         title: 'Người giao dịch',
