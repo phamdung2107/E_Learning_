@@ -93,9 +93,12 @@ const HomePage: React.FC = () => {
     const onSearch = async (value: any) => {
         setLoading(true)
         try {
-            const res = await RecommendationService.store({
-                title: value,
-            })
+            // const res = await RecommendationService.store({
+            //     title: value,
+            // })
+            const res = {
+                status: 200,
+            }
             if (res.status === 200) {
                 message.success('Đã nhận được gợi ý từ AI!')
                 navigate(PATHS.RECOMMENDATION)
