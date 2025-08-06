@@ -25,6 +25,10 @@ class EventService {
     async toggleStatus(id: number | string): Promise<any> {
         return await http.patch(EVENT_API.TOGGLE(id))
     }
+
+    async getMaximumBonusPercent(): Promise<any> {
+        return await http.get(EVENT_API.MAXIMUM_BONUS_PERCENT)
+    }
 }
 
 export default new EventService()

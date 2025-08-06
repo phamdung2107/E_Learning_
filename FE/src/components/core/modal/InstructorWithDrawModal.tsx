@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Input, Modal, Typography } from 'antd'
+
+const { Text } = Typography
 
 const InstructorWithDrawModal = ({
     visible,
@@ -11,7 +13,10 @@ const InstructorWithDrawModal = ({
     const [form] = Form.useForm()
 
     const handleSubmit = (values: any) => {
-        onSubmit(values)
+        onSubmit({
+            ...values,
+            amount: values.amount * 0.9,
+        })
         onClose()
         form.resetFields()
     }
@@ -36,6 +41,7 @@ const InstructorWithDrawModal = ({
                     rules={[
                         { required: true, message: 'Nhập số tiền cần rút' },
                     ]}
+                    style={{ marginBottom: 0 }}
                 >
                     <Input
                         allowClear
@@ -43,6 +49,9 @@ const InstructorWithDrawModal = ({
                         addonAfter={'VND'}
                     />
                 </Form.Item>
+                <div style={{ marginBottom: 24 }}>
+                    <Text type="secondary">Lưu ý: Phí rút tiền là 10%</Text>
+                </div>
                 <Form.Item
                     label="Tài khoản ngân hàng"
                     name="bank_account"

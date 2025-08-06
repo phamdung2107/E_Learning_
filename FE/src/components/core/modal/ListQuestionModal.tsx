@@ -229,17 +229,10 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                         <Table
                             columns={[
                                 {
-                                    title: 'ID',
-                                    dataIndex: 'id',
-                                    key: 'id',
-                                    width: 70,
-                                    align: 'center',
-                                    fixed: 'left',
-                                },
-                                {
                                     title: 'Đáp án',
                                     dataIndex: 'answer_text',
                                     key: 'answer_text',
+                                    align: 'left',
                                 },
                                 {
                                     title: 'Đúng/ Sai',

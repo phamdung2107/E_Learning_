@@ -20,7 +20,7 @@ import UserService from '@/services/user'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
 import { formatPrice } from '@/utils/format'
 
-export const InstructorProfilePage = () => {
+const InstructorProfilePage = () => {
     const dispatch = useDispatch()
     const [activeTabKey, setActiveTabKey] = useState<string>('profile')
     const [form] = Form.useForm()
@@ -388,3 +388,5 @@ export const InstructorProfilePage = () => {
         </div>
     )
 }
+
+export default InstructorProfilePage

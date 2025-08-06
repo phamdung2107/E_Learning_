@@ -20,6 +20,7 @@ class InstructorResource extends JsonResource
             'bio' => $this->bio,
             'experience_years' => $this->experience_years,
             'linkedin_url' => $this->linkedin_url,
+            'created_at' => $this->created_at,
         ];
     }
 }

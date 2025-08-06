@@ -105,6 +105,7 @@ export const INSTRUCTOR_API = {
     APPROVE: (userId: any) => `/instructors/approve/${userId}`,
     REJECT: (userId: any) => `/instructors/reject/${userId}`,
     REQUEST: '/instructors/request',
+    REQUESTED_LIST: '/instructors/requested-students',
 
     GET_BY_USER: (userId: any) => `/instructors/by-user/${userId}`,
     TOP_REVENUE: '/instructors/top/revenue',
@@ -164,6 +165,7 @@ export const EVENT_API = {
     UPDATE: (id: any) => `/events/${id}`,
     DELETE: (id: any) => `/events/${id}`,
     TOGGLE: (id: any) => `/events/${id}/toggle`,
+    MAXIMUM_BONUS_PERCENT: `/events/maximum-bonus-percent`,
 }
 
 export const ENROLLMENT_API = {

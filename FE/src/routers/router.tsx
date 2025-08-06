@@ -3,13 +3,14 @@ import { Route } from 'react-router-dom'
 import AdminLayout from '@/layouts/AdminLayout'
 import DefaultLayout from '@/layouts/DefaultLayout'
 import InstructorLayout from '@/layouts/InstructorLayout'
-import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import PublicLayout from '@/layouts/PublicLayout'
 import RequiredAuth from '@/layouts/RequiredAuth'
 import StudentLayout from '@/layouts/StudentLayout'
 import AdminDashboardPage from '@/pages/admin/AdminDashboardPage'
+import AdminManageCategoriesPage from '@/pages/admin/AdminManageCategoriesPage'
 import AdminManageCoursesPage from '@/pages/admin/AdminManageCoursesPage'
 import AdminManageEventsPage from '@/pages/admin/AdminManageEventsPage'
+import AdminManageRequestsPage from '@/pages/admin/AdminManageRequestsPage'
 import AdminManageTransactionsPage from '@/pages/admin/AdminManageTransactionsPage'
 import AdminManageUsersPage from '@/pages/admin/AdminManageUsersPage'
 import AdminNotificationPage from '@/pages/admin/AdminNotificationPage'
@@ -31,8 +32,9 @@ import VerifyEmailPage from '@/pages/commons/VerifyEmailPage'
 import InstructorDashboardPage from '@/pages/instructor/InstructorDashboardPage'
 import InstructorCoursePage from '@/pages/instructor/InstructorManageCoursesPage'
 import InstructorManageDetailCoursePage from '@/pages/instructor/InstructorManageDetailCoursePage'
+import InstructorManageReviewPage from '@/pages/instructor/InstructorManageReviewPage'
 import InstructorNotificationPage from '@/pages/instructor/InstructorNotificationPage'
-import { InstructorProfilePage } from '@/pages/instructor/InstructorProfilePage'
+import InstructorProfilePage from '@/pages/instructor/InstructorProfilePage'
 import InstructorStudentPage from '@/pages/instructor/InstructorStudentPage'
 import InstructorTransactionPage from '@/pages/instructor/InstructorTransactionPage'
 import StudentBecomeInstructorPage from '@/pages/student/StudentBecomeInstructorPage'
@@ -41,7 +43,7 @@ import StudentCertificatePage from '@/pages/student/StudentCertificatePage'
 import StudentCoursesPage from '@/pages/student/StudentCoursesPage'
 import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import StudentNotificationPage from '@/pages/student/StudentNotificationPage'
-import { StudentProfilePage } from '@/pages/student/StudentProfilePage'
+import StudentProfilePage from '@/pages/student/StudentProfilePage'
 import StudentTransactionPage from '@/pages/student/StudentTransactionPage'
 import StudentWalletReturnPage from '@/pages/student/StudentWalletReturnPage'
 
@@ -54,14 +56,7 @@ import {
 } from './path'
 
 const AppRouter = [
-    <Route
-        // element={
-        //     <RequiredAuth>
-        //         <DefaultLayout />
-        //     </RequiredAuth>
-        // }
-        key="lesson-quiz-detail"
-    >
+    <Route key="lesson-quiz-detail">
         <Route path={PATHS.LESSON_DETAIL} element={<LessonDetailPage />} />
         <Route path={PATHS.QUIZ_DETAIL} element={<QuizDetailPage />} />
         <Route path={PATHS.RESULT_QUIZ_DETAIL} element={<ResultQuizPage />} />
@@ -177,6 +172,10 @@ const AppRouter = [
             path={INSTRUCTOR_PATHS.INSTRUCTOR_NOTIFICATIONS}
             element={<InstructorNotificationPage />}
         />
+        <Route
+            path={INSTRUCTOR_PATHS.INSTRUCTOR_REVIEW}
+            element={<InstructorManageReviewPage />}
+        />
     </Route>,
     <Route
         element={
@@ -213,6 +212,14 @@ const AppRouter = [
         <Route
             path={ADMIN_PATHS.ADMIN_NOTIFICATIONS}
             element={<AdminNotificationPage />}
+        />
+        <Route
+            path={ADMIN_PATHS.ADMIN_MANAGE_CATEGORIES}
+            element={<AdminManageCategoriesPage />}
+        />
+        <Route
+            path={ADMIN_PATHS.ADMIN_MANAGE_REQUESTS}
+            element={<AdminManageRequestsPage />}
         />
     </Route>,
 ]

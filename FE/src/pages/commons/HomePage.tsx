@@ -6,6 +6,7 @@ import {
     Button,
     Col,
     Input,
+    Modal,
     Row,
     Space,
     Statistic,
@@ -28,12 +29,15 @@ import CategoryCard from '@/components/core/card/CategoryCard'
 import CourseSummaryCard from '@/components/core/card/CourseSummaryCard'
 import FeedbackCard from '@/components/core/card/FeedbackCard'
 import InstructorCard from '@/components/core/card/InstructorCard'
+import { DATE_TIME_FORMAT } from '@/constants/date'
 import { PATHS } from '@/routers/path'
 import CategoryService from '@/services/category'
 import EnrollmentService from '@/services/enrollment'
+import EventService from '@/services/event'
 import InstructorService from '@/services/instructor'
 import RecommendationService from '@/services/recommendation'
 import ReviewService from '@/services/review'
+import { formatDateTime } from '@/utils/format'
 
 import '../styles/Home.css'
 
@@ -45,6 +49,8 @@ const HomePage: React.FC = () => {
     const [reviews, setReviews] = useState<any[]>([])
     const [categories, setCategories] = useState<any[]>([])
     const [instructors, setInstructors] = useState<any[]>([])
+    const [event, setEvent] = useState<any>()
+    const [isEventModalVisible, setIsEventModalVisible] = useState(false)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const isAuthenticated = useSelector(
@@ -139,11 +145,30 @@ const HomePage: React.FC = () => {
         }
     }
 
+    const fetchEvent = async () => {
+        const eventModalShown = sessionStorage.getItem('eventModalShown')
+        if (eventModalShown) {
+            return
+        }
+
+        try {
+            const response = await EventService.getMaximumBonusPercent()
+            if (response.data) {
+                setEvent(response.data)
+                setIsEventModalVisible(true)
+                sessionStorage.setItem('eventModalShown', 'true')
+            }
+        } catch (e: any) {
+            console.error('Không thể lấy dữ liệu sự kiện:', e)
+        }
+    }
+
     useEffect(() => {
         fetchCourses()
         fetchReviews()
         fetchCategories()
         fetchInstructors()
+        fetchEvent()
     }, [])
 
     return (
@@ -593,6 +618,89 @@ const HomePage: React.FC = () => {
                     </Space>
                 </div>
             </section>
+            {event && (
+                <Modal
+                    open={isEventModalVisible}
+                    onCancel={() => setIsEventModalVisible(false)}
+                    footer={null}
+                    centered
+                    width={600}
+                    className="event-modal"
+                >
+                    <div style={{ textAlign: 'center', padding: '20px' }}>
+                        <TrophyOutlined
+                            style={{
+                                fontSize: '64px',
+                                color: '#ffc107',
+                                marginBottom: '16px',
+                            }}
+                        />
+                        <Title level={2} style={{ color: '#d9534f' }}>
+                            {event.name}
+                        </Title>
+                        <Paragraph
+                            style={{
+                                fontSize: '18px',
+                                color: '#555',
+                                margin: '20px 0',
+                            }}
+                        >
+                            {event.content}
+                        </Paragraph>
+                        <div
+                            style={{
+                                background: '#f8d7da',
+                                padding: '20px',
+                                borderRadius: '8px',
+                                border: '2px dashed #d9534f',
+                            }}
+                        >
+                            <Title
+                                level={3}
+                                style={{ margin: 0, color: '#721c24' }}
+                            >
+                                Giảm giá tới{' '}
+                                <span
+                                    style={{
+                                        color: '#d9534f',
+                                        fontSize: '40px',
+                                    }}
+                                >
+                                    {event.bonus_percent}%
+                                </span>
+                            </Title>
+                            <Paragraph
+                                style={{ color: '#721c24', marginTop: '8px' }}
+                            >
+                                Áp dụng cho tất cả các khóa học!
+                            </Paragraph>
+                        </div>
+                        <Paragraph
+                            style={{
+                                marginTop: '20px',
+                                fontStyle: 'italic',
+                                color: '#888',
+                            }}
+                        >
+                            Sự kiện kết thúc vào ngày:{' '}
+                            {formatDateTime(event.end_time, DATE_TIME_FORMAT)}
+                        </Paragraph>
+                        <Button
+                            type="primary"
+                            size="large"
+                            href={PATHS.COURSES}
+                            onClick={() => setIsEventModalVisible(false)}
+                            style={{
+                                background: '#d9534f',
+                                borderColor: '#d9534f',
+                                marginTop: '20px',
+                            }}
+                        >
+                            Khám phá khóa học ngay!
+                        </Button>
+                    </div>
+                </Modal>
+            )}
         </div>
     )
 }

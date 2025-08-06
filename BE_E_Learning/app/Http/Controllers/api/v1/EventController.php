@@ -171,4 +171,27 @@ class EventController extends Controller
         $event->save();
         return Response::data();
     }
+
+    /**
+     * @OA\Get(
+     *      path="/api/events/maximum-bonus-percent",
+     *      operationId="getMaximumBonusPercent",
+     *      tags={"Sự kiện (Events)"},
+     *      summary="Lấy phần trăm giảm giá tối đa",
+     *      description="Lấy ra phần trăm giảm giá (bonus_percent) lớn nhất từ các sự kiện đang hoạt động. Trả về null nếu không có sự kiện nào đang hoạt động.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Thao tác thành công",
+     *      )
+     * )
+     */
+    public function getMaximumBonusPercent()
+    {
+        $topEvent = Event::where('deleted', false)
+            ->where('status', true)
+            ->orderByDesc('bonus_percent')
+            ->first();
+
+        return Response::data($topEvent);
+    }
 }

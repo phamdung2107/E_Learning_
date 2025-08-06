@@ -111,34 +111,13 @@ const AdminManageCoursesPage = () => {
         }
     }
 
-    const handleArchiveCourse = async (values: any) => {
-        try {
-            const response = await CourseService.archive(values.id)
-            if (response.status === 200) {
-                await fetchData()
-                notification.success({
-                    message: 'Archive course successfully',
-                })
-            }
-        } catch (e) {
-            console.error(e)
-            notification.error({
-                message: 'Archive course failed. Please try again later.',
-            })
-        }
-    }
-
     const openModalDelete = (item: any) => {
         setRecord(item)
         handleDeleteCourse(item)
     }
 
     const columns: any = useMemo(() => {
-        return getAdminManageCourseColumns(
-            openModalDelete,
-            handlePublishCourse,
-            handleArchiveCourse
-        )
+        return getAdminManageCourseColumns(openModalDelete, handlePublishCourse)
     }, [])
 
     useEffect(() => {

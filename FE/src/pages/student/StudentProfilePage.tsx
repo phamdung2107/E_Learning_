@@ -21,7 +21,7 @@ import UserService from '@/services/user'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
 import { formatPrice } from '@/utils/format'
 
-export const StudentProfilePage = () => {
+const StudentProfilePage = () => {
     const dispatch = useDispatch()
     const [activeTabKey, setActiveTabKey] = useState<string>('profile')
     const [form] = Form.useForm()
@@ -337,3 +337,5 @@ export const StudentProfilePage = () => {
         </div>
     )
 }
+
+export default StudentProfilePage

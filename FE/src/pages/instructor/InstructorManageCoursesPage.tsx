@@ -4,6 +4,7 @@ import { Button, Card, Spin, Table, Typography, notification } from 'antd'
 
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import CreateCourseModal from '@/components/core/modal/CreateCourseModal'
 import UpdateCourseModal from '@/components/core/modal/UpdateCourseModal'
@@ -128,23 +129,6 @@ const InstructorManageCoursesPage = () => {
         }
     }
 
-    const handlePublishCourse = async (values: any) => {
-        try {
-            const response = await CourseService.publish(values.id)
-            if (response.status === 200) {
-                await fetchData()
-                notification.success({
-                    message: 'Xuất bản khóa học thành công',
-                })
-            }
-        } catch (e) {
-            console.error(e)
-            notification.error({
-                message: 'Xuất bản khóa học thất bại. Vui lòng thử lại sau.',
-            })
-        }
-    }
-
     const handleArchiveCourse = async (values: any) => {
         try {
             const response = await CourseService.archive(values.id)
@@ -176,7 +160,6 @@ const InstructorManageCoursesPage = () => {
         return getManageCourseColumns(
             openModalUpdate,
             openModalDelete,
-            handlePublishCourse,
             handleArchiveCourse,
             allCategories
         )
@@ -225,6 +208,22 @@ const InstructorManageCoursesPage = () => {
                     rowKey="id"
                     pagination={{ pageSize: 10 }}
                     scroll={{ x: 'max-content' }}
+                    expandable={{
+                        expandedRowRender: (record) => (
+                            <div style={{ display: 'flex' }}>
+                                <p>
+                                    Click vào link bên để xem chi tiết khóa học:
+                                </p>
+                                <Link
+                                    to={`/instructor/courses/${record.id}`}
+                                    target="_blank"
+                                >
+                                    <strong>Link</strong>
+                                </Link>
+                            </div>
+                        ),
+                        rowExpandable: (record) => true,
+                    }}
                 />
             </Card>
             <UpdateCourseModal

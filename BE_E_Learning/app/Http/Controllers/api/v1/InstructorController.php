@@ -13,6 +13,7 @@ use App\Helper\Response;
 use App\Mail\InstructorRequestStatusMail;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -180,6 +181,31 @@ class InstructorController extends Controller
         return Response::data(['message' => 'Yêu cầu của bạn đã được ghi nhận.']);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/instructors/requested-students",
+     *     summary="Danh sách user là student đã gửi yêu cầu trở thành instructor",
+     *     tags={"Instructor"},
+     *     @OA\Response(response=200, description="Danh sách user")
+     * )
+     */
+    public function requestedStudents()
+    {
+        $user = Auth::user();
+        if (!$user || $user->role !== 'admin') {
+            return Response::data([
+                'message' => 'Bạn không có quyền truy cập.',
+            ], 0, 'Forbidden', 403);
+        }
+
+        $instructors = Instructor::with('user')
+            ->whereHas('user', function($q) {
+                $q->where('role', 'student')->where('deleted', 0);
+            })
+            ->get();
+
+        return Response::data(InstructorResource::collection($instructors), $instructors->count());
+    }
     /**
      * @OA\Post(
      *     path="/api/instructors/approve/{userId}",

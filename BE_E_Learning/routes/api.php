@@ -45,7 +45,6 @@ Route::post('admin/change-status/{user}', [UserController::class, 'updateStatus'
 Route::get('admin/countusers', [UserController::class, 'countUsers']);   // admin  
 
 
-Route::apiResource('instructors', InstructorController::class);
 Route::post('instructors/request', [InstructorController::class, 'requestInstructor']);
 Route::post('instructors/approve/{userId}', [InstructorController::class, 'approveInstructor']);   // admin  
 Route::post('instructors/reject/{userId}', [InstructorController::class, 'rejectInstructor']);   // admin  
@@ -55,6 +54,8 @@ Route::get('instructors/{id}/students', [InstructorController::class, 'getStuden
 Route::get('instructors/top/revenue', [InstructorController::class, 'TopInstructors']); 
 Route::get('instructors/by-user/{userId}', [InstructorController::class, 'getInstructorByUserId']);   // instructor
 Route::get('instructors/{id}/monthly-revenue', [InstructorController::class, 'getMonthlyRevenue']);
+Route::get('instructors/requested-students', [InstructorController::class, 'requestedStudents']);
+Route::apiResource('instructors', InstructorController::class);
 
 Route::prefix('categories')->group(function () {
     Route::post('/', [CategoryController::class, 'store']);               // admin     
@@ -192,6 +193,7 @@ Route::prefix('wallet')->group(function () {
 Route::prefix('events')->group(function () {
     Route::get('/', [EventController::class, 'index']);
     Route::post('/', [EventController::class, 'store']);   // admin  
+    Route::get('/maximum-bonus-percent', [EventController::class, 'getMaximumBonusPercent']);
     Route::get('/{id}', [EventController::class, 'show']);
     Route::put('/{id}', [EventController::class, 'update']);   // admin  
     Route::delete('/{id}', [EventController::class, 'destroy']);    // admin  

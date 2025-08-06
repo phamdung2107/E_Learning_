@@ -11,6 +11,8 @@ import {
     LogoutOutlined,
     MenuOutlined,
     PicRightOutlined,
+    UnorderedListOutlined,
+    UserAddOutlined,
     UserOutlined,
 } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
@@ -52,6 +54,15 @@ const AdminLayout = () => {
             ),
         },
         {
+            key: ADMIN_PATHS.ADMIN_MANAGE_REQUESTS,
+            icon: <UserAddOutlined />,
+            label: (
+                <Link to={ADMIN_PATHS.ADMIN_MANAGE_REQUESTS}>
+                    Quản lý yêu cầu
+                </Link>
+            ),
+        },
+        {
             key: ADMIN_PATHS.ADMIN_MANAGE_COURSES,
             icon: <BookOutlined />,
             label: (
@@ -75,6 +86,15 @@ const AdminLayout = () => {
             label: (
                 <Link to={ADMIN_PATHS.ADMIN_MANAGE_EVENTS}>
                     Quản lý hoạt động
+                </Link>
+            ),
+        },
+        {
+            key: ADMIN_PATHS.ADMIN_MANAGE_CATEGORIES,
+            icon: <UnorderedListOutlined />,
+            label: (
+                <Link to={ADMIN_PATHS.ADMIN_MANAGE_CATEGORIES}>
+                    Quản lý danh mục
                 </Link>
             ),
         },

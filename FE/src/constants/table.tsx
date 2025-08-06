@@ -1,4 +1,4 @@
-import { Button, Image, Popconfirm, Space, Tag, Tooltip } from 'antd'
+import { Button, Image, Popconfirm, Space, Switch, Tag, Tooltip } from 'antd'
 
 import {
     CheckCircleOutlined,
@@ -18,7 +18,7 @@ import { DATE_TIME_FORMAT } from '@/constants/date'
 import { BASE_IMAGE_URL } from '@/constants/image'
 import { formatDateTime, formatPrice } from '@/utils/format'
 import {
-    getPaymentMethodName,
+    getEventStatusName,
     getPaymentStatusName,
     getRoleName,
     getStatusNameAndColor,
@@ -65,7 +65,6 @@ export const RESULT_QUIZ_COLUMNS: any = [
 export const getManageCourseColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
-    publishCourse: (record: any) => void,
     archiveCourse: (record: any) => void,
     categoryOptions: any[] = []
 ) => [
@@ -197,33 +196,6 @@ export const getManageCourseColumns = (
                         <Button danger size="small" icon={<DeleteOutlined />} />
                     </Popconfirm>
                 </Tooltip>
-                <Tooltip title="Đăng tải khóa học" placement="bottom">
-                    <Popconfirm
-                        title="Đăng tải khóa học"
-                        description={`Bạn có chắc chắn muốn xuất bản khóa học này?`}
-                        onConfirm={(e) => {
-                            // @ts-ignore
-                            e.stopPropagation()
-                            publishCourse(record)
-                        }}
-                        onCancel={() => {}}
-                        icon={
-                            <QuestionCircleOutlined
-                                style={{ color: 'green' }}
-                            />
-                        }
-                        okText="Đăng tải"
-                        cancelText="Hủy"
-                    >
-                        <Button
-                            variant="solid"
-                            size="small"
-                            color="green"
-                            icon={<UploadOutlined />}
-                            disabled={record.status === 'published'}
-                        />
-                    </Popconfirm>
-                </Tooltip>
                 <Tooltip title="Lưu trữ khóa học" placement="bottom">
                     <Popconfirm
                         title="Lưu trữ khóa học"
@@ -258,8 +230,7 @@ export const getManageCourseColumns = (
 
 export const getAdminManageCourseColumns = (
     openModalDelete: (record: any) => void,
-    publishCourse: (record: any) => void,
-    archiveCourse: (record: any) => void
+    publishCourse: (record: any) => void
 ) => [
     {
         title: 'Tên khóa học',
@@ -384,33 +355,6 @@ export const getAdminManageCourseColumns = (
                             color="green"
                             icon={<UploadOutlined />}
                             disabled={record.status === 'published'}
-                        />
-                    </Popconfirm>
-                </Tooltip>
-                <Tooltip title="Lưu trữ khóa học" placement="bottom">
-                    <Popconfirm
-                        title="Lưu trữ khóa học"
-                        description={`Bạn có chắc chắn muốn lưu trữ khóa học này?`}
-                        onConfirm={(e) => {
-                            // @ts-ignore
-                            e.stopPropagation()
-                            archiveCourse(record)
-                        }}
-                        onCancel={() => {}}
-                        icon={
-                            <QuestionCircleOutlined
-                                style={{ color: 'orange' }}
-                            />
-                        }
-                        okText="Lưu trữ"
-                        cancelText="Hủy"
-                    >
-                        <Button
-                            variant="solid"
-                            size="small"
-                            color="orange"
-                            icon={<HistoryOutlined />}
-                            disabled={record.status === 'archived'}
                         />
                     </Popconfirm>
                 </Tooltip>
@@ -1039,7 +983,8 @@ export const STUDENT_MANAGE_TRANSACTION_COLUMNS: any = [
 
 export const getManageEventColumns: any = (
     onEdit: (record: any) => void,
-    onDelete: (record: any) => void
+    onDelete: (record: any) => void,
+    onStatusChange: (id: any) => void
 ) => [
     {
         title: 'Tên',
@@ -1085,7 +1030,28 @@ export const getManageEventColumns: any = (
         dataIndex: 'status',
         key: 'status',
         align: 'center',
+        render: (_: any, record: any) => {
+            return (
+                <Switch
+                    checkedChildren="Đang hoạt động"
+                    unCheckedChildren="Ngừng hoạt động"
+                    defaultValue={record.status}
+                    onChange={(checked) => {
+                        onStatusChange(record.id)
+                    }}
+                />
+            )
+        },
     },
+    // {
+    //     title: 'Trạng thái',
+    //     dataIndex: 'status',
+    //     key: 'status',
+    //     align: 'center',
+    //     render: (text: any) => {
+    //         return <Tag color={getEventStatusName(text).color}>{getEventStatusName(text).name}</Tag>
+    //     },
+    // },
     {
         title: 'Hành động',
         key: 'action',
@@ -1120,6 +1086,286 @@ export const getManageEventColumns: any = (
                         cancelText="Hủy"
                     >
                         <Button danger size="small" icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                </Tooltip>
+            </Space>
+        ),
+    },
+]
+
+export const getManageCategoryColumns: any = (
+    onEdit: (record: any) => void,
+    onDelete: (record: any) => void
+) => [
+    {
+        title: 'Tên danh mục',
+        dataIndex: 'name',
+        key: 'name',
+        align: 'left',
+    },
+    {
+        title: 'Ngày tạo',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        render: (text: string) => formatDateTime(text, DATE_TIME_FORMAT),
+    },
+    {
+        title: 'Hành động',
+        key: 'action',
+        align: 'center',
+        width: 150,
+        fixed: 'right',
+        render: (record: any) => (
+            <Space>
+                <Tooltip title="Sửa danh mục" placement="bottom">
+                    <Button
+                        type="primary"
+                        size="small"
+                        icon={<FormOutlined />}
+                        style={{ borderRadius: 8 }}
+                        onClick={() => onEdit(record)}
+                    />
+                </Tooltip>
+                <Tooltip title="Xóa danh mục" placement="bottom">
+                    <Popconfirm
+                        title="Xóa danh mục"
+                        description={`Bạn có chắc chắn muốn xóa danh mục này?`}
+                        onConfirm={(e) => {
+                            // @ts-ignore
+                            e.stopPropagation()
+                            onDelete(record)
+                        }}
+                        onCancel={() => {}}
+                        icon={
+                            <QuestionCircleOutlined style={{ color: 'red' }} />
+                        }
+                        okText="Xóa"
+                        cancelText="Hủy"
+                    >
+                        <Button danger size="small" icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                </Tooltip>
+            </Space>
+        ),
+    },
+]
+
+export const getManageRequestedColumns: any = (
+    onAccept: (record: any) => void,
+    onReject: (record: any) => void
+) => [
+    {
+        title: 'Họ và tên',
+        dataIndex: 'user_full_name',
+        key: 'user_full_name',
+        align: 'left',
+        fixed: 'left',
+    },
+    {
+        title: 'Email',
+        dataIndex: 'user_email',
+        key: 'user_email',
+        align: 'left',
+    },
+    {
+        title: 'Số điện thoại',
+        dataIndex: 'user_phone',
+        key: 'user_phone',
+        align: 'center',
+    },
+    {
+        title: 'Thông tin chung',
+        dataIndex: 'bio',
+        key: 'bio',
+        align: 'left',
+    },
+    {
+        title: 'Năm kinh nghiệm',
+        dataIndex: 'experience_years',
+        key: 'experience_years',
+        align: 'center',
+    },
+    {
+        title: 'Linkedin',
+        dataIndex: 'linkedin_url',
+        key: 'linkedin_url',
+        align: 'center',
+    },
+    {
+        title: 'Giới tính',
+        dataIndex: 'user_gender',
+        key: 'user_gender',
+        align: 'center',
+    },
+    {
+        title: 'Ngày sinh',
+        dataIndex: 'user_date_of_birth',
+        key: 'user_date_of_birth',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? formatDateTime(text, 'DD/MM/YYYY') : ''}</div>
+        },
+    },
+    {
+        title: 'Trạng thái',
+        dataIndex: 'user_status',
+        key: 'user_status',
+        align: 'center' as const,
+        render: (text: any) => {
+            return (
+                <Tag color={getStatusNameAndColor(text).color}>
+                    {getStatusNameAndColor(text).name}
+                </Tag>
+            )
+        },
+    },
+    {
+        title: 'Ngày gửi yêu cầu',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        align: 'center',
+        render: (text: string) => formatDateTime(text, DATE_TIME_FORMAT),
+    },
+    {
+        title: 'Hành động',
+        key: 'action',
+        align: 'center',
+        width: 150,
+        fixed: 'right',
+        render: (record: any) => (
+            <Space>
+                <Tooltip title="Chấp nhận làm giảng viên" placement="bottom">
+                    <Popconfirm
+                        title="Chấp nhận làm giảng viên"
+                        description={`Bạn có muốn người này làm giảng viên không?`}
+                        onConfirm={(e) => {
+                            // @ts-ignore
+                            e.stopPropagation()
+                            onReject(record)
+                        }}
+                        onCancel={() => {}}
+                        icon={
+                            <QuestionCircleOutlined style={{ color: 'red' }} />
+                        }
+                        okText="OK"
+                        cancelText="Hủy"
+                    >
+                        <Button
+                            variant="outlined"
+                            color="green"
+                            size="small"
+                            icon={<CheckCircleOutlined />}
+                        />
+                    </Popconfirm>
+                </Tooltip>
+                <Tooltip title="Từ chối làm giảng viên" placement="bottom">
+                    <Popconfirm
+                        title="Từ chối làm giảng viên"
+                        description={`Bạn có muốn từ chối người này làm giảng viên không?`}
+                        onConfirm={(e) => {
+                            // @ts-ignore
+                            e.stopPropagation()
+                            onReject(record)
+                        }}
+                        onCancel={() => {}}
+                        icon={
+                            <QuestionCircleOutlined style={{ color: 'red' }} />
+                        }
+                        okText="OK"
+                        cancelText="Hủy"
+                    >
+                        <Button
+                            variant="outlined"
+                            color="red"
+                            size="small"
+                            icon={<CloseCircleOutlined />}
+                        />
+                    </Popconfirm>
+                </Tooltip>
+            </Space>
+        ),
+    },
+]
+
+export const getManageReviewColumns: any = (
+    onDelete: (record: any) => void
+) => [
+    {
+        title: 'Họ và tên',
+        dataIndex: 'user_full_name',
+        key: 'user_full_name',
+        align: 'left',
+        fixed: 'left',
+    },
+    {
+        title: 'Email',
+        dataIndex: 'user_email',
+        key: 'user_email',
+        align: 'left',
+    },
+    {
+        title: 'Số điện thoại',
+        dataIndex: 'user_phone',
+        key: 'user_phone',
+        align: 'center',
+    },
+    {
+        title: 'Giới tính',
+        dataIndex: 'user_gender',
+        key: 'user_gender',
+        align: 'center',
+    },
+    {
+        title: 'Ngày sinh',
+        dataIndex: 'user_date_of_birth',
+        key: 'user_date_of_birth',
+        align: 'center',
+        render: (text: any) => {
+            return <div>{text ? formatDateTime(text, 'DD/MM/YYYY') : ''}</div>
+        },
+    },
+    {
+        title: 'Bình luận',
+        dataIndex: 'comment',
+        key: 'comment',
+        align: 'left',
+    },
+    {
+        title: 'Đánh giá',
+        dataIndex: 'rating',
+        key: 'rating',
+        align: 'center',
+    },
+    {
+        title: 'Hành động',
+        key: 'action',
+        align: 'center',
+        width: 150,
+        fixed: 'right',
+        render: (record: any) => (
+            <Space>
+                <Tooltip title="Xóa bình luận" placement="bottom">
+                    <Popconfirm
+                        title="Xóa bình luận"
+                        description={`Bạn có muốn xóa bình luận của người này không?`}
+                        onConfirm={(e) => {
+                            // @ts-ignore
+                            e.stopPropagation()
+                            onDelete(record)
+                        }}
+                        onCancel={() => {}}
+                        icon={
+                            <QuestionCircleOutlined style={{ color: 'red' }} />
+                        }
+                        okText="OK"
+                        cancelText="Hủy"
+                    >
+                        <Button
+                            variant="outlined"
+                            color="red"
+                            size="small"
+                            icon={<DeleteOutlined />}
+                        />
                     </Popconfirm>
                 </Tooltip>
             </Space>

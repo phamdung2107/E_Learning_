@@ -114,8 +114,31 @@ const AdminManageEventsPage = () => {
         })
     }
 
+    const handleChangeStatus = async (id: any) => {
+        setRefreshLoading(true)
+        try {
+            const response = await EventService.toggleStatus(id)
+            if (response.status === 200) {
+                notification.success({
+                    message: 'Chuyển đổi trạng thái hoạt động thành công',
+                })
+                await fetchData({})
+            }
+        } catch (e) {
+            notification.error({
+                message: 'Chuyển đổi trạng thái hoạt động bị lỗi',
+            })
+        } finally {
+            setRefreshLoading(false)
+        }
+    }
+
     const columns: any = useMemo(() => {
-        return getManageEventColumns(openModalUpdate, handleDeleteCourse)
+        return getManageEventColumns(
+            openModalUpdate,
+            handleDeleteCourse,
+            handleChangeStatus
+        )
     }, [])
 
     useEffect(() => {

@@ -24,7 +24,7 @@ class CreateQuestionRequest extends FormRequest
         return [
             'quiz_id' => 'required|exists:quizzes,id',
             'question_text' => 'required|string',
-            'question_type' => 'required|in:single,multi,text',
+            'question_type' => 'required|in:single,multiple,text',
             'order_number' => 'nullable|integer|min:1'
         ];
     }

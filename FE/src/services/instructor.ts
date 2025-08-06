@@ -34,6 +34,10 @@ class InstructorService {
         return await http.post(INSTRUCTOR_API.REQUEST, payload)
     }
 
+    async requestedStudents(): Promise<any> {
+        return await http.get(INSTRUCTOR_API.REQUESTED_LIST)
+    }
+
     async getByUser(userId: number | string): Promise<any> {
         return await http.get(INSTRUCTOR_API.GET_BY_USER(userId))
     }

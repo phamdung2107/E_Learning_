@@ -173,3 +173,22 @@ export const getTypeTransaction = (type: any) => {
         return ''
     }
 }
+
+export const getEventStatusName = (type: string) => {
+    if (type === 1) {
+        return {
+            name: 'Đang hoạt động',
+            color: 'green',
+        }
+    } else if (type === 0) {
+        return {
+            name: 'Ngừng hoạt động',
+            color: 'default',
+        }
+    } else {
+        return {
+            name: '',
+            color: 'default',
+        }
+    }
+}

@@ -50,6 +50,7 @@ export const INSTRUCTOR_PATHS = {
     INSTRUCTOR_MY_STUDENTS: '/instructor/students',
     INSTRUCTOR_TRANSACTIONS: '/instructor/transactions',
     INSTRUCTOR_NOTIFICATIONS: '/instructor/notifications',
+    INSTRUCTOR_REVIEW: '/instructor/courses/:courseId/review',
 }
 
 export const ADMIN_PATHS = {
@@ -60,6 +61,8 @@ export const ADMIN_PATHS = {
     ADMIN_MANAGE_TRANSACTIONS: '/admin/transactions',
     ADMIN_MANAGE_EVENTS: '/admin/events',
     ADMIN_NOTIFICATIONS: '/admin/notifications',
+    ADMIN_MANAGE_CATEGORIES: '/admin/categories',
+    ADMIN_MANAGE_REQUESTS: '/admin/requests',
 }
 
 export const PRIVATE_PATHS = {}
