@@ -299,4 +299,27 @@ class CourseController extends Controller
         $course->save();
         return Response::data(['message' => 'Archived']);
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/courses/{id}/pending",
+     *     summary="pending khoá học",
+     *     tags={"Course"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID khoá học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Khoá học đã được pending")
+     * )
+     */
+    public function pending($id)
+    {
+        $course = Course::findOrFail($id);
+        $course->status = 'pending';
+        $course->save();
+        return Response::data(['message' => 'pending']);
+    }
 }
