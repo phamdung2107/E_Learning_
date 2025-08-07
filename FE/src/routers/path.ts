@@ -56,6 +56,7 @@ export const INSTRUCTOR_PATHS = {
 export const ADMIN_PATHS = {
     ADMIN_DASHBOARD: '/admin',
     ADMIN_MANAGE_COURSES: '/admin/courses',
+    ADMIN_DETAIL_COURSE: '/admin/courses/:courseId',
     ADMIN_PROFILE: '/admin/profile',
     ADMIN_MANAGE_USERS: '/admin/users',
     ADMIN_MANAGE_TRANSACTIONS: '/admin/transactions',

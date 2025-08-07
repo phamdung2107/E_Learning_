@@ -57,7 +57,7 @@ const InstructorManageDetailCoursePage = () => {
             setLessons(resLessons.data)
             setCourseData(resCourse.data)
             setReviews(
-                resReviews.data.map((r) => ({
+                resReviews.data.map((r: any) => ({
                     ...r,
                     user_full_name: r?.user?.full_name,
                     user_email: r?.user?.email,

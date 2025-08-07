@@ -170,7 +170,7 @@ CREATE TABLE `courses` (
   `instructor_id` int NOT NULL,
   `category_id` int DEFAULT NULL,
   `thumbnail` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `status` enum('draft','published','archived') COLLATE utf8mb4_general_ci DEFAULT 'draft',
+  `status` enum('draft','published','archived', 'pending') COLLATE utf8mb4_general_ci DEFAULT 'draft',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` tinyint(1) DEFAULT '0'

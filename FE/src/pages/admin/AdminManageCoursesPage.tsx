@@ -2,16 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { Button, Card, Spin, Table, Typography, notification } from 'antd'
 
-import { FilterOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { FilterOutlined, ReloadOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
-import AdminFilterUserDrawer from '@/components/core/drawer/AdminFilterCourseDrawer'
-import CreateCourseModal from '@/components/core/modal/CreateCourseModal'
-import UpdateCourseModal from '@/components/core/modal/UpdateCourseModal'
-import {
-    getAdminManageCourseColumns,
-    getManageCourseColumns,
-} from '@/constants/table'
+import AdminFilterCourseDrawer from '@/components/core/drawer/AdminFilterCourseDrawer'
+import { getAdminManageCourseColumns } from '@/constants/table'
 import CategoryService from '@/services/category'
 import CourseService from '@/services/course'
 import UserService from '@/services/user'
@@ -22,7 +17,6 @@ const AdminManageCoursesPage = () => {
     const [courses, setCourses] = useState<any[]>([])
     const [instructors, setInstructors] = useState<any[]>([])
     const [categories, setCategories] = useState<any[]>([])
-    const [record, setRecord] = useState<any>(null)
     const [isDrawerFilterCourseOpen, setIsDrawerFilterCourseOpen] =
         useState(false)
     const [filterCourseLoading, setFilterCourseLoading] = useState(false)
@@ -41,11 +35,14 @@ const AdminManageCoursesPage = () => {
                 ])
             setCategories(resCategories.data)
             setCourses(
-                resCourses.data.map((course: any) => ({
-                    ...course,
-                    category_name: course?.category?.name,
-                    instructor_full_name: course?.instructor?.user?.full_name,
-                }))
+                resCourses.data
+                    .filter((course: any) => course.status === 'pending')
+                    .map((course: any) => ({
+                        ...course,
+                        category_name: course?.category?.name,
+                        instructor_full_name:
+                            course?.instructor?.user?.full_name,
+                    }))
             )
             setInstructors(resInstructors.data)
         } catch (e) {
@@ -100,19 +97,18 @@ const AdminManageCoursesPage = () => {
             if (response.status === 200) {
                 await fetchData()
                 notification.success({
-                    message: 'Publish course successfully',
+                    message: 'Đăng tải khóa học thành công',
                 })
             }
         } catch (e) {
             console.error(e)
             notification.error({
-                message: 'Publish course failed. Please try again later.',
+                message: 'Đăng tải khóa học thất bại. Vui lòng thử lại',
             })
         }
     }
 
     const openModalDelete = (item: any) => {
-        setRecord(item)
         handleDeleteCourse(item)
     }
 
@@ -128,7 +124,9 @@ const AdminManageCoursesPage = () => {
         <div className="instructor-manage-courses" style={{ padding: '24px' }}>
             <Card style={{ marginBottom: '24px' }}>
                 <Title level={2}>Quản lý khóa học</Title>
-                <Text type="secondary">Xem và thao tác với khóa học</Text>
+                <Text type="secondary">
+                    Xem danh sách khóa học được giảng viên yêu cầu đăng tải
+                </Text>
             </Card>
             <Card style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -162,10 +160,27 @@ const AdminManageCoursesPage = () => {
                     loading={refreshLoading}
                     rowKey="id"
                     pagination={{ pageSize: 10 }}
+                    scroll={{ x: 'max-content' }}
+                    expandable={{
+                        expandedRowRender: (record) => (
+                            <div style={{ display: 'flex' }}>
+                                <p>
+                                    Click vào link bên để xem chi tiết khóa học:
+                                </p>
+                                <Link
+                                    to={`/admin/courses/${record.id}`}
+                                    target="_blank"
+                                >
+                                    <strong>Link</strong>
+                                </Link>
+                            </div>
+                        ),
+                        rowExpandable: (record) => true,
+                    }}
                 />
             </Card>
 
-            <AdminFilterUserDrawer
+            <AdminFilterCourseDrawer
                 visible={isDrawerFilterCourseOpen}
                 onClose={() => {
                     setIsDrawerFilterCourseOpen(false)

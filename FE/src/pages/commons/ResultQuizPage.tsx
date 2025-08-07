@@ -138,6 +138,7 @@ const ResultQuizPage = () => {
                                     bordered
                                     columns={RESULT_QUIZ_COLUMNS}
                                     dataSource={resultQuiz}
+                                    scroll={{ x: 'max-content' }}
                                 />
                             </div>
                         </div>

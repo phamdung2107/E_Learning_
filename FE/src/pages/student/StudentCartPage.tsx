@@ -130,6 +130,13 @@ const StudentCartPage = () => {
 
     const columns: any = [
         {
+            title: 'Tên khóa học',
+            dataIndex: 'courseName',
+            key: 'courseName',
+            align: 'left' as const,
+            fixed: 'left',
+        },
+        {
             title: 'Ảnh',
             dataIndex: 'courseImage',
             key: 'courseImage',
@@ -142,12 +149,6 @@ const StudentCartPage = () => {
             ),
         },
         {
-            title: 'Tên khóa học',
-            dataIndex: 'courseName',
-            key: 'courseName',
-            align: 'left' as const,
-        },
-        {
             title: 'Giá',
             dataIndex: 'original_price',
             key: 'original_price',
@@ -158,6 +159,7 @@ const StudentCartPage = () => {
             title: 'Hành động',
             key: 'action',
             align: 'center',
+            fixed: 'right',
             width: 120,
             render: (record: any) => (
                 <Space>
@@ -199,6 +201,7 @@ const StudentCartPage = () => {
                             pagination={false}
                             bordered
                             style={{ borderRadius: '8px' }}
+                            scroll={{ x: 'max-content' }}
                         />
                     </Card>
                 </Col>

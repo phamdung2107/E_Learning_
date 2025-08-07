@@ -65,6 +65,7 @@ export const RESULT_QUIZ_COLUMNS: any = [
 export const getManageCourseColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
+    publishCourse: (record: any) => void,
     archiveCourse: (record: any) => void,
     categoryOptions: any[] = []
 ) => [
@@ -150,9 +151,11 @@ export const getManageCourseColumns = (
                     {text === 'published' ? (
                         <Tag color="green">Đã xuất bản</Tag>
                     ) : text === 'archived' ? (
-                        <Tag color="orange">Đã lưu trữ</Tag>
-                    ) : (
+                        <Tag color="red">Đã lưu trữ</Tag>
+                    ) : text === 'draft' ? (
                         <Tag color="default">Bản nháp</Tag>
+                    ) : (
+                        <Tag color="orange">Đang xử lý</Tag>
                     )}
                 </div>
             )
@@ -196,6 +199,39 @@ export const getManageCourseColumns = (
                         <Button danger size="small" icon={<DeleteOutlined />} />
                     </Popconfirm>
                 </Tooltip>
+                <Tooltip
+                    title="Gửi yêu cầu đăng tải khóa học"
+                    placement="bottom"
+                >
+                    <Popconfirm
+                        title="Gửi yêu cầu đăng tải khóa học"
+                        description={`Bạn có muốn gửi yêu cầu để đăng tải khóa học này không?`}
+                        onConfirm={(e) => {
+                            // @ts-ignore
+                            e.stopPropagation()
+                            publishCourse(record)
+                        }}
+                        onCancel={() => {}}
+                        icon={
+                            <QuestionCircleOutlined
+                                style={{ color: 'green' }}
+                            />
+                        }
+                        okText="OK"
+                        cancelText="Hủy"
+                    >
+                        <Button
+                            variant="solid"
+                            size="small"
+                            color="green"
+                            icon={<UploadOutlined />}
+                            disabled={
+                                record.status === 'pending' ||
+                                record.status === 'published'
+                            }
+                        />
+                    </Popconfirm>
+                </Tooltip>
                 <Tooltip title="Lưu trữ khóa học" placement="bottom">
                     <Popconfirm
                         title="Lưu trữ khóa học"
@@ -237,6 +273,16 @@ export const getAdminManageCourseColumns = (
         dataIndex: 'title',
         key: 'title',
         align: 'left',
+        fixed: 'left',
+        render: (text: any) => {
+            return (
+                <div>
+                    <Link to={`/admin/courses/${text}`} target="_blank">
+                        {text}
+                    </Link>
+                </div>
+            )
+        },
     },
     {
         title: 'Ảnh đại diện',
@@ -275,6 +321,16 @@ export const getAdminManageCourseColumns = (
         title: 'Mô tả',
         dataIndex: 'description',
         key: 'description',
+        render: (text: any) => (
+            <div
+                style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                }}
+                dangerouslySetInnerHTML={{ __html: text }}
+            />
+        ),
     },
     {
         title: 'Giá',
@@ -296,9 +352,11 @@ export const getAdminManageCourseColumns = (
                     {text === 'published' ? (
                         <Tag color="green">Đã xuất bản</Tag>
                     ) : text === 'archived' ? (
-                        <Tag color="orange">Đã lưu trữ</Tag>
-                    ) : (
+                        <Tag color="red">Đã lưu trữ</Tag>
+                    ) : text === 'draft' ? (
                         <Tag color="default">Bản nháp</Tag>
+                    ) : (
+                        <Tag color="orange">Đang xử lý</Tag>
                     )}
                 </div>
             )
@@ -334,7 +392,7 @@ export const getAdminManageCourseColumns = (
                 <Tooltip title="Đăng tải khóa học" placement="bottom">
                     <Popconfirm
                         title="Đăng tải khóa học"
-                        description={`Bạn có chắc chắn muốn xuất bản khóa học này?`}
+                        description={`Bạn có chắc chắn muốn đăng tải khóa học này?`}
                         onConfirm={(e) => {
                             // @ts-ignore
                             e.stopPropagation()
@@ -366,7 +424,8 @@ export const getAdminManageCourseColumns = (
 export const getManageLessonColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
-    openModalCreate: (record: any) => void
+    openModalCreate: (record: any) => void,
+    role: string = 'instructor'
 ) => [
     {
         title: 'Tên bài học',
@@ -401,6 +460,7 @@ export const getManageLessonColumns = (
         dataIndex: 'order_number',
         key: 'order_number',
         align: 'center',
+        width: 121,
     },
     {
         title: 'Hành động',
@@ -408,42 +468,54 @@ export const getManageLessonColumns = (
         align: 'center',
         width: 120,
         fixed: 'right',
+        hidden: role !== 'instructor',
         render: (record: any) => (
             <Space>
-                <Button
-                    type="primary"
-                    size="small"
-                    icon={<FormOutlined />}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        openModalUpdate(record)
-                    }}
-                />
-                <Popconfirm
-                    title="Xóa bài học"
-                    description={`Bạn có chắc chắn muốn xóa bài học này?`}
-                    onConfirm={(e) => {
-                        // @ts-ignore
-                        e.stopPropagation()
-                        openModalDelete(record)
-                    }}
-                    onCancel={() => {}}
-                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                    okText="Xóa"
-                    cancelText="Hủy"
+                <Tooltip title="Sửa bài học" placement="bottom">
+                    <Button
+                        type="primary"
+                        size="small"
+                        icon={<FormOutlined />}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            openModalUpdate(record)
+                        }}
+                    />
+                </Tooltip>
+                <Tooltip title="Xóa bài học" placement="bottom">
+                    <Popconfirm
+                        title="Xóa bài học"
+                        description={`Bạn có chắc chắn muốn xóa bài học này?`}
+                        onConfirm={(e) => {
+                            // @ts-ignore
+                            e.stopPropagation()
+                            openModalDelete(record)
+                        }}
+                        onCancel={() => {}}
+                        icon={
+                            <QuestionCircleOutlined style={{ color: 'red' }} />
+                        }
+                        okText="Xóa"
+                        cancelText="Hủy"
+                    >
+                        <Button danger size="small" icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                </Tooltip>
+                <Tooltip
+                    title="Tạo bài kiểm tra cho bài học"
+                    placement="bottom"
                 >
-                    <Button danger size="small" icon={<DeleteOutlined />} />
-                </Popconfirm>
-                <Button
-                    variant="outlined"
-                    color="green"
-                    size="small"
-                    icon={<PlusOutlined />}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        openModalCreate(record)
-                    }}
-                />
+                    <Button
+                        variant="outlined"
+                        color="green"
+                        size="small"
+                        icon={<PlusOutlined />}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            openModalCreate(record)
+                        }}
+                    />
+                </Tooltip>
             </Space>
         ),
     },
@@ -452,7 +524,8 @@ export const getManageLessonColumns = (
 export const getManageQuizColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
-    openModalCreate: (record: any) => void
+    openModalCreate: (record: any) => void,
+    role: string = 'instructor'
 ) => [
     {
         title: 'Tên quiz',
@@ -474,40 +547,58 @@ export const getManageQuizColumns = (
         fixed: 'right',
         render: (record: any) => (
             <Space>
-                <Button
-                    type="primary"
-                    size="small"
-                    icon={<FormOutlined />}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        openModalUpdate(record)
-                    }}
-                />
-                <Popconfirm
-                    title="Xóa quiz"
-                    description={`Bạn có chắc chắn muốn xóa quiz này?`}
-                    onConfirm={(e) => {
-                        // @ts-ignore
-                        e.stopPropagation()
-                        openModalDelete(record)
-                    }}
-                    onCancel={() => {}}
-                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                    okText="Xóa"
-                    cancelText="Hủy"
-                >
-                    <Button danger size="small" icon={<DeleteOutlined />} />
-                </Popconfirm>
-                <Button
-                    variant="solid"
-                    color="green"
-                    size="small"
-                    icon={<EditOutlined />}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        openModalCreate(record)
-                    }}
-                />
+                {role === 'instructor' && (
+                    <>
+                        <Tooltip title="Sửa bài kiểm tra" placement="bottom">
+                            <Button
+                                type="primary"
+                                size="small"
+                                icon={<FormOutlined />}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    openModalUpdate(record)
+                                }}
+                            />
+                        </Tooltip>
+                        <Tooltip title="Xóa bài kiểm tra" placement="bottom">
+                            <Popconfirm
+                                title="Xóa quiz"
+                                description={`Bạn có chắc chắn muốn xóa quiz này?`}
+                                onConfirm={(e) => {
+                                    // @ts-ignore
+                                    e.stopPropagation()
+                                    openModalDelete(record)
+                                }}
+                                onCancel={() => {}}
+                                icon={
+                                    <QuestionCircleOutlined
+                                        style={{ color: 'red' }}
+                                    />
+                                }
+                                okText="Xóa"
+                                cancelText="Hủy"
+                            >
+                                <Button
+                                    danger
+                                    size="small"
+                                    icon={<DeleteOutlined />}
+                                />
+                            </Popconfirm>
+                        </Tooltip>
+                    </>
+                )}
+                <Tooltip title="Xem danh sách câu hỏi" placement="bottom">
+                    <Button
+                        variant="solid"
+                        color="green"
+                        size="small"
+                        icon={<EditOutlined />}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            openModalCreate(record)
+                        }}
+                    />
+                </Tooltip>
             </Space>
         ),
     },
@@ -516,7 +607,8 @@ export const getManageQuizColumns = (
 export const getManageQuestionColumns = (
     openModalUpdate: (record: any) => void,
     openModalDelete: (record: any) => void,
-    openModalCreate: (record: any) => void
+    openModalCreate: (record: any) => void,
+    role: string = 'instructor'
 ) => [
     {
         title: 'Nội dung câu hỏi',
@@ -530,6 +622,15 @@ export const getManageQuestionColumns = (
         key: 'question_type',
         align: 'center',
         width: 150,
+        render: (text: any) => {
+            if (text === 'multiple') {
+                return <div>Nhiều đáp án</div>
+            } else if (text === 'single') {
+                return <div>Một đáp án</div>
+            } else if (text === 'text') {
+                return <div>Nhập giá trị</div>
+            }
+        },
     },
     {
         title: 'Hành động',
@@ -537,42 +638,51 @@ export const getManageQuestionColumns = (
         align: 'center',
         width: 120,
         fixed: 'right',
+        hidden: role !== 'instructor',
         render: (record: any) => (
             <Space>
-                <Button
-                    type="primary"
-                    size="small"
-                    icon={<FormOutlined />}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        openModalUpdate(record)
-                    }}
-                />
-                <Popconfirm
-                    title="Xóa câu hỏi và đáp án"
-                    description={`Bạn có chắc chắn muốn xóa câu hỏi này?`}
-                    onConfirm={(e) => {
-                        // @ts-ignore
-                        e.stopPropagation()
-                        openModalDelete(record)
-                    }}
-                    onCancel={() => {}}
-                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                    okText="Xóa"
-                    cancelText="Hủy"
-                >
-                    <Button danger size="small" icon={<DeleteOutlined />} />
-                </Popconfirm>
-                <Button
-                    color="green"
-                    variant="outlined"
-                    size="small"
-                    icon={<PlusOutlined />}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        openModalCreate(record)
-                    }}
-                />
+                <Tooltip title="Sừa câu hỏi" placement="bottom">
+                    <Button
+                        type="primary"
+                        size="small"
+                        icon={<FormOutlined />}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            openModalUpdate(record)
+                        }}
+                    />
+                </Tooltip>
+                <Tooltip title="Xóa câu hỏi" placement="bottom">
+                    <Popconfirm
+                        title="Xóa câu hỏi"
+                        description={`Bạn có chắc chắn muốn xóa câu hỏi này?`}
+                        onConfirm={(e) => {
+                            // @ts-ignore
+                            e.stopPropagation()
+                            openModalDelete(record)
+                        }}
+                        onCancel={() => {}}
+                        icon={
+                            <QuestionCircleOutlined style={{ color: 'red' }} />
+                        }
+                        okText="Xóa"
+                        cancelText="Hủy"
+                    >
+                        <Button danger size="small" icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                </Tooltip>
+                <Tooltip title="Tạo câu trả lời cho câu hỏi" placement="bottom">
+                    <Button
+                        color="green"
+                        variant="outlined"
+                        size="small"
+                        icon={<PlusOutlined />}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            openModalCreate(record)
+                        }}
+                    />
+                </Tooltip>
             </Space>
         ),
     },
@@ -1288,7 +1398,8 @@ export const getManageRequestedColumns: any = (
 ]
 
 export const getManageReviewColumns: any = (
-    onDelete: (record: any) => void
+    onDelete: (record: any) => void,
+    role: string = 'instructor'
 ) => [
     {
         title: 'Họ và tên',
@@ -1342,6 +1453,7 @@ export const getManageReviewColumns: any = (
         align: 'center',
         width: 150,
         fixed: 'right',
+        hidden: role !== 'instructor',
         render: (record: any) => (
             <Space>
                 <Tooltip title="Xóa bình luận" placement="bottom">

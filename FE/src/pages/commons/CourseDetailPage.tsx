@@ -246,7 +246,11 @@ const CourseDetailPage: React.FC = () => {
                             </div>
 
                             <Paragraph className="course-detail-hero-description">
-                                {course.description}
+                                <span
+                                    dangerouslySetInnerHTML={{
+                                        __html: course?.description,
+                                    }}
+                                />
                             </Paragraph>
 
                             <div className="course-detail-hero-actions">

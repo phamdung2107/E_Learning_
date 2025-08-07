@@ -56,6 +56,7 @@ export const COURSE_API = {
     DELETE: (id: any) => `/courses/${id}`,
     ARCHIVE: (id: any) => `/courses/${id}/archive`,
     PUBLISH: (id: any) => `/courses/${id}/publish`,
+    PENDING: (id: any) => `/courses/${id}/pending`,
 }
 
 export const CATEGORY_API = {

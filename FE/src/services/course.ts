@@ -34,6 +34,10 @@ class CourseService {
     async publish(id: number | string): Promise<any> {
         return await http.post(COURSE_API.PUBLISH(id))
     }
+
+    async pending(id: number | string): Promise<any> {
+        return await http.post(COURSE_API.PENDING(id))
+    }
 }
 
 export default new CourseService()

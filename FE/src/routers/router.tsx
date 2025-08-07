@@ -9,6 +9,7 @@ import StudentLayout from '@/layouts/StudentLayout'
 import AdminDashboardPage from '@/pages/admin/AdminDashboardPage'
 import AdminManageCategoriesPage from '@/pages/admin/AdminManageCategoriesPage'
 import AdminManageCoursesPage from '@/pages/admin/AdminManageCoursesPage'
+import AdminManageDetailCoursePage from '@/pages/admin/AdminManageDetailCoursePage'
 import AdminManageEventsPage from '@/pages/admin/AdminManageEventsPage'
 import AdminManageRequestsPage from '@/pages/admin/AdminManageRequestsPage'
 import AdminManageTransactionsPage from '@/pages/admin/AdminManageTransactionsPage'
@@ -220,6 +221,10 @@ const AppRouter = [
         <Route
             path={ADMIN_PATHS.ADMIN_MANAGE_REQUESTS}
             element={<AdminManageRequestsPage />}
+        />
+        <Route
+            path={ADMIN_PATHS.ADMIN_DETAIL_COURSE}
+            element={<AdminManageDetailCoursePage />}
         />
     </Route>,
 ]

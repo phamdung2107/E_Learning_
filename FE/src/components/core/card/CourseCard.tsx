@@ -109,7 +109,11 @@ const CourseCard = ({ course, onEnroll }: any) => {
                     <Text>bởi {course?.instructor?.user?.full_name}</Text>
                 </div>
                 <Paragraph className="course-card-description">
-                    {course?.description}
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: course?.description,
+                        }}
+                    />
                 </Paragraph>
             </div>
         </Card>

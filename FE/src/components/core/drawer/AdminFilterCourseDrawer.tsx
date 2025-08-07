@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Button, Drawer, Form, Input, Select } from 'antd'
 
-const AdminFilterUserDrawer = ({
+const AdminFilterCourseDrawer = ({
     visible,
     onClose,
     onSubmit,
@@ -74,4 +74,4 @@ const AdminFilterUserDrawer = ({
     )
 }
 
-export default AdminFilterUserDrawer
+export default AdminFilterCourseDrawer

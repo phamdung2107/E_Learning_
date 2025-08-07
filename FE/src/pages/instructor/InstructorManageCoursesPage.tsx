@@ -129,6 +129,24 @@ const InstructorManageCoursesPage = () => {
         }
     }
 
+    const handleRequestPublishCourse = async (values: any) => {
+        try {
+            const response = await CourseService.pending(values.id)
+            if (response.status === 200) {
+                await fetchData()
+                notification.success({
+                    message: 'Gửi yêu cầu đăng tải khóa học thành công',
+                })
+            }
+        } catch (e) {
+            console.error(e)
+            notification.error({
+                message:
+                    'Gửi yêu cầu đăng tải khóa học thất bại. Vui lòng thử lại sau.',
+            })
+        }
+    }
+
     const handleArchiveCourse = async (values: any) => {
         try {
             const response = await CourseService.archive(values.id)
@@ -160,6 +178,7 @@ const InstructorManageCoursesPage = () => {
         return getManageCourseColumns(
             openModalUpdate,
             openModalDelete,
+            handleRequestPublishCourse,
             handleArchiveCourse,
             allCategories
         )

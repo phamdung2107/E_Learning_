@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react'
 
-import { Button, Modal, Popconfirm, Space, Table, notification } from 'antd'
+import {
+    Button,
+    Modal,
+    Popconfirm,
+    Space,
+    Table,
+    Tooltip,
+    notification,
+} from 'antd'
 
 import {
     DeleteOutlined,
@@ -17,7 +25,12 @@ import { getManageQuestionColumns } from '@/constants/table'
 import AnswerService from '@/services/answer'
 import QuestionService from '@/services/question'
 
-const ListQuestionModal = ({ visible, onClose, record }: any) => {
+const ListQuestionModal = ({
+    visible,
+    onClose,
+    record,
+    role = 'instructor',
+}: any) => {
     const [loading, setLoading] = useState(false)
     const [questions, setQuestions] = useState<any[]>([])
     const [modalRecord, setModalRecord] = useState<any>(null)
@@ -191,7 +204,8 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
     const columns: any = getManageQuestionColumns(
         openModalUpdate,
         onModalDelete,
-        openModalCreate
+        openModalCreate,
+        role
     )
 
     const openUpdateModalAnswer = (item: any) => {
@@ -204,12 +218,18 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
             title={
                 <div>
                     {`Danh sách câu hỏi: ${record?.title}`}
-                    <Button
-                        style={{ marginLeft: 10 }}
-                        onClick={() => setIsModalCreateQuestionOpen(true)}
-                        icon={<PlusOutlined />}
-                        color="primary"
-                    />
+                    {role === 'instructor' && (
+                        <Tooltip title="Tạo mới câu hỏi" placement="bottom">
+                            <Button
+                                style={{ marginLeft: 10 }}
+                                onClick={() =>
+                                    setIsModalCreateQuestionOpen(true)
+                                }
+                                icon={<PlusOutlined />}
+                                color="primary"
+                            />
+                        </Tooltip>
+                    )}
                 </div>
             }
             open={visible}
@@ -233,6 +253,7 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                                     dataIndex: 'answer_text',
                                     key: 'answer_text',
                                     align: 'left',
+                                    fixed: 'left',
                                 },
                                 {
                                     title: 'Đúng/ Sai',
@@ -248,42 +269,59 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                                     align: 'center',
                                     width: 120,
                                     fixed: 'right',
+                                    hidden: role !== 'instructor',
                                     render: (record: any) => (
                                         <Space>
-                                            <Button
-                                                type="primary"
-                                                size="small"
-                                                icon={<FormOutlined />}
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    openUpdateModalAnswer(
-                                                        record
-                                                    )
-                                                }}
-                                            />
-                                            <Popconfirm
-                                                title="Xóa đáp án"
-                                                description={`Bạn có chắc chắn muốn xóa đáp án này?`}
-                                                onConfirm={(e) => {
-                                                    // @ts-ignore
-                                                    e.stopPropagation()
-                                                    handleDeleteAnswer(record)
-                                                }}
-                                                onCancel={() => {}}
-                                                icon={
-                                                    <QuestionCircleOutlined
-                                                        style={{ color: 'red' }}
-                                                    />
-                                                }
-                                                okText="Xóa"
-                                                cancelText="Hủy"
+                                            <Tooltip
+                                                title="Sửa đáp án"
+                                                placement="bottom"
                                             >
                                                 <Button
-                                                    danger
+                                                    type="primary"
                                                     size="small"
-                                                    icon={<DeleteOutlined />}
+                                                    icon={<FormOutlined />}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        openUpdateModalAnswer(
+                                                            record
+                                                        )
+                                                    }}
                                                 />
-                                            </Popconfirm>
+                                            </Tooltip>
+                                            <Tooltip
+                                                title="Xóa đáp án"
+                                                placement="bottom"
+                                            >
+                                                <Popconfirm
+                                                    title="Xóa đáp án"
+                                                    description={`Bạn có chắc chắn muốn xóa đáp án này?`}
+                                                    onConfirm={(e) => {
+                                                        // @ts-ignore
+                                                        e.stopPropagation()
+                                                        handleDeleteAnswer(
+                                                            record
+                                                        )
+                                                    }}
+                                                    onCancel={() => {}}
+                                                    icon={
+                                                        <QuestionCircleOutlined
+                                                            style={{
+                                                                color: 'red',
+                                                            }}
+                                                        />
+                                                    }
+                                                    okText="Xóa"
+                                                    cancelText="Hủy"
+                                                >
+                                                    <Button
+                                                        danger
+                                                        size="small"
+                                                        icon={
+                                                            <DeleteOutlined />
+                                                        }
+                                                    />
+                                                </Popconfirm>
+                                            </Tooltip>
                                         </Space>
                                     ),
                                 },
@@ -293,6 +331,7 @@ const ListQuestionModal = ({ visible, onClose, record }: any) => {
                             pagination={false}
                             size="small"
                             bordered
+                            scroll={{ x: 'max-content' }}
                         />
                     ),
                     rowExpandable: (record) =>
