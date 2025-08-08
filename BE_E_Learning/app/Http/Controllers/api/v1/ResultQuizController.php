@@ -57,13 +57,14 @@ class ResultQuizController extends Controller
         DB::beginTransaction();
 
         try {
-            $resultQuiz = ResultQuiz::create([
-                'user_id' => $user->id,
-                'quiz_id' => $quizId,
-                'total_questions' => $totalQuestions,
-                'correct_answers' => 0,
-                'is_pass' => false
-            ]);
+            $resultQuiz = ResultQuiz::updateOrCreate(
+                ['user_id' => $user->id, 'quiz_id' => $quizId],
+                [
+                    'total_questions' => $totalQuestions,
+                    'correct_answers' => 0,
+                    'is_pass' => false
+                ]
+            );
 
             foreach ($submittedAnswers as $item) {
                 $isCorrect = Answer::where('id', $item['answer_id'])
