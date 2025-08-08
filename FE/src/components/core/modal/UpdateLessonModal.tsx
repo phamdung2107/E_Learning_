@@ -43,7 +43,12 @@ const UpdateLessonModal = ({
     }
 
     const handleSubmit = (values: any) => {
-        onSubmit(values)
+        onSubmit({
+            ...values,
+            content: values.content?.level?.content
+                ? values.content.level.content
+                : values.content,
+        })
         handleCancel()
     }
 

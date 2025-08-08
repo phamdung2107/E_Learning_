@@ -39,6 +39,9 @@ const CreateCourseModal = ({
     const handleSubmit = (values: any) => {
         const submitValues = {
             ...values,
+            description: values.description?.level?.content
+                ? values.description.level.content
+                : values.description,
             thumbnail:
                 fileList.length > 0 && fileList[0].originFileObj
                     ? fileList[0].originFileObj

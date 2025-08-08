@@ -4,8 +4,6 @@ import { Button, Form, Input, Modal } from 'antd'
 
 import { Editor } from '@tinymce/tinymce-react'
 
-const { TextArea } = Input
-
 const CreateLessonModal = ({ visible, onClose, onSubmit, loading }: any) => {
     const [form] = Form.useForm()
 
@@ -19,7 +17,12 @@ const CreateLessonModal = ({ visible, onClose, onSubmit, loading }: any) => {
     }
 
     const handleSubmit = (values: any) => {
-        onSubmit(values)
+        onSubmit({
+            ...values,
+            content: values.content?.level?.content
+                ? values.content.level.content
+                : values.content,
+        })
         handleCancel()
     }
 

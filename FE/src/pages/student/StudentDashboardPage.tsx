@@ -13,6 +13,7 @@ import {
     Space,
     Statistic,
     Typography,
+    notification,
 } from 'antd'
 
 import {
@@ -28,12 +29,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import EnrollCourseSummaryCard from '@/components/core/card/EnrollCourseSummaryCard'
+import { SHOW_VERIFICATION_REMINDER } from '@/constants/storage'
 import { STUDENT_PATHS } from '@/routers/path'
 import CertificateService from '@/services/certificate'
 import CourseService from '@/services/course'
 import NotificationService from '@/services/notification'
 import ProgressService from '@/services/progress'
 import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
+import { getLocalStorage, removeLocalStorage } from '@/utils/storage'
 
 import '../styles/StudentDashboard.css'
 
@@ -77,7 +80,7 @@ const StudentDashboard: React.FC = () => {
     const fetchTotalCertificate = async () => {
         try {
             const response = await CertificateService.getAll({
-                user: user.id,
+                user: user.user ? user.user.id : user.id,
             })
             setTotalCertificate(response.total)
         } catch (e) {
@@ -110,6 +113,54 @@ const StudentDashboard: React.FC = () => {
     }
 
     useEffect(() => {
+        const shouldShow =
+            getLocalStorage(SHOW_VERIFICATION_REMINDER) === 'true'
+        console.log(getLocalStorage(SHOW_VERIFICATION_REMINDER))
+        if (shouldShow) {
+            notification.warning({
+                message: 'Tài khoản chưa được xác minh',
+                description: (
+                    <div>
+                        <div>
+                            Tài khoản của bạn chưa được xác minh nên không thể
+                            sử dụng được một vài chức năng. Vui lòng kiểm tra
+                            hộp thư của bạn để xác minh tài khoản
+                        </div>
+                        <div
+                            style={{
+                                marginTop: 12,
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                gap: 8,
+                            }}
+                        >
+                            <Button
+                                type="primary"
+                                size="small"
+                                href="https://mail.google.com/mail/u/0/#inbox"
+                            >
+                                Xác minh ngay
+                            </Button>
+                            <Button
+                                size="small"
+                                onClick={() => {
+                                    notification.destroy()
+                                    removeLocalStorage(
+                                        SHOW_VERIFICATION_REMINDER
+                                    )
+                                }}
+                            >
+                                Để sau
+                            </Button>
+                        </div>
+                    </div>
+                ),
+                duration: 0,
+            })
+        }
+    }, [])
+
+    useEffect(() => {
         fetchEnrolledCourses()
         fetchProgressSummary()
         fetchTotalCertificate()
@@ -121,7 +172,8 @@ const StudentDashboard: React.FC = () => {
             {/* Header */}
             <Card style={{ marginBottom: '24px' }}>
                 <Title level={2}>
-                    Chào mừng trở lại, {user?.full_name}! 👋
+                    Chào mừng trở lại, {user.user?.full_name || user.user?.name}
+                    ! 👋
                 </Title>
                 <Text type="secondary">
                     Tiếp tục hành trình học tập của bạn

@@ -21,7 +21,9 @@ const QuizSidebar = ({
     currentQuizId,
     courseId,
 }: any) => {
-    const [result, setResult] = useState<any>([])
+    const [result, setResult] = useState<any[]>([])
+    const [lessonEnableList, setLessonEnableList] = useState<boolean[]>([])
+
     const fetchResult = async () => {
         try {
             const response =
@@ -39,16 +41,28 @@ const QuizSidebar = ({
         return lesson ? lesson.id.toString() : null
     }
 
-    const getLessonEnableList = () => {
-        return lessons.map((lesson: any, idx: number) => {
-            if (idx === 0) return true
-            const prevLesson = lessons[idx - 1]
-            if (prevLesson.quizzes && prevLesson.quizzes.length > 0) {
-                return prevLesson.quizzes.every((q: any) => q.is_completed)
-            } else {
-                return prevLesson.is_completed
-            }
-        })
+    const checkCompleted = (result: any) => {
+        return (
+            result.length > 0 && result.every((item: any) => item.is_pass === 1)
+        )
+    }
+
+    const fetchLessonEnableList = async () => {
+        const resultList = await Promise.all(
+            lessons.map(async (lesson: any, idx: number) => {
+                if (idx === 0) return true
+                const prevLesson = lessons[idx - 1]
+                try {
+                    const res = await ResultQuizService.getMyQuizByLesson(
+                        prevLesson.id
+                    )
+                    return checkCompleted(res.data)
+                } catch {
+                    return false
+                }
+            })
+        )
+        setLessonEnableList(resultList)
     }
 
     const getQuizResult = (quizId: number) => {
@@ -56,11 +70,14 @@ const QuizSidebar = ({
         return currentResult?.is_pass
     }
 
-    const lessonEnableList = getLessonEnableList()
-
     useEffect(() => {
         fetchResult()
+        fetchLessonEnableList()
     }, [currentLessonId, currentQuizId, courseId])
+
+    if (lessonEnableList.length === 0) {
+        return <div>Đang tải nội dung...</div>
+    }
 
     return (
         <div className="lesson-sidebar-content" style={{ padding: 0 }}>
@@ -86,7 +103,7 @@ const QuizSidebar = ({
                     className="lesson-collapse"
                 >
                     {lessons.map((lesson: any, index: any) => {
-                        const isLessonEnabled = lessonEnableList[index]
+                        const isLessonEnabled = lessonEnableList[index] ?? false
                         return (
                             <Panel
                                 header={
@@ -142,95 +159,82 @@ const QuizSidebar = ({
                                         </span>
                                     </div>
                                 )}
-                                {lesson.quizzes &&
-                                    lesson.quizzes.length > 0 && (
-                                        <>
-                                            {lesson.quizzes.map(
-                                                (quiz: any, qIdx: number) => {
-                                                    let quizEnabled = false
-                                                    if (qIdx === 0) {
-                                                        quizEnabled =
-                                                            isLessonEnabled
-                                                    } else {
-                                                        quizEnabled =
-                                                            isLessonEnabled &&
-                                                            getQuizResult(
-                                                                lesson.quizzes[
-                                                                    qIdx - 1
-                                                                ].id
-                                                            )
-                                                    }
-                                                    const isActiveQuiz =
-                                                        quiz.id ===
-                                                        Number(currentQuizId)
-                                                    return quizEnabled ? (
-                                                        <Link
-                                                            key={quiz.id}
-                                                            to={`/courses/${courseId}/quizzes/${quiz.id}`}
-                                                            style={{
-                                                                display: 'flex',
-                                                                alignItems:
-                                                                    'center',
-                                                            }}
-                                                            className={`lesson-content-item quiz-item ${isActiveQuiz ? 'active-lesson' : ''}`}
-                                                        >
-                                                            <span
-                                                                className="lesson-content-icon quiz-icon"
-                                                                style={{
-                                                                    marginRight:
-                                                                        '8px',
-                                                                }}
-                                                            >
-                                                                <FileTextOutlined />
-                                                            </span>
-                                                            <span className="lesson-content-title">
-                                                                {quiz.title}
-                                                            </span>
-                                                            <div
-                                                                style={{
-                                                                    flexGrow: 1,
-                                                                }}
-                                                            ></div>
-                                                            {!!getQuizResult(
-                                                                quiz.id
-                                                            ) && (
-                                                                <CheckCircleOutlined className="quiz-completed-icon" />
-                                                            )}
-                                                        </Link>
-                                                    ) : (
-                                                        <div
-                                                            key={quiz.id}
-                                                            className="lesson-content-item quiz-item disabled-lesson"
-                                                            style={{
-                                                                color: '#bfbfbf',
-                                                                background:
-                                                                    '#f5f5f5',
-                                                                cursor: 'not-allowed',
-                                                                pointerEvents:
-                                                                    'none',
-                                                                borderRadius: 4,
-                                                                display: 'flex',
-                                                                alignItems:
-                                                                    'center',
-                                                            }}
-                                                        >
-                                                            <span
-                                                                className="lesson-content-icon quiz-icon"
-                                                                style={{
-                                                                    marginRight:
-                                                                        '8px',
-                                                                }}
-                                                            >
-                                                                <FileTextOutlined />
-                                                            </span>
-                                                            <span className="lesson-content-title">
-                                                                {quiz.title}
-                                                            </span>
-                                                        </div>
+
+                                {lesson.quizzes?.length > 0 &&
+                                    lesson.quizzes.map(
+                                        (quiz: any, qIdx: number) => {
+                                            let quizEnabled = false
+                                            if (qIdx === 0) {
+                                                quizEnabled = isLessonEnabled
+                                            } else {
+                                                quizEnabled =
+                                                    isLessonEnabled &&
+                                                    getQuizResult(
+                                                        lesson.quizzes[qIdx - 1]
+                                                            .id
                                                     )
-                                                }
-                                            )}
-                                        </>
+                                            }
+                                            const isActiveQuiz =
+                                                quiz.id ===
+                                                Number(currentQuizId)
+                                            return quizEnabled ? (
+                                                <Link
+                                                    key={quiz.id}
+                                                    to={`/courses/${courseId}/quizzes/${quiz.id}`}
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                    }}
+                                                    className={`lesson-content-item quiz-item ${isActiveQuiz ? 'active-lesson' : ''}`}
+                                                >
+                                                    <span
+                                                        className="lesson-content-icon quiz-icon"
+                                                        style={{
+                                                            marginRight: '8px',
+                                                        }}
+                                                    >
+                                                        <FileTextOutlined />
+                                                    </span>
+                                                    <span className="lesson-content-title">
+                                                        {quiz.title}
+                                                    </span>
+                                                    <div
+                                                        style={{ flexGrow: 1 }}
+                                                    ></div>
+                                                    {!!getQuizResult(
+                                                        quiz.id
+                                                    ) && (
+                                                        <CheckCircleOutlined className="quiz-completed-icon" />
+                                                    )}
+                                                </Link>
+                                            ) : (
+                                                <div
+                                                    key={quiz.id}
+                                                    className="lesson-content-item quiz-item disabled-lesson"
+                                                    style={{
+                                                        color: '#bfbfbf',
+                                                        background: '#f5f5f5',
+                                                        cursor: 'not-allowed',
+                                                        pointerEvents: 'none',
+                                                        borderRadius: 4,
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                    }}
+                                                >
+                                                    <span
+                                                        className="lesson-content-icon quiz-icon"
+                                                        style={{
+                                                            marginRight: '8px',
+                                                        }}
+                                                    >
+                                                        <FileTextOutlined />
+                                                    </span>
+                                                    <span className="lesson-content-title">
+                                                        {quiz.title}
+                                                    </span>
+                                                </div>
+                                            )
+                                        }
                                     )}
                             </Panel>
                         )

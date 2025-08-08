@@ -26,7 +26,8 @@ const StudentProfilePage = () => {
     const [activeTabKey, setActiveTabKey] = useState<string>('profile')
     const [form] = Form.useForm()
     const [passwordForm] = Form.useForm()
-    const currentUser = useSelector((state: any) => state.auth.user)
+    const user = useSelector((state: any) => state.auth.user)
+    const currentUser = user.user ? user.user : user
     const [previewImage, setPreviewImage] = useState(currentUser?.avatar || '')
     const [selectedFile, setSelectedFile] = useState(null)
     const [isModalDepositOpen, setIsModalDepositOpen] = useState(false)

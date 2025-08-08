@@ -230,7 +230,7 @@ const StudentLayout: React.FC = () => {
                                     style={{ marginRight: '8px' }}
                                 />
                                 <span style={{ fontWeight: '500' }}>
-                                    {user?.full_name}
+                                    {user?.user?.full_name || user?.full_name}
                                 </span>
                             </div>
                         </Dropdown>

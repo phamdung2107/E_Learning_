@@ -20,6 +20,7 @@ import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import { SHOW_VERIFICATION_REMINDER } from '@/constants/storage'
 import {
     ADMIN_PATHS,
     AUTH_PATHS,
@@ -36,6 +37,11 @@ import {
 import { setInstructor } from '@/stores/auth/authSlice'
 import { getCurrentCartAction } from '@/stores/cart/cartAction'
 import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
+import {
+    getLocalStorage,
+    putLocalStorage,
+    removeLocalStorage,
+} from '@/utils/storage'
 
 const { Text, Link } = Typography
 
@@ -67,6 +73,9 @@ const AuthPage: React.FC = () => {
                 dispatch(getCurrentNotificationAction())
 
                 const user = userResponse.payload
+                if (user?.status === 'inactive') {
+                    putLocalStorage(SHOW_VERIFICATION_REMINDER, 'true')
+                }
                 if (user) {
                     const instructorRes = await dispatch(
                         getCurrentInstructorAction(userResponse.payload.id)

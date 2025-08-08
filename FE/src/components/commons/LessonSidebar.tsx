@@ -16,42 +16,56 @@ const { Title, Text } = Typography
 const { Panel } = Collapse
 
 const LessonSidebar = ({ lessons, currentLessonId, courseId }: any) => {
-    const [result, setResult] = useState<any>([])
-    const fetchResult = async () => {
+    const [currentResult, setCurrentResult] = useState<any>([])
+    const [lessonEnableList, setLessonEnableList] = useState<boolean[]>([])
+
+    useEffect(() => {
+        const fetchEnableList = async () => {
+            const result = await getLessonEnableList()
+            setLessonEnableList(result)
+        }
+
+        fetchEnableList()
+    }, [lessons])
+
+    const fetchResult = async (lessonId: any) => {
         try {
-            const response =
-                await ResultQuizService.getMyQuizByLesson(currentLessonId)
-            setResult(response.data)
+            const response = await ResultQuizService.getMyQuizByLesson(lessonId)
+            return checkCompleted(response.data)
         } catch (error) {
-            console.log(error)
+            return false
         }
     }
 
     const getCurrentLessonIndex = () =>
         lessons.findIndex((l: any) => l.id === Number(currentLessonId))
 
-    const getLessonEnableList = () => {
-        return lessons.map((lesson: any, idx: number) => {
-            if (idx === 0) return true
-            const prevLesson = lessons[idx - 1]
-            if (prevLesson.quizzes && prevLesson.quizzes.length > 0) {
-                return prevLesson.quizzes.every((q: any) => q.is_completed)
-            } else {
-                return prevLesson.is_completed
-            }
-        })
+    const getLessonEnableList = async () => {
+        return await Promise.all(
+            lessons.map(async (lesson: any, idx: any) => {
+                if (idx === 0) return true
+                const prevLesson = lessons[idx - 1]
+                return await fetchResult(prevLesson.id)
+            })
+        )
     }
 
     const getQuizResult = (quizId: number) => {
-        const currentResult = result.find((r: any) => r.quiz_id === quizId)
-        return currentResult?.is_pass
+        const tmp = currentResult.find((r: any) => r.quiz_id === quizId)
+        return !!tmp?.is_pass
+    }
+
+    const checkCompleted = (result: any) => {
+        return (
+            result.length > 0 && result.every((item: any) => item.is_pass === 1)
+        )
     }
 
     useEffect(() => {
-        fetchResult()
+        ResultQuizService.getMyQuizByLesson(currentLessonId).then((res) => {
+            setCurrentResult(res.data)
+        })
     }, [currentLessonId, courseId])
-
-    const lessonEnableList = getLessonEnableList()
 
     return (
         <div className="lesson-sidebar-content" style={{ padding: 0 }}>
@@ -78,7 +92,7 @@ const LessonSidebar = ({ lessons, currentLessonId, courseId }: any) => {
                 >
                     {lessons.map((lesson: any, index: any) => {
                         const isActive = lesson.id === Number(currentLessonId)
-                        const isEnabled = lessonEnableList[index]
+                        const isEnabled = lessonEnableList[index] ?? false
 
                         return (
                             <Panel

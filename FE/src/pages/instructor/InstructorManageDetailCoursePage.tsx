@@ -96,6 +96,7 @@ const InstructorManageDetailCoursePage = () => {
     const handleCreateLesson = async (values: any) => {
         setCreateLessonLoading(true)
         try {
+            console.log('lesson', values)
             const response = await LessonService.create({
                 title: values.title,
                 content: values.content,

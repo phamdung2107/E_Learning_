@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Col, Divider, Row, Typography, notification } from 'antd'
 
@@ -9,9 +9,12 @@ import {
     StarFilled,
     UserAddOutlined,
 } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
 
 import RequestInstructorModal from '@/components/core/modal/RequestInstructorModal'
+import { HAS_REQUESTED_INSTRUCTOR } from '@/constants/storage'
 import InstructorService from '@/services/instructor'
+import { getLocalStorage, putLocalStorage } from '@/utils/storage'
 
 const { Title, Paragraph, Text } = Typography
 
@@ -29,8 +32,29 @@ const conditions = [
 ]
 
 const StudentBecomeInstructorPage = () => {
+    const user = useSelector((state: any) => state.auth.user)
     const [modalVisible, setModalVisible] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [hasRequested, setHasRequested] = useState(false)
+
+    useEffect(() => {
+        fetchInstructor()
+    }, [])
+
+    const fetchInstructor = async () => {
+        try {
+            const response = await InstructorService.getByUser(
+                user.user ? user.user.id : user.id
+            )
+            if (response.status === 200) {
+                setHasRequested(true)
+            } else {
+                setHasRequested(false)
+            }
+        } catch (e) {
+            setHasRequested(false)
+        }
+    }
 
     const handleRequestInstructor = async (values: any) => {
         setLoading(true)
@@ -41,6 +65,8 @@ const StudentBecomeInstructorPage = () => {
                 notification.success({
                     message: 'Gửi yêu cầu trở thành giảng viên thành công',
                 })
+                setHasRequested(true)
+                putLocalStorage(HAS_REQUESTED_INSTRUCTOR, 'true')
             }
         } catch (e) {
             console.error('Error: ', e)
@@ -222,32 +248,59 @@ const StudentBecomeInstructorPage = () => {
                                         marginTop: 24,
                                     }}
                                 >
-                                    <Button
-                                        type="primary"
-                                        size="large"
-                                        icon={<UserAddOutlined />}
-                                        onClick={() => setModalVisible(true)}
-                                        style={{
-                                            padding: '0 40px',
-                                            fontWeight: 600,
-                                            fontSize: 18,
-                                            borderRadius: 8,
-                                            boxShadow: '0 2px 8px #1d39c420',
-                                            background:
-                                                'linear-gradient(90deg, #1d39c4 60%, #2f54eb 100%)',
-                                            transition: 'all 0.2s',
-                                        }}
-                                        onMouseOver={(e) =>
-                                            (e.currentTarget.style.background =
-                                                '#2f54eb')
-                                        }
-                                        onMouseOut={(e) =>
-                                            (e.currentTarget.style.background =
-                                                'linear-gradient(90deg, #1d39c4 60%, #2f54eb 100%)')
-                                        }
-                                    >
-                                        Gửi yêu cầu trở thành giảng viên
-                                    </Button>
+                                    {hasRequested ? (
+                                        <div
+                                            style={{
+                                                marginBottom: 24,
+                                                padding: '12px 16px',
+                                                background: '#e6f7ff',
+                                                border: '1px solid #91d5ff',
+                                                borderRadius: 8,
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            <Text
+                                                style={{
+                                                    color: '#1890ff',
+                                                    fontSize: 16,
+                                                }}
+                                            >
+                                                Bạn đã gửi yêu cầu trở thành
+                                                giảng viên của Mona. Vui lòng
+                                                chờ phản hồi từ quản trị viên.
+                                            </Text>
+                                        </div>
+                                    ) : (
+                                        <Button
+                                            type="primary"
+                                            size="large"
+                                            icon={<UserAddOutlined />}
+                                            onClick={() =>
+                                                setModalVisible(true)
+                                            }
+                                            style={{
+                                                padding: '0 40px',
+                                                fontWeight: 600,
+                                                fontSize: 18,
+                                                borderRadius: 8,
+                                                boxShadow:
+                                                    '0 2px 8px #1d39c420',
+                                                background:
+                                                    'linear-gradient(90deg, #1d39c4 60%, #2f54eb 100%)',
+                                                transition: 'all 0.2s',
+                                            }}
+                                            onMouseOver={(e) =>
+                                                (e.currentTarget.style.background =
+                                                    '#2f54eb')
+                                            }
+                                            onMouseOut={(e) =>
+                                                (e.currentTarget.style.background =
+                                                    'linear-gradient(90deg, #1d39c4 60%, #2f54eb 100%)')
+                                            }
+                                        >
+                                            Gửi yêu cầu trở thành giảng viên
+                                        </Button>
+                                    )}
                                 </div>
                             </Col>
                         </Row>
