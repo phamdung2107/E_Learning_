@@ -15,4 +15,12 @@ class Quiz extends Model
 
     public function lesson() { return $this->belongsTo(Lesson::class); }
     public function questions() { return $this->hasMany(Question::class); }
+    public function resultQuiz()
+    {
+        return $this->hasMany(\App\Models\ResultQuiz::class, 'quiz_id', 'id');
+    }
+    public function latestResultQuiz()
+    {
+        return $this->hasOne(ResultQuiz::class)->latestOfMany('submitted_at');
+    }
 }

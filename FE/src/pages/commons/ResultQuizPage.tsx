@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import { Link, useLocation, useParams } from 'react-router-dom'
 
 import LessonQuizHeader from '@/components/commons/LessonQuizHeader'
-import QuizSidebar from '@/components/commons/QuizSidebar'
+import LessonQuizSidebar from '@/components/commons/LessonQuizSidebar'
 import { RESULT_QUIZ_COLUMNS } from '@/constants/table'
 import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import CourseService from '@/services/course'
@@ -105,9 +105,8 @@ const ResultQuizPage = () => {
                 />
             }
             sidebar={
-                <QuizSidebar
-                    lessons={lessons}
-                    currentLessonId={quiz?.lesson_id}
+                <LessonQuizSidebar
+                    currentLessonId={null}
                     currentQuizId={quiz?.id}
                     courseId={courseId}
                 />

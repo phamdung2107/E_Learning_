@@ -20,9 +20,9 @@ import {
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import LessonQuizActionsFooter from '@/components/commons/LessonQuizActionsFooter'
 import LessonQuizHeader from '@/components/commons/LessonQuizHeader'
-import QuizActionsFooter from '@/components/commons/QuizActionsFooter'
-import QuizSidebar from '@/components/commons/QuizSidebar'
+import LessonQuizSidebar from '@/components/commons/LessonQuizSidebar'
 import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import AnswerService from '@/services/answer'
 import CourseService from '@/services/course'
@@ -257,21 +257,16 @@ const QuizDetailPage: React.FC = () => {
                 />
             }
             sidebar={
-                <QuizSidebar
-                    lessons={lessons}
-                    currentLessonId={currentQuiz.lesson_id}
+                <LessonQuizSidebar
+                    currentLessonId={null}
                     currentQuizId={currentQuiz.id}
                     courseId={courseId}
                 />
             }
             footer={
-                <QuizActionsFooter
-                    getPrevQuiz={getPrevQuiz}
-                    getNextQuiz={getNextQuiz}
-                    handleQuizSelect={handleQuizSelect}
-                    currentQuiz={currentQuiz}
-                    handleSubmitQuiz={handleSubmitQuiz}
-                    isSubmitted={isSubmitting}
+                <LessonQuizActionsFooter
+                    currentElement={currentQuiz}
+                    courseId={courseId}
                 />
             }
         >

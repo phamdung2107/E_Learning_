@@ -51,6 +51,7 @@ export const COURSE_API = {
             .join('&')
         return `/courses/my/enrolled${query ? '?' + query : ''}`
     },
+    LESSON_WITH_QUIZ: (id: any) => `/courses/${id}/lessons-with-quizzes`,
     DETAIL: (id: any) => `/courses/${id}`,
     UPDATE: (id: any) => `/courses/${id}`,
     DELETE: (id: any) => `/courses/${id}`,

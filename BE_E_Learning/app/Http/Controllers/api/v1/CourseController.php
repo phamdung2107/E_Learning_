@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Http\Resources\CourseResource;
 use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
@@ -321,5 +322,80 @@ class CourseController extends Controller
         $course->status = 'pending';
         $course->save();
         return Response::data(['message' => 'pending']);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/courses/{courseId}/lessons-with-quizzes",
+     *     summary="Lấy danh sách bài học và quiz kèm trạng thái pass",
+     *     description="API trả về danh sách lesson theo thứ tự và quiz với trạng thái is_pass từ lần làm gần nhất của user hiện tại",
+     *     tags={"Lesson & Quiz"},
+     *     @OA\Parameter(
+     *         name="courseId",
+     *         in="path",
+     *         required=true,
+     *         description="ID khóa học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Danh sách lessons kèm quizzes",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="string", example="success"),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="title", type="string", example="Bài học 1"),
+     *                     @OA\Property(property="quizzes", type="array",
+     *                         @OA\Items(
+     *                             type="object",
+     *                             @OA\Property(property="id", type="integer", example=1),
+     *                             @OA\Property(property="title", type="string", example="Quiz 1"),
+     *                             @OA\Property(property="description", type="string", example="Mô tả quiz"),
+     *                             @OA\Property(property="is_pass", type="boolean", example=true)
+     *                         )
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getLessonsWithQuizzes($courseId)
+    {
+        $userId = auth()->id();
+
+        $lessons = Lesson::where('course_id', $courseId)
+            ->orderBy('order_number', 'asc')
+            ->with(['quizzes' => function ($query) use ($userId) {
+                $query->with(['latestResultQuiz' => function ($subQuery) use ($userId) {
+                    $subQuery->where('user_id', $userId)
+                            ->latest('submitted_at');
+                }]);
+            }])
+            ->get()
+            ->map(function ($lesson) {
+                $lesson->quizzes = $lesson->quizzes->map(function ($quiz) {
+                    return [
+                        'id' => $quiz->id,
+                        'lesson_id' => $quiz->lesson_id,
+                        'title' => $quiz->title,
+                        'description' => $quiz->description,
+                        'is_pass' => optional($quiz->latestResultQuiz)->is_pass
+                    ];
+                })->values();
+                return $lesson;
+            })
+            ->values();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $lessons
+        ]);
     }
 }

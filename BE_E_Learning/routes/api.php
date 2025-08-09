@@ -73,6 +73,7 @@ Route::apiResource('courses', CourseController::class);
 
 Route::prefix('courses')->group(function () {
     Route::get('my/enrolled', [CourseController::class, 'getMyCourses']);      
+    Route::get('{courseId}/lessons-with-quizzes', [CourseController::class, 'getLessonsWithQuizzes']);
     Route::post('{id}/publish', [CourseController::class, 'publish']);    // admin  
     Route::post('{id}/archive', [CourseController::class, 'archive']);    // instructor  
     Route::post('{id}/pending', [CourseController::class, 'pending']);    // instructor  

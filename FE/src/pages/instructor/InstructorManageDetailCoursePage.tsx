@@ -110,6 +110,10 @@ const InstructorManageDetailCoursePage = () => {
                 notification.success({
                     message: 'Tạo bài học thành công',
                 })
+            } else {
+                notification.warning({
+                    message: response.message,
+                })
             }
         } catch (e) {
             console.error(e)
@@ -136,6 +140,10 @@ const InstructorManageDetailCoursePage = () => {
                 await fetchData()
                 notification.success({
                     message: 'Cập nhật bài học thành công',
+                })
+            } else {
+                notification.warning({
+                    message: response.message,
                 })
             }
         } catch (e) {

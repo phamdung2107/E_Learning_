@@ -38,6 +38,10 @@ class CourseService {
     async pending(id: number | string): Promise<any> {
         return await http.post(COURSE_API.PENDING(id))
     }
+
+    async lessonWithQuiz(id: number | string): Promise<any> {
+        return await http.get(COURSE_API.LESSON_WITH_QUIZ(id))
+    }
 }
 
 export default new CourseService()

@@ -6,9 +6,9 @@ import { PlayCircleOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import LessonActionsFooter from '@/components/commons/LessonActionsFooter'
+import LessonQuizActionsFooter from '@/components/commons/LessonQuizActionsFooter'
 import LessonQuizHeader from '@/components/commons/LessonQuizHeader'
-import LessonSidebar from '@/components/commons/LessonSidebar'
+import LessonQuizSidebar from '@/components/commons/LessonQuizSidebar'
 import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import CourseService from '@/services/course'
 import LessonService from '@/services/lesson'
@@ -112,18 +112,16 @@ const LessonDetailPage: React.FC = () => {
                 />
             }
             sidebar={
-                <LessonSidebar
-                    lessons={lessons}
+                <LessonQuizSidebar
                     currentLessonId={lessonId}
+                    currentQuizId={null}
                     courseId={courseId}
                 />
             }
             footer={
-                <LessonActionsFooter
-                    getPrevLesson={getPrevLesson}
-                    getNextLesson={getNextLesson}
-                    handleLessonSelect={handleLessonSelect}
-                    currentLesson={currentLesson}
+                <LessonQuizActionsFooter
+                    currentElement={currentLesson}
+                    courseId={courseId}
                 />
             }
         >

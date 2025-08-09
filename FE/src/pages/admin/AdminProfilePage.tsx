@@ -185,7 +185,9 @@ const AdminProfilePage = () => {
                                 message: 'Vui lòng chọn ngày sinh',
                             },
                         ]}
-                        name="date_of_birth" label="Ngày sinh">
+                        name="date_of_birth"
+                        label="Ngày sinh"
+                    >
                         <Input type="date" />
                     </Form.Item>
                     <Form.Item
