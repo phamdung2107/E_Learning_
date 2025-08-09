@@ -34,7 +34,7 @@ import {
     getCurrentUserAction,
     loginAction,
 } from '@/stores/auth/authAction'
-import { setInstructor } from '@/stores/auth/authSlice'
+import { logout, setInstructor } from '@/stores/auth/authSlice'
 import { getCurrentCartAction } from '@/stores/cart/cartAction'
 import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
 import {
@@ -74,7 +74,13 @@ const AuthPage: React.FC = () => {
 
                 const user = userResponse.payload
                 if (user?.status === 'inactive') {
-                    putLocalStorage(SHOW_VERIFICATION_REMINDER, 'true')
+                    dispatch(logout())
+                    navigate(STUDENT_PATHS.STUDENT_VERIFICATION_REMINDER, {
+                        state: {
+                            email: user.email,
+                        },
+                    })
+                    return
                 }
                 if (user) {
                     const instructorRes = await dispatch(
