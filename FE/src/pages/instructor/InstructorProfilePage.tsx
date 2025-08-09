@@ -15,9 +15,11 @@ import { ReloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import InstructorWithDrawModal from '@/components/core/modal/InstructorWithDrawModal'
+import { BASE_IMAGE_URL } from '@/constants/image'
 import PaymentService from '@/services/payment'
 import UserService from '@/services/user'
-import { getCurrentUserAction } from '@/stores/auth/authAction'
+import { getCurrentInstructorAction } from '@/stores/auth/authAction'
+import { setInstructor } from '@/stores/auth/authSlice'
 import { formatPrice } from '@/utils/format'
 
 const InstructorProfilePage = () => {
@@ -26,8 +28,10 @@ const InstructorProfilePage = () => {
     const [form] = Form.useForm()
     const [passwordForm] = Form.useForm()
     const currentUser = useSelector((state: any) => state.auth.user)
-    const [previewImage, setPreviewImage] = useState(currentUser?.avatar || '')
-    const [selectedFile, setSelectedFile] = useState(null)
+    const [previewImage, setPreviewImage] = useState(
+        `${BASE_IMAGE_URL}${currentUser?.user?.avatar}` || ''
+    )
+    const [selectedFile, setSelectedFile] = useState<any>(null)
     const [isModalWithDrawOpen, setIsModalWithDrawOpen] = useState(false)
     const [withDrawLoading, setWithDrawLoading] = useState(false)
     const tabListNoTitle = [
@@ -49,7 +53,9 @@ const InstructorProfilePage = () => {
                 experience_years: currentUser.experience_years || 0,
                 linkedin_url: currentUser.linkedin_url || '',
             })
-            setPreviewImage(currentUser?.user?.avatar || '')
+            setPreviewImage(
+                `${BASE_IMAGE_URL}${currentUser?.user?.avatar}` || ''
+            )
         }
     }, [currentUser])
 
@@ -57,20 +63,41 @@ const InstructorProfilePage = () => {
         setActiveTabKey(key)
     }
 
+    const updateInstructorProfile = async () => {
+        const instructorRes = await dispatch(
+            getCurrentInstructorAction(currentUser?.user?.id)
+        )
+        if (instructorRes.payload) {
+            dispatch(setInstructor(instructorRes.payload))
+        }
+    }
+
     const handleUpdateProfile = async (values: any) => {
         try {
-            const resUser = await UserService.update(currentUser.user.id, {
-                full_name: values.full_name,
-                email: values.email,
-                date_of_birth: values.date_of_birth,
-                gender: values.gender,
-                phone: values.phone,
-            })
-            if (resUser.status === 200) {
+            const formData = new FormData()
+            formData.append('full_name', values.full_name)
+            formData.append('email', values.email)
+            formData.append('date_of_birth', values.date_of_birth)
+            formData.append('gender', values.gender)
+            formData.append('phone', values.phone)
+            if (selectedFile && selectedFile instanceof File) {
+                formData.append('avatar', selectedFile)
+            }
+            formData.append('_method', 'PUT')
+            const resUser = await UserService.update(
+                currentUser.user.id,
+                formData
+            )
+            if (resUser && resUser.status === 200) {
                 notification.success({
                     message: 'Cập nhật thông tin thành công',
                 })
-                dispatch(getCurrentUserAction())
+                await updateInstructorProfile()
+            } else {
+                notification.warning({
+                    // @ts-ignore
+                    message: resUser.message,
+                })
             }
         } catch (error) {
             console.error('Error updating profile:', error)
@@ -83,7 +110,7 @@ const InstructorProfilePage = () => {
     const handleFileChange = (info: any) => {
         const file = info.file
         if (file) {
-            setSelectedFile(file)
+            setSelectedFile(file as File)
             setPreviewImage(URL.createObjectURL(file))
         }
     }
@@ -164,10 +191,7 @@ const InstructorProfilePage = () => {
                                 objectFit: 'cover',
                                 objectPosition: 'center',
                             }}
-                            src={
-                                previewImage ||
-                                'https://placehold.co/100x100?text=Avatar'
-                            }
+                            src={previewImage}
                         />
                         <Upload
                             beforeUpload={() => false}
@@ -363,7 +387,7 @@ const InstructorProfilePage = () => {
                 tabBarExtraContent={
                     <Button
                         icon={<ReloadOutlined />}
-                        onClick={() => dispatch(getCurrentUserAction())}
+                        onClick={updateInstructorProfile}
                         type="link"
                     >
                         Làm mới

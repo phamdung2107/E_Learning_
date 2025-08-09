@@ -25,6 +25,7 @@ export const getCurrentInstructorAction: any = createAsyncThunk(
     'instructor/getByUser',
     async (userId: any, { rejectWithValue }) => {
         const res = await InstructorService.getByUser(userId)
+        console.log(res.data)
         return res.data
     }
 )

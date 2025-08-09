@@ -13,30 +13,21 @@ import {
 
 import { ReloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 
-import InstructorWithDrawModal from '@/components/core/modal/InstructorWithDrawModal'
-import RequestInstructorModal from '@/components/core/modal/RequestInstructorModal'
-import { StudentDepositModal } from '@/components/core/modal/StudentDepositModal'
-import InstructorService from '@/services/instructor'
-import PaymentService from '@/services/payment'
+import { BASE_IMAGE_URL } from '@/constants/image'
 import UserService from '@/services/user'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
-import { formatPrice } from '@/utils/format'
 
 const AdminProfilePage = () => {
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const [activeTabKey, setActiveTabKey] = useState<string>('profile')
     const [form] = Form.useForm()
     const [passwordForm] = Form.useForm()
     const currentUser = useSelector((state: any) => state.auth.user)
-    const [previewImage, setPreviewImage] = useState(currentUser?.avatar || '')
-    const [selectedFile, setSelectedFile] = useState(null)
-    const [isRequestModalOpen, setIsRequestModalOpen] = useState(false)
-    const [requestLoading, setRequestLoading] = useState(false)
-    const [isModalDepositOpen, setIsModalDepositOpen] = useState(false)
-    const [depositLoading, setDepositLoading] = useState(false)
+    const [previewImage, setPreviewImage] = useState(
+        `${BASE_IMAGE_URL}${currentUser?.avatar}` || ''
+    )
+    const [selectedFile, setSelectedFile] = useState<any>(null)
     const tabListNoTitle = [
         {
             key: 'profile',
@@ -51,7 +42,7 @@ const AdminProfilePage = () => {
     useEffect(() => {
         if (currentUser) {
             form.setFieldsValue(currentUser)
-            setPreviewImage(currentUser.avatar || '')
+            setPreviewImage(`${BASE_IMAGE_URL}${currentUser?.avatar}` || '')
         }
     }, [currentUser])
 
@@ -61,12 +52,27 @@ const AdminProfilePage = () => {
 
     const handleUpdateProfile = async (values: any) => {
         try {
-            const res = await UserService.update(currentUser.id, values)
+            const formData = new FormData()
+            formData.append('full_name', values.full_name)
+            formData.append('email', values.email)
+            formData.append('date_of_birth', values.date_of_birth)
+            formData.append('gender', values.gender)
+            formData.append('phone', values.phone)
+            if (selectedFile && selectedFile instanceof File) {
+                formData.append('avatar', selectedFile)
+            }
+            formData.append('_method', 'PUT')
+            const res = await UserService.update(currentUser.id, formData)
             if (res.status === 200) {
                 notification.success({
                     message: 'Cập nhật thông tin thành công',
                 })
                 dispatch(getCurrentUserAction())
+            } else {
+                notification.warning({
+                    // @ts-ignore
+                    message: res.message,
+                })
             }
         } catch (error) {
             console.error('Error updating profile:', error)
@@ -108,53 +114,6 @@ const AdminProfilePage = () => {
         }
     }
 
-    const handleDeposit = async (values: any) => {
-        setDepositLoading(true)
-        try {
-            const response = await PaymentService.create({
-                amount: values.amount,
-            })
-            if (response.status === 200) {
-                notification.success({
-                    message: 'Nạp tiền thành công',
-                })
-                window.open(
-                    response.data.payment_url.original.payment_url,
-                    '_blank'
-                )
-            }
-        } catch (error) {
-            console.error('Error depositing:', error)
-            notification.error({
-                message: 'Nạp tiền thất bại',
-            })
-        } finally {
-            setDepositLoading(false)
-            setIsModalDepositOpen(false)
-        }
-    }
-
-    const handleRequestInstructor = async (values: any) => {
-        setRequestLoading(true)
-        try {
-            const response =
-                await InstructorService.requestBecomeInstructor(values)
-            if (response.status === 200) {
-                notification.success({
-                    message: 'Gửi yêu cầu trở thành giảng viên thành công',
-                })
-            }
-        } catch (e) {
-            console.error('Error: ', e)
-            notification.error({
-                message: 'Gửi yêu cầu thất bại',
-            })
-        } finally {
-            setRequestLoading(false)
-            setIsRequestModalOpen(false)
-        }
-    }
-
     const contentListNoTitle: Record<string, React.ReactNode> = {
         profile: (
             <div>
@@ -180,10 +139,7 @@ const AdminProfilePage = () => {
                                 objectFit: 'cover',
                                 objectPosition: 'center',
                             }}
-                            src={
-                                previewImage ||
-                                'https://placehold.co/100x100?text=Avatar'
-                            }
+                            src={previewImage}
                         />
                         <Upload
                             beforeUpload={() => false}
@@ -210,27 +166,17 @@ const AdminProfilePage = () => {
                     <Form.Item name="email" label="Email">
                         <Input disabled />
                     </Form.Item>
-                    <Form.Item label="Số dư">
-                        <Input.Group compact>
-                            <Form.Item
-                                name="money"
-                                noStyle
-                                getValueProps={(value) => ({
-                                    value: value
-                                        ? formatPrice(Number(value))
-                                        : '',
-                                })}
-                            >
-                                <Input style={{ width: '80%' }} disabled />
-                            </Form.Item>
-                            <Button
-                                style={{ width: '20%' }}
-                                type="primary"
-                                onClick={() => setIsModalDepositOpen(true)}
-                            >
-                                Nạp tiền
-                            </Button>
-                        </Input.Group>
+                    <Form.Item
+                        name="phone"
+                        label="Số điện thoại"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập số điện thoại',
+                            },
+                        ]}
+                    >
+                        <Input />
                     </Form.Item>
                     <Form.Item name="date_of_birth" label="Ngày sinh">
                         <Input type="date" />
@@ -344,24 +290,6 @@ const AdminProfilePage = () => {
             >
                 {contentListNoTitle[activeTabKey]}
             </Card>
-            <StudentDepositModal
-                visible={isModalDepositOpen}
-                onClose={() => {
-                    // @ts-ignore
-                    setIsModalDepositOpen(false)
-                }}
-                onSubmit={(values: any) => handleDeposit(values)}
-                loading={depositLoading}
-            />
-            <RequestInstructorModal
-                visible={isRequestModalOpen}
-                onClose={() => {
-                    // @ts-ignore
-                    setIsRequestModalOpen(false)
-                }}
-                onSubmit={(values: any) => handleRequestInstructor(values)}
-                loading={requestLoading}
-            />
         </div>
     )
 }

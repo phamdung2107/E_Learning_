@@ -10,7 +10,6 @@ const DefaultLayout = () => {
         <Layout style={{ minHeight: '100vh' }}>
             <Content
                 style={{
-                    marginTop: '144px',
                     paddingBottom: '60px',
                     minHeight: 'calc(100vh - 144px - 80px)',
                     backgroundColor: '#f0f2f5',

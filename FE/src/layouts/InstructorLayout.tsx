@@ -17,6 +17,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
+import { BASE_IMAGE_URL } from '@/constants/image'
 import { INSTRUCTOR_PATHS, PATHS } from '@/routers/path'
 import { logout } from '@/stores/auth/authSlice'
 import { setCart } from '@/stores/cart/cartSlice'
@@ -196,6 +197,7 @@ const InstructorLayout: React.FC = () => {
                                 <Avatar
                                     size="default"
                                     icon={<UserOutlined />}
+                                    src={`${BASE_IMAGE_URL}${user?.user?.avatar}`}
                                     style={{ marginRight: '8px' }}
                                 />
                                 <span style={{ fontWeight: '500' }}>

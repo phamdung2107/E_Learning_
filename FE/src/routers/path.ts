@@ -40,6 +40,7 @@ export const STUDENT_PATHS = {
     STUDENT_TRANSACTIONS: '/student/transactions',
     STUDENT_NOTIFICATIONS: '/student/notifications',
     STUDENT_REQUEST_INSTRUCTOR: '/student/become-instructor',
+    STUDENT_VERIFICATION_REMINDER: '/student/verification-reminder',
 }
 
 export const INSTRUCTOR_PATHS = {

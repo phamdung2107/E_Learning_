@@ -20,6 +20,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
+import { BASE_IMAGE_URL } from '@/constants/image'
 import { PATHS, STUDENT_PATHS } from '@/routers/path'
 import { logout } from '@/stores/auth/authSlice'
 import { setCart } from '@/stores/cart/cartSlice'
@@ -227,6 +228,11 @@ const StudentLayout: React.FC = () => {
                                 <Avatar
                                     size="default"
                                     icon={<UserOutlined />}
+                                    src={
+                                        user.user
+                                            ? `${BASE_IMAGE_URL}${user.user?.avatar}`
+                                            : `${BASE_IMAGE_URL}${user?.avatar}`
+                                    }
                                     style={{ marginRight: '8px' }}
                                 />
                                 <span style={{ fontWeight: '500' }}>

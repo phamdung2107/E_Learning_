@@ -2,6 +2,8 @@ import type React from 'react'
 
 import { Avatar, Card, Rate, Typography } from 'antd'
 
+import { BASE_IMAGE_URL } from '@/constants/image'
+
 import './styles/FeedbackCard.css'
 
 const { Paragraph, Text } = Typography
@@ -26,7 +28,7 @@ const FeedbackCard = ({ review }: any) => {
                     <Avatar
                         src={
                             <img
-                                src={review?.user?.avatar}
+                                src={`${BASE_IMAGE_URL}${review?.user?.avatar}`}
                                 alt={review?.user?.full_name}
                             />
                         }

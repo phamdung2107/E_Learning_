@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios'
 
 import { USER_API } from '@/constants/api'
 import http from '@/services/http'
+import httpFile from '@/services/httpFile'
 
 class UserService {
     async getAll(params?: any): Promise<AxiosResponse<any>> {
@@ -17,7 +18,7 @@ class UserService {
     }
 
     async update(id: number | string, data: any): Promise<AxiosResponse<any>> {
-        return await http.put(USER_API.UPDATE(id), data)
+        return await httpFile.post(USER_API.UPDATE(id), data)
     }
 
     async delete(id: number | string): Promise<AxiosResponse<any>> {

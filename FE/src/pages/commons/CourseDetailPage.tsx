@@ -32,6 +32,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import CourseCard from '@/components/core/card/CourseCard'
 import { DATE_TIME_FORMAT } from '@/constants/date'
+import { BASE_IMAGE_URL } from '@/constants/image'
 import CourseService from '@/services/course'
 import EnrollmentService from '@/services/enrollment'
 import InstructorService from '@/services/instructor'
@@ -292,7 +293,7 @@ const CourseDetailPage: React.FC = () => {
                                 }}
                             >
                                 <img
-                                    src={course.thumbnail || '/placeholder.svg'}
+                                    src={`${BASE_IMAGE_URL}${course.thumbnail}`}
                                     alt={course.title}
                                     style={{
                                         width: '100%',

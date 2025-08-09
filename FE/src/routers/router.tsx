@@ -46,6 +46,7 @@ import StudentDashboardPage from '@/pages/student/StudentDashboardPage'
 import StudentNotificationPage from '@/pages/student/StudentNotificationPage'
 import StudentProfilePage from '@/pages/student/StudentProfilePage'
 import StudentTransactionPage from '@/pages/student/StudentTransactionPage'
+import StudentVerificationReminderPage from '@/pages/student/StudentVerificationReminderPage'
 import StudentWalletReturnPage from '@/pages/student/StudentWalletReturnPage'
 
 import {
@@ -95,6 +96,10 @@ const AppRouter = [
     </Route>,
     <Route element={<DefaultLayout />} key="auth-verify">
         <Route path={AUTH_PATHS.VERIFY_EMAIL} element={<VerifyEmailPage />} />
+        <Route
+            path={STUDENT_PATHS.STUDENT_VERIFICATION_REMINDER}
+            element={<StudentVerificationReminderPage />}
+        />
     </Route>,
     <Route
         element={

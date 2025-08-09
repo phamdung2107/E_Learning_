@@ -18,6 +18,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
+import { BASE_IMAGE_URL } from '@/constants/image'
 import { ADMIN_PATHS, PATHS } from '@/routers/path'
 import { logout } from '@/stores/auth/authSlice'
 import { setCart } from '@/stores/cart/cartSlice'
@@ -220,6 +221,7 @@ const AdminLayout = () => {
                                 <Avatar
                                     size="default"
                                     icon={<UserOutlined />}
+                                    src={`${BASE_IMAGE_URL}${user?.avatar}`}
                                     style={{ marginRight: '8px' }}
                                 />
                                 <span style={{ fontWeight: '500' }}>

@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Input, Modal, Typography } from 'antd'
+
+import EventService from '@/services/event'
+
+const { Text } = Typography
 
 export const StudentDepositModal = ({
     visible,
@@ -9,12 +13,29 @@ export const StudentDepositModal = ({
     loading,
 }: any) => {
     const [form] = Form.useForm()
+    const [event, setEvent] = React.useState<any>({})
+
+    const fetchEvent = async () => {
+        try {
+            const response = await EventService.getMaximumBonusPercent()
+            setEvent(response.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handleSubmit = (values: any) => {
-        onSubmit(values)
+        onSubmit({
+            ...values,
+            amount: (values.amount * (100 + event.bonus_percent)) / 100,
+        })
         onClose()
         form.resetFields()
     }
+
+    useEffect(() => {
+        fetchEvent()
+    }, [])
 
     return (
         <Modal
@@ -36,6 +57,7 @@ export const StudentDepositModal = ({
                     rules={[
                         { required: true, message: 'Vui lòng nhập số tiền' },
                     ]}
+                    style={{ marginBottom: 0 }}
                 >
                     <Input
                         allowClear
@@ -43,6 +65,14 @@ export const StudentDepositModal = ({
                         addonAfter={'VND'}
                     />
                 </Form.Item>
+                {event && event.bonus_percent > 0 && (
+                    <div style={{ marginBottom: 24 }}>
+                        <Text type="secondary">
+                            Chú ý: Hiện đang có khuyến mãi nạp tiền{' '}
+                            {event.bonus_percent}%
+                        </Text>
+                    </div>
+                )}
                 <Form.Item style={{ marginBottom: 0 }}>
                     <div style={{ display: 'flex' }}>
                         <Button key="cancel" type="default" onClick={onClose}>

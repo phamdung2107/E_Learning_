@@ -15,6 +15,7 @@ import { ReloadOutlined, UploadOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { StudentDepositModal } from '@/components/core/modal/StudentDepositModal'
+import { BASE_IMAGE_URL } from '@/constants/image'
 import { STUDENT_PATHS } from '@/routers/path'
 import PaymentService from '@/services/payment'
 import UserService from '@/services/user'
@@ -28,8 +29,11 @@ const StudentProfilePage = () => {
     const [passwordForm] = Form.useForm()
     const user = useSelector((state: any) => state.auth.user)
     const currentUser = user.user ? user.user : user
-    const [previewImage, setPreviewImage] = useState(currentUser?.avatar || '')
-    const [selectedFile, setSelectedFile] = useState(null)
+    const [previewImage, setPreviewImage] = useState(
+        `${BASE_IMAGE_URL}${currentUser?.user?.avatar}` ||
+            `${BASE_IMAGE_URL}${currentUser?.avatar}`
+    )
+    const [selectedFile, setSelectedFile] = useState<any>(null)
     const [isModalDepositOpen, setIsModalDepositOpen] = useState(false)
     const [depositLoading, setDepositLoading] = useState(false)
     const tabListNoTitle = [
@@ -46,7 +50,11 @@ const StudentProfilePage = () => {
     useEffect(() => {
         if (currentUser) {
             form.setFieldsValue(currentUser)
-            setPreviewImage(currentUser.avatar || '')
+            if (currentUser.user) {
+                setPreviewImage(`${BASE_IMAGE_URL}${currentUser?.user?.avatar}`)
+            } else {
+                setPreviewImage(`${BASE_IMAGE_URL}${currentUser?.avatar}`)
+            }
         }
     }, [currentUser])
 
@@ -56,7 +64,17 @@ const StudentProfilePage = () => {
 
     const handleUpdateProfile = async (values: any) => {
         try {
-            const res = await UserService.update(currentUser.id, values)
+            const formData = new FormData()
+            formData.append('full_name', values.full_name)
+            formData.append('email', values.email)
+            formData.append('date_of_birth', values.date_of_birth)
+            formData.append('gender', values.gender)
+            formData.append('phone', values.phone)
+            if (selectedFile && selectedFile instanceof File) {
+                formData.append('avatar', selectedFile)
+            }
+            formData.append('_method', 'PUT')
+            const res = await UserService.update(currentUser.id, formData)
             if (res.status === 200) {
                 notification.success({
                     message: 'Cập nhật thông tin thành công',
@@ -205,6 +223,18 @@ const StudentProfilePage = () => {
                                 Nạp tiền
                             </Button>
                         </Input.Group>
+                    </Form.Item>
+                    <Form.Item
+                        name="phone"
+                        label="Số điện thoại"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập số điện thoại',
+                            },
+                        ]}
+                    >
+                        <Input />
                     </Form.Item>
                     <Form.Item name="date_of_birth" label="Ngày sinh">
                         <Input type="date" />

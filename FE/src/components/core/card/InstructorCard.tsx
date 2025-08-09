@@ -11,6 +11,8 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 
+import { BASE_IMAGE_URL } from '@/constants/image'
+
 import './styles/InstructorCard.css'
 
 const { Title, Text, Paragraph } = Typography
@@ -48,7 +50,7 @@ const InstructorCard = ({ instructor }: any) => {
                 <div className="instructor-avatar">
                     {instructor.user.avatar ? (
                         <img
-                            src={instructor.user.avatar || '/placeholder.svg'}
+                            src={`${BASE_IMAGE_URL}${instructor.user.avatar}`}
                             alt={instructor.user.full_name}
                         />
                     ) : (
@@ -74,12 +76,16 @@ const InstructorCard = ({ instructor }: any) => {
                     {instructor.bio}
                 </Paragraph>
 
-                {/*<div className="instructor-stats">*/}
-                {/*    <div className="instructor-stat-item">*/}
-                {/*        <span className="instructor-stat-number experience">{instructor.experience_years}</span>*/}
-                {/*        <span className="instructor-stat-label">Năm kinh nghiệm</span>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                <div className="instructor-stats">
+                    <div className="instructor-stat-item">
+                        <span className="instructor-stat-number experience">
+                            {instructor.experience_years}
+                        </span>
+                        <span className="instructor-stat-label">
+                            Năm kinh nghiệm
+                        </span>
+                    </div>
+                </div>
 
                 <div className="instructor-contact">
                     <Button
