@@ -80,6 +80,11 @@ const StudentProfilePage = () => {
                     message: 'Cập nhật thông tin thành công',
                 })
                 dispatch(getCurrentUserAction())
+            } else {
+                notification.warning({
+                    // @ts-ignore
+                    message: res.message
+                })
             }
         } catch (error) {
             console.error('Error updating profile:', error)
@@ -236,7 +241,14 @@ const StudentProfilePage = () => {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item name="date_of_birth" label="Ngày sinh">
+                    <Form.Item
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng chọn ngày sinh',
+                            },
+                        ]}
+                        name="date_of_birth" label="Ngày sinh">
                         <Input type="date" />
                     </Form.Item>
                     <Form.Item
@@ -254,13 +266,6 @@ const StudentProfilePage = () => {
                             <Select.Option value="female">Nữ</Select.Option>
                         </Select>
                     </Form.Item>
-                    <Button
-                        style={{ padding: 0, marginBottom: 24 }}
-                        type="link"
-                        href={STUDENT_PATHS.STUDENT_REQUEST_INSTRUCTOR}
-                    >
-                        Bạn muốn trở thành giảng viên?
-                    </Button>
 
                     <Form.Item hidden name="avatar">
                         <Input />

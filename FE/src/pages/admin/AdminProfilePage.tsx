@@ -178,7 +178,14 @@ const AdminProfilePage = () => {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item name="date_of_birth" label="Ngày sinh">
+                    <Form.Item
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng chọn ngày sinh',
+                            },
+                        ]}
+                        name="date_of_birth" label="Ngày sinh">
                         <Input type="date" />
                     </Form.Item>
                     <Form.Item
