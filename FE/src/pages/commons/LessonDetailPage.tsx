@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
-import { Typography, message } from 'antd'
+import { Spin, Typography, message } from 'antd'
 
 import { PlayCircleOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import LessonQuizActionsFooter from '@/components/commons/LessonQuizActionsFooter'
 import LessonQuizHeader from '@/components/commons/LessonQuizHeader'
 import LessonQuizSidebar from '@/components/commons/LessonQuizSidebar'
+import { BASE_IMAGE_URL } from '@/constants/image'
 import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import CourseService from '@/services/course'
 import LessonService from '@/services/lesson'
@@ -20,7 +21,6 @@ const { Title, Text, Paragraph } = Typography
 const LessonDetailPage: React.FC = () => {
     const user = useSelector((store: any) => store.auth.user)
     const params = useParams()
-    const navigate = useNavigate()
     const courseId = params.courseId as string
     const lessonId = params.lessonId as string
 
@@ -68,25 +68,6 @@ const LessonDetailPage: React.FC = () => {
         if (courseId && lessonId) loadData()
     }, [courseId, lessonId, user.id])
 
-    const handleLessonSelect = (lesson: any) => {
-        if (lesson.id !== currentLesson?.id) {
-            navigate(`/courses/${courseId}/lessons/${lesson.id}`)
-        }
-    }
-
-    const getCurrentLessonIndex = () =>
-        lessons.findIndex((l: any) => l.id === Number(lessonId))
-
-    const getNextLesson = () => {
-        const idx = getCurrentLessonIndex()
-        return idx !== -1 && idx < lessons.length - 1 ? lessons[idx + 1] : null
-    }
-
-    const getPrevLesson = () => {
-        const idx = getCurrentLessonIndex()
-        return idx > 0 ? lessons[idx - 1] : null
-    }
-
     const getProgressPercentage = () => {
         if (!progress) return 0
         return Math.round((progress / lessons.length) * 100)
@@ -105,7 +86,7 @@ const LessonDetailPage: React.FC = () => {
             header={
                 <LessonQuizHeader
                     courseId={courseId}
-                    courseTitle={course.title}
+                    courseTitle={course?.title}
                     progress={progress}
                     totalLessons={lessons.length}
                     getProgressPercentage={getProgressPercentage}
@@ -138,12 +119,12 @@ const LessonDetailPage: React.FC = () => {
                         style={{ marginBottom: 32 }}
                     >
                         <div className="video-player">
-                            {currentLesson.video_url ? (
+                            {currentLesson?.video_url ? (
                                 <video
                                     controls
                                     width="100%"
                                     height="100%"
-                                    poster={currentLesson.thumbnail}
+                                    poster={`${BASE_IMAGE_URL}${currentLesson?.thumbnail}`}
                                 >
                                     <source
                                         src={currentLesson.video_url}
@@ -166,9 +147,9 @@ const LessonDetailPage: React.FC = () => {
                     </div>
                     <div style={{ padding: '0 36px' }}>
                         <div className="lesson-title-section">
-                            <Title level={3}>{currentLesson.title}</Title>
+                            <Title level={3}>{currentLesson?.title}</Title>
                         </div>
-                        {currentLesson.content && (
+                        {currentLesson?.content && (
                             <div
                                 className="lesson-content-section"
                                 style={{ marginBottom: 32 }}
@@ -196,6 +177,11 @@ const LessonDetailPage: React.FC = () => {
                     </div>
                 </div>
             </div>
+            {loading && (
+                <div className="full-page-loading">
+                    <Spin fullscreen={true} size="large" tip="Đang tải..." />
+                </div>
+            )}
         </LessonQuizDetailLayout>
     )
 }

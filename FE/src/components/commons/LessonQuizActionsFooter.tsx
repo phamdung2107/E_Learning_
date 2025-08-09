@@ -36,8 +36,7 @@ const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
     const currentItem =
         currentIndex !== -1 ? lessonWithQuiz[currentIndex] : null
 
-    const isPrevDisabled =
-        !currentItem || currentItem.is_pass !== 1 || currentIndex <= 0
+    const isPrevDisabled = !currentItem || currentIndex <= 0
 
     const isNextDisabled = (() => {
         if (!currentItem) return true

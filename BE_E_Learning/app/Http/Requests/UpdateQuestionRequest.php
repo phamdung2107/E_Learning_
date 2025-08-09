@@ -23,7 +23,7 @@ class UpdateQuestionRequest extends FormRequest
     {
         return [
             'question_text' => 'sometimes|required|string',
-            'question_type' => 'sometimes|required|in:single,multi,text',
+            'question_type' => 'sometimes|required|in:single,multiple,text',
             'order_number' => 'nullable|integer|min:1'
         ];
     }

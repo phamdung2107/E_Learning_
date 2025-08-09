@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import {
     Button,
     Card,
+    Checkbox,
     Modal,
     Progress,
     Radio,
@@ -44,10 +45,11 @@ const QuizDetailPage: React.FC = () => {
     const [progress, setProgress] = useState<any>(null)
     const [course, setCourse] = useState<any>(null)
     const [currentQuiz, setCurrentQuiz] = useState<any>(null)
-    const [quizzes, setQuizzes] = useState<any[]>([])
     const [lessons, setLessons] = useState<any[]>([])
     const [currentQuestion, setCurrentQuestion] = useState(0)
-    const [answers, setAnswers] = useState<{ [key: number]: string }>({})
+    const [answers, setAnswers] = useState<{
+        [key: number]: string | string[]
+    }>({})
     const [timeLeft, setTimeLeft] = useState(0)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [quizStarted, setQuizStarted] = useState(false)
@@ -124,25 +126,6 @@ const QuizDetailPage: React.FC = () => {
         if (courseId && quizId) fetchData()
     }, [courseId, quizId, user.id])
 
-    const handleQuizSelect = (quiz: any) => {
-        if (quiz.id !== currentQuiz?.id) {
-            navigate(`/courses/${courseId}/quizzes/${quiz.id}`)
-        }
-    }
-
-    const getCurrentQuizIndex = () =>
-        quizzes.findIndex((q: any) => q.id === Number(quizId))
-
-    const getNextQuiz = () => {
-        const idx = getCurrentQuizIndex()
-        return idx !== -1 && idx < quizzes.length - 1 ? quizzes[idx + 1] : null
-    }
-
-    const getPrevQuiz = () => {
-        const idx = getCurrentQuizIndex()
-        return idx > 0 ? quizzes[idx - 1] : null
-    }
-
     const getProgressPercentage = () => {
         if (!progress) return 0
         return Math.round((progress / lessons.length) * 100)
@@ -158,19 +141,37 @@ const QuizDetailPage: React.FC = () => {
             onOk: async () => {
                 setIsSubmitting(true)
                 try {
-                    const formattedAnswers = Object.keys(answers).map(
-                        (questionIndex) => ({
-                            question_id:
-                                questions[Number.parseInt(questionIndex)].id,
-                            answer_id: Number.parseInt(
-                                answers[Number.parseInt(questionIndex)]
-                            ),
-                        })
+                    const formattedAnswers = Object.keys(answers).flatMap(
+                        (questionIndexStr) => {
+                            const questionIndex =
+                                Number.parseInt(questionIndexStr)
+                            const questionId = questions[questionIndex].id
+                            const selectedAnswer = answers[questionIndex]
+
+                            if (Array.isArray(selectedAnswer)) {
+                                return selectedAnswer.map((answerId) => ({
+                                    question_id: questionId,
+                                    answer_id: Number.parseInt(answerId),
+                                }))
+                            } else if (selectedAnswer) {
+                                return [
+                                    {
+                                        question_id: questionId,
+                                        answer_id: Number.parseInt(
+                                            selectedAnswer as string
+                                        ),
+                                    },
+                                ]
+                            }
+                            return []
+                        }
                     )
+
                     const payload = {
                         quiz_id: Number.parseInt(quizId),
                         answers: formattedAnswers,
                     }
+
                     const response = await ResultQuizService.create(payload)
                     if (response.status === 200) {
                         notification.success({
@@ -208,7 +209,7 @@ const QuizDetailPage: React.FC = () => {
         }
     }
 
-    const handleAnswerChange = (value: string) => {
+    const handleAnswerChange = (value: any) => {
         setAnswers({
             ...answers,
             [currentQuestion]: value,
@@ -250,7 +251,7 @@ const QuizDetailPage: React.FC = () => {
             header={
                 <LessonQuizHeader
                     courseId={courseId}
-                    courseTitle={course.title}
+                    courseTitle={course?.title}
                     progress={progress}
                     totalLessons={lessons.length}
                     getProgressPercentage={getProgressPercentage}
@@ -464,32 +465,98 @@ const QuizDetailPage: React.FC = () => {
                                         </Title>
                                     </div>
 
-                                    <Radio.Group
-                                        value={answers[currentQuestion]}
-                                        onChange={(e) =>
-                                            handleAnswerChange(e.target.value)
-                                        }
-                                        className="quiz-options"
-                                    >
-                                        <div className="quiz-options-container">
-                                            {questions[
-                                                currentQuestion
-                                            ]?.options?.map(
-                                                (
-                                                    option: any,
-                                                    index: number
-                                                ) => (
-                                                    <Radio
-                                                        key={option.id}
-                                                        value={option.id.toString()}
-                                                        className="quiz-option"
-                                                    >
-                                                        {option.text}
-                                                    </Radio>
+                                    {questions[currentQuestion]
+                                        ?.question_type === 'single' ? (
+                                        <Radio.Group
+                                            value={
+                                                answers[
+                                                    currentQuestion
+                                                ] as string
+                                            }
+                                            onChange={(e) =>
+                                                handleAnswerChange(
+                                                    e.target.value
                                                 )
-                                            )}
-                                        </div>
-                                    </Radio.Group>
+                                            }
+                                            className="quiz-options"
+                                        >
+                                            <div className="quiz-options-container">
+                                                {questions[
+                                                    currentQuestion
+                                                ]?.options?.map(
+                                                    (option: any) => (
+                                                        <Radio
+                                                            key={option.id}
+                                                            value={option.id.toString()}
+                                                            className="quiz-option"
+                                                        >
+                                                            {option.text}
+                                                        </Radio>
+                                                    )
+                                                )}
+                                            </div>
+                                        </Radio.Group>
+                                    ) : (
+                                        <Checkbox.Group
+                                            value={
+                                                answers[
+                                                    currentQuestion
+                                                ] as string[]
+                                            }
+                                            onChange={(checkedValues) =>
+                                                handleAnswerChange(
+                                                    checkedValues
+                                                )
+                                            }
+                                            className="quiz-options"
+                                        >
+                                            <div
+                                                className="quiz-options-container"
+                                                style={{ width: '100%' }}
+                                            >
+                                                {questions[
+                                                    currentQuestion
+                                                ]?.options?.map(
+                                                    (option: any) => (
+                                                        <Checkbox
+                                                            key={option.id}
+                                                            value={option.id.toString()}
+                                                            className="quiz-option"
+                                                        >
+                                                            {option.text}
+                                                        </Checkbox>
+                                                    )
+                                                )}
+                                            </div>
+                                        </Checkbox.Group>
+                                    )}
+
+                                    {/*<Radio.Group*/}
+                                    {/*    value={answers[currentQuestion]}*/}
+                                    {/*    onChange={(e) =>*/}
+                                    {/*        handleAnswerChange(e.target.value)*/}
+                                    {/*    }*/}
+                                    {/*    className="quiz-options"*/}
+                                    {/*>*/}
+                                    {/*    <div className="quiz-options-container">*/}
+                                    {/*        {questions[*/}
+                                    {/*            currentQuestion*/}
+                                    {/*        ]?.options?.map(*/}
+                                    {/*            (*/}
+                                    {/*                option: any,*/}
+                                    {/*                index: number*/}
+                                    {/*            ) => (*/}
+                                    {/*                <Radio*/}
+                                    {/*                    key={option.id}*/}
+                                    {/*                    value={option.id.toString()}*/}
+                                    {/*                    className="quiz-option"*/}
+                                    {/*                >*/}
+                                    {/*                    {option.text}*/}
+                                    {/*                </Radio>*/}
+                                    {/*            )*/}
+                                    {/*        )}*/}
+                                    {/*    </div>*/}
+                                    {/*</Radio.Group>*/}
 
                                     {/* Navigation */}
                                     <div className="quiz-navigation">
