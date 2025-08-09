@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
-import {
-    Button,
-    Form,
-    Input,
-    Modal,
-    Select,
-    TreeSelect,
-    Upload,
-    notification,
-} from 'antd'
 
-import { UploadOutlined } from '@ant-design/icons'
-import { Editor } from '@tinymce/tinymce-react'
+
+import { Button, Form, Input, Modal, Select, TreeSelect, Upload, notification } from 'antd';
+
+
+
+import { UploadOutlined } from '@ant-design/icons';
+import { Editor } from '@tinymce/tinymce-react';
+import { BASE_IMAGE_URL } from '@/constants/image'
+
+
+
+
 
 const { Option } = Select
 const { TextArea } = Input
@@ -42,7 +42,7 @@ const UpdateCourseModal = ({
                               uid: '-1',
                               name: record.thumbnail,
                               status: 'done',
-                              url: record.thumbnail,
+                              url: `${BASE_IMAGE_URL}${record.thumbnail}`,
                           },
                       ]
                     : [],
@@ -54,7 +54,7 @@ const UpdateCourseModal = ({
                               uid: '-1',
                               name: record.thumbnail,
                               status: 'done',
-                              url: record.thumbnail,
+                              url: `${BASE_IMAGE_URL}${record.thumbnail}`,
                           },
                       ]
                     : []
@@ -78,7 +78,7 @@ const UpdateCourseModal = ({
                           uid: '-1',
                           name: record.thumbnail,
                           status: 'done',
-                          url: record.thumbnail,
+                          url: `${BASE_IMAGE_URL}${record.thumbnail}`,
                       },
                   ]
                 : [],
@@ -90,7 +90,7 @@ const UpdateCourseModal = ({
                           uid: '-1',
                           name: record.thumbnail,
                           status: 'done',
-                          url: record.thumbnail,
+                          url: `${BASE_IMAGE_URL}${record.thumbnail}`,
                       },
                   ]
                 : []
@@ -137,7 +137,7 @@ const UpdateCourseModal = ({
             title={`Chỉnh sửa khóa học: ${record?.title || 'Khóa học'}`}
             open={visible}
             onCancel={handleCancel}
-            width="30%"
+            width="40%"
             centered
             className="course-modal"
             footer={null}
