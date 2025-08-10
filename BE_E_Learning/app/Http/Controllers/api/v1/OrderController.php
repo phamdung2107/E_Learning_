@@ -83,23 +83,40 @@ class OrderController extends Controller
 
         DB::beginTransaction();
         try {
+            // Trừ tiền người mua
             $user->money -= $order->original_price;
             $user->save();
 
+            // Cộng tiền cho giảng viên (người bán)
+            $instructorUser = $order->course->instructor->user;
+            $instructorUser->money += $order->original_price;
+            $instructorUser->save();
+
+            // Cập nhật trạng thái đơn hàng
             $order->payment_status = 'paid';
             $order->save();
 
+            // Ghi nhận người học
             Enrollment::create([
                 'user_id' => $user->id,
                 'course_id' => $order->course_id,
                 'payment_status' => 'active'
             ]);
 
+            // Thông báo cho người mua
             Notification::create([
                 'user_id' => $user->id,
                 'type' => 'course',
                 'title' => 'Mua khóa học thành công',
-                'body' => 'Bạn đã mua khóa học thành công.'
+                'body' => 'Bạn đã mua khóa học "' . $order->course->title . '" thành công.'
+            ]);
+
+            // Thông báo cho người bán
+            Notification::create([
+                'user_id' => $instructorUser->id,
+                'type' => 'sale',
+                'title' => 'Khóa học được mua',
+                'body' => 'Bạn vừa bán được khóa học "' . $order->course->title . '".'
             ]);
 
             DB::commit();
@@ -107,8 +124,9 @@ class OrderController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => $e], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
+
     }
 
     /**
