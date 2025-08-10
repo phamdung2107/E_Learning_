@@ -6,6 +6,7 @@ import { LeftOutlined, PrinterOutlined, RightOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import { STUDENT_PATHS } from '@/routers/path'
 import CertificateService from '@/services/certificate'
 import CourseService from '@/services/course'
 import ProgressService from '@/services/progress'
@@ -38,8 +39,8 @@ const LessonQuizActionsFooter = ({
                 course_id: Number(courseId),
                 lesson_id: Number(lessonId),
             })
-            console.log(response)
             await fetchLessonWithQuiz()
+            return response
         } catch (error) {
             console.log(error)
         }
@@ -93,8 +94,6 @@ const LessonQuizActionsFooter = ({
         lessonWithQuiz.length > 0 &&
         lessonWithQuiz.every((item) => item.is_pass === 1)
 
-    const isPrintDisabled = !(isOnLastLessonOrQuiz && isAllPassed)
-
     const getPrevItem = () => {
         if (isPrevDisabled) return null
         return lessonWithQuiz[currentIndex - 1]
@@ -112,10 +111,15 @@ const LessonQuizActionsFooter = ({
                 !currentElement.lesson_id &&
                 currentElement?.quizzes?.length === 0
             ) {
-                maskCompletedLesson(currentElement.id).then(() => {})
-                window.location.href = `/courses/${courseId}/lessons/${item.id}`
+                maskCompletedLesson(currentElement.id).then((res) => {
+                    if (res.status === 200) {
+                        navigate(`/courses/${courseId}/lessons/${item.id}`)
+                        navigate(0)
+                    }
+                })
+            } else {
+                navigate(`/courses/${courseId}/lessons/${item.id}`)
             }
-            navigate(`/courses/${courseId}/lessons/${item.id}`)
         } else if (item.type === 'quiz') {
             navigate(`/courses/${courseId}/quizzes/${item.id}`)
         }
@@ -125,6 +129,19 @@ const LessonQuizActionsFooter = ({
         setLoading(true)
         try {
             const userId = user.user ? user.user.id : user.id
+            const noQuizAfterLastLesson =
+                isOnLastLessonOrQuiz &&
+                currentItem?.type === 'lesson' &&
+                !lessonWithQuiz.some(
+                    (item) =>
+                        item.type === 'quiz' &&
+                        item.lesson_id === currentItem.id
+                )
+
+            if (noQuizAfterLastLesson) {
+                await maskCompletedLesson(currentItem.id)
+            }
+
             const response = await CertificateService.create({
                 user_id: Number(userId),
                 course_id: Number(courseId),
@@ -132,8 +149,9 @@ const LessonQuizActionsFooter = ({
             if (response.status === 200) {
                 notification.success({
                     message:
-                        'Tạo chứng chỉ thành công. Bạn có thể kiểm tra ở trong trang quản lý',
+                        'Tạo chứng chỉ thành công. Đang điều hướng đến trang quản lý chứng chỉ',
                 })
+                navigate(STUDENT_PATHS.STUDENT_CERTIFICATE)
             } else {
                 notification.warning({
                     message: response?.message,
@@ -141,7 +159,7 @@ const LessonQuizActionsFooter = ({
             }
         } catch (error) {
             notification.error({
-                message: 'Tạo chứng chỉ thất bại',
+                message: 'Chứng chỉ đã tồn tại',
             })
         } finally {
             setLoading(false)
@@ -163,7 +181,18 @@ const LessonQuizActionsFooter = ({
                 </Col>
                 <Col>
                     <Button
-                        disabled={progress !== totalLessons}
+                        disabled={
+                            !(
+                                progress === totalLessons ||
+                                (isOnLastLessonOrQuiz &&
+                                    currentItem?.type === 'lesson' &&
+                                    !lessonWithQuiz.some(
+                                        (item) =>
+                                            item.type === 'quiz' &&
+                                            item.lesson_id === currentItem.id
+                                    ))
+                            )
+                        }
                         onClick={handlePrint}
                         icon={<PrinterOutlined />}
                         size="large"

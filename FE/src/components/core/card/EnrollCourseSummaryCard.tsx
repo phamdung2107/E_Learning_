@@ -92,7 +92,7 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
                     </div>
                 </Col>
                 <Col xs={24} sm={6} style={{ textAlign: 'right' }}>
-                    {completedLessons === lessons ? (
+                    {completedLessons === lessons && completedLessons > 0 ? (
                         <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>
                             <Button
                                 variant="solid"
