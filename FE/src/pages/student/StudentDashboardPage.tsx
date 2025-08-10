@@ -52,7 +52,7 @@ const StudentDashboard: React.FC = () => {
 
     const fetchNotifications = async () => {
         try {
-            const response = await NotificationService.getAll()
+            const response = await NotificationService.getAllUnread()
             setNotifications(response.data)
         } catch (e) {
             console.error('Failed to fetch notifications:', e)
