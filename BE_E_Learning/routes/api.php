@@ -127,6 +127,7 @@ Route::prefix('progress')->group(function () {
     Route::delete('/{id}', [ProgressTrackingController::class, 'destroy']);
     Route::get('/user/{userId}/course/{courseId}', [ProgressTrackingController::class, 'getByUserCourse']);
     Route::post('/complete', [ProgressTrackingController::class, 'completeLesson']);
+    Route::get('/is-course-completed/user/{userId}/course/{courseId}', [ProgressTrackingController::class, 'isCourseCompleted']);
 });
 
 

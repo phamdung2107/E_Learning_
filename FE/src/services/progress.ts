@@ -36,6 +36,15 @@ class ProgressService {
     async getSummary(): Promise<any> {
         return await http.get(PROGRESS_API.SUMMARY)
     }
+
+    async isCompletedCourse(
+        userId: number | string,
+        courseId: number | string
+    ): Promise<any> {
+        return await http.get(
+            PROGRESS_API.IS_COURSE_COMPLETED(userId, courseId)
+        )
+    }
 }
 
 export default new ProgressService()

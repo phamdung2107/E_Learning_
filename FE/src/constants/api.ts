@@ -233,6 +233,8 @@ export const PROGRESS_API = {
     COMPLETE_LESSON: `/progress/complete`,
     BY_USER_COURSE: (userId: number | string, courseId: number | string) =>
         `/progress/user/${userId}/course/${courseId}`,
+    IS_COURSE_COMPLETED: (userId: number | string, courseId: number | string) =>
+        `/progress/is-course-completed/user/${userId}/course/${courseId}`,
 }
 
 export const CERTIFICATE_API = {

@@ -17,6 +17,7 @@ const { Title, Text } = Typography
 
 const CourseSummaryCard = ({ course }: any) => {
     const user = useSelector((store: any) => store.auth.user)
+    const userId = user.user ? user.user.id : user.id
     const [averageRating, setAverageRating] = useState(0)
     const [isEnrolled, setIsEnrolled] = useState<any>('')
 
@@ -33,7 +34,7 @@ const CourseSummaryCard = ({ course }: any) => {
 
     useEffect(() => {
         fetchAverageRating()
-        EnrollmentService.checkEnrollment(user.id, course.id)
+        EnrollmentService.checkEnrollment(userId, course.course_id)
             .then((res) => {
                 setIsEnrolled(res.data)
             })

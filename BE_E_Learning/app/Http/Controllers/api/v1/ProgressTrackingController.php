@@ -194,4 +194,39 @@ class ProgressTrackingController extends Controller
             'completed_courses' => $completedCoursesCount,
         ]);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/progress/is-course-completed/user/{userId}/course/{courseId}",
+     *     summary="Kiểm tra khóa học đã hoàn thành chưa",
+     *     tags={"Progress Tracking"},
+     *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="courseId", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Trạng thái hoàn thành khóa học")
+     * )
+     */
+    public function isCourseCompleted($userId, $courseId)
+    {
+        $totalLessons = \App\Models\Lesson::where('course_id', $courseId)->count();
+
+        if ($totalLessons === 0) {
+            return Response::data([
+                'is_completed' => false,
+                'message' => 'Khoá học không có bài học nào'
+            ]);
+        }
+
+        $completedLessons = ProgressTracking::where('user_id', $userId)
+            ->where('course_id', $courseId)
+            ->where('is_completed', true)
+            ->count();
+
+        $isCompleted = ($totalLessons === $completedLessons);
+
+        return Response::data([
+            'is_completed' => $isCompleted,
+            'total_lessons' => $totalLessons,
+            'completed_lessons' => $completedLessons
+        ]);
+    }
 }
