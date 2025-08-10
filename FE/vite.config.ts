@@ -16,5 +16,11 @@ export default defineConfig({
         outDir: 'dist',
         chunkSizeWarningLimit: 1500,
     },
+    optimizeDeps: {
+        include: ['@antv/x6-react-shape'] 
+      },
+      ssr: {
+        noExternal: ['@antv/x6-react-shape'] 
+      },
     plugins: [react()],
 })

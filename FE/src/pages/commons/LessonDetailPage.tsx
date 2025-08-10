@@ -20,6 +20,7 @@ const { Title, Text, Paragraph } = Typography
 
 const LessonDetailPage: React.FC = () => {
     const user = useSelector((store: any) => store.auth.user)
+    const userId = user.user ? user.user.id : user.id
     const params = useParams()
     const courseId = params.courseId as string
     const lessonId = params.lessonId as string
@@ -38,7 +39,7 @@ const LessonDetailPage: React.FC = () => {
                     await Promise.all([
                         CourseService.getDetail(courseId),
                         LessonService.getByCourse(courseId),
-                        ProgressService.getByUserCourse(user.id, courseId),
+                        ProgressService.getByUserCourse(userId, courseId),
                         LessonService.getDetail(lessonId),
                     ])
                 setCourse(courseRes.data)

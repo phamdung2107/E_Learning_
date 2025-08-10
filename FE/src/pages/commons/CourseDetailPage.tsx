@@ -138,7 +138,9 @@ const CourseDetailPage: React.FC = () => {
 
     useEffect(() => {
         if (user) {
-            EnrollmentService.checkEnrollment(user.id, courseId).then((res) => {
+            const userId = user.user ? user.user.id : user.id
+            console.log(user)
+            EnrollmentService.checkEnrollment(userId, courseId).then((res) => {
                 setIsEnrolled(res.data)
             })
         } else {

@@ -23,6 +23,7 @@ const { Title, Text } = Typography
 
 const ResultQuizPage = () => {
     const user = useSelector((state: any) => state.auth.user)
+    const userId = user.user ? user.user.id : user.id
     const params = useParams()
     const location = useLocation()
     const courseId = params.courseId as string
@@ -37,7 +38,7 @@ const ResultQuizPage = () => {
     const fetchData = async () => {
         try {
             const progressResponse = await ProgressService.getByUserCourse(
-                user.id,
+                userId,
                 courseId
             )
             setProgress(progressResponse.total)

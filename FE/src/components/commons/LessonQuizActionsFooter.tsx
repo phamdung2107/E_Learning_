@@ -38,6 +38,7 @@ const LessonQuizActionsFooter = ({
                 course_id: Number(courseId),
                 lesson_id: Number(lessonId),
             })
+            console.log(response)
             await fetchLessonWithQuiz()
         } catch (error) {
             console.log(error)

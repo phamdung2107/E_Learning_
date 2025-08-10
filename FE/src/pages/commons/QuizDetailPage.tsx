@@ -37,6 +37,7 @@ const { Title, Paragraph, Text } = Typography
 
 const QuizDetailPage: React.FC = () => {
     const user = useSelector((store: any) => store.auth.user)
+    const userId = user.user ? user.user.id : user.id
     const params = useParams()
     const navigate = useNavigate()
     const courseId = params.courseId as string
@@ -58,7 +59,7 @@ const QuizDetailPage: React.FC = () => {
     const fetchData = async () => {
         try {
             const progressResponse = await ProgressService.getByUserCourse(
-                user.id,
+                userId,
                 courseId
             )
             setProgress(progressResponse.total)
