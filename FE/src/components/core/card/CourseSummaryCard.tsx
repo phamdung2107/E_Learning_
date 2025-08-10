@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card, Rate, Space, Typography } from 'antd'
 
 import { UserOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { BASE_IMAGE_URL } from '@/constants/image'
+import EnrollmentService from '@/services/enrollment'
 import ReviewService from '@/services/review'
 import { formatPrice } from '@/utils/format'
 
@@ -14,7 +16,9 @@ import './styles/CourseSummaryCard.css'
 const { Title, Text } = Typography
 
 const CourseSummaryCard = ({ course }: any) => {
+    const user = useSelector((store: any) => store.auth.user)
     const [averageRating, setAverageRating] = useState(0)
+    const [isEnrolled, setIsEnrolled] = useState<any>('')
 
     const fetchAverageRating = async () => {
         try {
@@ -29,6 +33,11 @@ const CourseSummaryCard = ({ course }: any) => {
 
     useEffect(() => {
         fetchAverageRating()
+        EnrollmentService.checkEnrollment(user.id, course.id)
+            .then((res) => {
+                setIsEnrolled(res.data)
+            })
+            .catch(() => setIsEnrolled('cancelled'))
     }, [course])
 
     return (
@@ -52,7 +61,9 @@ const CourseSummaryCard = ({ course }: any) => {
                     block
                     className="course-enroll-btn"
                 >
-                    Đăng ký ngay - {formatPrice(course.course.price)}
+                    {isEnrolled === 'active' || isEnrolled === 'completed'
+                        ? `Đăng ký ngay - ${formatPrice(course.course.price)}`
+                        : `Tiếp tục học`}
                 </Button>,
             ]}
         >

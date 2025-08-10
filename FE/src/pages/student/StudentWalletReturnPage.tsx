@@ -33,6 +33,7 @@ const StudentWalletReturnPage = () => {
             const res = await PaymentService.process(params)
             if (res.status === 200) {
                 setStatus('success')
+                setAmount(res.data.total_added)
             } else {
                 setStatus('fail')
             }
@@ -43,7 +44,6 @@ const StudentWalletReturnPage = () => {
 
     useEffect(() => {
         const params = getQueryParams()
-        setAmount(params.vnp_Amount ? Number(params.vnp_Amount) / 100 : null)
         checkPayment(params)
     }, [location.search])
 

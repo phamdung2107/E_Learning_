@@ -662,7 +662,7 @@ const HomePage: React.FC = () => {
                                 level={3}
                                 style={{ margin: 0, color: '#721c24' }}
                             >
-                                Giảm giá tới{' '}
+                                Tăng giá trị nạp tiền lên đến{' '}
                                 <span
                                     style={{
                                         color: '#d9534f',
@@ -675,7 +675,7 @@ const HomePage: React.FC = () => {
                             <Paragraph
                                 style={{ color: '#721c24', marginTop: '8px' }}
                             >
-                                Áp dụng cho tất cả các khóa học!
+                                Áp dụng cho tất cả các học sinh!
                             </Paragraph>
                         </div>
                         <Paragraph

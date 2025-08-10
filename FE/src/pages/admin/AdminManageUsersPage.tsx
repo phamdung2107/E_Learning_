@@ -3,8 +3,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Button, Card, Table, Typography, notification } from 'antd'
 
 import { FilterOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
-import Search from 'antd/es/input/Search'
-import { useSelector } from 'react-redux'
 
 import AdminFilterUserDrawer from '@/components/core/drawer/AdminFilterUserDrawer'
 import AdminCreateUserModal from '@/components/core/modal/AdminCreateUserModal'
@@ -17,8 +15,6 @@ import UserService from '@/services/user'
 const { Title, Text } = Typography
 
 const AdminManageUsersPage = () => {
-    const user = useSelector((store: any) => store.auth.user)
-
     const [record, setRecord] = useState<any>(null)
     const [refreshLoading, setRefreshLoading] = useState(false)
     const [users, setUsers] = useState<any[]>([])
@@ -38,7 +34,7 @@ const AdminManageUsersPage = () => {
         setRefreshLoading(true)
         try {
             const response = await UserService.getAll({})
-            setUsers(response.data)
+            setUsers(response.data.filter((user: any) => user.role !== 'admin'))
         } catch (e) {
             console.error(e)
         } finally {
@@ -72,13 +68,21 @@ const AdminManageUsersPage = () => {
     const handleUpdateUser = async (values: any) => {
         setUpdateUserLoading(true)
         try {
-            await UserService.update(record.id, {
-                full_name: values.full_name,
-                email: values.email,
-                phone: values.phone,
-                gender: values.gender,
-                date_of_birth: values.date_of_birth,
-            })
+            const formData = new FormData()
+            formData.append('full_name', values.full_name)
+            formData.append('email', values.email)
+            formData.append('phone', values.phone)
+            formData.append('gender', values.gender)
+            formData.append('date_of_birth', values.date_of_birth)
+            formData.append('_method', 'PUT')
+            const resUserInfo = await UserService.update(record.id, formData)
+            if (resUserInfo.status !== 200) {
+                notification.warning({
+                    // @ts-ignore
+                    message: resUserInfo.message,
+                })
+                return
+            }
 
             if (values.status) {
                 try {
@@ -89,6 +93,7 @@ const AdminManageUsersPage = () => {
                     notification.warning({
                         message: 'Cập nhật trạng thái thất bại',
                     })
+                    return
                 }
             }
 
@@ -101,6 +106,7 @@ const AdminManageUsersPage = () => {
                     notification.warning({
                         message: 'Cập nhật vai trò thất bại',
                     })
+                    return
                 }
             }
             await fetchData()

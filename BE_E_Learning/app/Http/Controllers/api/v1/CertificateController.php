@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\Notification;
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
@@ -95,6 +96,10 @@ class CertificateController extends Controller
         $course = Course::findOrFail($validated['course_id']);
         $issueDate = Carbon::now()->format('d/m/Y');
 
+        $updated = Enrollment::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->update(['status' => 'completed']);
+
         // Tạo nội dung PDF từ view
         $pdf = Pdf::loadView('certificates.template', [
             'user_name' => $user->full_name,
@@ -115,10 +120,10 @@ class CertificateController extends Controller
         ]);
 
         Notification::create([
-            'user_id' => $cert->user_id,
+            'user_id' => $certificate->user_id,
             'type' => 'system',
             'title' => 'Chúc mừng bạn nhận chứng chỉ!',
-            'message' => "Bạn đã hoàn thành khóa học '{$cert->course->title}' và nhận được chứng chỉ."
+            'message' => "Bạn đã hoàn thành khóa học '{$certificate->course->title}' và nhận được chứng chỉ."
         ]);
 
         return Response::data(new CertificateResource($certificate));

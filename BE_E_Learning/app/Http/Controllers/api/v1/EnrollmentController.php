@@ -174,10 +174,10 @@ class EnrollmentController extends Controller
      */
     public function checkEnrollment($userId, $courseId)
     {
-        $exists = Enrollment::where('user_id', $userId)
-            ->where('course_id', $courseId)
-            ->exists();
+        $status = Enrollment::where('user_id', $userId)
+        ->where('course_id', $courseId)
+        ->value('status');
 
-        return Response::data($exists);
+        return Response::data($status);
     }
 }

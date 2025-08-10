@@ -74,23 +74,6 @@ const AdminManageCoursesPage = () => {
         }
     }
 
-    const handleDeleteCourse = async (values: any) => {
-        try {
-            const response = await CourseService.delete(values.id)
-            if (response.status === 200) {
-                await fetchData()
-                notification.success({
-                    message: 'Xóa khóa học thành công',
-                })
-            }
-        } catch (e) {
-            console.error(e)
-            notification.error({
-                message: 'Xóa khóa học thất bại',
-            })
-        }
-    }
-
     const handlePublishCourse = async (values: any) => {
         try {
             const response = await CourseService.publish(values.id)
@@ -108,12 +91,27 @@ const AdminManageCoursesPage = () => {
         }
     }
 
-    const openModalDelete = (item: any) => {
-        handleDeleteCourse(item)
+    const handleDraftCourse = async (values: any) => {
+        try {
+            const response = await CourseService.draft(values.id)
+            if (response.status === 200) {
+                await fetchData()
+                notification.success({
+                    message: 'Từ chối đăng tải khóa học thành công',
+                })
+            }
+        } catch (e) {
+            notification.error({
+                message: 'Từ chối đăng tải khóa học thất bại. Vui lòng thử lại',
+            })
+        }
     }
 
     const columns: any = useMemo(() => {
-        return getAdminManageCourseColumns(openModalDelete, handlePublishCourse)
+        return getAdminManageCourseColumns(
+            handleDraftCourse,
+            handlePublishCourse
+        )
     }, [])
 
     useEffect(() => {

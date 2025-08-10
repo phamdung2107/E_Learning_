@@ -265,7 +265,7 @@ export const getManageCourseColumns = (
 ]
 
 export const getAdminManageCourseColumns = (
-    openModalDelete: (record: any) => void,
+    draftCourse: (record: any) => void,
     publishCourse: (record: any) => void
 ) => [
     {
@@ -370,25 +370,6 @@ export const getAdminManageCourseColumns = (
         fixed: 'right',
         render: (record: any) => (
             <Space>
-                <Tooltip title="Xóa khóa học" placement="bottom">
-                    <Popconfirm
-                        title="Xóa khóa học"
-                        description={`Bạn có chắc chắn muốn xóa khóa học này?`}
-                        onConfirm={(e) => {
-                            // @ts-ignore
-                            e.stopPropagation()
-                            openModalDelete(record)
-                        }}
-                        onCancel={() => {}}
-                        icon={
-                            <QuestionCircleOutlined style={{ color: 'red' }} />
-                        }
-                        okText="Xóa"
-                        cancelText="Hủy"
-                    >
-                        <Button danger size="small" icon={<DeleteOutlined />} />
-                    </Popconfirm>
-                </Tooltip>
                 <Tooltip title="Đăng tải khóa học" placement="bottom">
                     <Popconfirm
                         title="Đăng tải khóa học"
@@ -413,6 +394,29 @@ export const getAdminManageCourseColumns = (
                             color="green"
                             icon={<UploadOutlined />}
                             disabled={record.status === 'published'}
+                        />
+                    </Popconfirm>
+                </Tooltip>
+                <Tooltip title="Từ chối đăng tải" placement="bottom">
+                    <Popconfirm
+                        title="Từ chối đăng tải"
+                        description={`Bạn có chắc chắn muốn từ chối đăng tải khóa học này?`}
+                        onConfirm={(e) => {
+                            // @ts-ignore
+                            e.stopPropagation()
+                            draftCourse(record)
+                        }}
+                        onCancel={() => {}}
+                        icon={
+                            <QuestionCircleOutlined style={{ color: 'red' }} />
+                        }
+                        okText="OK"
+                        cancelText="Hủy"
+                    >
+                        <Button
+                            danger
+                            size="small"
+                            icon={<CloseCircleOutlined />}
                         />
                     </Popconfirm>
                 </Tooltip>
@@ -1351,7 +1355,7 @@ export const getManageRequestedColumns: any = (
                         onConfirm={(e) => {
                             // @ts-ignore
                             e.stopPropagation()
-                            onReject(record)
+                            onAccept(record)
                         }}
                         onCancel={() => {}}
                         icon={

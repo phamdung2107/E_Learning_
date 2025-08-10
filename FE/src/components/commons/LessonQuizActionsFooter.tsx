@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 
-import { Button, Col, Row } from 'antd'
+import { Button, Col, Row, notification } from 'antd'
 
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { LeftOutlined, PrinterOutlined, RightOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import CertificateService from '@/services/certificate'
 import CourseService from '@/services/course'
 import { convertLessonWithQuizData } from '@/utils/convert'
 
 const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
+    const user = useSelector((state: any) => state.auth.user)
     const [lessonWithQuiz, setLessonWithQuiz] = useState<any[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
     const navigate = useNavigate()
 
     const fetchLessonWithQuiz = async () => {
@@ -55,6 +59,22 @@ const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
         return true
     })()
 
+    const lastLesson = [...lessonWithQuiz]
+        .filter((item) => item.type === 'lesson')
+        .sort((a, b) => b.id - a.id)[0]
+
+    const isOnLastLessonOrQuiz =
+        currentItem &&
+        ((currentItem.type === 'lesson' && currentItem.id === lastLesson?.id) ||
+            (currentItem.type === 'quiz' &&
+                currentItem.lesson_id === lastLesson?.id))
+
+    const isAllPassed =
+        lessonWithQuiz.length > 0 &&
+        lessonWithQuiz.every((item) => item.is_pass === 1)
+
+    const isPrintDisabled = !(isOnLastLessonOrQuiz && isAllPassed)
+
     const getPrevItem = () => {
         if (isPrevDisabled) return null
         return lessonWithQuiz[currentIndex - 1]
@@ -62,7 +82,6 @@ const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
 
     const getNextItem = () => {
         if (isNextDisabled) return null
-        console.log(lessonWithQuiz[currentIndex + 1])
         return lessonWithQuiz[currentIndex + 1]
     }
 
@@ -72,6 +91,33 @@ const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
             navigate(`/courses/${courseId}/lessons/${item.id}`)
         } else if (item.type === 'quiz') {
             navigate(`/courses/${courseId}/quizzes/${item.id}`)
+        }
+    }
+
+    const handlePrint = async () => {
+        setLoading(true)
+        try {
+            const userId = user.user ? user.user.id : user.id
+            const response = await CertificateService.create({
+                user_id: Number(userId),
+                course_id: Number(courseId),
+            })
+            if (response.status === 200) {
+                notification.success({
+                    message:
+                        'Tạo chứng chỉ thành công. Bạn có thể kiểm tra ở trong trang quản lý',
+                })
+            } else {
+                notification.warning({
+                    message: response?.message,
+                })
+            }
+        } catch (error) {
+            notification.error({
+                message: 'Tạo chứng chỉ thất bại',
+            })
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -86,6 +132,17 @@ const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
                         size="large"
                     >
                         Bài trước
+                    </Button>
+                </Col>
+                <Col>
+                    <Button
+                        disabled={isPrintDisabled}
+                        onClick={handlePrint}
+                        icon={<PrinterOutlined />}
+                        size="large"
+                        loading={loading}
+                    >
+                        In chứng chỉ
                     </Button>
                 </Col>
                 <Col>

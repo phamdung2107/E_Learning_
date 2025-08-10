@@ -58,6 +58,7 @@ export const COURSE_API = {
     ARCHIVE: (id: any) => `/courses/${id}/archive`,
     PUBLISH: (id: any) => `/courses/${id}/publish`,
     PENDING: (id: any) => `/courses/${id}/pending`,
+    DRAFT: (id: any) => `/courses/${id}/draft`,
 }
 
 export const CATEGORY_API = {

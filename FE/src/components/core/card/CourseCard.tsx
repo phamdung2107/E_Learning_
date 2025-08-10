@@ -5,9 +5,11 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card, ConfigProvider, Rate, Typography } from 'antd'
 
 import { UserOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { BASE_IMAGE_URL } from '@/constants/image'
+import EnrollmentService from '@/services/enrollment'
 import ReviewService from '@/services/review'
 import { formatPrice } from '@/utils/format'
 
@@ -16,7 +18,9 @@ import './styles/CourseCard.css'
 const { Title, Text, Paragraph } = Typography
 
 const CourseCard = ({ course, onEnroll }: any) => {
+    const user = useSelector((store: any) => store.auth.user)
     const [averageRating, setAverageRating] = useState(0)
+    const [isEnrolled, setIsEnrolled] = useState<any>('')
 
     const fetchAverageRating = async () => {
         try {
@@ -29,6 +33,11 @@ const CourseCard = ({ course, onEnroll }: any) => {
 
     useEffect(() => {
         fetchAverageRating()
+        EnrollmentService.checkEnrollment(user.id, course.id)
+            .then((res) => {
+                setIsEnrolled(res.data)
+            })
+            .catch(() => setIsEnrolled('cancelled'))
     }, [course])
 
     const handleEnroll = () => {
@@ -69,13 +78,24 @@ const CourseCard = ({ course, onEnroll }: any) => {
                         <span className="course-card-price">
                             {formatPrice(course?.price)}
                         </span>
-                        <Button
-                            type="primary"
-                            className="course-card-btn"
-                            onClick={handleEnroll}
-                        >
-                            Đăng ký
-                        </Button>
+                        {isEnrolled === 'active' ||
+                        isEnrolled === 'completed' ? (
+                            <Button
+                                type="primary"
+                                className="course-card-btn"
+                                onClick={handleEnroll}
+                            >
+                                Tiếp tục học
+                            </Button>
+                        ) : (
+                            <Button
+                                type="primary"
+                                className="course-card-btn"
+                                onClick={handleEnroll}
+                            >
+                                Đăng ký
+                            </Button>
+                        )}
                     </div>
                 </div>,
             ]}

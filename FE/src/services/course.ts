@@ -39,6 +39,10 @@ class CourseService {
         return await http.post(COURSE_API.PENDING(id))
     }
 
+    async draft(id: number | string): Promise<any> {
+        return await http.post(COURSE_API.DRAFT(id))
+    }
+
     async lessonWithQuiz(id: number | string): Promise<any> {
         return await http.get(COURSE_API.LESSON_WITH_QUIZ(id))
     }

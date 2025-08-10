@@ -80,7 +80,16 @@ const AdminUpdateUserModal = ({
                 >
                     <Input disabled allowClear placeholder="Nhập email" />
                 </Form.Item>
-                <Form.Item label="Số điện thoại" name="phone">
+                <Form.Item
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng nhập số điện thoại',
+                        },
+                    ]}
+                    label="Số điện thoại"
+                    name="phone"
+                >
                     <Input allowClear placeholder="Nhập số điện thoại" />
                 </Form.Item>
                 <Form.Item
@@ -103,10 +112,28 @@ const AdminUpdateUserModal = ({
                         <Select.Option value="student">Người học</Select.Option>
                     </Select>
                 </Form.Item>
-                <Form.Item name="date_of_birth" label="Ngày sinh">
+                <Form.Item
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng chọn ngày sinh',
+                        },
+                    ]}
+                    name="date_of_birth"
+                    label="Ngày sinh"
+                >
                     <Input type="date" />
                 </Form.Item>
-                <Form.Item name="gender" label="Giới tính">
+                <Form.Item
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Vui lòng chọn giới tính',
+                        },
+                    ]}
+                    name="gender"
+                    label="Giới tính"
+                >
                     <Select allowClear placeholder="Chọn giới tính">
                         <Select.Option value="male">Nam</Select.Option>
                         <Select.Option value="female">Nữ</Select.Option>
@@ -118,7 +145,7 @@ const AdminUpdateUserModal = ({
                     rules={[
                         {
                             required: true,
-                            message: 'Vui lòng chọn giới tính',
+                            message: 'Vui lòng chọn trạng thái',
                         },
                     ]}
                 >

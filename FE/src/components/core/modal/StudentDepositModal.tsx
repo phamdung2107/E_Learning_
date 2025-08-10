@@ -27,7 +27,6 @@ export const StudentDepositModal = ({
     const handleSubmit = (values: any) => {
         onSubmit({
             ...values,
-            amount: (values.amount * (100 + event.bonus_percent)) / 100,
         })
         onClose()
         form.resetFields()

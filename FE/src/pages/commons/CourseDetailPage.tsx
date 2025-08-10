@@ -55,7 +55,7 @@ const CourseDetailPage: React.FC = () => {
     const navigate = useNavigate()
     const courseId = params.id as string
     const [course, setCourse] = useState<any>(null)
-    const [isEnrolled, setIsEnrolled] = useState(false)
+    const [isEnrolled, setIsEnrolled] = useState<any>('')
     const [enrollLoading, setEnrollLoading] = useState(false)
     const [totalStudentsOfCourse, setTotalStudentsOfCourse] = useState(0)
     const [totalCoursesOfInstructor, setTotalCoursesOfInstructor] = useState(0)
@@ -137,10 +137,10 @@ const CourseDetailPage: React.FC = () => {
     useEffect(() => {
         if (user) {
             EnrollmentService.checkEnrollment(user.id, courseId).then((res) => {
-                setIsEnrolled(!!res.data)
+                setIsEnrolled(res.data)
             })
         } else {
-            setIsEnrolled(false)
+            setIsEnrolled('cancelled')
         }
     }, [user, courseId])
 
@@ -258,14 +258,15 @@ const CourseDetailPage: React.FC = () => {
                                 <div className="course-detail-hero-price">
                                     {formatPrice(course.price)}
                                     <Space style={{ marginLeft: '20px' }}>
-                                        {isEnrolled ? (
+                                        {isEnrolled === 'active' ||
+                                        isEnrolled === 'completed' ? (
                                             <Button
                                                 type="primary"
                                                 size="large"
                                                 className="course-detail-hero-btn"
                                                 onClick={handleNavigateToLesson}
                                             >
-                                                Bắt đầu học
+                                                Tiếp tục học
                                             </Button>
                                         ) : (
                                             <Button
@@ -411,7 +412,8 @@ const CourseDetailPage: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="course-detail-enrollment-body">
-                                        {isEnrolled ? (
+                                        {isEnrolled === 'active' ||
+                                        isEnrolled === 'completed' ? (
                                             <Button
                                                 type="primary"
                                                 size="large"
