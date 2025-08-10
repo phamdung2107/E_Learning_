@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+    fe:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: fe_elearning_app
+        ports:
+            - '3000:80'
