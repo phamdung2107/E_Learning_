@@ -33,6 +33,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import CourseCard from '@/components/core/card/CourseCard'
+import StudentReviewCourseModal from '@/components/core/modal/StudentReviewCourseModal'
 import { DATE_TIME_FORMAT } from '@/constants/date'
 import { BASE_IMAGE_URL } from '@/constants/image'
 import CourseService from '@/services/course'
@@ -52,6 +53,7 @@ const { Panel } = Collapse
 
 const CourseDetailPage: React.FC = () => {
     const user = useSelector((store: any) => store.auth.user)
+    const userId = user.user ? user.user.id : user.id
     const dispatch = useDispatch()
     const params = useParams()
     const navigate = useNavigate()
@@ -67,6 +69,8 @@ const CourseDetailPage: React.FC = () => {
     const [lessons, setLessons] = useState<any[]>([])
     const [reviews, setReviews] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+    const [reviewLoading, setReviewLoading] = useState(false)
 
     const requirements = [
         'Không yêu cầu kinh nghiệm',
@@ -138,7 +142,6 @@ const CourseDetailPage: React.FC = () => {
 
     useEffect(() => {
         if (user) {
-            const userId = user.user ? user.user.id : user.id
             EnrollmentService.checkEnrollment(userId, courseId).then((res) => {
                 setIsEnrolled(res.data)
             })
@@ -191,6 +194,33 @@ const CourseDetailPage: React.FC = () => {
             })
         } finally {
             setEnrollLoading(false)
+        }
+    }
+
+    const handleReview = async (values: any) => {
+        setReviewLoading(true)
+        try {
+            const response = await ReviewService.create({
+                user_id: userId,
+                course_id: courseId,
+                rating: values.rating,
+                comment: values.comment,
+            })
+            if (response.status === 200) {
+                notification.success({
+                    message: 'Tạo đánh giá thành công',
+                })
+            } else {
+                notification.warning({
+                    message: response.message,
+                })
+            }
+        } catch (e: any) {
+            notification.error({
+                message: e.response.data.message,
+            })
+        } finally {
+            setReviewLoading(false)
         }
     }
 
@@ -442,7 +472,9 @@ const CourseDetailPage: React.FC = () => {
                                             size="large"
                                             block
                                             style={{ marginBottom: '20px' }}
-                                            onClick={() => {}}
+                                            onClick={() =>
+                                                setIsReviewModalOpen(true)
+                                            }
                                         >
                                             <CommentOutlined /> Đánh giá khóa
                                             học
@@ -752,6 +784,12 @@ const CourseDetailPage: React.FC = () => {
                     </Row>
                 </div>
             </section>
+            <StudentReviewCourseModal
+                visible={isReviewModalOpen}
+                onClose={() => setIsReviewModalOpen(false)}
+                onSubmit={handleReview}
+                loading={reviewLoading}
+            />
         </div>
     )
 }

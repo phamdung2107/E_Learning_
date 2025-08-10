@@ -45,6 +45,7 @@ const { Title, Text } = Typography
 const StudentDashboard: React.FC = () => {
     const dispatch = useDispatch()
     const user = useSelector((store: any) => store.auth.user)
+    const userId = user.user ? user.user.id : user.id
     const [enrolledCourses, setEnrolledCourses] = useState<any[]>([])
     const [progressSummary, setProgressSummary] = useState<any>({})
     const [totalCertificate, setTotalCertificate] = useState(0)
@@ -80,7 +81,7 @@ const StudentDashboard: React.FC = () => {
     const fetchTotalCertificate = async () => {
         try {
             const response = await CertificateService.getAll({
-                user: user.user ? user.user.id : user.id,
+                user: userId,
             })
             setTotalCertificate(response.total)
         } catch (e) {

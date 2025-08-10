@@ -2,10 +2,16 @@ import React, { useEffect, useState } from 'react'
 
 import { Button, Col, Row, notification } from 'antd'
 
-import { LeftOutlined, PrinterOutlined, RightOutlined } from '@ant-design/icons'
+import {
+    CheckCircleOutlined,
+    LeftOutlined,
+    PrinterOutlined,
+    RightOutlined,
+} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import CompleteCourseModal from '@/components/core/modal/CompleteCourseModal'
 import { STUDENT_PATHS } from '@/routers/path'
 import CertificateService from '@/services/certificate'
 import CourseService from '@/services/course'
@@ -22,6 +28,7 @@ const LessonQuizActionsFooter = ({
     const [lessonWithQuiz, setLessonWithQuiz] = useState<any[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const navigate = useNavigate()
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
     const fetchLessonWithQuiz = async () => {
         try {
@@ -89,10 +96,6 @@ const LessonQuizActionsFooter = ({
         ((currentItem.type === 'lesson' && currentItem.id === lastLesson?.id) ||
             (currentItem.type === 'quiz' &&
                 currentItem.lesson_id === lastLesson?.id))
-
-    const isAllPassed =
-        lessonWithQuiz.length > 0 &&
-        lessonWithQuiz.every((item) => item.is_pass === 1)
 
     const getPrevItem = () => {
         if (isPrevDisabled) return null
@@ -166,6 +169,30 @@ const LessonQuizActionsFooter = ({
         }
     }
 
+    const quizzesOfLastLesson = lessonWithQuiz.filter(
+        (item) => item.type === 'quiz' && item.lesson_id === lastLesson?.id
+    )
+
+    const lastQuizOfLastLesson =
+        quizzesOfLastLesson.length > 0
+            ? quizzesOfLastLesson.reduce((prev, curr) =>
+                  curr.id > prev.id ? curr : prev
+              )
+            : null
+
+    const isOnLastLessonNoQuiz =
+        quizzesOfLastLesson.length === 0 &&
+        currentItem?.type === 'lesson' &&
+        currentItem.id === lastLesson?.id
+
+    const isOnLastQuiz =
+        lastQuizOfLastLesson !== null &&
+        currentItem?.type === 'quiz' &&
+        currentItem.id === lastQuizOfLastLesson.id
+
+    const showCompleteButton =
+        progress === totalLessons && (isOnLastLessonNoQuiz || isOnLastQuiz)
+
     return (
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 32px' }}>
             <Row gutter={[16, 16]} justify="space-between" align="middle">
@@ -180,26 +207,18 @@ const LessonQuizActionsFooter = ({
                     </Button>
                 </Col>
                 <Col>
-                    <Button
-                        disabled={
-                            !(
-                                progress === totalLessons ||
-                                (isOnLastLessonOrQuiz &&
-                                    currentItem?.type === 'lesson' &&
-                                    !lessonWithQuiz.some(
-                                        (item) =>
-                                            item.type === 'quiz' &&
-                                            item.lesson_id === currentItem.id
-                                    ))
-                            )
-                        }
-                        onClick={handlePrint}
-                        icon={<PrinterOutlined />}
-                        size="large"
-                        loading={loading}
-                    >
-                        In chứng chỉ
-                    </Button>
+                    {showCompleteButton && (
+                        <Button
+                            onClick={() => setIsModalOpen(true)}
+                            variant="solid"
+                            color="green"
+                            icon={<CheckCircleOutlined />}
+                            size="large"
+                            loading={loading}
+                        >
+                            Hoàn thành khóa học
+                        </Button>
+                    )}
                 </Col>
                 <Col>
                     <Button
@@ -213,6 +232,12 @@ const LessonQuizActionsFooter = ({
                     </Button>
                 </Col>
             </Row>
+            <CompleteCourseModal
+                visible={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSubmit={handlePrint}
+                loading={loading}
+            />
         </div>
     )
 }

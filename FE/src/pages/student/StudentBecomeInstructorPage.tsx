@@ -69,7 +69,6 @@ const StudentBecomeInstructorPage = () => {
                 putLocalStorage(HAS_REQUESTED_INSTRUCTOR, 'true')
             }
         } catch (e) {
-            console.error('Error: ', e)
             notification.error({
                 message: 'Gửi yêu cầu thất bại',
             })
@@ -278,6 +277,7 @@ const StudentBecomeInstructorPage = () => {
                                             onClick={() =>
                                                 setModalVisible(true)
                                             }
+                                            loading={loading}
                                             style={{
                                                 padding: '0 40px',
                                                 fontWeight: 600,

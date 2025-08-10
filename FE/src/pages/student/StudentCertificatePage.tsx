@@ -14,6 +14,7 @@ const { Title, Text } = Typography
 
 const StudentCertificates: React.FC = () => {
     const user = useSelector((state: any) => state.auth.user)
+    const userId = user.user ? user.user.id : user.id
     const [certificates, setCertificates] = useState<any[]>([])
     const [loading, setLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
@@ -23,9 +24,11 @@ const StudentCertificates: React.FC = () => {
         try {
             setLoading(true)
             const response = await CertificateService.getAll({
-                user: user.id,
+                user: Number(userId),
             })
-            setCertificates(response.data || [])
+            if (response.status === 200) {
+                setCertificates(response.data)
+            }
         } catch (e) {
             console.error(e)
             setCertificates([])

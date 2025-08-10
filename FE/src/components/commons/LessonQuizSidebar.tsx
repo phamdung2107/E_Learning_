@@ -116,6 +116,9 @@ const LessonQuizSidebar = ({
                             lesson.id === Number(currentLessonId)
                         const isLessonEnabled =
                             getLessonEnableList()[index] ?? false
+                        let isQuizActive = lesson.quizzes?.some(
+                            (quiz: any) => quiz.id === Number(currentQuizId)
+                        )
                         return (
                             <Panel
                                 header={
@@ -133,7 +136,7 @@ const LessonQuizSidebar = ({
                                     </div>
                                 }
                                 key={lesson.id}
-                                className={`lesson-panel ${isLessonActive ? 'active-panel' : ''}`}
+                                className={`lesson-panel ${isLessonActive || isQuizActive ? 'active-panel' : ''}`}
                             >
                                 {isLessonEnabled ? (
                                     <Link
@@ -184,7 +187,7 @@ const LessonQuizSidebar = ({
                                                     ?.latest_result_quiz
                                                     ?.is_pass === 1
                                         }
-                                        const isQuizActive =
+                                        isQuizActive =
                                             quiz.id === Number(currentQuizId)
 
                                         return quizEnabled ? (

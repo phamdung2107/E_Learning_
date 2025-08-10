@@ -16,6 +16,7 @@ const { Text, Title } = Typography
 const EnrollCourseSummaryCard = ({ course }: any) => {
     const user = useSelector((state: any) => state.auth.user)
     const [lessons, setLessons] = useState<any>(0)
+    const userId = user.user ? user.user.id : user.id
     const [completedLessons, setCompletedLessons] = useState<any>(0)
 
     const fetchLessons = async () => {
@@ -30,7 +31,7 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
     const fetchCompletedLessons = async () => {
         try {
             const response = await ProgressService.getByUserCourse(
-                user.id,
+                userId,
                 course.id
             )
             setCompletedLessons(response.total)
