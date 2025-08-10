@@ -114,7 +114,7 @@ class OrderController extends Controller
             // Thông báo cho người bán
             Notification::create([
                 'user_id' => $instructorUser->id,
-                'type' => 'sale',
+                'type' => 'course',
                 'title' => 'Khóa học được mua',
                 'body' => 'Bạn vừa bán được khóa học "' . $order->course->title . '".'
             ]);
