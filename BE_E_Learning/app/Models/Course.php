@@ -19,4 +19,8 @@ class Course extends Model
     public function enrollments() { return $this->hasMany(Enrollment::class); }
     public function reviews() { return $this->hasMany(Review::class); }
     public function certificates() { return $this->hasMany(Certificate::class); }
+    public function progressTracking()
+    {
+        return $this->hasMany(ProgressTracking::class, 'lesson_id', 'id');
+    }
 }

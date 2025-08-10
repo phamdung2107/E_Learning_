@@ -1,6 +1,6 @@
 'use client'
 
-import type React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Layout } from 'antd'
 
@@ -18,7 +18,22 @@ const { Footer, Content } = Layout
 
 const PublicLayout: React.FC = () => {
     const location = useLocation()
-    const { title, breadcrumb } = getPageInfo(location.pathname)
+    const [pageInfo, setPageInfo] = useState<{
+        title: string
+        breadcrumb: any[]
+    }>({
+        title: '',
+        breadcrumb: [],
+    })
+
+    useEffect(() => {
+        const fetchPageInfo = async () => {
+            const result = await getPageInfo(location.pathname)
+            setPageInfo(result)
+        }
+        fetchPageInfo()
+    }, [location.pathname])
+
     const showBreadcrumb = location.pathname !== PATHS.HOME
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -52,8 +67,8 @@ const PublicLayout: React.FC = () => {
             >
                 {showBreadcrumb && (
                     <BreadcrumbSection
-                        title={title}
-                        breadcrumbItems={breadcrumb}
+                        title={pageInfo?.title}
+                        breadcrumbItems={pageInfo?.breadcrumb}
                     />
                 )}
                 <div

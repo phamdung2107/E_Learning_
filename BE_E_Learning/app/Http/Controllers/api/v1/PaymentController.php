@@ -107,6 +107,8 @@ class PaymentController extends Controller
 
                 $activeEvent = Event::where('deleted', false)
                     ->where('status', true)
+                    ->where('start_time', '<=', now())
+                    ->where('end_time', '>=', now())
                     ->orderByDesc('bonus_percent')
                     ->first();
 

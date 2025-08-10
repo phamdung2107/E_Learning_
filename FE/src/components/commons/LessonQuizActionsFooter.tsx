@@ -8,9 +8,15 @@ import { useNavigate } from 'react-router-dom'
 
 import CertificateService from '@/services/certificate'
 import CourseService from '@/services/course'
+import ProgressService from '@/services/progress'
 import { convertLessonWithQuizData } from '@/utils/convert'
 
-const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
+const LessonQuizActionsFooter = ({
+    currentElement,
+    courseId,
+    progress,
+    totalLessons,
+}: any) => {
     const user = useSelector((state: any) => state.auth.user)
     const [lessonWithQuiz, setLessonWithQuiz] = useState<any[]>([])
     const [loading, setLoading] = useState<boolean>(false)
@@ -20,6 +26,19 @@ const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
         try {
             const response = await CourseService.lessonWithQuiz(courseId)
             setLessonWithQuiz(convertLessonWithQuizData(response.data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const maskCompletedLesson = async (lessonId: any) => {
+        try {
+            const response = await ProgressService.completeLesson({
+                user_id: Number(user.user ? user.user.id : user.id),
+                course_id: Number(courseId),
+                lesson_id: Number(lessonId),
+            })
+            await fetchLessonWithQuiz()
         } catch (error) {
             console.log(error)
         }
@@ -88,6 +107,13 @@ const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
     const onNavigate = (item: any) => {
         if (!item) return
         if (item.type === 'lesson') {
+            if (
+                !currentElement.lesson_id &&
+                currentElement?.quizzes?.length === 0
+            ) {
+                maskCompletedLesson(currentElement.id).then(() => {})
+                window.location.href = `/courses/${courseId}/lessons/${item.id}`
+            }
             navigate(`/courses/${courseId}/lessons/${item.id}`)
         } else if (item.type === 'quiz') {
             navigate(`/courses/${courseId}/quizzes/${item.id}`)
@@ -136,7 +162,7 @@ const LessonQuizActionsFooter = ({ currentElement, courseId }: any) => {
                 </Col>
                 <Col>
                     <Button
-                        disabled={isPrintDisabled}
+                        disabled={progress !== totalLessons}
                         onClick={handlePrint}
                         icon={<PrinterOutlined />}
                         size="large"

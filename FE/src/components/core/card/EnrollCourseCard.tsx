@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 
 import { DATE_FORMAT } from '@/constants/date'
 import { BASE_IMAGE_URL } from '@/constants/image'
+import { STUDENT_PATHS } from '@/routers/path'
 import LessonService from '@/services/lesson'
 import ProgressService from '@/services/progress'
 import { formatDateTime } from '@/utils/format'
@@ -58,11 +59,11 @@ const EnrollCourseCard = ({ course }: any) => {
             actions={[
                 completedLessons === lessons && completedLessons > 0 ? (
                     <Link
-                        to={`/student/certificates/${course.id}`}
+                        to={STUDENT_PATHS.STUDENT_CERTIFICATE}
                         key={`certificate-${course.id}`}
                     >
                         <Button type="link" icon={<CheckCircleOutlined />}>
-                            Nhận chứng chỉ
+                            Xem chứng chỉ
                         </Button>
                     </Link>
                 ) : (
@@ -75,9 +76,7 @@ const EnrollCourseCard = ({ course }: any) => {
                             icon={<PlayCircleOutlined />}
                             style={{ color: '#20B2AA' }}
                         >
-                            {course.status === 'not_started'
-                                ? 'Bắt đầu học'
-                                : 'Tiếp tục học'}
+                            Tiếp tục học
                         </Button>
                     </Link>
                 ),
@@ -92,7 +91,12 @@ const EnrollCourseCard = ({ course }: any) => {
                 level={5}
                 style={{ marginBottom: '8px' }}
             >
-                {course.title}
+                <Link
+                    to={`/courses/${course.id}`}
+                    style={{ textDecoration: 'none' }}
+                >
+                    {course.title}
+                </Link>
             </Title>
 
             <Text

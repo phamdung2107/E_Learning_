@@ -8,9 +8,11 @@ import {
     PlayCircleOutlined,
     RightOutlined,
 } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import CourseService from '@/services/course'
+import ProgressService from '@/services/progress'
 
 import './styles/LessonQuizSidebar.css'
 
@@ -22,6 +24,7 @@ const LessonQuizSidebar = ({
     currentQuizId,
     courseId,
 }: any) => {
+    const user = useSelector((store: any) => store.auth.user)
     const [lessonWithQuiz, setLessonWithQuiz] = useState<any[]>([])
 
     const checkCompleted = (result: any) => {
@@ -40,6 +43,19 @@ const LessonQuizSidebar = ({
         }
     }
 
+    const maskCompletedLesson = async (lessonId: any) => {
+        try {
+            const response = await ProgressService.completeLesson({
+                user_id: Number(user.user ? user.user.id : user.id),
+                course_id: Number(courseId),
+                lesson_id: Number(lessonId),
+            })
+            await fetchLessonWithQuiz(courseId)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const getCurrentLessonIndex = () =>
         lessonWithQuiz?.findIndex((l: any) => l.id === Number(currentLessonId))
 
@@ -47,9 +63,26 @@ const LessonQuizSidebar = ({
         return lessonWithQuiz?.map((lesson: any, index: number) => {
             if (index === 0) return true
             const prevLesson = lessonWithQuiz[index - 1]
-            return checkCompleted(prevLesson.quizzes)
+            return (
+                checkCompleted(prevLesson.quizzes) ||
+                prevLesson.quizzes.length === 0
+            )
         })
     }
+
+    const [completedLessonIds, setCompletedLessonIds] = useState(new Set())
+
+    useEffect(() => {
+        lessonWithQuiz.forEach((lesson) => {
+            if (
+                checkCompleted(lesson.quizzes) &&
+                !completedLessonIds.has(lesson.id)
+            ) {
+                maskCompletedLesson(lesson.id)
+                setCompletedLessonIds((prev) => new Set(prev).add(lesson.id))
+            }
+        })
+    }, [lessonWithQuiz, completedLessonIds])
 
     useEffect(() => {
         fetchLessonWithQuiz(courseId)
@@ -83,14 +116,17 @@ const LessonQuizSidebar = ({
                             lesson.id === Number(currentLessonId)
                         const isLessonEnabled =
                             getLessonEnableList()[index] ?? false
-
                         return (
                             <Panel
                                 header={
-                                    <div className="lesson-module-header">
+                                    <div
+                                        style={{ display: 'flex' }}
+                                        className="lesson-module-header"
+                                    >
                                         <div className="lesson-module-title">
                                             {index + 1}. {lesson.title}
                                         </div>
+                                        <div style={{ flexGrow: 1 }}></div>
                                         {lesson.is_completed && (
                                             <CheckCircleOutlined className="quiz-completed-icon" />
                                         )}
@@ -101,6 +137,10 @@ const LessonQuizSidebar = ({
                             >
                                 {isLessonEnabled ? (
                                     <Link
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}
                                         className={`lesson-content-item ${isLessonActive ? 'active-lesson' : ''}`}
                                         to={`/courses/${courseId}/lessons/${lesson.id}`}
                                     >
@@ -113,6 +153,7 @@ const LessonQuizSidebar = ({
                                         <span className="lesson-content-title">
                                             {lesson.title}
                                         </span>
+                                        <div style={{ flexGrow: 1 }}></div>
                                         {lesson.is_completed && (
                                             <CheckCircleOutlined className="quiz-completed-icon" />
                                         )}

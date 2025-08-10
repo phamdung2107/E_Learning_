@@ -95,8 +95,8 @@ class LessonController extends Controller
      */
     public function show($id)
     {
-        $lesson = Lesson::findOrFail($id);
-        return Response::data(new LessonResource($lesson));
+        $lesson = Lesson::with(['quizzes'])->findOrFail($id);
+        return Response::data($lesson);
     }
 
     /**

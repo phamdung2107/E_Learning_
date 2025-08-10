@@ -56,7 +56,9 @@ export const StudentDepositModal = ({
                     rules={[
                         { required: true, message: 'Vui lòng nhập số tiền' },
                     ]}
-                    style={{ marginBottom: 0 }}
+                    style={{
+                        marginBottom: event && event.bonus_percent > 0 ? 0 : 24,
+                    }}
                 >
                     <Input
                         allowClear

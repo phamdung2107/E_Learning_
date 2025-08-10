@@ -18,6 +18,7 @@ export const VIETNAMESE_LABELS: any = {
     EVENT: 'Sự kiện',
     CONTACT: 'Liên hệ',
     RECOMMENDATION: 'Gợi ý',
+    COURSE_DETAIL: 'Chi tiết khóa học',
 }
 
 export const AUTH_PATHS = {

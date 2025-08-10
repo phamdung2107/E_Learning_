@@ -176,7 +176,7 @@ class EventController extends Controller
      * @OA\Get(
      *      path="/api/events/maximum-bonus-percent",
      *      operationId="getMaximumBonusPercent",
-     *      tags={"Sự kiện (Events)"},
+     *      tags={"Event"},
      *      summary="Lấy phần trăm giảm giá tối đa",
      *      description="Lấy ra phần trăm giảm giá (bonus_percent) lớn nhất từ các sự kiện đang hoạt động. Trả về null nếu không có sự kiện nào đang hoạt động.",
      *      @OA\Response(
@@ -187,8 +187,12 @@ class EventController extends Controller
      */
     public function getMaximumBonusPercent()
     {
+        $now = now();
+
         $topEvent = Event::where('deleted', false)
             ->where('status', true)
+            ->where('start_time', '<=', $now)
+            ->where('end_time', '>=', $now)
             ->orderByDesc('bonus_percent')
             ->first();
 

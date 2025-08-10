@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Col, Progress, Row, Tag, Typography } from 'antd'
 
-import { PlayCircleOutlined } from '@ant-design/icons'
+import { EyeFilled, PlayCircleOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { BASE_IMAGE_URL } from '@/constants/image'
+import { STUDENT_PATHS } from '@/routers/path'
 import LessonService from '@/services/lesson'
 import ProgressService from '@/services/progress'
 
@@ -65,29 +66,42 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
                 </Col>
                 <Col xs={24} sm={12}>
                     <Title level={5} style={{ margin: '0 0 8px 0' }}>
-                        {course.title}
+                        <Link
+                            to={`/courses/${course.id}`}
+                            style={{ textDecoration: 'none' }}
+                        >
+                            {course.title}
+                        </Link>
                     </Title>
                     <Text type="secondary">
-                        by {course.instructor.user.full_name}
+                        bởi {course.instructor.user.full_name}
                     </Text>
                     <div style={{ marginTop: '8px' }}>
                         <Progress
                             percent={(completedLessons / lessons) * 100 || 0}
                             size="small"
                             status={
-                                course.status === 'completed'
+                                completedLessons === lessons
                                     ? 'success'
                                     : 'active'
                             }
                         />
                         <Text type="secondary" style={{ fontSize: '12px' }}>
-                            {completedLessons}/{lessons} lessons
+                            {completedLessons}/{lessons} bài học
                         </Text>
                     </div>
                 </Col>
                 <Col xs={24} sm={6} style={{ textAlign: 'right' }}>
-                    {course.status === 'completed' ? (
-                        <Tag color="success">Completed</Tag>
+                    {completedLessons === lessons ? (
+                        <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>
+                            <Button
+                                variant="solid"
+                                color="green"
+                                icon={<EyeFilled />}
+                            >
+                                Xem chứng chỉ
+                            </Button>
+                        </Link>
                     ) : (
                         <Link to={`/courses/${course.id}`}>
                             <Button

@@ -103,6 +103,8 @@ const LessonDetailPage: React.FC = () => {
                 <LessonQuizActionsFooter
                     currentElement={currentLesson}
                     courseId={courseId}
+                    progress={progress}
+                    totalLessons={lessons.length}
                 />
             }
         >

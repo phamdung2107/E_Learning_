@@ -13,6 +13,7 @@ import {
     Space,
     Tag,
     Typography,
+    message,
     notification,
 } from 'antd'
 
@@ -20,6 +21,7 @@ import {
     BookOutlined,
     CheckOutlined,
     ClockCircleOutlined,
+    CommentOutlined,
     FileTextOutlined,
     PlayCircleOutlined,
     RightOutlined,
@@ -421,7 +423,7 @@ const CourseDetailPage: React.FC = () => {
                                                 className="course-detail-enrollment-btn"
                                                 onClick={handleNavigateToLesson}
                                             >
-                                                Bắt đầu học
+                                                Tiếp tục học
                                             </Button>
                                         ) : (
                                             <Button
@@ -439,6 +441,31 @@ const CourseDetailPage: React.FC = () => {
                                             size="large"
                                             block
                                             style={{ marginBottom: '20px' }}
+                                            onClick={() => {}}
+                                        >
+                                            <CommentOutlined /> Đánh giá khóa
+                                            học
+                                        </Button>
+                                        <Button
+                                            size="large"
+                                            block
+                                            style={{ marginBottom: '20px' }}
+                                            onClick={() => {
+                                                navigator.clipboard
+                                                    .writeText(
+                                                        window.location.href
+                                                    )
+                                                    .then(() => {
+                                                        message.success(
+                                                            'Đã copy liên kết khóa học!'
+                                                        )
+                                                    })
+                                                    .catch(() => {
+                                                        message.error(
+                                                            'Không thể copy liên kết.'
+                                                        )
+                                                    })
+                                            }}
                                         >
                                             <ShareAltOutlined /> Chia sẻ khóa
                                             học
@@ -527,7 +554,7 @@ const CourseDetailPage: React.FC = () => {
                                                     <PlayCircleOutlined />
                                                 </span>
                                                 <span className="course-detail-lesson-title">
-                                                    {lesson.content}
+                                                    {lesson.title}
                                                 </span>
                                             </div>
                                         </Link>

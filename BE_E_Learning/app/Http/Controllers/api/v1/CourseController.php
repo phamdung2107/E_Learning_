@@ -338,7 +338,7 @@ class CourseController extends Controller
      *     path="/api/courses/{courseId}/lessons-with-quizzes",
      *     summary="Lấy danh sách bài học và quiz kèm trạng thái pass",
      *     description="API trả về danh sách lesson theo thứ tự và quiz với trạng thái is_pass từ lần làm gần nhất của user hiện tại",
-     *     tags={"Lesson & Quiz"},
+     *     tags={"Course"},
      *     @OA\Parameter(
      *         name="courseId",
      *         in="path",
@@ -386,6 +386,10 @@ class CourseController extends Controller
                             ->latest('submitted_at');
                 }]);
             }])
+            ->with(['progressTrackings' => function ($query) use ($userId, $courseId) {
+                $query->where('user_id', $userId)
+                    ->where('course_id', $courseId);
+            }])
             ->get()
             ->map(function ($lesson) {
                 $lesson->quizzes = $lesson->quizzes->map(function ($quiz) {
@@ -394,9 +398,10 @@ class CourseController extends Controller
                         'lesson_id' => $quiz->lesson_id,
                         'title' => $quiz->title,
                         'description' => $quiz->description,
-                        'is_pass' => optional($quiz->latestResultQuiz)->is_pass
+                        'is_pass' => optional($quiz->latestResultQuiz)->is_pass,
                     ];
                 })->values();
+                $lesson->is_completed = $lesson->progressTrackings->first()->is_completed ?? false;
                 return $lesson;
             })
             ->values();
