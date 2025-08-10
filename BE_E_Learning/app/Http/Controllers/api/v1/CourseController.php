@@ -324,6 +324,14 @@ class CourseController extends Controller
         return Response::data(['message' => 'pending']);
     }
 
+    public function draft($id)
+    {
+        $course = Course::findOrFail($id);
+        $course->status = 'draft';
+        $course->save();
+        return Response::data(['message' => 'draft']);
+    }
+
 
     /**
      * @OA\Get(

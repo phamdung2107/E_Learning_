@@ -122,9 +122,6 @@ class AuthController extends Controller
             if (!$token = Auth::guard($this->guard)->attempt($credentials)) {
                 return Response::dataError('Sai tên đăng nhập hoặc mật khẩu', 401);
             }
-            if (Auth::user()->status === 'INACTIVE'){
-                return Response::dataError('Tài khoản của bạn không hoạt động.', 401);
-            }
 
             return Response::data($token);
         } catch (Exception $e) {
