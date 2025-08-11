@@ -124,7 +124,10 @@ const QuizDetailPage: React.FC = () => {
     }
 
     useEffect(() => {
-        if (courseId && quizId) fetchData()
+        if (courseId && quizId) {
+            fetchData()
+            setQuizStarted(false)
+        }
     }, [courseId, quizId, user.id])
 
     const getProgressPercentage = () => {

@@ -79,7 +79,11 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
                     </Text>
                     <div style={{ marginTop: '8px' }}>
                         <Progress
-                            percent={(completedLessons / lessons) * 100 || 0}
+                            percent={
+                                Math.round(
+                                    (completedLessons / lessons) * 100
+                                ) || 0
+                            }
                             size="small"
                             status={
                                 completedLessons === lessons

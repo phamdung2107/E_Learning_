@@ -178,6 +178,10 @@ class EnrollmentController extends Controller
         ->where('course_id', $courseId)
         ->value('status');
 
+        if (!$status) {
+            return Response::data('cancelled', 0, 'Chưa đăng ký', 404);
+        }
+
         return Response::data($status);
     }
 }

@@ -62,7 +62,7 @@ const CourseSummaryCard = ({ course }: any) => {
                     block
                     className="course-enroll-btn"
                 >
-                    {isEnrolled === 'active' || isEnrolled === 'completed'
+                    {!(isEnrolled === 'active' || isEnrolled === 'completed')
                         ? `Đăng ký ngay - ${formatPrice(course.course.price)}`
                         : `Tiếp tục học`}
                 </Button>,

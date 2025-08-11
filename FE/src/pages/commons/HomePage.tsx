@@ -156,7 +156,11 @@ const HomePage: React.FC = () => {
 
         try {
             const response = await EventService.getMaximumBonusPercent()
-            if (response.data) {
+            if (
+                response.status === 200 &&
+                response.data &&
+                response.data?.bonus_percent > 0
+            ) {
                 setEvent(response.data)
                 setIsEventModalVisible(true)
                 sessionStorage.setItem('eventModalShown', 'true')

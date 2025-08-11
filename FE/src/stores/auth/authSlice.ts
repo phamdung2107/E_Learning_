@@ -12,16 +12,16 @@ import { getLocalStorage, putLocalStorage, removeLocalStorage } from '@/utils/st
 import { getCurrentUserAction, loginAction } from './authAction'
 
 const initialUserState: any = {
-    id: null,
-    full_name: null,
-    email: null,
-    phone: null,
-    gender: null,
-    date_of_birth: null,
-    role: null,
-    avatar: null,
-    status: null,
-    money: null,
+    id: '',
+    full_name: '',
+    email: '',
+    phone: '',
+    gender: '',
+    date_of_birth: '',
+    role: '',
+    avatar: '',
+    status: '',
+    money: '',
 }
 
 const initialState = {
@@ -35,7 +35,7 @@ const authSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.isAuthenticated = false
-            state.user = null
+            state.user = initialUserState
             removeLocalStorage(CREDENTIALS.IS_LOGIN)
             removeLocalStorage(CREDENTIALS.AUTHENTICATION_TOKEN)
             removeLocalStorage(CREDENTIALS.USER_INFO)

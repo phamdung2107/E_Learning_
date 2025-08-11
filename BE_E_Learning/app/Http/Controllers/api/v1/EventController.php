@@ -196,6 +196,11 @@ class EventController extends Controller
             ->orderByDesc('bonus_percent')
             ->first();
 
+        if (!$topEvent) {
+            $emptyEvent = new Event();
+            return Response::data($emptyEvent, 0, 'Không có sự kiện nào đang hoạt động', 404);
+        }
+
         return Response::data($topEvent);
     }
 }

@@ -109,7 +109,9 @@ const EnrollCourseCard = ({ course }: any) => {
 
             <div style={{ marginBottom: '12px' }}>
                 <Progress
-                    percent={(completedLessons / lessons) * 100 || 0}
+                    percent={
+                        Math.round((completedLessons / lessons) * 100) || 0
+                    }
                     size="small"
                     status={
                         course.status === 'completed' ? 'success' : 'active'

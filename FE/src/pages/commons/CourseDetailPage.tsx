@@ -141,14 +141,14 @@ const CourseDetailPage: React.FC = () => {
     }, [courseId])
 
     useEffect(() => {
-        if (user) {
+        if (userId) {
             EnrollmentService.checkEnrollment(userId, courseId).then((res) => {
                 setIsEnrolled(res.data)
             })
         } else {
             setIsEnrolled('cancelled')
         }
-    }, [user, courseId])
+    }, [userId, courseId])
 
     const handleNavigateToLesson = async () => {
         if (lessons.length === 0) {
@@ -163,9 +163,9 @@ const CourseDetailPage: React.FC = () => {
     const handleEnroll = async () => {
         setEnrollLoading(true)
         try {
-            if (!user) {
+            if (!userId) {
                 notification.open({
-                    type: 'error',
+                    type: 'warning',
                     message: 'Bạn cần đăng nhập để thực hiện tác vụ này',
                     btn: (
                         <Button
