@@ -49,18 +49,9 @@ const StudentActivityChart = ({ instructorId }: any) => {
             },
             min: 0,
         },
-        // legend: {
-        //     position: 'top',
-        // },
         tooltip: {
             showMarkers: true,
         },
-        // animation: {
-        //     appear: {
-        //         animation: 'path-in',
-        //         duration: 500,
-        //     },
-        // },
     }
 
     return <Line {...config} />

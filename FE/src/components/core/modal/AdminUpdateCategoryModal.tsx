@@ -19,7 +19,7 @@ const AdminUpdateCategoryModal = ({
             const response = await CategoryService.getParentCategories()
             setCategories(response.data)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

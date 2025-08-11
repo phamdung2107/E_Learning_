@@ -159,7 +159,6 @@ const StudentCourses: React.FC = () => {
                 </Text>
             </Card>
 
-            {/* Filters */}
             <Card style={{ marginBottom: '24px' }}>
                 <Row gutter={[16, 16]} align="middle">
                     <Col xs={24} sm={8} md={6}>
@@ -236,7 +235,6 @@ const StudentCourses: React.FC = () => {
                 </Row>
             </Card>
 
-            {/* Loading State */}
             {loading && (
                 <Card>
                     <div style={{ textAlign: 'center', padding: '40px' }}>
@@ -248,7 +246,6 @@ const StudentCourses: React.FC = () => {
                 </Card>
             )}
 
-            {/* Courses Grid */}
             {!loading && (
                 <div className="courses-section">
                     {allEnrolledCourses.length === 0 ? (
@@ -278,7 +275,6 @@ const StudentCourses: React.FC = () => {
                                 ))}
                             </Row>
 
-                            {/* Pagination */}
                             {
                                 <div
                                     style={{

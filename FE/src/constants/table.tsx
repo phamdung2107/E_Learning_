@@ -1157,15 +1157,6 @@ export const getManageEventColumns: any = (
             )
         },
     },
-    // {
-    //     title: 'Trạng thái',
-    //     dataIndex: 'status',
-    //     key: 'status',
-    //     align: 'center',
-    //     render: (text: any) => {
-    //         return <Tag color={getEventStatusName(text).color}>{getEventStatusName(text).name}</Tag>
-    //     },
-    // },
     {
         title: 'Hành động',
         key: 'action',

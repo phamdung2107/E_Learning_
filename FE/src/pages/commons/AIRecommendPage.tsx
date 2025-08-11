@@ -124,25 +124,7 @@ const AIRecommendPage: React.FC = () => {
                         </span>
                     </Paragraph>
                     <Row gutter={[32, 32]} align="middle" justify="center">
-                        <Col xs={24} md={14}>
-                            {/*<Search*/}
-                            {/*    placeholder="Tìm kiếm khóa học, giảng viên hoặc chủ đề..."*/}
-                            {/*    allowClear*/}
-                            {/*    enterButton={*/}
-                            {/*        <Button*/}
-                            {/*            type="primary"*/}
-                            {/*            style={{*/}
-                            {/*                background: '#20B2AA',*/}
-                            {/*            }}*/}
-                            {/*        >*/}
-                            {/*            <SearchOutlined />*/}
-                            {/*        </Button>*/}
-                            {/*    }*/}
-                            {/*    size="large"*/}
-                            {/*    onSearch={() => {}}*/}
-                            {/*    style={{ width: '100%' }}*/}
-                            {/*/>*/}
-                        </Col>
+                        <Col xs={24} md={14}></Col>
                         <Col span={16}>
                             <Card
                                 style={{

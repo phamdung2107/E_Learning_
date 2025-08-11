@@ -28,7 +28,7 @@ const CourseCard = ({ course, onEnroll }: any) => {
             const response = await ReviewService.getAverageByCourse(course.id)
             setAverageRating(response.data?.average_rating)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

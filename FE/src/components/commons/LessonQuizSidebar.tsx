@@ -39,7 +39,7 @@ const LessonQuizSidebar = ({
             const response = await CourseService.lessonWithQuiz(courseId)
             setLessonWithQuiz(response.data)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -52,7 +52,7 @@ const LessonQuizSidebar = ({
             })
             await fetchLessonWithQuiz(courseId)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

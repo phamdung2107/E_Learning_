@@ -157,7 +157,6 @@ const CoursesPage: React.FC = () => {
     }
 
     const handleKeywordEnter = () => {
-        // Trigger search on Enter
         fetchCourses({
             search: searchKeyword,
             category_id: selectedCategory,
@@ -166,19 +165,15 @@ const CoursesPage: React.FC = () => {
         setCurrentPage(1)
     }
 
-    // Calculate pagination for UI
     const totalCourses = allCourses.length
     const startIndex = (currentPage - 1) * pageSize
     const endIndex = startIndex + pageSize
     const paginatedCourses = allCourses.slice(startIndex, endIndex)
-
-    // Calculate display range for results info
     const displayStart = totalCourses > 0 ? startIndex + 1 : 0
     const displayEnd = Math.min(endIndex, totalCourses)
 
     return (
         <div>
-            {/* Hero Section */}
             <section className="courses-hero-section">
                 <div className="courses-hero-floating-1" />
                 <div className="courses-hero-floating-2" />
@@ -215,7 +210,6 @@ const CoursesPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Filter Section */}
             <section className="courses-filter-section">
                 <div className="courses-filter-content">
                     <Card className="courses-filter-card">
@@ -313,10 +307,8 @@ const CoursesPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Main Content */}
             <section className="courses-main-section">
                 <div className="courses-main-content">
-                    {/* Results Info */}
                     {!loading && totalCourses > 0 && (
                         <div className="courses-header">
                             <div className="courses-results-info">
@@ -380,7 +372,6 @@ const CoursesPage: React.FC = () => {
                                 ))}
                             </Row>
 
-                            {/* Pagination */}
                             {totalCourses > pageSize && (
                                 <div className="courses-pagination">
                                     <Pagination

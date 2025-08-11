@@ -7,7 +7,6 @@ import { BookOutlined } from '@ant-design/icons'
 const { Text, Title } = Typography
 
 const TopCoursesList = ({ instructorId }: any) => {
-    // Dữ liệu giả lập cho danh sách khóa học
     const courses = [
         {
             id: 1,

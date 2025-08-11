@@ -69,7 +69,7 @@ const ListQuestionModal = ({
             const response = await QuestionService.getByQuiz(record.id)
             setQuestions(response.data)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         } finally {
             setLoading(false)
         }
@@ -91,7 +91,6 @@ const ListQuestionModal = ({
                 })
             }
         } catch (e) {
-            console.log(e)
             notification.error({
                 message: 'Tạo câu hỏi thất bại',
             })
@@ -113,7 +112,6 @@ const ListQuestionModal = ({
                 })
             }
         } catch (e) {
-            console.log(e)
             notification.error({
                 message: 'Cập nhật câu hỏi thất bại',
             })
@@ -130,7 +128,6 @@ const ListQuestionModal = ({
                 })
             }
         } catch (e) {
-            console.log(e)
             notification.error({
                 message: 'Xóa câu hỏi thất bại',
             })
@@ -152,7 +149,6 @@ const ListQuestionModal = ({
                 })
             }
         } catch (e) {
-            console.log(e)
             notification.error({
                 message: 'Tạo đáp án thất bại',
             })
@@ -173,7 +169,6 @@ const ListQuestionModal = ({
                 })
             }
         } catch (e) {
-            console.log(e)
             notification.error({
                 message: 'Cập nhật đáp án thất bại',
             })
@@ -190,7 +185,6 @@ const ListQuestionModal = ({
                 })
             }
         } catch (e) {
-            console.log(e)
             notification.error({
                 message: 'Xóa đáp án thất bại',
             })

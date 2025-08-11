@@ -122,7 +122,6 @@ const StudentDashboard: React.FC = () => {
 
     return (
         <div className="student-dashboard">
-            {/* Header */}
             <Card style={{ marginBottom: '24px' }}>
                 <Title level={2}>
                     Chào mừng trở lại, {user.user?.full_name || user.user?.name}
@@ -133,7 +132,6 @@ const StudentDashboard: React.FC = () => {
                 </Text>
             </Card>
 
-            {/* Stats Cards */}
             <Row gutter={[16, 16]} className="student-stats-row">
                 <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
@@ -178,7 +176,6 @@ const StudentDashboard: React.FC = () => {
             </Row>
 
             <Row gutter={[16, 16]} className="student-main-content">
-                {/* My Courses */}
                 <Col xs={24} lg={14}>
                     <Card
                         className="student-courses-card"
@@ -213,7 +210,6 @@ const StudentDashboard: React.FC = () => {
                     </Card>
                 </Col>
 
-                {/* Sidebar */}
                 <Col xs={24} lg={10}>
                     <div className="student-sidebar">
                         {notifications.length === 0 ? (
@@ -321,7 +317,6 @@ const StudentDashboard: React.FC = () => {
                             </Card>
                         )}
 
-                        {/* Quick Actions */}
                         <Card
                             className="student-actions-card"
                             title="Truy cập nhanh"

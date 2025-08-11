@@ -442,7 +442,6 @@ const QuizDetailPage: React.FC = () => {
                                     />
                                 </Card>
 
-                                {/* Question */}
                                 <Card className="quiz-question-card">
                                     <div className="quiz-question-header">
                                         <Title level={5}>
@@ -537,34 +536,6 @@ const QuizDetailPage: React.FC = () => {
                                         </Checkbox.Group>
                                     )}
 
-                                    {/*<Radio.Group*/}
-                                    {/*    value={answers[currentQuestion]}*/}
-                                    {/*    onChange={(e) =>*/}
-                                    {/*        handleAnswerChange(e.target.value)*/}
-                                    {/*    }*/}
-                                    {/*    className="quiz-options"*/}
-                                    {/*>*/}
-                                    {/*    <div className="quiz-options-container">*/}
-                                    {/*        {questions[*/}
-                                    {/*            currentQuestion*/}
-                                    {/*        ]?.options?.map(*/}
-                                    {/*            (*/}
-                                    {/*                option: any,*/}
-                                    {/*                index: number*/}
-                                    {/*            ) => (*/}
-                                    {/*                <Radio*/}
-                                    {/*                    key={option.id}*/}
-                                    {/*                    value={option.id.toString()}*/}
-                                    {/*                    className="quiz-option"*/}
-                                    {/*                >*/}
-                                    {/*                    {option.text}*/}
-                                    {/*                </Radio>*/}
-                                    {/*            )*/}
-                                    {/*        )}*/}
-                                    {/*    </div>*/}
-                                    {/*</Radio.Group>*/}
-
-                                    {/* Navigation */}
                                     <div className="quiz-navigation">
                                         <Button
                                             disabled={currentQuestion === 0}
@@ -606,7 +577,6 @@ const QuizDetailPage: React.FC = () => {
                                     </div>
                                 </Card>
 
-                                {/* Question Navigator */}
                                 <Card
                                     className="quiz-navigator-card"
                                     title="Danh sách câu hỏi"

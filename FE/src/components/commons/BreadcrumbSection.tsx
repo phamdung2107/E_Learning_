@@ -23,7 +23,6 @@ const BreadcrumbSection: React.FC<BreadcrumbSectionProps> = ({
 }) => {
     return (
         <div className="breadcrumb-wrapper">
-            {/* Background with overlay */}
             <div
                 style={{
                     position: 'relative',
@@ -36,7 +35,6 @@ const BreadcrumbSection: React.FC<BreadcrumbSectionProps> = ({
                     overflow: 'hidden',
                 }}
             >
-                {/* Background Pattern Overlay */}
                 <div
                     style={{
                         position: 'absolute',
@@ -52,7 +50,6 @@ const BreadcrumbSection: React.FC<BreadcrumbSectionProps> = ({
                     }}
                 />
 
-                {/* Decorative Shapes */}
                 <div
                     style={{
                         position: 'absolute',
@@ -80,7 +77,6 @@ const BreadcrumbSection: React.FC<BreadcrumbSectionProps> = ({
                     }}
                 />
 
-                {/* Dotted Pattern */}
                 <div
                     style={{
                         position: 'absolute',
@@ -95,7 +91,6 @@ const BreadcrumbSection: React.FC<BreadcrumbSectionProps> = ({
                     }}
                 />
 
-                {/* Arrow Shapes */}
                 <div
                     style={{
                         position: 'absolute',
@@ -116,7 +111,6 @@ const BreadcrumbSection: React.FC<BreadcrumbSectionProps> = ({
                     <div style={{ transform: 'rotate(45deg)' }}>▲</div>
                 </div>
 
-                {/* Main Content */}
                 <div
                     style={{
                         textAlign: 'center',

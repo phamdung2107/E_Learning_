@@ -48,30 +48,25 @@ const EventsPage: React.FC = () => {
     const handleSearch = (value: string) => {
         fetchEvents(value)
         setSearchKeyword(value)
-        setCurrentPage(1) // Reset to first page when searching
+        setCurrentPage(1)
     }
 
     const handleClearFilters = () => {
         setSearchTerm('')
-        fetchEvents() // Fetch all events without keyword
+        fetchEvents()
         setCurrentPage(1)
     }
 
-    const handleJoinEvent = (eventId: number) => {
-        console.log('Joining event:', eventId)
-        // Add join logic here
-    }
+    const handleJoinEvent = (eventId: number) => {}
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page)
-        // Scroll to top of events section
         const eventsSection = document.querySelector('.events-main-section')
         if (eventsSection) {
             eventsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }
     }
 
-    // Client-side pagination
     const paginatedEvents = allEvents.slice(
         (currentPage - 1) * pageSize,
         currentPage * pageSize
@@ -79,7 +74,6 @@ const EventsPage: React.FC = () => {
 
     return (
         <div>
-            {/* Hero Section */}
             <section className="events-hero-section">
                 <div className="events-hero-floating-1" />
                 <div className="events-hero-floating-2" />
@@ -119,7 +113,6 @@ const EventsPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Main Section */}
             <section className="events-main-section">
                 <div className="events-main-content">
                     {loading ? (

@@ -233,7 +233,6 @@ const CourseDetailPage: React.FC = () => {
     }
     return (
         <div>
-            {/* Hero Section */}
             <section className="course-detail-hero-section">
                 <div className="course-detail-hero-floating-1" />
                 <div className="course-detail-hero-floating-2" />
@@ -355,12 +354,10 @@ const CourseDetailPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Main Content */}
             <section className="course-detail-main-section">
                 <div className="course-detail-main-content">
                     <Row gutter={[48, 48]}>
                         <Col xs={24} lg={16}>
-                            {/* Course Overview */}
                             <Card className="course-detail-info-card">
                                 <div className="course-detail-info-header">
                                     <Title
@@ -383,9 +380,7 @@ const CourseDetailPage: React.FC = () => {
                                         </div>
                                         <div className="course-detail-stat-item">
                                             <ClockCircleOutlined className="course-detail-stat-icon" />
-                                            <div className="course-detail-stat-number">
-                                                {/*{course.duration}*/}
-                                            </div>
+                                            <div className="course-detail-stat-number"></div>
                                             <div className="course-detail-stat-label">
                                                 Tổng thời lượng
                                             </div>
@@ -436,7 +431,6 @@ const CourseDetailPage: React.FC = () => {
                         </Col>
 
                         <Col xs={24} lg={8}>
-                            {/* Enrollment Sidebar */}
                             <div className="course-detail-enrollment-sidebar">
                                 <Card className="course-detail-enrollment-card">
                                     <div className="course-detail-enrollment-header">
@@ -534,7 +528,6 @@ const CourseDetailPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Curriculum Section */}
             <section className="course-detail-curriculum-section">
                 <div className="course-detail-curriculum-background" />
                 <div className="course-detail-curriculum-content">
@@ -614,7 +607,6 @@ const CourseDetailPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Instructor Section */}
             <section className="course-detail-instructor-section">
                 <div className="course-detail-instructor-content">
                     <Card className="course-detail-instructor-card">
@@ -688,7 +680,6 @@ const CourseDetailPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Reviews Section */}
             <section className="course-detail-reviews-section">
                 <div className="course-detail-reviews-background" />
                 <div className="course-detail-reviews-content">
@@ -763,7 +754,6 @@ const CourseDetailPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Related Courses */}
             <section className="course-detail-related-section">
                 <div className="course-detail-related-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>

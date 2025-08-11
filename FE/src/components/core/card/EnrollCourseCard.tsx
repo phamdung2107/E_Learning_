@@ -26,7 +26,7 @@ const EnrollCourseCard = ({ course }: any) => {
             const response = await LessonService.getByCourse(course.id)
             setLessons(response.total)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -38,7 +38,7 @@ const EnrollCourseCard = ({ course }: any) => {
             )
             setCompletedLessons(response.total)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

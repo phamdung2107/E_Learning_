@@ -20,7 +20,7 @@ const CategoryCard = ({ category }: any) => {
             )
             setTotal(response.total)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

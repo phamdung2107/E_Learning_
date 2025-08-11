@@ -75,7 +75,6 @@ const HeaderComponent: React.FC = () => {
 
     return (
         <Layout>
-            {/* Top Info Bar */}
             <div
                 style={{
                     background:
@@ -215,7 +214,6 @@ const HeaderComponent: React.FC = () => {
                 </div>
             </div>
 
-            {/* Main Header */}
             <Header
                 style={{
                     background: 'white',
@@ -237,7 +235,6 @@ const HeaderComponent: React.FC = () => {
                         justify="space-between"
                         style={{ height: '100%' }}
                     >
-                        {/* Logo */}
                         <Col>
                             <div
                                 style={{
@@ -283,7 +280,6 @@ const HeaderComponent: React.FC = () => {
                             </div>
                         </Col>
 
-                        {/* Navigation Menu */}
                         <Col
                             flex="auto"
                             style={{
@@ -349,7 +345,6 @@ const HeaderComponent: React.FC = () => {
                             </div>
                         </Col>
 
-                        {/* Right Actions */}
                         <Col>
                             <Row gutter={20} align="middle">
                                 {isAuthenticated &&

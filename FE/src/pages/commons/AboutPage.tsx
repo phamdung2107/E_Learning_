@@ -25,7 +25,6 @@ const { Title, Paragraph, Text } = Typography
 const AboutPage: React.FC = () => {
     return (
         <div>
-            {/* Hero Section */}
             <section className="about-hero-section">
                 <div className="about-hero-floating-1" />
                 <div className="about-hero-floating-2" />
@@ -43,7 +42,6 @@ const AboutPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Mission, Vision, Values */}
             <section className="about-mission-section">
                 <div className="about-mission-background" />
 
@@ -145,7 +143,6 @@ const AboutPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Our Story */}
             <section className="about-story-section">
                 <div className="about-story-decorative" />
 
@@ -217,7 +214,6 @@ const AboutPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Leadership Team */}
             <section className="about-team-section">
                 <div className="about-team-background" />
 
@@ -365,7 +361,6 @@ const AboutPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Stats Section */}
             <section className="about-stats-section">
                 <div className="about-stats-floating-1" />
                 <div className="about-stats-floating-2" />
@@ -481,7 +476,6 @@ const AboutPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Core Values */}
             <section className="about-values-section">
                 <div className="about-values-background" />
 
@@ -595,7 +589,6 @@ const AboutPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Call to Action */}
             <section className="about-cta-section">
                 <div className="about-cta-floating-1" />
                 <div className="about-cta-floating-2" />

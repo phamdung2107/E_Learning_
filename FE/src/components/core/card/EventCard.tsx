@@ -114,17 +114,6 @@ const EventCard: React.FC<EventCardProps> = ({ event, onJoin }) => {
                     {event.content}
                 </Paragraph>
 
-                {/*<div className="event-card-time">*/}
-                {/*    <div className="event-card-time-item">*/}
-                {/*        <CalendarOutlined className="event-card-time-icon" />*/}
-                {/*        <span>Start: {formatDate(event.start_time)}</span>*/}
-                {/*    </div>*/}
-                {/*    <div className="event-card-time-item">*/}
-                {/*        <ClockCircleOutlined className="event-card-time-icon" />*/}
-                {/*        <span>End: {formatDate(event.end_time)}</span>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
                 {Object.keys(timeLeft).length > 0 && (
                     <div className="event-card-countdown">
                         <div className="event-card-countdown-title">

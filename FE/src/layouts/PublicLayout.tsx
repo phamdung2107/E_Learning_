@@ -37,7 +37,6 @@ const PublicLayout: React.FC = () => {
     const showBreadcrumb = location.pathname !== PATHS.HOME
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            {/* Fixed Header */}
             <div
                 style={{
                     position: 'fixed',
@@ -54,7 +53,6 @@ const PublicLayout: React.FC = () => {
                 <HeaderComponent />
             </div>
 
-            {/* Main Content with proper top margin */}
             <Content
                 style={{
                     marginTop: '144px',
@@ -83,7 +81,6 @@ const PublicLayout: React.FC = () => {
                 </div>
             </Content>
 
-            {/* Footer */}
             <Footer
                 style={{
                     backgroundColor: '#001529',

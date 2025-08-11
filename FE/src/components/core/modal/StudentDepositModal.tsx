@@ -20,7 +20,7 @@ export const StudentDepositModal = ({
             const response = await EventService.getMaximumBonusPercent()
             setEvent(response.data)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

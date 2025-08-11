@@ -180,7 +180,6 @@ const HomePage: React.FC = () => {
 
     return (
         <div>
-            {/* Hero Section */}
             <section className="hero-section">
                 <div className="hero-floating-element-1" />
                 <div className="hero-floating-element-2" />
@@ -237,7 +236,6 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Stats Section */}
             <section className="stats-section">
                 <div className="stats-background" />
                 <div className="stats-content">
@@ -302,7 +300,6 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* About Section */}
             <section className="about-section">
                 <div className="about-decorative-1" />
                 <div className="about-decorative-2" />
@@ -389,7 +386,6 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Featured Courses */}
             <section className="featured-courses-section">
                 <div className="featured-courses-background" />
 
@@ -413,7 +409,6 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Popular Courses Banner */}
             <section className="banner-section">
                 <div className="banner-floating-1" />
                 <div className="banner-floating-2" />
@@ -485,7 +480,6 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Featured Instructors */}
             <section className="instructors-section">
                 <div className="instructors-background" />
 
@@ -508,7 +502,6 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Activities Section */}
             <section className="activities-section">
                 <div className="activities-background" />
 
@@ -532,7 +525,6 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Student Reviews */}
             <section className="reviews-section">
                 <div className="reviews-background" />
 
@@ -560,7 +552,6 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Categories */}
             <section className="categories-section">
                 <div className="categories-background" />
 
@@ -583,7 +574,6 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* CTA Section */}
             <section className="cta-section">
                 <div className="cta-floating-1" />
                 <div className="cta-floating-2" />

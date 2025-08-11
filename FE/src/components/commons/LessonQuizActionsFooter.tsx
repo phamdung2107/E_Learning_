@@ -35,7 +35,7 @@ const LessonQuizActionsFooter = ({
             const response = await CourseService.lessonWithQuiz(courseId)
             setLessonWithQuiz(convertLessonWithQuizData(response.data))
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
@@ -49,7 +49,7 @@ const LessonQuizActionsFooter = ({
             await fetchLessonWithQuiz()
             return response
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

@@ -46,9 +46,7 @@ const ContactPage: React.FC = () => {
     const onFinish = async (values: any) => {
         setLoading(true)
         try {
-            // Simulate API call
             await new Promise((resolve) => setTimeout(resolve, 2000))
-            console.log('Form values:', values)
             message.success(
                 'Cảm ơn bạn đã gửi liên hệ! Chúng tôi sẽ phản hồi sớm nhất.'
             )
@@ -61,7 +59,6 @@ const ContactPage: React.FC = () => {
     }
 
     const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo)
         message.error('Vui lòng điền đầy đủ các trường bắt buộc.')
     }
 
@@ -128,7 +125,6 @@ const ContactPage: React.FC = () => {
 
     return (
         <div>
-            {/* Hero Section */}
             <section className="contact-hero-section">
                 <div className="contact-hero-floating-1" />
                 <div className="contact-hero-floating-2" />
@@ -146,7 +142,6 @@ const ContactPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Contact Information */}
             <section className="contact-info-section">
                 <div className="contact-info-background" />
 
@@ -275,7 +270,6 @@ const ContactPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Contact Form */}
             <section className="contact-form-section">
                 <div className="contact-form-decorative" />
 
@@ -563,7 +557,6 @@ const ContactPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Map Section */}
             <section className="contact-map-section">
                 <div className="contact-map-content">
                     <div style={{ textAlign: 'center', marginBottom: '60px' }}>
@@ -582,7 +575,6 @@ const ContactPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Office Locations */}
             <section className="contact-offices-section">
                 <div className="contact-offices-background" />
 
@@ -702,7 +694,6 @@ const ContactPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* FAQ Section */}
             <section className="contact-faq-section">
                 <div className="contact-faq-content">
                     <Row gutter={[48, 48]}>
@@ -846,7 +837,6 @@ const ContactPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* Social Media */}
             <section className="contact-social-section">
                 <div className="contact-social-floating-1" />
                 <div className="contact-social-floating-2" />

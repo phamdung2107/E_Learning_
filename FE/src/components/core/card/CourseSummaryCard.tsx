@@ -28,7 +28,7 @@ const CourseSummaryCard = ({ course }: any) => {
             )
             setAverageRating(response.data?.average_rating)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
