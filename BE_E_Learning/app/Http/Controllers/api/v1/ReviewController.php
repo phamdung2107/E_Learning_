@@ -73,8 +73,13 @@ class ReviewController extends Controller
         $review = Review::create($data);
 
         $course = Course::find($data['course_id']);
+        
+        $instructorUserId = \DB::table('instructors')
+            ->where('id', $course->instructor_id)
+            ->value('user_id');
+
         Notification::create([
-            'user_id' => $course->instructor_id,
+            'user_id' => $instructorUserId,
             'type' => 'other',
             'title' => 'Bạn có đánh giá mới',
             'message' => "Khóa học '{$course->title}' vừa nhận được đánh giá {$review->rating} sao."
