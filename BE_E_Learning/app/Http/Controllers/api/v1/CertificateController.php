@@ -105,6 +105,10 @@ class CertificateController extends Controller
             'user_name' => $user->full_name,
             'course_title' => $course->title,
             'issue_date' => $issueDate,
+        ])->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+            'defaultFont' => 'Montserrat'
         ]);
 
         // Tạo tên file và lưu vào storage
