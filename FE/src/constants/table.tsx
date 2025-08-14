@@ -274,11 +274,11 @@ export const getAdminManageCourseColumns = (
         key: 'title',
         align: 'left',
         fixed: 'left',
-        render: (text: any) => {
+        render: (_: any, record: any) => {
             return (
                 <div>
-                    <Link to={`/admin/courses/${text}`} target="_blank">
-                        {text}
+                    <Link to={`/admin/courses/${record.id}`} target="_blank">
+                        {record.title}
                     </Link>
                 </div>
             )

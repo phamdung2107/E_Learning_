@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Progress, Tag, Typography } from 'antd'
 
-import { CheckCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
+import {
+    CheckCircleOutlined,
+    EyeFilled,
+    PlayCircleOutlined,
+} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { DATE_FORMAT } from '@/constants/date'
 import { BASE_IMAGE_URL } from '@/constants/image'
 import { STUDENT_PATHS } from '@/routers/path'
+import CertificateService from '@/services/certificate'
 import LessonService from '@/services/lesson'
 import ProgressService from '@/services/progress'
 import { formatDateTime } from '@/utils/format'
@@ -18,13 +23,13 @@ const { Text, Title } = Typography
 const EnrollCourseCard = ({ course }: any) => {
     const user = useSelector((state: any) => state.auth.user)
     const userId = user.user ? user.user.id : user.id
-    const [lessons, setLessons] = useState<any>(0)
     const [completedLessons, setCompletedLessons] = useState<any>(0)
+    const [certificate, setCertificate] = useState<any>(null)
 
-    const fetchLessons = async () => {
+    const fetchCertificate = async () => {
         try {
-            const response = await LessonService.getByCourse(course.id)
-            setLessons(response.total)
+            const response = await CertificateService.check(userId, course.id)
+            setCertificate(response.data)
         } catch (error) {
             console.error(error)
         }
@@ -43,8 +48,8 @@ const EnrollCourseCard = ({ course }: any) => {
     }
 
     useEffect(() => {
-        fetchLessons()
         fetchCompletedLessons()
+        fetchCertificate()
     }, [course])
 
     return (
@@ -58,15 +63,24 @@ const EnrollCourseCard = ({ course }: any) => {
                 />
             }
             actions={[
-                completedLessons === lessons && completedLessons > 0 ? (
-                    <Link
-                        to={STUDENT_PATHS.STUDENT_CERTIFICATE}
-                        key={`certificate-${course.id}`}
-                    >
-                        <Button type="link" icon={<CheckCircleOutlined />}>
-                            Xem chứng chỉ
-                        </Button>
-                    </Link>
+                completedLessons === course.lessons.length &&
+                completedLessons > 0 ? (
+                    certificate && certificate.has_certificate ? (
+                        <Link
+                            to={certificate.certificate.certificate_url}
+                            target="_blank"
+                        >
+                            <Button type="link" icon={<EyeFilled />}>
+                                Xem chứng chỉ
+                            </Button>
+                        </Link>
+                    ) : (
+                        <Link to={`/courses/${course.id}`} target="_blank">
+                            <Button type="link" icon={<CheckCircleOutlined />}>
+                                Lấy chứng chỉ
+                            </Button>
+                        </Link>
+                    )
                 ) : (
                     <Link
                         to={`/courses/${course.id}`}
@@ -110,7 +124,9 @@ const EnrollCourseCard = ({ course }: any) => {
             <div style={{ marginBottom: '12px' }}>
                 <Progress
                     percent={
-                        Math.round((completedLessons / lessons) * 100) || 0
+                        Math.round(
+                            (completedLessons / course.lessons.length) * 100
+                        ) || 0
                     }
                     size="small"
                     status={
@@ -125,7 +141,7 @@ const EnrollCourseCard = ({ course }: any) => {
                     }}
                 >
                     <Text type="secondary" style={{ fontSize: '12px' }}>
-                        {completedLessons}/{lessons} bài học
+                        {completedLessons}/{course.lessons.length} bài học
                     </Text>
                 </div>
             </div>

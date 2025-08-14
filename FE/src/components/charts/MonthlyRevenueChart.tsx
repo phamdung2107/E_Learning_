@@ -9,12 +9,17 @@ interface MonthlyRevenueData {
     revenue: number
 }
 
-export const MonthlyRevenueChart = ({ instructorId }: any) => {
+export const MonthlyRevenueChart = ({ id, role = 'instructor' }: any) => {
     const [data, setData] = useState<MonthlyRevenueData[]>([])
 
     const fetchData = async () => {
         try {
-            const res = await InstructorService.getMonthlyRevenue(instructorId)
+            let res
+            if (role === 'admin') {
+                res = await InstructorService.getMonthlyRevenueByAdmin()
+            } else if (role === 'instructor') {
+                res = await InstructorService.getMonthlyRevenueInstructor(id)
+            }
             if (res.status === 200) {
                 setData(res.data)
             }

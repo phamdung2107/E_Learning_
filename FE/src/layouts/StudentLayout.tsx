@@ -10,6 +10,7 @@ import {
     BookOutlined,
     DashboardOutlined,
     DollarCircleOutlined,
+    HomeOutlined,
     LogoutOutlined,
     MenuOutlined,
     ShoppingCartOutlined,
@@ -101,6 +102,11 @@ const StudentLayout: React.FC = () => {
             ),
         },
         {
+            key: PATHS.HOME,
+            icon: <HomeOutlined />,
+            label: <Link to={PATHS.HOME}>Trang chủ</Link>,
+        },
+        {
             key: 'logout',
             icon: <LogoutOutlined />,
             label: (
@@ -127,6 +133,11 @@ const StudentLayout: React.FC = () => {
                 style={{
                     background: '#fff',
                     boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
+                    position: 'fixed',
+                    height: '100%',
+                    left: 0,
+                    top: 0,
+                    zIndex: 100,
                 }}
             >
                 <div
@@ -155,7 +166,12 @@ const StudentLayout: React.FC = () => {
                 />
             </Sider>
 
-            <Layout>
+            <Layout
+                style={{
+                    marginLeft: collapsed ? 80 : 200,
+                    transition: 'margin-left 0.3s',
+                }}
+            >
                 <Header
                     style={{
                         padding: '0 24px',
@@ -164,6 +180,12 @@ const StudentLayout: React.FC = () => {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                        position: 'fixed',
+                        top: 0,
+                        left: collapsed ? 80 : 200,
+                        right: 0,
+                        zIndex: 101,
+                        transition: 'left 0.3s',
                     }}
                 >
                     <Button

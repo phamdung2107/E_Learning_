@@ -2,27 +2,30 @@ import React, { useEffect, useState } from 'react'
 
 import { Button, Card, Col, Progress, Row, Tag, Typography } from 'antd'
 
-import { EyeFilled, PlayCircleOutlined } from '@ant-design/icons'
+import {
+    CheckCircleOutlined,
+    EyeFilled,
+    PlayCircleOutlined,
+} from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { BASE_IMAGE_URL } from '@/constants/image'
-import { STUDENT_PATHS } from '@/routers/path'
-import LessonService from '@/services/lesson'
+import CertificateService from '@/services/certificate'
 import ProgressService from '@/services/progress'
 
 const { Text, Title } = Typography
 
 const EnrollCourseSummaryCard = ({ course }: any) => {
     const user = useSelector((state: any) => state.auth.user)
-    const [lessons, setLessons] = useState<any>(0)
     const userId = user.user ? user.user.id : user.id
     const [completedLessons, setCompletedLessons] = useState<any>(0)
+    const [certificate, setCertificate] = useState<any>(null)
 
-    const fetchLessons = async () => {
+    const fetchCertificate = async () => {
         try {
-            const response = await LessonService.getByCourse(course.id)
-            setLessons(response.total)
+            const response = await CertificateService.check(userId, course.id)
+            setCertificate(response.data)
         } catch (error) {
             console.error(error)
         }
@@ -41,8 +44,8 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
     }
 
     useEffect(() => {
-        fetchLessons()
         fetchCompletedLessons()
+        fetchCertificate()
     }, [course])
 
     return (
@@ -52,7 +55,7 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
                 background: course.status === 'completed' ? '#f6ffed' : '#fff',
             }}
         >
-            <Row gutter={16} align="middle">
+            <Row gutter={8} align="middle">
                 <Col xs={24} sm={6}>
                     <img
                         src={`${BASE_IMAGE_URL}${course?.thumbnail}`}
@@ -81,32 +84,49 @@ const EnrollCourseSummaryCard = ({ course }: any) => {
                         <Progress
                             percent={
                                 Math.round(
-                                    (completedLessons / lessons) * 100
+                                    (completedLessons / course.lessons.length) *
+                                        100
                                 ) || 0
                             }
                             size="small"
                             status={
-                                completedLessons === lessons
+                                completedLessons === course.lessons.length
                                     ? 'success'
                                     : 'active'
                             }
                         />
                         <Text type="secondary" style={{ fontSize: '12px' }}>
-                            {completedLessons}/{lessons} bài học
+                            {completedLessons}/{course.lessons.length} bài học
                         </Text>
                     </div>
                 </Col>
                 <Col xs={24} sm={6} style={{ textAlign: 'right' }}>
-                    {completedLessons === lessons && completedLessons > 0 ? (
-                        <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>
-                            <Button
-                                variant="solid"
-                                color="green"
-                                icon={<EyeFilled />}
+                    {completedLessons === course.lessons.length &&
+                    completedLessons > 0 ? (
+                        certificate && certificate.has_certificate ? (
+                            <Link
+                                to={certificate.certificate.certificate_url}
+                                target="_blank"
                             >
-                                Xem chứng chỉ
-                            </Button>
-                        </Link>
+                                <Button
+                                    variant="solid"
+                                    color="green"
+                                    icon={<EyeFilled />}
+                                >
+                                    Xem chứng chỉ
+                                </Button>
+                            </Link>
+                        ) : (
+                            <Link to={`/courses/${course.id}`} target="_blank">
+                                <Button
+                                    variant="solid"
+                                    color="orange"
+                                    icon={<CheckCircleOutlined />}
+                                >
+                                    Lấy chứng chỉ
+                                </Button>
+                            </Link>
+                        )
                     ) : (
                         <Link to={`/courses/${course.id}`}>
                             <Button

@@ -169,7 +169,7 @@ const InstructorDashboardPage = () => {
                             </div>
                         }
                     >
-                        <MonthlyRevenueChart instructorId={user.id} />
+                        <MonthlyRevenueChart id={user.id} />
                     </Card>
                 </Col>
 

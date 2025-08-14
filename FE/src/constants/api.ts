@@ -115,7 +115,9 @@ export const INSTRUCTOR_API = {
 
     COURSES: (id: any) => `/instructors/${id}/courses`,
     REVENUE: (id: any) => `/instructors/${id}/revenue`,
-    MONTHLY_REVENUE: (id: any) => `/instructors/${id}/monthly-revenue`,
+    MONTHLY_REVENUE_BY_INSTRUCTOR: (id: any) =>
+        `/instructors/${id}/monthly-revenue`,
+    MONTHLY_REVENUE_BY_ADMIN: `/admin/monthly-revenue`,
     STUDENTS: (id: any) => `/instructors/${id}/students`,
 }
 
@@ -257,6 +259,8 @@ export const CERTIFICATE_API = {
     CREATE: `/certificates`,
     DETAIL: (id: number | string) => `/certificates/${id}`,
     DELETE: (id: number | string) => `/certificates/${id}`,
+    CHECK_CERTIFICATE: (userId: number | string, courseId: number | string) =>
+        `/certificates/check?user_id=${userId}&course_id=${courseId}`,
 }
 
 export const QUIZ_API = {

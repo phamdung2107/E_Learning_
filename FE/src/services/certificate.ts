@@ -17,6 +17,15 @@ class CertificateService {
     async delete(id: number | string): Promise<any> {
         return await http.delete(CERTIFICATE_API.DELETE(id))
     }
+
+    async check(
+        userId: number | string,
+        courseId: number | string
+    ): Promise<any> {
+        return await http.get(
+            CERTIFICATE_API.CHECK_CERTIFICATE(userId, courseId)
+        )
+    }
 }
 
 export default new CertificateService()

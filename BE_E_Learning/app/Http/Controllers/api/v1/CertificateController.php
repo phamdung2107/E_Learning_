@@ -182,4 +182,53 @@ class CertificateController extends Controller
         $cert->delete();
         return Response::data(['message' => 'Chứng chỉ đã được xoá']);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/certificates/check",
+     *     summary="Kiểm tra học viên đã có chứng chỉ chưa",
+     *     tags={"Certificate"},
+     *     @OA\Parameter(
+     *         name="user_id",
+     *         in="query",
+     *         required=true,
+     *         description="ID người dùng",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="course_id",
+     *         in="query",
+     *         required=true,
+     *         description="ID khóa học",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Kết quả kiểm tra chứng chỉ"
+     *     )
+     * )
+     */
+    public function checkCertificate(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        $certificate = Certificate::where('user_id', $validated['user_id'])
+            ->where('course_id', $validated['course_id'])
+            ->first();
+
+        if ($certificate) {
+            return Response::data([
+                'has_certificate' => true,
+                'certificate' => new CertificateResource($certificate),
+            ]);
+        }
+
+        return Response::data([
+            'has_certificate' => false,
+            'certificate' => null,
+        ]);
+    }
 }

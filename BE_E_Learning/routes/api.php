@@ -160,6 +160,7 @@ Route::prefix('enrollments')->group(function () {
 
 Route::prefix('certificates')->group(function () {
     Route::get('/', [CertificateController::class, 'index']);
+    Route::get('/check', [CertificateController::class, 'checkCertificate']);
     Route::post('/', [CertificateController::class, 'store']);
     Route::get('/{id}', [CertificateController::class, 'show']);
     Route::delete('/{id}', [CertificateController::class, 'destroy']);  // bỏ

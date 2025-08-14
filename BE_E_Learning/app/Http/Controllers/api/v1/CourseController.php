@@ -236,7 +236,7 @@ class CourseController extends Controller
         $user = $request->user();
 
         $enrollments = $user->enrollments()
-            ->with(['course.category', 'course.instructor.user'])
+            ->with(['course.category', 'course.instructor.user', 'course.lessons'])
             ->whereHas('course', function ($q) use ($request) {
                 if ($request->search) {
                     $q->where('title', 'like', '%' . $request->search . '%');

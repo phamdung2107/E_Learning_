@@ -26,7 +26,6 @@ import { Link } from 'react-router-dom'
 
 import { MonthlyRevenueChart } from '@/components/charts/MonthlyRevenueChart'
 import { ADMIN_PATHS } from '@/routers/path'
-import EnrollmentService from '@/services/enrollment'
 import NotificationService from '@/services/notification'
 import UserService from '@/services/user'
 import { getCurrentNotificationAction } from '@/stores/notification/notificationAction'
@@ -36,12 +35,7 @@ const { Title, Text } = Typography
 const AdminDashboardPage = () => {
     const user = useSelector((store: any) => store.auth.user)
     const dispatch = useDispatch()
-    const [courseCount, setCourseCount] = useState(0)
-    const [studentCount, setStudentCount] = useState(0)
-    const [revenue, setRevenue] = useState(0)
-    const [totalEnrollments, setTotalEnrollments] = useState<any>(0)
     const [countUsers, setCountUsers] = useState<any>(0)
-    const averageRating = 4.7
     const [notifications, setNotifications] = useState<any[]>([])
 
     const getNotificationIcon = (type: string) => {
@@ -69,12 +63,7 @@ const AdminDashboardPage = () => {
 
     const fetchData = async () => {
         try {
-            const [resCountUsers, resEnroll] = await Promise.all([
-                UserService.countUsers(),
-                EnrollmentService.getAll(),
-            ])
-
-            setTotalEnrollments(resEnroll.total)
+            const resCountUsers = await UserService.countUsers()
             setCountUsers(resCountUsers.data)
         } catch (e) {
             console.error(e)
@@ -113,7 +102,7 @@ const AdminDashboardPage = () => {
                 justify="space-between"
                 className="student-stats-row"
             >
-                <Col xs={12} sm={4}>
+                <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
                             title="Tổng số người dùng"
@@ -123,7 +112,7 @@ const AdminDashboardPage = () => {
                         />
                     </Card>
                 </Col>
-                <Col xs={12} sm={4}>
+                <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
                             title="Người dùng đang hoạt động"
@@ -133,7 +122,7 @@ const AdminDashboardPage = () => {
                         />
                     </Card>
                 </Col>
-                <Col xs={12} sm={4}>
+                <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
                             title="Tổng số giảng viên"
@@ -143,23 +132,13 @@ const AdminDashboardPage = () => {
                         />
                     </Card>
                 </Col>
-                <Col xs={12} sm={4}>
+                <Col xs={12} sm={6}>
                     <Card className="student-stats-card">
                         <Statistic
                             title="Người dùng bị khóa"
                             value={countUsers?.banned}
                             prefix={<UserOutlined />}
                             valueStyle={{ color: 'red' }}
-                        />
-                    </Card>
-                </Col>
-                <Col xs={12} sm={4}>
-                    <Card className="student-stats-card">
-                        <Statistic
-                            title="Doanh thu"
-                            value={revenue}
-                            prefix={<DollarOutlined />}
-                            valueStyle={{ color: '#1890ff' }}
                         />
                     </Card>
                 </Col>
@@ -181,7 +160,7 @@ const AdminDashboardPage = () => {
                             </div>
                         }
                     >
-                        <MonthlyRevenueChart instructorId={user.id} />
+                        <MonthlyRevenueChart id={user.id} role="admin" />
                     </Card>
                 </Col>
 

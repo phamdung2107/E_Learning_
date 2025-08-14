@@ -8,6 +8,7 @@ import {
     DashboardOutlined,
     DollarCircleFilled,
     DollarCircleOutlined,
+    HomeOutlined,
     LogoutOutlined,
     MenuOutlined,
     PicRightOutlined,
@@ -109,6 +110,11 @@ const AdminLayout = () => {
             ),
         },
         {
+            key: PATHS.HOME,
+            icon: <HomeOutlined />,
+            label: <Link to={PATHS.HOME}>Trang chủ</Link>,
+        },
+        {
             key: 'logout',
             icon: <LogoutOutlined />,
             label: (
@@ -135,6 +141,11 @@ const AdminLayout = () => {
                 style={{
                     background: '#fff',
                     boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
+                    position: 'fixed',
+                    height: '100%',
+                    left: 0,
+                    top: 0,
+                    zIndex: 100,
                 }}
             >
                 <div
@@ -163,7 +174,12 @@ const AdminLayout = () => {
                 />
             </Sider>
 
-            <Layout>
+            <Layout
+                style={{
+                    marginLeft: collapsed ? 80 : 200,
+                    transition: 'margin-left 0.3s',
+                }}
+            >
                 <Header
                     style={{
                         padding: '0 24px',
@@ -172,6 +188,12 @@ const AdminLayout = () => {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                        position: 'fixed',
+                        top: 0,
+                        left: collapsed ? 80 : 200,
+                        right: 0,
+                        zIndex: 101,
+                        transition: 'left 0.3s',
                     }}
                 >
                     <Button
@@ -234,8 +256,7 @@ const AdminLayout = () => {
 
                 <Content
                     style={{
-                        margin: '24px',
-                        padding: '24px',
+                        margin: '88px 24px 24px',
                         background: '#f5f5f5',
                         minHeight: 'calc(100vh - 112px)',
                     }}
