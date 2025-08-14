@@ -230,14 +230,11 @@ const InstructorManageCoursesPage = () => {
                     expandable={{
                         expandedRowRender: (record) => (
                             <div style={{ display: 'flex' }}>
-                                <p>
-                                    Click vào link bên để xem chi tiết khóa học:
-                                </p>
                                 <Link
                                     to={`/instructor/courses/${record.id}`}
                                     target="_blank"
                                 >
-                                    <strong>Link</strong>
+                                    <strong>Xem chi tiết khóa học</strong>
                                 </Link>
                             </div>
                         ),

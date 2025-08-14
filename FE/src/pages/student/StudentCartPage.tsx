@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { CheckoutOrderModal } from '@/components/core/modal/CheckoutOrderModal'
 import { DeleteOrderModal } from '@/components/core/modal/DeleteOrderModal'
+import { BASE_IMAGE_URL } from '@/constants/image'
 import { PATHS, STUDENT_PATHS } from '@/routers/path'
 import OrderService from '@/services/order'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
@@ -142,7 +143,7 @@ const StudentCartPage = () => {
             key: 'courseImage',
             render: (text: any) => (
                 <Image
-                    src={text}
+                    src={`${BASE_IMAGE_URL}${text}`}
                     alt="course"
                     style={{ width: '80px', height: 'auto' }}
                 />

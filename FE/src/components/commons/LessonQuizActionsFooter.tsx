@@ -25,15 +25,32 @@ const LessonQuizActionsFooter = ({
     totalLessons,
 }: any) => {
     const user = useSelector((state: any) => state.auth.user)
+    const userId = user.user ? user.user.id : user.id
     const [lessonWithQuiz, setLessonWithQuiz] = useState<any[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+    const [isCourseCompleted, setIsCourseCompleted] = useState<boolean>(false)
+    const [isCloseCompleted, setIsCloseCompleted] = useState<boolean>(false)
 
     const fetchLessonWithQuiz = async () => {
         try {
             const response = await CourseService.lessonWithQuiz(courseId)
             setLessonWithQuiz(convertLessonWithQuizData(response.data))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const fetchIsCompleted = async () => {
+        try {
+            const response = await ProgressService.isCompletedCourse(
+                userId,
+                courseId
+            )
+            if (response.status === 200) {
+                setIsCourseCompleted(response.data.is_completed)
+            }
         } catch (error) {
             console.error(error)
         }
@@ -56,6 +73,16 @@ const LessonQuizActionsFooter = ({
     useEffect(() => {
         fetchLessonWithQuiz()
     }, [currentElement])
+
+    useEffect(() => {
+        fetchIsCompleted()
+    }, [userId, courseId])
+
+    useEffect(() => {
+        if (!isModalOpen && isCloseCompleted) {
+            navigate(0)
+        }
+    }, [isModalOpen, isCloseCompleted])
 
     const currentIndex = lessonWithQuiz.findIndex((item) => {
         if (currentElement.lesson_id) {
@@ -132,18 +159,6 @@ const LessonQuizActionsFooter = ({
         setLoading(true)
         try {
             const userId = user.user ? user.user.id : user.id
-            const noQuizAfterLastLesson =
-                isOnLastLessonOrQuiz &&
-                currentItem?.type === 'lesson' &&
-                !lessonWithQuiz.some(
-                    (item) =>
-                        item.type === 'quiz' &&
-                        item.lesson_id === currentItem.id
-                )
-
-            if (noQuizAfterLastLesson) {
-                await maskCompletedLesson(currentItem.id)
-            }
 
             const response = await CertificateService.create({
                 user_id: Number(userId),
@@ -166,6 +181,25 @@ const LessonQuizActionsFooter = ({
             })
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleCompletedCourse = async () => {
+        setIsModalOpen(true)
+        if (!isCourseCompleted) {
+            const noQuizAfterLastLesson =
+                isOnLastLessonOrQuiz &&
+                currentItem?.type === 'lesson' &&
+                !lessonWithQuiz.some(
+                    (item) =>
+                        item.type === 'quiz' &&
+                        item.lesson_id === currentItem.id
+                )
+
+            if (noQuizAfterLastLesson) {
+                await maskCompletedLesson(currentItem.id)
+            }
+            setIsCloseCompleted(true)
         }
     }
 
@@ -209,7 +243,7 @@ const LessonQuizActionsFooter = ({
                 <Col>
                     {showCompleteButton && (
                         <Button
-                            onClick={() => setIsModalOpen(true)}
+                            onClick={handleCompletedCourse}
                             variant="solid"
                             color="green"
                             icon={<CheckCircleOutlined />}

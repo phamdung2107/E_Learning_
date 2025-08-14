@@ -81,7 +81,7 @@ const LessonDetailPage: React.FC = () => {
             </div>
         )
     }
-
+    console.log(currentLesson)
     return (
         <LessonQuizDetailLayout
             header={
@@ -123,18 +123,16 @@ const LessonDetailPage: React.FC = () => {
                     >
                         <div className="video-player">
                             {currentLesson?.video_url ? (
-                                <video
-                                    controls
+                                <iframe
                                     width="100%"
-                                    height="100%"
-                                    poster={`${BASE_IMAGE_URL}${currentLesson?.thumbnail}`}
-                                >
-                                    <source
-                                        src={currentLesson.video_url}
-                                        type="video/mp4"
-                                    />
-                                    Trình duyệt của bạn không hỗ trợ video.
-                                </video>
+                                    height="600"
+                                    src={currentLesson.video_url}
+                                    title="YouTube video player"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerPolicy="strict-origin-when-cross-origin"
+                                    allowFullScreen
+                                ></iframe>
                             ) : (
                                 <div
                                     className="video-placeholder"

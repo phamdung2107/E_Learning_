@@ -46,12 +46,12 @@ class ForgotPassword extends Mailable
         $uuid = (string) Str::uuid();
         Cache::put($uuid, $this->user->email, now()->addMinutes(30));
 
-        $url = "/reset-password?signature={$uuid}";
+        $url = "http://localhost:3000/reset-password?signature={$uuid}";
 
         return new Content(
             markdown: 'emails.forgot',
             with: [
-                'url' => env('FRONTEND_URL').$url,
+                'url' => env('FRONTEND_URL') . $url,
                 'name' => $this->user->full_name,
             ],
 

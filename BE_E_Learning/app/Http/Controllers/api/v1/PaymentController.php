@@ -126,12 +126,7 @@ class PaymentController extends Controller
 
                 DB::commit();
 
-                return Response::data([
-                    'message' => 'Nạp tiền thành công',
-                    'amount' => $topup->amount,
-                    'bonus' => $bonus,
-                    'total_added' => $topup->amount + $bonus
-                ]);
+                return redirect()->to('http://localhost:3000/student/transactions');
             } catch (\Exception $e) {
                 DB::rollBack();
                 return Response::data(['message' => 'Có lỗi xảy ra'], 500);
@@ -167,11 +162,11 @@ class PaymentController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-    *             required={"amount", "bank_account", "note"},
-    *             @OA\Property(property="amount", type="number", format="float", example=500000),
-    *             @OA\Property(property="bank_account", type="string", example="0123456789 - Ngân hàng ACB"),
-    *             @OA\Property(property="note", type="string", example="Rút tiền sau khoá học")
-    *         )
+     *             required={"amount", "bank_account", "note"},
+     *             @OA\Property(property="amount", type="number", format="float", example=500000),
+     *             @OA\Property(property="bank_account", type="string", example="0123456789 - Ngân hàng ACB"),
+     *             @OA\Property(property="note", type="string", example="Rút tiền sau khoá học")
+     *         )
      *     ),
      *     @OA\Response(response=200, description="Yêu cầu rút tiền đã được gửi")
      * )

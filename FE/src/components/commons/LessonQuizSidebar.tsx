@@ -65,7 +65,8 @@ const LessonQuizSidebar = ({
             const prevLesson = lessonWithQuiz[index - 1]
             return (
                 checkCompleted(prevLesson.quizzes) ||
-                prevLesson.quizzes.length === 0
+                (prevLesson.quizzes.length === 0 &&
+                    prevLesson.is_completed === 1)
             )
         })
     }
@@ -87,7 +88,7 @@ const LessonQuizSidebar = ({
     useEffect(() => {
         fetchLessonWithQuiz(courseId)
     }, [courseId])
-
+    console.log(getLessonEnableList())
     return (
         <div className="lesson-sidebar-content" style={{ padding: 0 }}>
             <div

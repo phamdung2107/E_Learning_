@@ -71,12 +71,16 @@ class ResultQuizController extends Controller
                     ->where('question_id', $item['question_id'])
                     ->value('is_correct');
 
-                ResultAnswer::create([
-                    'result_quiz_id' => $resultQuiz->id,
-                    'question_id' => $item['question_id'],
-                    'selected_answer_id' => $item['answer_id'],
-                    'is_correct' => $isCorrect,
-                ]);
+                ResultAnswer::updateOrCreate(
+                    [
+                        'result_quiz_id' => $resultQuiz->id,
+                        'question_id' => $item['question_id']
+                    ],
+                    [
+                        'selected_answer_id' => $item['answer_id'],
+                        'is_correct' => $isCorrect
+                    ]
+                );
 
                 if ($isCorrect) {
                     $correctCount++;

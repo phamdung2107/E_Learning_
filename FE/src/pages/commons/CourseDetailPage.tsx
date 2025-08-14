@@ -137,10 +137,6 @@ const CourseDetailPage: React.FC = () => {
     }
 
     useEffect(() => {
-        fetchCourseDetail()
-    }, [courseId])
-
-    useEffect(() => {
         if (userId) {
             EnrollmentService.checkEnrollment(userId, courseId).then((res) => {
                 setIsEnrolled(res.data)
@@ -148,6 +144,7 @@ const CourseDetailPage: React.FC = () => {
         } else {
             setIsEnrolled('cancelled')
         }
+        fetchCourseDetail()
     }, [userId, courseId])
 
     const handleNavigateToLesson = async () => {

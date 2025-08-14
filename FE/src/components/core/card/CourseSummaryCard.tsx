@@ -48,7 +48,7 @@ const CourseSummaryCard = ({ course }: any) => {
             cover={
                 <div className="course-cover">
                     <img
-                        src={`${BASE_IMAGE_URL}${course?.thumbnail}`}
+                        src={`${BASE_IMAGE_URL}${course?.course?.thumbnail}`}
                         alt={course?.course.title}
                         className="course-image"
                     />
