@@ -413,6 +413,32 @@ class InstructorController extends Controller
         return Response::data($result);
     }
 
+    public function getMonthlyRevenueWebsite(Request $request)
+{
+    $year = $request->query('year', now()->year);
+
+    $revenues = DB::table('courses as c')
+        ->join('orders as o', 'c.id', '=', 'o.course_id')
+        ->where('c.deleted', 0)
+        ->where('o.deleted', 0)
+        ->where('o.payment_status', 'paid') // chỉ tính đơn đã thanh toán
+        ->whereYear('o.created_at', $year)
+        ->selectRaw('MONTH(o.created_at) as month, SUM(o.original_price) as revenue')
+        ->groupByRaw('MONTH(o.created_at)')
+        ->pluck('revenue', 'month');
+
+    $result = [];
+    for ($m = 1; $m <= 12; $m++) {
+        $result[] = [
+            'month' => str_pad($m, 2, '0', STR_PAD_LEFT) . '/' . $year,
+            'revenue' => (float) ($revenues[$m] ?? 0),
+        ];
+    }
+
+    return Response::data($result);
+}
+
+
     /**
      * @OA\Get(
      *     path="/api/instructors/by-user/{userId}",

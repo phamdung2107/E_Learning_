@@ -54,6 +54,7 @@ Route::get('instructors/{id}/students', [InstructorController::class, 'getStuden
 Route::get('instructors/top/revenue', [InstructorController::class, 'TopInstructors']); 
 Route::get('instructors/by-user/{userId}', [InstructorController::class, 'getInstructorByUserId']);   // instructor
 Route::get('instructors/{id}/monthly-revenue', [InstructorController::class, 'getMonthlyRevenue']);
+Route::get('admin/monthly-revenue', [InstructorController::class, 'getMonthlyRevenueWebsite']);
 Route::get('instructors/requested-students', [InstructorController::class, 'requestedStudents']);
 Route::apiResource('instructors', InstructorController::class);
 
