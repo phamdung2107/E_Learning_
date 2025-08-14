@@ -63,7 +63,7 @@ const StudentDashboard: React.FC = () => {
     const fetchEnrolledCourses = async () => {
         try {
             const response = await CourseService.getMyEnrolledCourses({})
-            setEnrolledCourses(response.data)
+            setEnrolledCourses(response.data.slice(0, 5))
         } catch (e) {
             console.error(e)
         }
