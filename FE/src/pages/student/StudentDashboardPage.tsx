@@ -47,6 +47,7 @@ const StudentDashboard: React.FC = () => {
     const user = useSelector((store: any) => store.auth.user)
     const userId = user.user ? user.user.id : user.id
     const [enrolledCourses, setEnrolledCourses] = useState<any[]>([])
+    const [totalCourses, setTotalCourses] = useState(0);
     const [progressSummary, setProgressSummary] = useState<any>({})
     const [totalCertificate, setTotalCertificate] = useState(0)
     const [notifications, setNotifications] = useState<any[]>([])
@@ -63,7 +64,8 @@ const StudentDashboard: React.FC = () => {
     const fetchEnrolledCourses = async () => {
         try {
             const response = await CourseService.getMyEnrolledCourses({})
-            setEnrolledCourses(response.data.slice(0, 5))
+            setTotalCourses(response?.data?.length);
+            setEnrolledCourses(response?.data.slice(0, 5));
         } catch (e) {
             console.error(e)
         }
@@ -137,7 +139,7 @@ const StudentDashboard: React.FC = () => {
                     <Card className="student-stats-card">
                         <Statistic
                             title="Khóa học"
-                            value={enrolledCourses.length}
+                            value={totalCourses}
                             prefix={<BookOutlined />}
                             valueStyle={{ color: '#20B2AA' }}
                         />
