@@ -33,6 +33,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import CourseCard from '@/components/core/card/CourseCard'
+import ListReviewModal from '@/components/core/modal/ListReviewModal'
 import StudentReviewCourseModal from '@/components/core/modal/StudentReviewCourseModal'
 import { DATE_TIME_FORMAT } from '@/constants/date'
 import { BASE_IMAGE_URL } from '@/constants/image'
@@ -70,6 +71,7 @@ const CourseDetailPage: React.FC = () => {
     const [reviews, setReviews] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+    const [isListReviewModalOpen, setIsListReviewModalOpen] = useState(false)
     const [reviewLoading, setReviewLoading] = useState(false)
 
     const requirements = [
@@ -696,12 +698,22 @@ const CourseDetailPage: React.FC = () => {
                         <div className="course-detail-reviews-stars">
                             <Rate disabled allowHalf value={averageRating} />
                         </div>
-                        <div className="course-detail-reviews-count">
-                            Dựa trên {totalStudentsOfCourse} đánh giá của học
-                            viên
-                        </div>
                     </div>
-
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            marginBottom: 20,
+                        }}
+                    >
+                        <Button
+                            type="link"
+                            size="large"
+                            onClick={() => setIsListReviewModalOpen(true)}
+                        >
+                            Xem tất cả
+                        </Button>
+                    </div>
                     <Row gutter={[24, 24]}>
                         {reviews.slice(0, 4).map((review: any) => (
                             <Col xs={24} md={12} key={review.id}>
@@ -776,6 +788,11 @@ const CourseDetailPage: React.FC = () => {
                 onClose={() => setIsReviewModalOpen(false)}
                 onSubmit={handleReview}
                 loading={reviewLoading}
+            />
+            <ListReviewModal
+                visible={isListReviewModalOpen}
+                onClose={() => setIsListReviewModalOpen(false)}
+                reviews={reviews}
             />
         </div>
     )
