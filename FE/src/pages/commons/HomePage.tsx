@@ -96,13 +96,13 @@ const HomePage: React.FC = () => {
             // const res = await RecommendationService.store({
             //     title: value,
             // })
-            const res = {
-                status: 200,
-            }
-            if (res.status === 200) {
-                message.success('Đã nhận được gợi ý từ AI!')
-                navigate(PATHS.RECOMMENDATION)
-            }
+            // const res = {
+            //     status: 200,
+            // }
+            // if (res.status === 200) {
+            //     message.success('Đã nhận được gợi ý từ AI!')
+            //     navigate(PATHS.RECOMMENDATION)
+            // }
         } catch (err: any) {
             message.error(
                 err?.response?.data?.message || err.message || 'Có lỗi xảy ra!'
@@ -194,27 +194,7 @@ const HomePage: React.FC = () => {
                         với hơn 5.000 khóa học, chứng chỉ chuyên môn và bằng cấp
                         từ các trường đại học, doanh nghiệp hàng đầu thế giới.
                     </Paragraph>
-                    <div className="hero-search">
-                        <Search
-                            placeholder="Bạn muốn học gì?"
-                            allowClear
-                            enterButton={
-                                <Button
-                                    type="primary"
-                                    style={{
-                                        background: '#20B2AA',
-                                        border: 'none',
-                                    }}
-                                    loading={loading}
-                                >
-                                    <SearchOutlined />
-                                </Button>
-                            }
-                            size="large"
-                            onSearch={onSearch}
-                            style={{ width: '100%' }}
-                        />
-                    </div>
+
                     <Space size="large" className="hero-buttons">
                         <Button
                             type="primary"

@@ -59,7 +59,7 @@ const InstructorWithDrawModal = ({
                         { required: true, message: 'Nhập tài khoản ngân hàng' },
                     ]}
                 >
-                    <Input allowClear placeholder="Nhập tài khoản ngân hàng" />
+                    <Input allowClear placeholder="Ví dụ: vcb-1018672171" />
                 </Form.Item>
                 <Form.Item
                     label="Chú thích"

@@ -24,6 +24,7 @@ import {
 } from '@ant-design/icons'
 import Search from 'antd/es/input/Search'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import RecommendationService from '@/services/recommendation'
 
@@ -35,7 +36,10 @@ const AIRecommendPage: React.FC = () => {
     )
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
-    const [result, setResult] = useState<any>(null)
+    const [result, setResult] = useState<any>({
+        roadmap: [],
+        course_suggestions: {},
+    })
     const [history, setHistory] = useState<any[]>([])
     const [historyLoading, setHistoryLoading] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
@@ -219,13 +223,109 @@ const AIRecommendPage: React.FC = () => {
                                         }}
                                         styles={{ body: { padding: 14 } }}
                                     >
-                                        <Title
-                                            level={5}
-                                            style={{ color: '#20B2AA' }}
+                                        {/* Hiển thị roadmap */}
+                                        {result.roadmap?.length > 0 && (
+                                            <Text
+                                                strong
+                                                style={{ color: 'black' }}
+                                            >
+                                                Lộ trình học:
+                                            </Text>
+                                        )}
+                                        <ul
+                                            style={{
+                                                listStyleType: 'none',
+                                                paddingLeft: 0,
+                                            }}
                                         >
-                                            {result.title}
-                                        </Title>
-                                        <Text>{result.reason}</Text>
+                                            {Array.isArray(result.roadmap) &&
+                                                result.roadmap.map(
+                                                    (step, index) => (
+                                                        <li key={index}>
+                                                            <Text>{step}</Text>
+                                                        </li>
+                                                    )
+                                                )}
+                                        </ul>
+
+                                        <br />
+
+                                        {/* Hiển thị khóa học gợi ý */}
+                                        {Object.keys(
+                                            result.course_suggestions || {}
+                                        ).length > 0 ? (
+                                            <>
+                                                <Text
+                                                    strong
+                                                    style={{
+                                                        color: 'black',
+                                                    }}
+                                                >
+                                                    Dưới đây là các khóa học gợi
+                                                    ý có trên Website:
+                                                </Text>
+                                                {Object.entries(
+                                                    result.course_suggestions
+                                                ).map(([keyword, courses]) => (
+                                                    <div
+                                                        key={keyword}
+                                                        style={{
+                                                            marginTop: 8,
+                                                        }}
+                                                    >
+                                                        <Text
+                                                            strong
+                                                        >{`Khóa học cho từ khóa [${keyword}]:`}</Text>
+                                                        <ul
+                                                            style={{
+                                                                listStyleType:
+                                                                    'none',
+                                                                paddingLeft: 0,
+                                                            }}
+                                                        >
+                                                            {courses.map(
+                                                                (
+                                                                    course,
+                                                                    idx
+                                                                ) => (
+                                                                    <li
+                                                                        key={
+                                                                            idx
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            course.name
+                                                                        }{' '}
+                                                                        (Tác
+                                                                        giả:{' '}
+                                                                        {
+                                                                            course.author
+                                                                        }
+                                                                        , Giá:{' '}
+                                                                        {
+                                                                            course.price
+                                                                        }{' '}
+                                                                        VND)
+                                                                    </li>
+                                                                )
+                                                            )}
+                                                        </ul>
+                                                    </div>
+                                                ))}
+                                            </>
+                                        ) : (
+                                            <Text>
+                                                Nếu tôi chưa tìm thấy khóa học
+                                                nào phù hợp, bạn hãy thử tìm ở{' '}
+                                                <Link
+                                                    to="/courses"
+                                                    style={{ color: '#20B2AA' }}
+                                                >
+                                                    trang Khóa học
+                                                </Link>
+                                                .
+                                            </Text>
+                                        )}
                                     </Card>
                                 )}
                             </Card>
@@ -233,61 +333,6 @@ const AIRecommendPage: React.FC = () => {
                     </Row>
                 </div>
             </section>
-
-            {isLoggedIn && (
-                <div
-                    style={{
-                        maxWidth: 900,
-                        margin: '32px auto',
-                        padding: '0 16px',
-                    }}
-                >
-                    <Divider>
-                        <HistoryOutlined style={{ color: '#20B2AA' }} />{' '}
-                        <span style={{ color: '#20B2AA', fontWeight: 600 }}>
-                            Lịch sử gợi ý của bạn
-                        </span>
-                    </Divider>
-                    <Card>
-                        {historyLoading ? (
-                            <Spin />
-                        ) : (
-                            <List
-                                dataSource={history}
-                                locale={{ emptyText: 'Chưa có gợi ý nào.' }}
-                                renderItem={(item) => (
-                                    <List.Item>
-                                        <List.Item.Meta
-                                            title={<b>{item.title}</b>}
-                                            description={
-                                                <>
-                                                    <Text type="secondary">
-                                                        {item.reason}
-                                                    </Text>
-                                                    {item.created_at && (
-                                                        <div>
-                                                            <Text
-                                                                type="secondary"
-                                                                style={{
-                                                                    fontSize: 12,
-                                                                }}
-                                                            >
-                                                                {new Date(
-                                                                    item.created_at
-                                                                ).toLocaleString()}
-                                                            </Text>
-                                                        </div>
-                                                    )}
-                                                </>
-                                            }
-                                        />
-                                    </List.Item>
-                                )}
-                            />
-                        )}
-                    </Card>
-                </div>
-            )}
         </div>
     )
 }

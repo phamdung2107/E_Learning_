@@ -724,10 +724,10 @@ const CourseDetailPage: React.FC = () => {
                                         </div>
                                         <div className="course-detail-review-info">
                                             <div className="course-detail-review-name">
-                                                {review.user.full_name}
+                                                {review.user?.full_name}
                                             </div>
                                             <div className="course-detail-review-date">
-                                                {review.date}
+                                                {review?.date}
                                             </div>
                                         </div>
                                     </div>
@@ -740,7 +740,7 @@ const CourseDetailPage: React.FC = () => {
                                         >
                                             <Rate
                                                 disabled
-                                                value={review.rating}
+                                                value={review?.rating}
                                             />
                                             <Title
                                                 style={{
@@ -754,7 +754,7 @@ const CourseDetailPage: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="course-detail-review-text">
-                                        {review.comment}
+                                        {review?.comment}
                                     </div>
                                 </div>
                             </Col>

@@ -50,7 +50,7 @@ class AiRecommendationController extends Controller
 
         try {
             // Gửi title sang FastAPI server
-            $response = Http::post('http://127.0.0.1:8000/api/recommend', [
+            $response = Http::post('http://127.0.0.1:8000/ai-consult', [
                 'title' => $title
             ]);
 
@@ -58,23 +58,30 @@ class AiRecommendationController extends Controller
                 return Response::data(['message' => 'Không thể lấy dữ liệu từ AI server'], 500);
             }
 
-            $reason = $response->json('reason');
+            $roadmap = $response->json('roadmap');
+            $courseSuggestions = $response->json('course_suggestions');
 
             // Nếu có user (đăng nhập) thì lưu vào DB
             if ($user) {
                 $recommendation = AiRecommendation::create([
                     'user_id' => $user->id,
                     'title' => $title,
-                    'reason' => $reason,
+                    'roadmap' => $roadmap,
+                    'course_suggestions' => $courseSuggestions,
                 ]);
 
-                return Response::data($recommendation);
+                return Response::data([
+                    'title' => $title,
+                    'roadmap' => $roadmap,
+                    'course_suggestions' => $courseSuggestions,
+                ]);
             }
 
-            // Nếu chưa đăng nhập thì chỉ trả về kết quả
+            // // Nếu chưa đăng nhập thì chỉ trả về kết quả
             return Response::data([
                 'title' => $title,
-                'reason' => $reason,
+                'roadmap' => $roadmap,
+                'course_suggestions' => $courseSuggestions,
             ]);
 
         } catch (\Exception $e) {
