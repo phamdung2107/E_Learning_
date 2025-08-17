@@ -1,6 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
-import { Button, Card, Spin, Table, Typography, notification } from 'antd'
+import {
+    Button,
+    Card,
+    Select,
+    Spin,
+    Table,
+    Typography,
+    notification,
+} from 'antd'
 
 import { PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useParams } from 'react-router-dom'
@@ -32,6 +40,7 @@ const InstructorManageDetailCoursePage = () => {
     const [courseData, setCourseData] = useState<any>()
     const [quizData, setQuizData] = useState<Record<string, any[]>>({})
     const [record, setRecord] = useState<any>(null)
+    const [filterStar, setFilterStar] = useState<number | null>(null)
     const [isModalCreateLessonOpen, setIsModalCreateLessonOpen] =
         useState(false)
     const [isModalUpdateLessonOpen, setIsModalUpdateLessonOpen] =
@@ -46,6 +55,11 @@ const InstructorManageDetailCoursePage = () => {
     const [createQuizLoading, setCreateQuizLoading] = useState(false)
     const [updateQuizLoading, setUpdateQuizLoading] = useState(false)
     const [loadingKeys, setLoadingKeys] = useState<string[]>([])
+
+    const filteredReviews = useMemo(() => {
+        if (!filterStar) return reviews
+        return reviews.filter((r: any) => r.rating === filterStar)
+    }, [reviews, filterStar])
 
     const fetchData = async () => {
         setRefreshLoading(true)
@@ -355,11 +369,33 @@ const InstructorManageDetailCoursePage = () => {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Title level={3}>Danh sách đánh giá của khóa học</Title>
                     <div style={{ flexGrow: 1 }}></div>
+                    <div
+                        style={{
+                            marginBottom: 16,
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <span style={{ marginRight: 8 }}>Lọc theo số sao:</span>
+                        <Select
+                            placeholder="Tất cả"
+                            allowClear
+                            style={{ width: 150 }}
+                            value={filterStar ?? undefined}
+                            onChange={(val) => setFilterStar(val)}
+                        >
+                            <Select.Option value={5}>5 sao</Select.Option>
+                            <Select.Option value={4}>4 sao</Select.Option>
+                            <Select.Option value={3}>3 sao</Select.Option>
+                            <Select.Option value={2}>2 sao</Select.Option>
+                            <Select.Option value={1}>1 sao</Select.Option>
+                        </Select>
+                    </div>
                 </div>
                 <Table
                     bordered
                     columns={reviewColumns}
-                    dataSource={reviews}
+                    dataSource={filteredReviews}
                     loading={refreshLoadingReview}
                     rowKey="id"
                     pagination={{ pageSize: 10 }}

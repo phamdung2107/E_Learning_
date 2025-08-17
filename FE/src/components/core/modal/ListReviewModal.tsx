@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 
-import { Avatar, List, Modal, Rate, Typography } from 'antd'
+import { Avatar, List, Modal, Rate, Select, Typography } from 'antd'
 
 import { UserOutlined } from '@ant-design/icons'
 
@@ -9,9 +9,17 @@ import { BASE_IMAGE_URL } from '@/constants/image'
 const { Text, Paragraph } = Typography
 
 const ListReviewModal = ({ visible, onClose, reviews }: any) => {
+    const [filterStar, setFilterStar] = useState<number | null>(null)
+
     const handleCancel = () => {
         onClose()
+        setFilterStar(null)
     }
+
+    const filteredReviews = useMemo(() => {
+        if (!filterStar) return reviews
+        return reviews.filter((r: any) => r.rating === filterStar)
+    }, [reviews, filterStar])
 
     return (
         <Modal
@@ -29,9 +37,32 @@ const ListReviewModal = ({ visible, onClose, reviews }: any) => {
                 },
             }}
         >
+            <div
+                style={{
+                    marginBottom: 16,
+                    display: 'flex',
+                    alignItems: 'center',
+                }}
+            >
+                <span style={{ marginRight: 8 }}>Lọc theo số sao:</span>
+                <Select
+                    placeholder="Tất cả"
+                    allowClear
+                    style={{ width: 150 }}
+                    value={filterStar ?? undefined}
+                    onChange={(val) => setFilterStar(val)}
+                >
+                    <Select.Option value={5}>5 sao</Select.Option>
+                    <Select.Option value={4}>4 sao</Select.Option>
+                    <Select.Option value={3}>3 sao</Select.Option>
+                    <Select.Option value={2}>2 sao</Select.Option>
+                    <Select.Option value={1}>1 sao</Select.Option>
+                </Select>
+            </div>
+
             <List
                 itemLayout="vertical"
-                dataSource={reviews}
+                dataSource={filteredReviews}
                 renderItem={(item: any) => (
                     <List.Item
                         key={item.id}
@@ -51,7 +82,7 @@ const ListReviewModal = ({ visible, onClose, reviews }: any) => {
                                             : undefined
                                     }
                                     icon={<UserOutlined />}
-                                ></Avatar>
+                                />
                             }
                             title={
                                 <div

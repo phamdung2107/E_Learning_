@@ -4,6 +4,7 @@ import { Button, Card, Table, Typography } from 'antd'
 
 import { ReloadOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { MANAGE_STUDENT_COLUMNS } from '@/constants/table'
 import InstructorService from '@/services/instructor'
@@ -60,6 +61,19 @@ const InstructorStudentPage = () => {
                     rowKey="id"
                     pagination={{ pageSize: 10 }}
                     scroll={{ x: 'max-content' }}
+                    expandable={{
+                        expandedRowRender: (record) => (
+                            <div style={{ display: 'flex' }}>
+                                <Link
+                                    to={`/instructor/students/${record.id}`}
+                                    target="_blank"
+                                >
+                                    <strong>Xem chi tiết học viên</strong>
+                                </Link>
+                            </div>
+                        ),
+                        rowExpandable: (record) => true,
+                    }}
                 />
             </Card>
         </div>

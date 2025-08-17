@@ -17,6 +17,10 @@ class ResultQuizService {
     async getMyQuizByLesson(id: number | string): Promise<any> {
         return await http.get(RESULT_QUIZ_API.MY_RESULT_QUIZ_BY_LESSON(id))
     }
+
+    async getByUser(id: number | string): Promise<any> {
+        return await http.get(RESULT_QUIZ_API.BY_USER(id))
+    }
 }
 
 export default new ResultQuizService()

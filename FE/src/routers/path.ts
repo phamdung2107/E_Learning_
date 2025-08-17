@@ -50,6 +50,7 @@ export const INSTRUCTOR_PATHS = {
     INSTRUCTOR_DETAIL_COURSE: '/instructor/courses/:courseId',
     INSTRUCTOR_PROFILE: '/instructor/profile',
     INSTRUCTOR_MY_STUDENTS: '/instructor/students',
+    INSTRUCTOR_DETAIL_STUDENTS: '/instructor/students/:studentId',
     INSTRUCTOR_TRANSACTIONS: '/instructor/transactions',
     INSTRUCTOR_NOTIFICATIONS: '/instructor/notifications',
     INSTRUCTOR_REVIEW: '/instructor/courses/:courseId/review',

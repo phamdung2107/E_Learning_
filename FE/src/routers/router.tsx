@@ -33,6 +33,7 @@ import VerifyEmailPage from '@/pages/commons/VerifyEmailPage'
 import InstructorDashboardPage from '@/pages/instructor/InstructorDashboardPage'
 import InstructorCoursePage from '@/pages/instructor/InstructorManageCoursesPage'
 import InstructorManageDetailCoursePage from '@/pages/instructor/InstructorManageDetailCoursePage'
+import InstructorManageDetailStudentPage from '@/pages/instructor/InstructorManageDetailStudentPage'
 import InstructorManageReviewPage from '@/pages/instructor/InstructorManageReviewPage'
 import InstructorNotificationPage from '@/pages/instructor/InstructorNotificationPage'
 import InstructorProfilePage from '@/pages/instructor/InstructorProfilePage'
@@ -181,6 +182,10 @@ const AppRouter = [
         <Route
             path={INSTRUCTOR_PATHS.INSTRUCTOR_REVIEW}
             element={<InstructorManageReviewPage />}
+        />
+        <Route
+            path={INSTRUCTOR_PATHS.INSTRUCTOR_DETAIL_STUDENTS}
+            element={<InstructorManageDetailStudentPage />}
         />
     </Route>,
     <Route

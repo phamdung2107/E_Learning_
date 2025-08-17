@@ -26,6 +26,10 @@ class ProgressService {
         return await http.post(PROGRESS_API.COMPLETE_LESSON, payload)
     }
 
+    async getByUser(userId: number | string): Promise<any> {
+        return await http.get(PROGRESS_API.BY_USER(userId))
+    }
+
     async getByUserCourse(
         userId: number | string,
         courseId: number | string

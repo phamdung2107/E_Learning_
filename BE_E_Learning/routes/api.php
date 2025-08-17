@@ -121,6 +121,7 @@ Route::prefix('answers')->group(function () {
 
 Route::prefix('progress')->group(function () {
     Route::get('/', [ProgressTrackingController::class, 'index']);
+    Route::get('/user/{userId}', [ProgressTrackingController::class, 'getProgressTrackingWithUser']);
     Route::get('/summary', [ProgressTrackingController::class, 'getSummaryForCurrentUser']);
     Route::get('/{id}', [ProgressTrackingController::class, 'show']);
     Route::post('/', [ProgressTrackingController::class, 'store']);
@@ -220,5 +221,6 @@ Route::prefix('result-quizzes')->group(function () {
     Route::get('/quiz/{quizId}', [ResultQuizController::class, 'getByQuiz']);    // instructor
     Route::get('/my/{quizId}', [ResultQuizController::class, 'getMyByQuiz']);
     Route::get('/by-lesson/{lessonId}', [ResultQuizController::class, 'getMyResultByLesson']);  // instructor
+    Route::get('/user/{userId}', [ResultQuizController::class, 'getByUser']);  
 });
 

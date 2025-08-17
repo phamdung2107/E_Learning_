@@ -6,6 +6,7 @@ use App\Http\Resources\ProgressTrackingResource;
 use App\Http\Requests\CreateProgressTrackingRequest;
 use App\Http\Requests\UpdateProgressTrackingRequest;
 use App\Models\ProgressTracking;
+use App\Models\Enrollment;
 use App\Helper\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -228,5 +229,55 @@ class ProgressTrackingController extends Controller
             'total_lessons' => $totalLessons,
             'completed_lessons' => $completedLessons
         ]);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/progress/user/{userId}",
+     *     summary="Kiểm tra tien trinh hoc cua nguoi dung",
+     *     tags={"Progress Tracking"},
+     *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="")
+     * )
+     */
+    public function getProgressTrackingWithUser(Request $request, $userId)
+    {
+        $user = $request->user();
+        $instructor = \App\Models\Instructor::where('user_id', $user->id)->first();
+        $courseWithInstructor = \App\Models\Course::where('instructor_id', $instructor->id)->pluck('id');
+        $enrollments = Enrollment::where('user_id', $userId)
+            ->whereIn('course_id', $courseWithInstructor)
+            ->pluck('course_id')
+            ->unique();
+
+        $result = [];
+
+        foreach ($enrollments as $courseId) {
+            $completedLessons = ProgressTracking::where('user_id', $userId)
+                ->where('course_id', $courseId)
+                ->where('is_completed', true)
+                ->count();
+
+            $totalLessons = \App\Models\Lesson::where('course_id', $courseId)->count();
+            $course = \App\Models\Course::find($courseId);
+
+            if (!$course) {
+                continue;
+            }
+
+            $progressPercentage = $totalLessons > 0
+                ? ($completedLessons / $totalLessons) * 100
+                : 0;
+
+            $result[] = [
+                'course' => $course,
+                'completed_lessons' => $completedLessons,
+                'total_lessons' => $totalLessons,
+                'progress_percentage' => $progressPercentage
+            ];
+        }
+
+        return Response::data($result);
     }
 }

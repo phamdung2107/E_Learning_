@@ -233,6 +233,7 @@ export const PROGRESS_API = {
     DELETE: (id: number | string) => `/progress/${id}`,
     SUMMARY: `/progress/summary`,
     COMPLETE_LESSON: `/progress/complete`,
+    BY_USER: (userId: number | string) => `/progress/user/${userId}`,
     BY_USER_COURSE: (userId: number | string, courseId: number | string) =>
         `/progress/user/${userId}/course/${courseId}`,
     IS_COURSE_COMPLETED: (userId: number | string, courseId: number | string) =>
@@ -344,6 +345,7 @@ export const RESULT_QUIZ_API = {
     MY_RESULT_QUIZ: (quizId: any) => `/result-quizzes/my/${quizId}`,
     MY_RESULT_QUIZ_BY_LESSON: (lessonId: any) =>
         `/result-quizzes/by-lesson/${lessonId}`,
+    BY_USER: (userId: any) => `/result-quizzes/user/${userId}`,
 }
 
 export const ORDER_API = {

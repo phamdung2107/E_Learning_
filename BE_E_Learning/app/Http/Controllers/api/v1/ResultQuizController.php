@@ -191,4 +191,20 @@ class ResultQuizController extends Controller
 
         return Response::data($data, count($data));
     }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/result-quizzes/user/{userId}",
+     *     summary="Lấy tất cả kết quả của người dùng",
+     *     tags={"ResultQuiz"},
+     *     @OA\Parameter(name="userId", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Danh sách kết quả của người dùng")
+     * )
+     */
+    public function getByUser($userId)
+    {
+        $results = ResultQuiz::where('user_id', $userId)->get();
+        return Response::data($results, $results->count());
+    }
 }

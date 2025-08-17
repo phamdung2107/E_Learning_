@@ -699,6 +699,13 @@ export const MANAGE_STUDENT_COLUMNS: any = [
         key: 'full_name',
         align: 'left',
         fixed: 'left',
+        render: (_: any, record: any) => {
+            return (
+                <Link to={`/instructor/students/${record.id}`} target="_blank">
+                    {record.full_name}
+                </Link>
+            )
+        },
     },
     {
         title: 'Email',
@@ -1477,5 +1484,37 @@ export const getManageReviewColumns: any = (
                 </Tooltip>
             </Space>
         ),
+    },
+]
+
+export const STUDENT_PROGRESS_COLUMNS: any = [
+    {
+        title: 'Tên khóa học',
+        dataIndex: 'course_title',
+        key: 'course_title',
+        align: 'left',
+        fixed: 'left',
+    },
+    {
+        title: 'Số bài học đã hoàn thành',
+        dataIndex: 'completed_lessons',
+        key: 'completed_lessons',
+        align: 'center',
+    },
+    {
+        title: 'Tổng số bài học',
+        dataIndex: 'total_lessons',
+        key: 'total_lessons',
+        align: 'center',
+    },
+    {
+        title: 'Tiến độ',
+        dataIndex: 'progress_percentage',
+        key: 'progress_percentage',
+        align: 'center',
+        fixed: 'right',
+        render: (text: any) => {
+            return <div>{text ? `${text}%` : ''}</div>
+        },
     },
 ]
