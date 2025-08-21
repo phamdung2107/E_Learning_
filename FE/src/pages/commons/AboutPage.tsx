@@ -16,6 +16,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons'
 
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { PATHS } from '@/routers/path'
 
 import '../styles/About.css'
@@ -23,6 +24,7 @@ import '../styles/About.css'
 const { Title, Paragraph, Text } = Typography
 
 const AboutPage: React.FC = () => {
+    const { innerWidth, innerHeight } = useWindowSize()
     return (
         <div>
             <section className="about-hero-section">
@@ -612,39 +614,45 @@ const AboutPage: React.FC = () => {
                         nghiệp, học kỹ năng mới hay khám phá đam mê, chúng tôi
                         luôn đồng hành cùng bạn trên từng chặng đường.
                     </Paragraph>
-                    <Space size="large">
-                        <Button
-                            href={PATHS.COURSES}
-                            type="primary"
-                            size="large"
-                            className="about-cta-btn"
-                        >
-                            Xem các khóa học
-                        </Button>
-                        <Button
-                            href={PATHS.CONTACT}
-                            size="large"
-                            style={{
-                                background: 'transparent',
-                                color: 'white',
-                                borderColor: 'white',
-                                borderRadius: '25px',
-                                padding: '0 40px',
-                                height: '50px',
-                                transition: 'all 0.3s ease',
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.background = 'white'
-                                e.currentTarget.style.color = '#667eea'
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.background = 'transparent'
-                                e.currentTarget.style.color = 'white'
-                            }}
-                        >
-                            Liên hệ với chúng tôi
-                        </Button>
-                    </Space>
+                    <Row gutter={18} justify="center">
+                        <Col>
+                            <Button
+                                href={PATHS.COURSES}
+                                type="primary"
+                                size={innerWidth < 480 ? 'small' : 'large'}
+                                className="about-cta-btn"
+                                style={{ marginBottom: 15 }}
+                            >
+                                Xem các khóa học
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button
+                                href={PATHS.CONTACT}
+                                size={innerWidth < 480 ? 'small' : 'large'}
+                                style={{
+                                    background: 'transparent',
+                                    color: 'white',
+                                    borderColor: 'white',
+                                    borderRadius: '25px',
+                                    padding: '0 40px',
+                                    height: '50px',
+                                    transition: 'all 0.3s ease',
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'white'
+                                    e.currentTarget.style.color = '#667eea'
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background =
+                                        'transparent'
+                                    e.currentTarget.style.color = 'white'
+                                }}
+                            >
+                                Liên hệ với chúng tôi
+                            </Button>
+                        </Col>
+                    </Row>
                 </div>
             </section>
         </div>

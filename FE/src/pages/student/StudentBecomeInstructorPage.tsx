@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 
 import RequestInstructorModal from '@/components/core/modal/RequestInstructorModal'
 import { HAS_REQUESTED_INSTRUCTOR } from '@/constants/storage'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import InstructorService from '@/services/instructor'
 import { getLocalStorage, putLocalStorage } from '@/utils/storage'
 
@@ -36,6 +37,7 @@ const StudentBecomeInstructorPage = () => {
     const [modalVisible, setModalVisible] = useState(false)
     const [loading, setLoading] = useState(false)
     const [hasRequested, setHasRequested] = useState(false)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     useEffect(() => {
         fetchInstructor()
@@ -96,7 +98,9 @@ const StudentBecomeInstructorPage = () => {
                                 'linear-gradient(120deg, #fff 70%, #e6f7ff 100%)',
                             padding: 0,
                         }}
-                        styles={{ body: { padding: 40 } }}
+                        styles={{
+                            body: { padding: innerWidth < 480 ? 24 : 40 },
+                        }}
                     >
                         <Row gutter={32} align="middle">
                             <Col
@@ -298,7 +302,9 @@ const StudentBecomeInstructorPage = () => {
                                                     'linear-gradient(90deg, #1d39c4 60%, #2f54eb 100%)')
                                             }
                                         >
-                                            Gửi yêu cầu trở thành giảng viên
+                                            {innerWidth < 480
+                                                ? 'Gửi yêu cầu'
+                                                : 'Gửi yêu cầu trở thành giảng viên'}
                                         </Button>
                                     )}
                                 </div>

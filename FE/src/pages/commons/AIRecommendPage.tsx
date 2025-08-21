@@ -128,8 +128,7 @@ const AIRecommendPage: React.FC = () => {
                         </span>
                     </Paragraph>
                     <Row gutter={[32, 32]} align="middle" justify="center">
-                        <Col xs={24} md={14}></Col>
-                        <Col span={16}>
+                        <Col xs={24} sm={18} xl={16}>
                             <Card
                                 style={{
                                     background: '#fff',

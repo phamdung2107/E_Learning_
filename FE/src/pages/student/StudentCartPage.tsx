@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom'
 import { CheckoutOrderModal } from '@/components/core/modal/CheckoutOrderModal'
 import { DeleteOrderModal } from '@/components/core/modal/DeleteOrderModal'
 import { BASE_IMAGE_URL } from '@/constants/image'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { PATHS, STUDENT_PATHS } from '@/routers/path'
 import OrderService from '@/services/order'
 import { getCurrentUserAction } from '@/stores/auth/authAction'
@@ -38,6 +39,7 @@ const StudentCartPage = () => {
     const [isModalCheckoutOpen, setIsModalCheckoutOpen] = useState(false)
     const [deleteLoading, setDeleteLoading] = useState(false)
     const [checkoutLoading, setCheckoutLoading] = useState(false)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     const fetchOrders = async () => {
         try {
@@ -135,7 +137,7 @@ const StudentCartPage = () => {
             dataIndex: 'courseName',
             key: 'courseName',
             align: 'left' as const,
-            fixed: 'left',
+            fixed: innerWidth >= 480 && 'left',
         },
         {
             title: 'Ảnh',
@@ -160,7 +162,7 @@ const StudentCartPage = () => {
             title: 'Hành động',
             key: 'action',
             align: 'center',
-            fixed: 'right',
+            fixed: innerWidth >= 480 && 'right',
             width: 120,
             render: (record: any) => (
                 <Space>
@@ -182,7 +184,7 @@ const StudentCartPage = () => {
     ]
 
     return (
-        <div>
+        <div className="student-dashboard">
             <Card style={{ marginBottom: '24px' }}>
                 <Title level={2}>Giỏ hàng của tôi</Title>
                 <Text type="secondary">
@@ -193,8 +195,13 @@ const StudentCartPage = () => {
                 <Col span={24}>
                     <Card
                         title="Giỏ hàng"
-                        bordered={false}
+                        variant="borderless"
                         style={{ borderRadius: '8px' }}
+                        styles={{
+                            body: {
+                                padding: innerWidth < 480 ? 0 : '24px',
+                            },
+                        }}
                     >
                         <Table
                             columns={columns}
@@ -217,7 +224,7 @@ const StudentCartPage = () => {
                 <Col span={24}>
                     <Card
                         title="Tổng giỏ hàng"
-                        bordered={false}
+                        variant="borderless"
                         style={{ borderRadius: '8px' }}
                     >
                         <Row gutter={[16, 16]}>

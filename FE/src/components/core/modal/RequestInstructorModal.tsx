@@ -31,7 +31,6 @@ const RequestInstructorModal = ({
             title="Yêu cầu trở thành giảng viên"
             open={visible}
             onCancel={handleCancel}
-            width={'30%'}
             centered
             footer={null}
         >

@@ -55,7 +55,7 @@ const StudentCertificates: React.FC = () => {
     )
 
     return (
-        <div>
+        <div className="student-dashboard">
             <Card style={{ marginBottom: '24px' }}>
                 <Title level={2}>Chứng chỉ của tôi</Title>
                 <Text type="secondary">

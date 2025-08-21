@@ -3,7 +3,16 @@
 import type React from 'react'
 import { useState } from 'react'
 
-import { Avatar, Badge, Button, Dropdown, Layout, Menu, Typography } from 'antd'
+import {
+    Avatar,
+    Badge,
+    Button,
+    Drawer,
+    Dropdown,
+    Layout,
+    Menu,
+    Typography,
+} from 'antd'
 
 import {
     BellOutlined,
@@ -22,6 +31,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { BASE_IMAGE_URL } from '@/constants/image'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { PATHS, STUDENT_PATHS } from '@/routers/path'
 import { logout } from '@/stores/auth/authSlice'
 import { setCart } from '@/stores/cart/cartSlice'
@@ -40,13 +50,18 @@ const StudentLayout: React.FC = () => {
     const user = useSelector((store: any) => store.auth.user)
     const [collapsed, setCollapsed] = useState(false)
     const { pathname } = useLocation()
+    const { innerWidth, innerHeight } = useWindowSize()
+    const [isDrawerVisible, setIsDrawerVisible] = useState(false)
 
     const menuItems = [
         {
             key: STUDENT_PATHS.STUDENT_DASHBOARD,
             icon: <DashboardOutlined />,
             label: (
-                <Link to={STUDENT_PATHS.STUDENT_DASHBOARD}>
+                <Link
+                    to={STUDENT_PATHS.STUDENT_DASHBOARD}
+                    onClick={() => setIsDrawerVisible(false)}
+                >
                     Bảng điều khiển
                 </Link>
             ),
@@ -55,7 +70,10 @@ const StudentLayout: React.FC = () => {
             key: STUDENT_PATHS.STUDENT_MY_COURSES,
             icon: <BookOutlined />,
             label: (
-                <Link to={STUDENT_PATHS.STUDENT_MY_COURSES}>
+                <Link
+                    to={STUDENT_PATHS.STUDENT_MY_COURSES}
+                    onClick={() => setIsDrawerVisible(false)}
+                >
                     Khóa học của tôi
                 </Link>
             ),
@@ -64,19 +82,34 @@ const StudentLayout: React.FC = () => {
             key: STUDENT_PATHS.STUDENT_CERTIFICATE,
             icon: <TrophyOutlined />,
             label: (
-                <Link to={STUDENT_PATHS.STUDENT_CERTIFICATE}>Chứng chỉ</Link>
+                <Link
+                    to={STUDENT_PATHS.STUDENT_CERTIFICATE}
+                    onClick={() => setIsDrawerVisible(false)}
+                >
+                    Chứng chỉ
+                </Link>
             ),
         },
         {
             key: STUDENT_PATHS.STUDENT_CART,
             icon: <ShoppingCartOutlined />,
-            label: <Link to={STUDENT_PATHS.STUDENT_CART}>Giỏ hàng</Link>,
+            label: (
+                <Link
+                    to={STUDENT_PATHS.STUDENT_CART}
+                    onClick={() => setIsDrawerVisible(false)}
+                >
+                    Giỏ hàng
+                </Link>
+            ),
         },
         {
             key: STUDENT_PATHS.STUDENT_TRANSACTIONS,
             icon: <DollarCircleOutlined />,
             label: (
-                <Link to={STUDENT_PATHS.STUDENT_TRANSACTIONS}>
+                <Link
+                    to={STUDENT_PATHS.STUDENT_TRANSACTIONS}
+                    onClick={() => setIsDrawerVisible(false)}
+                >
                     Quản lý giao dịch
                 </Link>
             ),
@@ -85,7 +118,10 @@ const StudentLayout: React.FC = () => {
             key: STUDENT_PATHS.STUDENT_REQUEST_INSTRUCTOR,
             icon: <UserAddOutlined />,
             label: (
-                <Link to={STUDENT_PATHS.STUDENT_REQUEST_INSTRUCTOR}>
+                <Link
+                    to={STUDENT_PATHS.STUDENT_REQUEST_INSTRUCTOR}
+                    onClick={() => setIsDrawerVisible(false)}
+                >
                     Gửi yêu cầu
                 </Link>
             ),
@@ -124,52 +160,61 @@ const StudentLayout: React.FC = () => {
         },
     ]
 
+    const handleClickMenu = () => {
+        setCollapsed(!collapsed)
+        if (innerWidth < 480) {
+            setIsDrawerVisible(true)
+        }
+    }
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider
-                trigger={null}
-                collapsible
-                collapsed={collapsed}
-                style={{
-                    background: '#fff',
-                    boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
-                    position: 'fixed',
-                    height: '100%',
-                    left: 0,
-                    top: 0,
-                    zIndex: 100,
-                }}
-            >
-                <div
+            {innerWidth >= 480 && (
+                <Sider
+                    trigger={null}
+                    collapsible
+                    collapsed={collapsed}
                     style={{
-                        padding: '18px',
-                        textAlign: 'center',
-                        borderBottom: '1px solid #f0f0f0',
+                        background: '#fff',
+                        boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
+                        position: 'fixed',
+                        height: '100%',
+                        left: 0,
+                        top: 0,
+                        zIndex: 100,
                     }}
                 >
-                    <Title
-                        level={4}
+                    <div
                         style={{
-                            margin: 0,
-                            color: '#20B2AA',
-                            fontSize: '20px',
+                            padding: '18px',
+                            textAlign: 'center',
+                            borderBottom: '1px solid #f0f0f0',
                         }}
                     >
-                        {collapsed ? 'S' : 'Học viên'}
-                    </Title>
-                </div>
-                <Menu
-                    mode="inline"
-                    selectedKeys={[pathname]}
-                    items={menuItems}
-                    style={{ border: 'none', marginTop: '16px' }}
-                />
-            </Sider>
+                        <Title
+                            level={4}
+                            style={{
+                                margin: 0,
+                                color: '#20B2AA',
+                                fontSize: '20px',
+                            }}
+                        >
+                            {collapsed ? 'S' : 'Học viên'}
+                        </Title>
+                    </div>
+                    <Menu
+                        mode="inline"
+                        selectedKeys={[pathname]}
+                        items={menuItems}
+                        style={{ border: 'none', marginTop: '16px' }}
+                    />
+                </Sider>
+            )}
 
             <Layout
                 style={{
-                    marginLeft: collapsed ? 80 : 200,
                     transition: 'margin-left 0.3s',
+                    marginLeft: innerWidth < 480 ? 0 : collapsed ? 80 : 200,
                 }}
             >
                 <Header
@@ -182,7 +227,7 @@ const StudentLayout: React.FC = () => {
                         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                         position: 'fixed',
                         top: 0,
-                        left: collapsed ? 80 : 200,
+                        left: innerWidth < 480 ? 0 : collapsed ? 80 : 200,
                         right: 0,
                         zIndex: 101,
                         transition: 'left 0.3s',
@@ -191,7 +236,7 @@ const StudentLayout: React.FC = () => {
                     <Button
                         type="text"
                         icon={<MenuOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
+                        onClick={() => handleClickMenu()}
                         style={{ fontSize: '16px' }}
                     />
 
@@ -267,8 +312,11 @@ const StudentLayout: React.FC = () => {
 
                 <Content
                     style={{
-                        margin: '24px',
-                        padding: '24px',
+                        margin:
+                            innerWidth < 480
+                                ? '60px 0 0 0'
+                                : '48px 24px 24px 24px',
+                        padding: innerWidth < 480 ? 0 : '24px',
                         background: '#f5f5f5',
                         minHeight: 'calc(100vh - 112px)',
                     }}
@@ -276,6 +324,25 @@ const StudentLayout: React.FC = () => {
                     <Outlet />
                 </Content>
             </Layout>
+            <Drawer
+                title=""
+                placement="left"
+                destroyOnHidden
+                onClose={() => setIsDrawerVisible(false)}
+                open={isDrawerVisible}
+                styles={{
+                    body: {
+                        padding: 0,
+                    },
+                }}
+            >
+                <Menu
+                    mode="inline"
+                    selectedKeys={[pathname]}
+                    items={menuItems}
+                    style={{ border: 'none', marginTop: '16px' }}
+                />
+            </Drawer>
         </Layout>
     )
 }

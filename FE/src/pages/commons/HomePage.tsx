@@ -30,6 +30,7 @@ import CourseSummaryCard from '@/components/core/card/CourseSummaryCard'
 import FeedbackCard from '@/components/core/card/FeedbackCard'
 import InstructorCard from '@/components/core/card/InstructorCard'
 import { DATE_TIME_FORMAT } from '@/constants/date'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { PATHS } from '@/routers/path'
 import CategoryService from '@/services/category'
 import EnrollmentService from '@/services/enrollment'
@@ -52,10 +53,7 @@ const HomePage: React.FC = () => {
     const [event, setEvent] = useState<any>()
     const [isEventModalVisible, setIsEventModalVisible] = useState(false)
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
-    const isAuthenticated = useSelector(
-        (state: any) => state.auth.isAuthenticated
-    )
+    const { innerWidth, innerHeight } = useWindowSize()
 
     const activities = [
         {
@@ -195,24 +193,29 @@ const HomePage: React.FC = () => {
                         từ các trường đại học, doanh nghiệp hàng đầu thế giới.
                     </Paragraph>
 
-                    <Space size="large" className="hero-buttons">
-                        <Button
-                            type="primary"
-                            size="large"
-                            href={PATHS.COURSES}
-                            icon={<PlayCircleOutlined />}
-                            className="hero-primary-btn"
-                        >
-                            Bắt đầu học ngay
-                        </Button>
-                        <Button
-                            href={PATHS.COURSES}
-                            size="large"
-                            className="hero-secondary-btn"
-                        >
-                            Xem tất cả khóa học
-                        </Button>
-                    </Space>
+                    <Row gutter={18} justify="center" className="hero-buttons">
+                        <Col>
+                            <Button
+                                type="primary"
+                                size={innerWidth < 480 ? 'small' : 'large'}
+                                href={PATHS.COURSES}
+                                icon={<PlayCircleOutlined />}
+                                className="hero-primary-btn"
+                                style={{ marginBottom: 15 }}
+                            >
+                                Bắt đầu học ngay
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button
+                                href={PATHS.COURSES}
+                                size={innerWidth < 480 ? 'small' : 'large'}
+                                className="hero-secondary-btn"
+                            >
+                                Xem tất cả khóa học
+                            </Button>
+                        </Col>
+                    </Row>
                 </div>
             </section>
 
@@ -576,23 +579,28 @@ const HomePage: React.FC = () => {
                         Course Pro. Bắt đầu ngay hôm nay để khai phá tiềm năng
                         của bạn!
                     </Paragraph>
-                    <Space size="large">
-                        <Button
-                            href={PATHS.COURSES}
-                            type="primary"
-                            size="large"
-                            className="cta-primary-btn"
-                        >
-                            Học miễn phí ngay
-                        </Button>
-                        <Button
-                            href={PATHS.COURSES}
-                            size="large"
-                            className="cta-secondary-btn"
-                        >
-                            Xem tất cả khóa học
-                        </Button>
-                    </Space>
+                    <Row gutter={18} justify="center">
+                        <Col>
+                            <Button
+                                href={PATHS.COURSES}
+                                type="primary"
+                                size={innerWidth < 480 ? 'small' : 'large'}
+                                className="cta-primary-btn"
+                                style={{ marginBottom: 15 }}
+                            >
+                                Học miễn phí ngay
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button
+                                href={PATHS.COURSES}
+                                size={innerWidth < 480 ? 'small' : 'large'}
+                                className="cta-secondary-btn"
+                            >
+                                Xem tất cả khóa học
+                            </Button>
+                        </Col>
+                    </Row>
                 </div>
             </section>
             {event && (

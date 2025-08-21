@@ -5,6 +5,7 @@ import { Button, Card, Form, Input, notification } from 'antd'
 import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { PATHS } from '@/routers/path'
 import AuthService from '@/services/auth'
 
@@ -15,6 +16,7 @@ const ResetPasswordPage = () => {
     const location = useLocation()
     const queryString = location.search
     const params = new URLSearchParams(queryString)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     const onFinish = async (values: any) => {
         setLoading(true)
@@ -54,7 +56,7 @@ const ResetPasswordPage = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '20px',
+                padding: innerWidth < 480 ? '20px 0' : '20px',
             }}
         >
             <Card
@@ -66,7 +68,11 @@ const ResetPasswordPage = () => {
                     boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                     border: 'none',
                 }}
-                styles={{ body: { padding: '40px 32px' } }}
+                styles={{
+                    body: {
+                        padding: innerWidth < 480 ? '20px 15px' : '40px 32px',
+                    },
+                }}
             >
                 <Form
                     form={form}

@@ -24,6 +24,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import LessonQuizActionsFooter from '@/components/commons/LessonQuizActionsFooter'
 import LessonQuizHeader from '@/components/commons/LessonQuizHeader'
 import LessonQuizSidebar from '@/components/commons/LessonQuizSidebar'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import AnswerService from '@/services/answer'
 import CourseService from '@/services/course'
@@ -55,6 +56,7 @@ const QuizDetailPage: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [quizStarted, setQuizStarted] = useState(false)
     const [questions, setQuestions] = useState<any[]>([])
+    const { innerWidth, innerHeight } = useWindowSize()
 
     const fetchData = async () => {
         try {
@@ -281,17 +283,29 @@ const QuizDetailPage: React.FC = () => {
                 style={{
                     maxWidth: 900,
                     margin: '0 auto',
-                    padding: '32px 0 80px 0',
+                    padding:
+                        innerWidth < 480 ? '20px 0 80px 0' : '32px 0 80px 0',
                 }}
             >
                 <div className="quiz-main">
-                    <div className="quiz-main-content">
+                    <div
+                        className="quiz-main-content"
+                        style={{
+                            padding: innerWidth < 480 ? '0 16px' : 24,
+                        }}
+                    >
                         {!quizStarted ? (
-                            <div className="quiz-intro-section">
+                            <div
+                                className="quiz-intro-section"
+                                style={{
+                                    padding: innerWidth < 480 ? 0 : '20px 0',
+                                }}
+                            >
                                 <div
                                     style={{
                                         textAlign: 'center',
-                                        padding: '40px 20px',
+                                        padding:
+                                            innerWidth < 480 ? 0 : '40px 20px',
                                     }}
                                 >
                                     <QuestionCircleOutlined className="quiz-intro-icon" />
@@ -401,7 +415,11 @@ const QuizDetailPage: React.FC = () => {
                                     >
                                         <Button
                                             type="default"
-                                            size="large"
+                                            size={
+                                                innerWidth < 480
+                                                    ? 'small'
+                                                    : 'large'
+                                            }
                                             onClick={() =>
                                                 navigate(
                                                     `/courses/${courseId}/quizzes/${quizId}/results`
@@ -414,7 +432,11 @@ const QuizDetailPage: React.FC = () => {
                                         <div style={{ flexGrow: 1 }}></div>
                                         <Button
                                             type="primary"
-                                            size="large"
+                                            size={
+                                                innerWidth < 480
+                                                    ? 'small'
+                                                    : 'large'
+                                            }
                                             onClick={handleStartQuiz}
                                             className="quiz-start-button"
                                         >

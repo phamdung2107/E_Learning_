@@ -1056,7 +1056,6 @@ export const STUDENT_MANAGE_TRANSACTION_COLUMNS: any = [
         dataIndex: 'transaction_id',
         key: 'transaction_id',
         align: 'left',
-        fixed: 'left',
     },
     {
         title: 'Tài khoản ngân hàng',

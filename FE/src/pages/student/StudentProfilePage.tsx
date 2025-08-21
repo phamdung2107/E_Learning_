@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { StudentDepositModal } from '@/components/core/modal/StudentDepositModal'
 import { BASE_IMAGE_URL } from '@/constants/image'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { STUDENT_PATHS } from '@/routers/path'
 import PaymentService from '@/services/payment'
 import UserService from '@/services/user'
@@ -25,6 +26,7 @@ import { formatPrice } from '@/utils/format'
 const StudentProfilePage = () => {
     const dispatch = useDispatch()
     const [activeTabKey, setActiveTabKey] = useState<string>('profile')
+    const { innerWidth, innerHeight } = useWindowSize()
     const [form] = Form.useForm()
     const [passwordForm] = Form.useForm()
     const user = useSelector((state: any) => state.auth.user)
@@ -344,6 +346,11 @@ const StudentProfilePage = () => {
     return (
         <div style={{ width: '100%', height: '100%' }}>
             <Card
+                styles={{
+                    header: {
+                        padding: innerWidth < 480 ? '0 0 0 12px' : '0 24px',
+                    },
+                }}
                 style={{ width: '100%', height: '100%' }}
                 tabList={tabListNoTitle}
                 activeTabKey={activeTabKey}

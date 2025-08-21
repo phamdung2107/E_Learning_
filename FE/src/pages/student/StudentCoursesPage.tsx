@@ -151,7 +151,7 @@ const StudentCourses: React.FC = () => {
     )
 
     return (
-        <div>
+        <div className="student-dashboard">
             <Card style={{ marginBottom: '24px' }}>
                 <Title level={2}>Khóa học của tôi</Title>
                 <Text type="secondary">

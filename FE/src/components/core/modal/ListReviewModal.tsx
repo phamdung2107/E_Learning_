@@ -26,7 +26,6 @@ const ListReviewModal = ({ visible, onClose, reviews }: any) => {
             title="Danh sách đánh giá"
             open={visible}
             onCancel={handleCancel}
-            width="50%"
             className="course-modal"
             footer={null}
             styles={{

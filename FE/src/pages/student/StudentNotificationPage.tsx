@@ -67,7 +67,7 @@ const StudentNotificationPage = () => {
     }, [])
 
     return (
-        <div>
+        <div className="student-dashboard">
             <Card style={{ marginBottom: '24px' }}>
                 <Title level={2}>Thông báo của tôi</Title>
                 <Text type="secondary">Xem và kiểm tra thông báo</Text>

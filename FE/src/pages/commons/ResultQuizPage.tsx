@@ -125,6 +125,7 @@ const ResultQuizPage = () => {
                                         <Button
                                             icon={<ArrowLeftOutlined />}
                                             type="text"
+                                            style={{ paddingLeft: 0 }}
                                         >
                                             Quay lại bài kiểm tra
                                         </Button>

@@ -20,6 +20,7 @@ import { BookOutlined, FilterOutlined, SearchOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 
 import CourseCard from '@/components/core/card/CourseCard'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import CategoryService from '@/services/category'
 import CourseService from '@/services/course'
 import InstructorService from '@/services/instructor'
@@ -41,6 +42,7 @@ const CoursesPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [pageSize] = useState(8)
     const [loading, setLoading] = useState(false)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     const fetchCategories = async () => {
         try {
@@ -212,7 +214,15 @@ const CoursesPage: React.FC = () => {
 
             <section className="courses-filter-section">
                 <div className="courses-filter-content">
-                    <Card className="courses-filter-card">
+                    <Card
+                        className="courses-filter-card"
+                        variant={innerWidth < 480 ? 'borderless' : 'outlined'}
+                        styles={{
+                            body: {
+                                padding: innerWidth < 480 ? 0 : 24,
+                            },
+                        }}
+                    >
                         <Title level={4} className="courses-filter-title">
                             <FilterOutlined style={{ marginRight: '8px' }} />
                             Lọc khóa học
@@ -231,7 +241,11 @@ const CoursesPage: React.FC = () => {
                                         value={selectedCategory}
                                         onChange={handleCategoryChange}
                                         style={{ width: '100%' }}
-                                        size="large"
+                                        size={
+                                            innerWidth < 480
+                                                ? 'middle'
+                                                : 'large'
+                                        }
                                         treeData={categories}
                                     />
                                 </div>
@@ -249,7 +263,11 @@ const CoursesPage: React.FC = () => {
                                         value={selectedInstructor}
                                         onChange={handleInstructorChange}
                                         style={{ width: '100%' }}
-                                        size="large"
+                                        size={
+                                            innerWidth < 480
+                                                ? 'middle'
+                                                : 'large'
+                                        }
                                         options={instructors}
                                     />
                                 </div>
@@ -262,7 +280,11 @@ const CoursesPage: React.FC = () => {
                                     <Input
                                         value={searchKeyword}
                                         onChange={handleKeywordChange}
-                                        size="large"
+                                        size={
+                                            innerWidth < 480
+                                                ? 'middle'
+                                                : 'large'
+                                        }
                                         placeholder="Tìm kiếm theo từ khóa"
                                         onPressEnter={handleKeywordEnter}
                                     />
@@ -277,21 +299,30 @@ const CoursesPage: React.FC = () => {
                                         gutter={[16, 16]}
                                         justify="space-between"
                                     >
-                                        <Col span={12}>
+                                        <Col xs={24} xl={12}>
                                             <Button
                                                 className="courses-search-btn"
-                                                size="large"
+                                                size={
+                                                    innerWidth < 480
+                                                        ? 'middle'
+                                                        : 'large'
+                                                }
                                                 icon={<SearchOutlined />}
                                                 onClick={handleSearchClick}
                                                 loading={loading}
+                                                style={{ width: '100%' }}
                                             >
                                                 Tìm kiếm
                                             </Button>
                                         </Col>
-                                        <Col span={12}>
+                                        <Col xs={24} xl={12}>
                                             <Button
                                                 className="courses-clear-btn"
-                                                size="large"
+                                                size={
+                                                    innerWidth < 480
+                                                        ? 'middle'
+                                                        : 'large'
+                                                }
                                                 block
                                                 onClick={handleClearFilters}
                                                 disabled={loading}
@@ -382,6 +413,7 @@ const CoursesPage: React.FC = () => {
                                         showSizeChanger={false}
                                         showQuickJumper
                                         showTotal={(total, range) =>
+                                            innerWidth >= 480 &&
                                             `${range[0]}-${range[1]} trên tổng ${total} khóa học`
                                         }
                                         style={{

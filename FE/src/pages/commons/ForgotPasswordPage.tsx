@@ -4,11 +4,13 @@ import { Button, Card, Form, Input, notification } from 'antd'
 
 import { MailOutlined } from '@ant-design/icons'
 
+import { useWindowSize } from '@/hooks/useWindowSize'
 import AuthService from '@/services/auth'
 
 const ForgotPasswordPage = () => {
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     const onFinish = async (values: any) => {
         setLoading(true)
@@ -38,7 +40,7 @@ const ForgotPasswordPage = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '20px',
+                padding: innerWidth < 480 ? '20px 0' : '20px',
             }}
         >
             <Card
@@ -50,7 +52,11 @@ const ForgotPasswordPage = () => {
                     boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                     border: 'none',
                 }}
-                styles={{ body: { padding: '40px 32px' } }}
+                styles={{
+                    body: {
+                        padding: innerWidth < 480 ? '20px 15px' : '40px 32px',
+                    },
+                }}
             >
                 <Form
                     form={form}

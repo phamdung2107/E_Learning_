@@ -21,6 +21,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { SHOW_VERIFICATION_REMINDER } from '@/constants/storage'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import {
     ADMIN_PATHS,
     AUTH_PATHS,
@@ -53,6 +54,7 @@ const AuthPage: React.FC = () => {
     const [registerForm] = Form.useForm()
     const [loginLoading, setLoginLoading] = useState(false)
     const [registerLoading, setRegisterLoading] = useState(false)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     useEffect(() => {
         loginForm.resetFields()
@@ -166,7 +168,7 @@ const AuthPage: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '20px',
+                padding: innerWidth < 480 ? '20px 0' : '20px',
             }}
         >
             <Card
@@ -177,7 +179,11 @@ const AuthPage: React.FC = () => {
                     boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
                     border: 'none',
                 }}
-                styles={{ body: { padding: '40px 32px' } }}
+                styles={{
+                    body: {
+                        padding: innerWidth < 480 ? '20px 15px' : '40px 32px',
+                    },
+                }}
             >
                 <Tabs
                     activeKey={activeTab}

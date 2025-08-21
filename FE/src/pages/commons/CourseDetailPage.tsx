@@ -37,6 +37,7 @@ import ListReviewModal from '@/components/core/modal/ListReviewModal'
 import StudentReviewCourseModal from '@/components/core/modal/StudentReviewCourseModal'
 import { DATE_TIME_FORMAT } from '@/constants/date'
 import { BASE_IMAGE_URL } from '@/constants/image'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import CourseService from '@/services/course'
 import EnrollmentService from '@/services/enrollment'
 import InstructorService from '@/services/instructor'
@@ -73,6 +74,7 @@ const CourseDetailPage: React.FC = () => {
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
     const [isListReviewModalOpen, setIsListReviewModalOpen] = useState(false)
     const [reviewLoading, setReviewLoading] = useState(false)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     const requirements = [
         'Không yêu cầu kinh nghiệm',
@@ -357,7 +359,14 @@ const CourseDetailPage: React.FC = () => {
                 <div className="course-detail-main-content">
                     <Row gutter={[48, 48]}>
                         <Col xs={24} lg={16}>
-                            <Card className="course-detail-info-card">
+                            <Card
+                                className="course-detail-info-card"
+                                styles={{
+                                    body: {
+                                        padding: innerWidth < 480 ? 0 : 24,
+                                    },
+                                }}
+                            >
                                 <div className="course-detail-info-header">
                                     <Title
                                         level={2}
@@ -366,7 +375,12 @@ const CourseDetailPage: React.FC = () => {
                                         Tổng quan khóa học
                                     </Title>
                                 </div>
-                                <div className="course-detail-info-body">
+                                <div
+                                    className="course-detail-info-body"
+                                    style={{
+                                        padding: innerWidth < 480 ? 12 : 40,
+                                    }}
+                                >
                                     <div className="course-detail-stats">
                                         <div className="course-detail-stat-item">
                                             <BookOutlined className="course-detail-stat-icon" />
@@ -431,7 +445,14 @@ const CourseDetailPage: React.FC = () => {
 
                         <Col xs={24} lg={8}>
                             <div className="course-detail-enrollment-sidebar">
-                                <Card className="course-detail-enrollment-card">
+                                <Card
+                                    className="course-detail-enrollment-card"
+                                    styles={{
+                                        body: {
+                                            padding: innerWidth < 480 ? 0 : 24,
+                                        },
+                                    }}
+                                >
                                     <div className="course-detail-enrollment-header">
                                         <div className="course-detail-enrollment-price">
                                             {formatPrice(course.price)}
@@ -530,7 +551,14 @@ const CourseDetailPage: React.FC = () => {
             <section className="course-detail-curriculum-section">
                 <div className="course-detail-curriculum-background" />
                 <div className="course-detail-curriculum-content">
-                    <Card className="course-detail-curriculum-card">
+                    <Card
+                        className="course-detail-curriculum-card"
+                        styles={{
+                            body: {
+                                padding: innerWidth < 480 ? 0 : 24,
+                            },
+                        }}
+                    >
                         <div className="course-detail-curriculum-header">
                             <Title
                                 level={2}
@@ -547,7 +575,12 @@ const CourseDetailPage: React.FC = () => {
                                 {lessons.length} bài học
                             </Paragraph>
                         </div>
-                        <div className="course-detail-curriculum-body">
+                        <div
+                            className="course-detail-curriculum-body"
+                            style={{
+                                padding: innerWidth < 480 ? 15 : 40,
+                            }}
+                        >
                             <Collapse
                                 defaultActiveKey={['1']}
                                 expandIcon={({ isActive }) => (
@@ -557,7 +590,15 @@ const CourseDetailPage: React.FC = () => {
                                 {lessons.map((lesson: any) => (
                                     <Panel
                                         header={
-                                            <div className="course-detail-module-header">
+                                            <div
+                                                className="course-detail-module-header"
+                                                style={{
+                                                    padding:
+                                                        innerWidth < 480
+                                                            ? 10
+                                                            : 20,
+                                                }}
+                                            >
                                                 <div>
                                                     <div className="course-detail-module-title">
                                                         {lesson?.title}

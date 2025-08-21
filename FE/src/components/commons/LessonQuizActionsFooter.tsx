@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import CompleteCourseModal from '@/components/core/modal/CompleteCourseModal'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { STUDENT_PATHS } from '@/routers/path'
 import CertificateService from '@/services/certificate'
 import CourseService from '@/services/course'
@@ -32,6 +33,7 @@ const LessonQuizActionsFooter = ({
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [isCourseCompleted, setIsCourseCompleted] = useState<boolean>(false)
     const [isCloseCompleted, setIsCloseCompleted] = useState<boolean>(false)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     const fetchLessonWithQuiz = async () => {
         try {
@@ -235,7 +237,7 @@ const LessonQuizActionsFooter = ({
                         disabled={isPrevDisabled}
                         onClick={() => onNavigate(getPrevItem())}
                         icon={<LeftOutlined />}
-                        size="large"
+                        size={innerWidth < 480 ? 'middle' : 'large'}
                     >
                         Bài trước
                     </Button>
@@ -247,7 +249,7 @@ const LessonQuizActionsFooter = ({
                             variant="solid"
                             color="green"
                             icon={<CheckCircleOutlined />}
-                            size="large"
+                            size={innerWidth < 480 ? 'middle' : 'large'}
                             loading={loading}
                         >
                             Hoàn thành khóa học
@@ -260,7 +262,7 @@ const LessonQuizActionsFooter = ({
                         disabled={isNextDisabled}
                         onClick={() => onNavigate(getNextItem())}
                         icon={<RightOutlined />}
-                        size="large"
+                        size={innerWidth < 480 ? 'middle' : 'large'}
                     >
                         Bài tiếp theo
                     </Button>

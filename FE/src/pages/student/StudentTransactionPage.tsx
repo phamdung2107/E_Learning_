@@ -60,7 +60,7 @@ const StudentTransactionPage = () => {
     }, [])
 
     return (
-        <div>
+        <div className="student-dashboard">
             <Card style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <div>
@@ -93,7 +93,17 @@ const StudentTransactionPage = () => {
                         />
                     </Card>
                 ) : (
-                    <Card style={{ marginBottom: '24px' }}>
+                    <Card
+                        style={{ marginBottom: '24px' }}
+                        styles={{
+                            body: {
+                                padding:
+                                    innerWidth < 480
+                                        ? '24px 5px 0 5px'
+                                        : '24px',
+                            },
+                        }}
+                    >
                         <div
                             style={{
                                 display: 'flex',

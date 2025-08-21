@@ -4,6 +4,7 @@ import { Button } from 'antd'
 
 import { Link, useLocation } from 'react-router-dom'
 
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { AUTH_PATHS } from '@/routers/path'
 
 import '../styles/StudentVerificationReminder.css'
@@ -11,9 +12,13 @@ import '../styles/StudentVerificationReminder.css'
 const StudentVerificationReminderPage = () => {
     const location = useLocation()
     const userEmail = location.state.email
+    const { innerWidth, innerHeight } = useWindowSize()
 
     return (
-        <div className="verification-container">
+        <div
+            className="verification-container"
+            style={{ padding: innerWidth < 480 ? 0 : 20 }}
+        >
             <div className="verification-card">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

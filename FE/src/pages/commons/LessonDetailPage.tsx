@@ -10,6 +10,7 @@ import LessonQuizActionsFooter from '@/components/commons/LessonQuizActionsFoote
 import LessonQuizHeader from '@/components/commons/LessonQuizHeader'
 import LessonQuizSidebar from '@/components/commons/LessonQuizSidebar'
 import { BASE_IMAGE_URL } from '@/constants/image'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import LessonQuizDetailLayout from '@/layouts/LessonQuizDetailLayout'
 import CourseService from '@/services/course'
 import LessonService from '@/services/lesson'
@@ -30,6 +31,7 @@ const LessonDetailPage: React.FC = () => {
     const [lessons, setLessons] = useState<any[]>([])
     const [progress, setProgress] = useState<any>(null)
     const [loading, setLoading] = useState(true)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     useEffect(() => {
         const loadData = async () => {
@@ -125,7 +127,7 @@ const LessonDetailPage: React.FC = () => {
                             {currentLesson?.video_url ? (
                                 <iframe
                                     width="100%"
-                                    height="600"
+                                    height={innerWidth < 480 ? 'auto' : 600}
                                     src={currentLesson.video_url}
                                     title="YouTube video player"
                                     frameBorder="0"

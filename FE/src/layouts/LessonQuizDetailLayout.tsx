@@ -1,11 +1,18 @@
 import React from 'react'
 
-import { Layout } from 'antd'
+import { Button, Drawer, Layout } from 'antd'
+
+import { MenuOutlined } from '@ant-design/icons'
+
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 const SIDEBAR_WIDTH = 370
 const HEADER_HEIGHT = 64
 
 const LessonQuizDetailLayout = ({ header, sidebar, children, footer }: any) => {
+    const { innerWidth, innerHeight } = useWindowSize()
+    const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
+
     return (
         <div style={{ minHeight: '100vh', background: '#fff' }}>
             <div
@@ -26,27 +33,29 @@ const LessonQuizDetailLayout = ({ header, sidebar, children, footer }: any) => {
                     {header}
                 </div>
             </div>
+            {innerWidth >= 480 && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: HEADER_HEIGHT,
+                        right: 0,
+                        width: SIDEBAR_WIDTH,
+                        height: `calc(100vh - ${HEADER_HEIGHT}px)`,
+                        background: '#fff',
+                        borderLeft: '1px solid #f0f0f0',
+                        boxShadow: '0 0 8px #00000010',
+                        zIndex: 100,
+                        overflowY: 'auto',
+                        padding: 0,
+                    }}
+                >
+                    {sidebar}
+                </div>
+            )}
             <div
                 style={{
-                    position: 'fixed',
-                    top: HEADER_HEIGHT,
-                    right: 0,
-                    width: SIDEBAR_WIDTH,
-                    height: `calc(100vh - ${HEADER_HEIGHT}px)`,
-                    background: '#fff',
-                    borderLeft: '1px solid #f0f0f0',
-                    boxShadow: '0 0 8px #00000010',
-                    zIndex: 100,
-                    overflowY: 'auto',
-                    padding: 0,
-                }}
-            >
-                {sidebar}
-            </div>
-            <div
-                style={{
-                    marginTop: HEADER_HEIGHT,
-                    marginRight: SIDEBAR_WIDTH,
+                    marginTop: innerWidth < 480 ? 80 : HEADER_HEIGHT,
+                    marginRight: innerWidth < 480 ? 0 : SIDEBAR_WIDTH,
                     minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
                     background: '#fff',
                     display: 'flex',
@@ -80,6 +89,36 @@ const LessonQuizDetailLayout = ({ header, sidebar, children, footer }: any) => {
             >
                 {footer}
             </div>
+            {innerWidth < 480 && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        left: 12,
+                        right: 0,
+                        bottom: 70,
+                        zIndex: 1300,
+                    }}
+                >
+                    <Button
+                        size={'large'}
+                        shape="circle"
+                        onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+                        icon={<MenuOutlined />}
+                    />
+                </div>
+            )}
+            <Drawer
+                open={isDrawerOpen}
+                destroyOnHidden
+                onClose={() => setIsDrawerOpen(false)}
+                styles={{
+                    body: {
+                        padding: 0,
+                    },
+                }}
+            >
+                {sidebar}
+            </Drawer>
         </div>
     )
 }

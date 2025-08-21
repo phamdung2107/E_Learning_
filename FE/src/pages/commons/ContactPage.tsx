@@ -33,6 +33,7 @@ import {
 import { Link } from 'react-router-dom'
 
 import { COMMON_INFORMATION } from '@/constants/information'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 import '../styles/Contact.css'
 
@@ -42,6 +43,7 @@ const { TextArea } = Input
 const ContactPage: React.FC = () => {
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
+    const { innerWidth, innerHeight } = useWindowSize()
 
     const onFinish = async (values: any) => {
         setLoading(true)
@@ -276,7 +278,14 @@ const ContactPage: React.FC = () => {
                 <div className="contact-form-content">
                     <Row gutter={[48, 48]} align="middle">
                         <Col xs={24} lg={12}>
-                            <Card className="contact-form-card">
+                            <Card
+                                className="contact-form-card"
+                                styles={{
+                                    body: {
+                                        padding: innerWidth < 480 ? 0 : 24,
+                                    },
+                                }}
+                            >
                                 <div className="contact-form-header">
                                     <Title
                                         level={2}
@@ -590,7 +599,14 @@ const ContactPage: React.FC = () => {
 
                     <Row gutter={[24, 32]}>
                         <Col xs={24} md={8}>
-                            <Card className="contact-office-card">
+                            <Card
+                                className="contact-office-card"
+                                styles={{
+                                    body: {
+                                        padding: innerWidth < 480 ? 0 : 24,
+                                    },
+                                }}
+                            >
                                 <div className="contact-office-header">
                                     <Title
                                         level={4}
@@ -624,7 +640,14 @@ const ContactPage: React.FC = () => {
                         </Col>
 
                         <Col xs={24} md={8}>
-                            <Card className="contact-office-card">
+                            <Card
+                                className="contact-office-card"
+                                styles={{
+                                    body: {
+                                        padding: innerWidth < 480 ? 0 : 24,
+                                    },
+                                }}
+                            >
                                 <div className="contact-office-header">
                                     <Title
                                         level={4}
@@ -658,7 +681,14 @@ const ContactPage: React.FC = () => {
                         </Col>
 
                         <Col xs={24} md={8}>
-                            <Card className="contact-office-card">
+                            <Card
+                                className="contact-office-card"
+                                styles={{
+                                    body: {
+                                        padding: innerWidth < 480 ? 0 : 24,
+                                    },
+                                }}
+                            >
                                 <div className="contact-office-header">
                                     <Title
                                         level={4}
@@ -698,7 +728,14 @@ const ContactPage: React.FC = () => {
                 <div className="contact-faq-content">
                     <Row gutter={[48, 48]}>
                         <Col xs={24} lg={12}>
-                            <Card className="contact-faq-card">
+                            <Card
+                                className="contact-faq-card"
+                                styles={{
+                                    body: {
+                                        padding: innerWidth < 480 ? 0 : 24,
+                                    },
+                                }}
+                            >
                                 <div className="contact-faq-header">
                                     <Title
                                         level={2}

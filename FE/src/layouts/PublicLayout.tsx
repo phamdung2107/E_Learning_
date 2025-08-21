@@ -9,6 +9,8 @@ import { Outlet, useLocation } from 'react-router-dom'
 import BreadcrumbSection from '@/components/commons/BreadcrumbSection'
 import FooterComponent from '@/components/commons/FooterComponent'
 import HeaderComponent from '@/components/commons/HeaderComponent'
+import HeaderMobileComponent from '@/components/commons/HeaderMobileComponent'
+import { useWindowSize } from '@/hooks/useWindowSize'
 import { PATHS } from '@/routers/path'
 import { getPageInfo } from '@/utils/get'
 
@@ -18,6 +20,7 @@ const { Footer, Content } = Layout
 
 const PublicLayout: React.FC = () => {
     const location = useLocation()
+    const { innerWidth, innerHeight } = useWindowSize()
     const [pageInfo, setPageInfo] = useState<{
         title: string
         breadcrumb: any[]
@@ -50,7 +53,11 @@ const PublicLayout: React.FC = () => {
                     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                 }}
             >
-                <HeaderComponent />
+                {innerWidth < 480 ? (
+                    <HeaderMobileComponent />
+                ) : (
+                    <HeaderComponent />
+                )}
             </div>
 
             <Content
